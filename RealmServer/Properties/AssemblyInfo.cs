@@ -10,7 +10,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Arctium")]
 [assembly: AssemblyProduct("RealmServer")]
-[assembly: AssemblyCopyright("Copyright © Microsoft 2012")]
+[assembly: AssemblyCopyright("Copyright © 2012 - 2014 Arctium Emulation")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
