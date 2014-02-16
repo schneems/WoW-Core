@@ -3947,12 +3947,12 @@ namespace WorldServer.Game.Packets.PacketHandler
             PacketWriter transferPending = new PacketWriter(ServerMessage.TransferPending);
             BitPack BitPack = new BitPack(transferPending);
 
+            transferPending.WriteUInt32(mapId);
+
             BitPack.Write(unknown);
             BitPack.Write(isTransport);
 
             BitPack.Flush();
-
-            transferPending.WriteUInt32(mapId);
 
             if (isTransport)
             {
@@ -3970,9 +3970,9 @@ namespace WorldServer.Game.Packets.PacketHandler
         {
             PacketWriter newWorld = new PacketWriter(ServerMessage.NewWorld);
 
-            newWorld.WriteFloat(vector.Z);
             newWorld.WriteUInt32(mapId);
             newWorld.WriteFloat(vector.Y);
+            newWorld.WriteFloat(vector.Z);
             newWorld.WriteFloat(vector.O);
             newWorld.WriteFloat(vector.X);
 

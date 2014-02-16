@@ -66,7 +66,7 @@ namespace WorldServer.Game.Packets.PacketHandler
             session.Send(ref pong);
         }
 
-        [Opcode(ClientMessage.LogDisconnect, "17658")]
+        [Opcode(ClientMessage.LogDisconnect, "17898")]
         public static void HandleDisconnectReason(ref PacketReader packet, WorldClass session)
         {
             var pChar = session.Character;
@@ -100,7 +100,7 @@ namespace WorldServer.Game.Packets.PacketHandler
             Log.Message(LogType.Debug, "Loading screen for map '{0}' is {1}.", mapId, loadingScreenState ? "enabled" : "disabled");
         }
 
-        [Opcode(ClientMessage.ViolenceLevel, "17658")]
+        [Opcode(ClientMessage.ViolenceLevel, "17898")]
         public static void HandleViolenceLevel(ref PacketReader packet, WorldClass session)
         {
             byte violenceLevel = packet.Read<byte>();

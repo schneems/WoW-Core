@@ -28,7 +28,7 @@ namespace Framework.Constants.NetMessage
         #region UserRouterClient
         AuthSession = 0x1A51,
         Ping = 0x1070,
-        LogDisconnect               = 0x19EA,
+        LogDisconnect = 0x1A13,
         #endregion
 
         #region Legacy
@@ -38,7 +38,7 @@ namespace Framework.Constants.NetMessage
         // Value > 0x1FFF are not known.
         #region JAM
         ObjectUpdateFailed          = 0x0A95,
-        ViolenceLevel               = 0x0448,
+        ViolenceLevel = 0x05A0,
         DBQueryBulk                 = 0x0676,
         GenerateRandomCharacterName = 0x1DB9,
         EnumCharacters = 0x12C2,
