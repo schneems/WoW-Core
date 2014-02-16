@@ -26,8 +26,8 @@ namespace Framework.Constants.NetMessage
         #endregion
 
         #region UserRouterClient
-        AuthSession                 = 0x196E,
-        Ping                        = 0x18E2,
+        AuthSession = 0x1A51,
+        Ping = 0x1070,
         LogDisconnect               = 0x19EA,
         #endregion
 
@@ -40,17 +40,17 @@ namespace Framework.Constants.NetMessage
         ObjectUpdateFailed          = 0x0A95,
         ViolenceLevel               = 0x0448,
         DBQueryBulk                 = 0x0676,
-        GenerateRandomCharacterName = 0x0DD1,
-        EnumCharacters              = 0x047C,
+        GenerateRandomCharacterName = 0x1DB9,
+        EnumCharacters = 0x12C2,
         PlayerLogin                 = 0x0754,
         LoadingScreenNotify         = 0x0650,
         SetActionButton             = 0x0D5E,
-        CreateCharacter             = 0x077B,
+        CreateCharacter = 0x09B9,
         QueryPlayerName             = 0x05F4,
         QueryRealmName              = 0x0472,
-        ReadyForAccountDataTimes    = 0x047F,
+        ReadyForAccountDataTimes = 0x13CB,
         UITimeRequest               = 0x0574,
-        CharDelete                  = 0x067A,
+        CharDelete = 0x113B,
         CliSetSpecialization        = 0x085F,
         CliLearnTalents             = 0x026C,
         CliQueryCreature            = 0x0C4A,
