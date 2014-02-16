@@ -45,9 +45,9 @@ namespace WorldServer.Game.Packets.PacketHandler
             PacketWriter loginSetTimeSpeed = new PacketWriter(ServerMessage.LoginSetTimeSpeed);
 
             loginSetTimeSpeed.WriteInt32(0);
+            loginSetTimeSpeed.WriteFloat(0.01666667f);
             loginSetTimeSpeed.WriteInt32(0);
             loginSetTimeSpeed.WritePackedTime();
-            loginSetTimeSpeed.WriteFloat(0.01666667f);
             loginSetTimeSpeed.WritePackedTime();
 
             session.Send(ref loginSetTimeSpeed);

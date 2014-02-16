@@ -89,7 +89,7 @@ namespace WorldServer.Game.Packets.PacketHandler
             session.Send(ref cacheVersion);
         }
 
-        [Opcode(ClientMessage.LoadingScreenNotify, "17658")]
+        [Opcode(ClientMessage.LoadingScreenNotify, "17898")]
         public static void HandleLoadingScreenNotify(ref PacketReader packet, WorldClass session)
         {
             BitUnpack BitUnpack = new BitUnpack(packet);
@@ -185,8 +185,8 @@ namespace WorldServer.Game.Packets.PacketHandler
             const int buttonCount = 132;
             var buttons = new byte[buttonCount][];
 
-            byte[] buttonMask = { 2, 7, 3, 0, 6, 1, 4, 5 };
-            byte[] buttonBytes = { 7, 0, 6, 5, 1, 2, 4, 3 };
+            byte[] buttonMask = { 0, 4, 6, 7, 3, 2, 1, 5 };
+            byte[] buttonBytes = { 5, 3, 4, 6, 1, 7, 2, 0 };
 
             var actions = ActionMgr.GetActionButtons(pChar, pChar.ActiveSpecGroup);
             

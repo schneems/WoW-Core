@@ -263,15 +263,16 @@ namespace WorldServer.Game.PacketHandler
             session.Send(ref generateRandomCharacterNameResult);
         }
 
-        [Opcode(ClientMessage.PlayerLogin, "17658")]
+        [Opcode(ClientMessage.PlayerLogin, "17898")]
         public static void HandlePlayerLogin(ref PacketReader packet, WorldClass session)
         {
-            byte[] guidMask = { 0, 7, 2, 5, 4, 6, 1, 3 };
-            byte[] guidBytes = { 7, 1, 5, 0, 3, 6, 2, 4 };            
+            byte[] guidMask = { 4, 2, 7, 1, 0, 5, 6, 3 };
+            byte[] guidBytes = { 5, 0, 1, 6, 7, 2, 3, 4 };            
             
             BitUnpack GuidUnpacker = new BitUnpack(packet);
 
-            var unknown = packet.Read<float>();
+            packet.Skip(4);
+
             var guid = GuidUnpacker.GetPackedValue(guidMask, guidBytes);
 
             Log.Message(LogType.Debug, "Character with Guid: {0}, AccountId: {1} tried to enter the world.", guid, session.Account.Id);
@@ -289,11 +290,11 @@ namespace WorldServer.Game.PacketHandler
             MiscHandler.HandleMessageOfTheDay(ref session);
             TimeHandler.HandleLoginSetTimeSpeed(ref session);
             SpecializationHandler.HandleUpdateTalentData(ref session);
-            SpellHandler.HandleSendKnownSpells(ref session);
+            //SpellHandler.HandleSendKnownSpells(ref session);
             MiscHandler.HandleUpdateActionButtons(ref session);
 
-            if (session.Character.LoginCinematic)
-                CinematicHandler.HandleStartCinematic(ref session);
+            //if (session.Character.LoginCinematic)
+            //    CinematicHandler.HandleStartCinematic(ref session);
 
             ObjectHandler.HandleUpdateObjectCreate(ref session);
         }

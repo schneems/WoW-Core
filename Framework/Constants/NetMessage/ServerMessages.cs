@@ -20,7 +20,7 @@ namespace Framework.Constants.NetMessage
     public enum ServerMessage : ushort
     {
         #region Legacy
-        ObjectUpdate                      = 0x1C89,
+        ObjectUpdate = 0x1725,
         TutorialFlags                     = 0x138D,
         StartCinematic                    = 0x1320,
         #endregion

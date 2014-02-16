@@ -99,6 +99,8 @@ namespace WorldServer.Game.Packets.PacketHandler
             PacketWriter updateTalentData = new PacketWriter(ServerMessage.UpdateTalentData);
             BitPack BitPack = new BitPack(updateTalentData);
 
+            updateTalentData.WriteUInt8(pChar.ActiveSpecGroup);
+
             BitPack.Write(pChar.SpecGroupCount, 19);
 
             for (int i = 0; i < pChar.SpecGroupCount; i++)
@@ -115,16 +117,14 @@ namespace WorldServer.Game.Packets.PacketHandler
                 var talents = SpecializationMgr.GetTalentsBySpecGroup(pChar, (byte)i);
                 var specId = (i == 0) ? pChar.PrimarySpec : pChar.SecondarySpec;
 
-                for (int j = 0; j < glyphCount; j++)
-                    updateTalentData.WriteInt16(0);                 // Glyph Id
-
                 for (int j = 0; j < talents.Count; j++)
                     updateTalentData.WriteUInt16(talents[j].Id);    // Talent Id
 
                 updateTalentData.WriteUInt32(specId);               // Spec Id
-            }
 
-            updateTalentData.WriteUInt8(pChar.ActiveSpecGroup);     // Active Spec (0 or 1)
+                for (int j = 0; j < glyphCount; j++)
+                    updateTalentData.WriteInt16(0);                 // Glyph Id
+            }
 
             session.Send(ref updateTalentData);
         }
