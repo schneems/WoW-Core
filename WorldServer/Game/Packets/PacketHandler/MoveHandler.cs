@@ -79,6 +79,7 @@ namespace WorldServer.Game.Packets.PacketHandler
 
             guidMask[5] = BitUnpack.GetBit();
 
+            var HasTime = !BitUnpack.GetBit();
             var counter = BitUnpack.GetBits<uint>(22);
 
             guidMask[1] = BitUnpack.GetBit();
@@ -140,6 +141,9 @@ namespace WorldServer.Game.Packets.PacketHandler
 
             if (HasPitch)
                 packet.Read<float>();
+
+            if (HasTime)
+                movementValues.Time = packet.Read<uint>();
 
             if (Unknown2)
                 packet.Read<uint>();
@@ -198,6 +202,8 @@ namespace WorldServer.Game.Packets.PacketHandler
 
             guidMask[0] = BitUnpack.GetBit();
 
+            var HasTime = !BitUnpack.GetBit();
+
             movementValues.IsTransport = BitUnpack.GetBit();
 
             guidMask[6] = BitUnpack.GetBit();
@@ -258,6 +264,9 @@ namespace WorldServer.Game.Packets.PacketHandler
 
             if (movementValues.HasRotation)
                 vector.O = packet.Read<float>();
+
+            if (HasTime)
+                movementValues.Time = packet.Read<uint>();
 
             if (Unknown2)
                 packet.Read<uint>();
@@ -301,6 +310,8 @@ namespace WorldServer.Game.Packets.PacketHandler
 
             guidMask[6] = BitUnpack.GetBit();
 
+            var HasTime = !BitUnpack.GetBit();
+
             guidMask[3] = BitUnpack.GetBit();
 
             var Unknown4 = BitUnpack.GetBit();
@@ -374,6 +385,9 @@ namespace WorldServer.Game.Packets.PacketHandler
                 movementValues.FallTime = packet.Read<uint>();
             }
 
+            if (HasTime)
+                movementValues.Time = packet.Read<uint>();
+
             if (movementValues.HasRotation)
                 vector.O = packet.Read<float>();
 
@@ -412,6 +426,7 @@ namespace WorldServer.Game.Packets.PacketHandler
 
             guidMask[2] = BitUnpack.GetBit();
 
+            var HasTime = !BitUnpack.GetBit();
             var Unknown = BitUnpack.GetBit();
 
             movementValues.IsFallingOrJumping = BitUnpack.GetBit();
@@ -481,6 +496,9 @@ namespace WorldServer.Game.Packets.PacketHandler
 
             if (guidMask[0])
                 guidBytes[0] = (byte)(packet.Read<byte>() ^ 1);
+
+            if (HasTime)
+                movementValues.Time = packet.Read<uint>();
 
             if (movementValues.IsFallingOrJumping)
             {
@@ -532,10 +550,9 @@ namespace WorldServer.Game.Packets.PacketHandler
             guidMask[0] = BitUnpack.GetBit();
 
             var HasSplineElevation = !BitUnpack.GetBit();
-
             var HasPitch = !BitUnpack.GetBit();
-
             var counter = BitUnpack.GetBits<uint>(22);
+            var HasTime = !BitUnpack.GetBit();
 
             guidMask[3] = BitUnpack.GetBit();
 
@@ -624,6 +641,9 @@ namespace WorldServer.Game.Packets.PacketHandler
 
             if (HasPitch)
                 packet.Read<float>();
+
+            if (HasTime)
+                movementValues.Time = packet.Read<uint>();
 
             if (HasSplineElevation)
                 packet.Read<float>();
@@ -683,6 +703,7 @@ namespace WorldServer.Game.Packets.PacketHandler
             guidMask[3] = BitUnpack.GetBit();
 
             var HasSplineElevation = !BitUnpack.GetBit();
+            var HasTime = !BitUnpack.GetBit();
 
             guidMask[4] = BitUnpack.GetBit();
 
@@ -740,6 +761,9 @@ namespace WorldServer.Game.Packets.PacketHandler
                 movementValues.FallTime = packet.Read<uint>();
             }
 
+            if (HasTime)
+                movementValues.Time = packet.Read<uint>();
+
             if (movementValues.HasRotation)
                 vector.O = packet.Read<float>();
 
@@ -796,7 +820,7 @@ namespace WorldServer.Game.Packets.PacketHandler
             guidMask[2] = BitUnpack.GetBit();
 
             var Unknown3 = BitUnpack.GetBit();
-
+            var HasTime = !BitUnpack.GetBit();
             var Unknown4 = BitUnpack.GetBit();
 
             guidMask[5] = BitUnpack.GetBit();
@@ -860,6 +884,9 @@ namespace WorldServer.Game.Packets.PacketHandler
                 movementValues.FallTime = packet.Read<uint>();
                 movementValues.JumpVelocity = packet.Read<float>();
             }
+
+            if (HasTime)
+                movementValues.Time = packet.Read<uint>();
 
             if (movementValues.HasRotation)
                 vector.O = packet.Read<float>();
@@ -923,7 +950,7 @@ namespace WorldServer.Game.Packets.PacketHandler
             guidMask[5] = BitUnpack.GetBit();
 
             var Unknown = BitUnpack.GetBit();
-
+            var HasTime = !BitUnpack.GetBit();
             var Unknown4 = BitUnpack.GetBit();
 
             guidMask[7] = BitUnpack.GetBit();
@@ -988,6 +1015,9 @@ namespace WorldServer.Game.Packets.PacketHandler
             if (movementValues.HasRotation)
                 vector.O = packet.Read<float>();
 
+            if (HasTime)
+                movementValues.Time = packet.Read<uint>();
+
             if (HasSplineElevation)
                 packet.Read<float>();
 
@@ -1014,7 +1044,6 @@ namespace WorldServer.Game.Packets.PacketHandler
             var Unknown2 = !BitUnpack.GetBit();
 
             movementValues.IsFallingOrJumping = BitUnpack.GetBit();
-
             movementValues.HasMovementFlags = !BitUnpack.GetBit();
 
             guidMask[3] = BitUnpack.GetBit();
@@ -1034,8 +1063,8 @@ namespace WorldServer.Game.Packets.PacketHandler
             guidMask[0] = BitUnpack.GetBit();
 
             var counter = BitUnpack.GetBits<uint>(22);
-
             var Unknown4 = BitUnpack.GetBit();
+            var HasTime = !BitUnpack.GetBit();
 
             guidMask[6] = BitUnpack.GetBit();
 
@@ -1086,6 +1115,9 @@ namespace WorldServer.Game.Packets.PacketHandler
 
             for (int i = 0; i < counter; i++)
                 packet.Read<uint>();
+
+            if (HasTime)
+                movementValues.Time = packet.Read<uint>();
 
             if (movementValues.HasRotation)
                 vector.O = packet.Read<float>();
@@ -1147,9 +1179,8 @@ namespace WorldServer.Game.Packets.PacketHandler
             guidMask[0] = BitUnpack.GetBit();
 
             var Unknown2 = !BitUnpack.GetBit();
-
+            var HasTime = !BitUnpack.GetBit();
             var Unknown3 = BitUnpack.GetBit();
-
             var counter = BitUnpack.GetBits<uint>(22);
 
             movementValues.HasMovementFlags = !BitUnpack.GetBit();
@@ -1233,6 +1264,9 @@ namespace WorldServer.Game.Packets.PacketHandler
                 movementValues.FallTime = packet.Read<uint>();
             }
 
+            if (HasTime)
+                movementValues.Time = packet.Read<uint>();
+
             var guid = BitConverter.ToUInt64(guidBytes, 0);
             HandleMoveUpdate(guid, movementValues, vector);
         }
@@ -1266,9 +1300,9 @@ namespace WorldServer.Game.Packets.PacketHandler
             guidMask[1] = BitUnpack.GetBit();
 
             var HasSplineElevation = !BitUnpack.GetBit();
+            var HasTime = !BitUnpack.GetBit();
 
             movementValues.HasMovementFlags = !BitUnpack.GetBit();
-
             movementValues.HasMovementFlags2 = !BitUnpack.GetBit();
 
             var Unknown2 = !BitUnpack.GetBit();
@@ -1349,6 +1383,9 @@ namespace WorldServer.Game.Packets.PacketHandler
             if (movementValues.HasRotation)
                 vector.O = packet.Read<float>();
 
+            if (HasTime)
+                movementValues.Time = packet.Read<uint>();
+
             if (Unknown2)
                 packet.Read<uint>();
 
@@ -1387,6 +1424,8 @@ namespace WorldServer.Game.Packets.PacketHandler
             guidMask[5] = BitUnpack.GetBit();
 
             guidMask[4] = BitUnpack.GetBit();
+
+            var HasTime = !BitUnpack.GetBit();
 
             movementValues.HasMovementFlags = !BitUnpack.GetBit();
 
@@ -1467,6 +1506,9 @@ namespace WorldServer.Game.Packets.PacketHandler
 
             if (movementValues.HasRotation)
                 vector.O = packet.Read<float>();
+
+            if (HasTime)
+                movementValues.Time = packet.Read<uint>();
 
             if (HasPitch)
                 packet.Read<float>();
@@ -1519,6 +1561,8 @@ namespace WorldServer.Game.Packets.PacketHandler
 
             guidMask[2] = BitUnpack.GetBit();
 
+            var HasTime = !BitUnpack.GetBit();
+
             movementValues.HasMovementFlags = !BitUnpack.GetBit();
 
             var Unknown2 = !BitUnpack.GetBit();
@@ -1590,6 +1634,9 @@ namespace WorldServer.Game.Packets.PacketHandler
             if (movementValues.HasRotation)
                 vector.O = packet.Read<float>();
 
+            if (HasTime)
+                movementValues.Time = packet.Read<uint>();
+
             if (HasPitch)
                 packet.Read<float>();
 
@@ -1624,6 +1671,7 @@ namespace WorldServer.Game.Packets.PacketHandler
             guidMask[6] = BitUnpack.GetBit();
 
             var Unknown3 = BitUnpack.GetBit();
+            var HasTime = !BitUnpack.GetBit();
 
             guidMask[1] = BitUnpack.GetBit();
 
@@ -1711,6 +1759,9 @@ namespace WorldServer.Game.Packets.PacketHandler
 
             if (movementValues.HasRotation)
                 vector.O = packet.Read<float>();
+
+            if (HasTime)
+                movementValues.Time = packet.Read<uint>();
 
             var guid = BitConverter.ToUInt64(guidBytes, 0);
             HandleMoveUpdate(guid, movementValues, vector);
@@ -1753,8 +1804,9 @@ namespace WorldServer.Game.Packets.PacketHandler
             var Unknown4 = BitUnpack.GetBit();
 
             movementValues.HasMovementFlags2 = !BitUnpack.GetBit();
-
             movementValues.IsFallingOrJumping = BitUnpack.GetBit();
+
+            var HasTime = !BitUnpack.GetBit();
 
             guidMask[1] = BitUnpack.GetBit();
 
@@ -1829,6 +1881,9 @@ namespace WorldServer.Game.Packets.PacketHandler
 
             if (Unknown2)
                 packet.Read<uint>();
+
+            if (HasTime)
+                movementValues.Time = packet.Read<uint>();
 
             if (HasSplineElevation)
                 packet.Read<float>();
@@ -1981,6 +2036,8 @@ namespace WorldServer.Game.Packets.PacketHandler
 
             guidMask[3] = BitUnpack.GetBit();
 
+            var HasTime = !BitUnpack.GetBit();
+
             guidMask[7] = BitUnpack.GetBit();
 
             guidMask[4] = BitUnpack.GetBit();
@@ -2074,6 +2131,9 @@ namespace WorldServer.Game.Packets.PacketHandler
             if (HasSplineElevation)
                 packet.Read<float>();
 
+            if (HasTime)
+                movementValues.Time = packet.Read<uint>();
+
             if (Unknown2)
                 packet.Read<uint>();
 
@@ -2140,6 +2200,8 @@ namespace WorldServer.Game.Packets.PacketHandler
 
             guidMask[2] = BitUnpack.GetBit();
 
+            var HasTime = !BitUnpack.GetBit();
+
             if (movementValues.HasMovementFlags)
                 movementValues.MovementFlags = (MovementFlag)BitUnpack.GetBits<uint>(30);
 
@@ -2191,6 +2253,9 @@ namespace WorldServer.Game.Packets.PacketHandler
 
             if (Unknown2)
                 packet.Read<uint>();
+
+            if (HasTime)
+                movementValues.Time = packet.Read<uint>();
 
             if (HasSplineElevation)
                 packet.Read<float>();
@@ -2259,6 +2324,8 @@ namespace WorldServer.Game.Packets.PacketHandler
 
             movementValues.HasMovementFlags2 = !BitUnpack.GetBit();
 
+            var HasTime = !BitUnpack.GetBit();
+
             guidMask[2] = BitUnpack.GetBit();
 
             if (movementValues.HasMovementFlags2)
@@ -2317,6 +2384,9 @@ namespace WorldServer.Game.Packets.PacketHandler
             if (Unknown2)
                 packet.Read<uint>();
 
+            if (HasTime)
+                movementValues.Time = packet.Read<uint>();
+
             if (HasSplineElevation)
                 packet.Read<float>();
 
@@ -2352,11 +2422,11 @@ namespace WorldServer.Game.Packets.PacketHandler
             movementValues.HasMovementFlags = !BitUnpack.GetBit();
 
             guidMask[7] = BitUnpack.GetBit();
-
             guidMask[6] = BitUnpack.GetBit();
 
-            movementValues.IsFallingOrJumping = BitUnpack.GetBit();
+            var HasTime = !BitUnpack.GetBit();
 
+            movementValues.IsFallingOrJumping = BitUnpack.GetBit();
             movementValues.HasRotation = !BitUnpack.GetBit();
 
             guidMask[0] = BitUnpack.GetBit();
@@ -2437,6 +2507,9 @@ namespace WorldServer.Game.Packets.PacketHandler
 
             if (HasPitch)
                 packet.Read<float>();
+
+            if (HasTime)
+                movementValues.Time = packet.Read<uint>();
 
             if (Unknown2)
                 packet.Read<uint>();
@@ -2618,6 +2691,8 @@ namespace WorldServer.Game.Packets.PacketHandler
 
             guidMask[6] = BitUnpack.GetBit();
 
+            var HasTime = !BitUnpack.GetBit();
+
             movementValues.IsTransport = BitUnpack.GetBit();
 
             guidMask[2] = BitUnpack.GetBit();
@@ -2687,6 +2762,9 @@ namespace WorldServer.Game.Packets.PacketHandler
 
             if (movementValues.HasRotation)
                 vector.O = packet.Read<float>();
+
+            if (HasTime)
+                movementValues.Time = packet.Read<uint>();
 
             if (HasSplineElevation)
                 packet.Read<float>();
@@ -2856,6 +2934,8 @@ namespace WorldServer.Game.Packets.PacketHandler
 
             movementValues.IsTransport = BitUnpack.GetBit();
 
+            var HasTime = !BitUnpack.GetBit();
+
             guidMask[6] = BitUnpack.GetBit();
 
             movementValues.IsFallingOrJumping = BitUnpack.GetBit();
@@ -2937,6 +3017,9 @@ namespace WorldServer.Game.Packets.PacketHandler
             if (HasSplineElevation)
                 packet.Read<float>();
 
+            if (HasTime)
+                movementValues.Time = packet.Read<uint>();
+
             if (movementValues.HasRotation)
                 vector.O = packet.Read<float>();
 
@@ -2967,6 +3050,8 @@ namespace WorldServer.Game.Packets.PacketHandler
             var Unknown4 = BitUnpack.GetBit();
 
             guidMask[2] = BitUnpack.GetBit();
+
+            var HasTime = !BitUnpack.GetBit();
 
             guidMask[3] = BitUnpack.GetBit();
 
@@ -3055,6 +3140,9 @@ namespace WorldServer.Game.Packets.PacketHandler
 
             if (Unknown2)
                 packet.Read<uint>();
+
+            if (HasTime)
+                movementValues.Time = packet.Read<uint>();
 
             if (HasPitch)
                 packet.Read<float>();
@@ -3088,6 +3176,8 @@ namespace WorldServer.Game.Packets.PacketHandler
 
             movementValues.HasMovementFlags2 = !BitUnpack.GetBit();
 
+            var HasTime = !BitUnpack.GetBit();
+
             movementValues.IsFallingOrJumping = BitUnpack.GetBit();
 
             var Unknown2 = !BitUnpack.GetBit();
@@ -3179,6 +3269,9 @@ namespace WorldServer.Game.Packets.PacketHandler
                 movementValues.FallTime = packet.Read<uint>();
                 movementValues.JumpVelocity = packet.Read<float>();
             }
+
+            if (HasTime)
+                movementValues.Time = packet.Read<uint>();
 
             if (Unknown2)
                 packet.Read<uint>();
@@ -3355,8 +3448,9 @@ namespace WorldServer.Game.Packets.PacketHandler
 
             guidMask[3] = BitUnpack.GetBit();
 
-            movementValues.HasRotation = !BitUnpack.GetBit();
+            var HasTime = !BitUnpack.GetBit();
 
+            movementValues.HasRotation = !BitUnpack.GetBit();
             movementValues.IsTransport = BitUnpack.GetBit();
 
             var HasSplineElevation = !BitUnpack.GetBit();
@@ -3431,6 +3525,9 @@ namespace WorldServer.Game.Packets.PacketHandler
             if (movementValues.HasRotation)
                 vector.O = packet.Read<float>();
 
+            if (HasTime)
+                movementValues.Time = packet.Read<uint>();
+
             var guid = BitConverter.ToUInt64(guidBytes, 0);
             HandleMoveUpdate(guid, movementValues, vector);
         }
@@ -3459,6 +3556,7 @@ namespace WorldServer.Game.Packets.PacketHandler
 
             guidMask[2] = BitUnpack.GetBit();
 
+            var HasTime = !BitUnpack.GetBit();
             var counter = BitUnpack.GetBits<uint>(22);
 
             var HasPitch = !BitUnpack.GetBit();
@@ -3524,6 +3622,9 @@ namespace WorldServer.Game.Packets.PacketHandler
 
             if (guidMask[1])
                 guidBytes[1] = (byte)(packet.Read<byte>() ^ 1);
+
+            if (HasTime)
+                movementValues.Time = packet.Read<uint>();
 
             if (movementValues.IsFallingOrJumping)
             {
