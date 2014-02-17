@@ -141,13 +141,13 @@ namespace WorldServer.Game.Packets.PacketHandler
             }
         }
 
-        [Opcode(ClientMessage.SetActionButton, "17658")]
+        [Opcode(ClientMessage.SetActionButton, "17898")]
         public static void HandleSetActionButton(ref PacketReader packet, WorldClass session)
         {
             var pChar = session.Character;
 
-            byte[] actionMask = { 6, 4, 7, 2, 3, 0, 5, 1 };
-            byte[] actionBytes = { 4, 0, 7, 2, 1, 3, 6, 5 };
+            byte[] actionMask = { 3, 2, 7, 6, 1, 0, 4, 5 };
+            byte[] actionBytes = { 3, 6, 1, 5, 7, 4, 2, 0 };
             
             BitUnpack actionUnpacker = new BitUnpack(packet);
 

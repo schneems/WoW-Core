@@ -76,7 +76,6 @@ namespace WorldServer.Game.Chat.Commands
 
                 ChatHandler.SendMessage(ref session, chatMessage);
             }
-
         }
     }
 }

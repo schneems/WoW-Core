@@ -20,9 +20,9 @@ namespace Framework.Constants.NetMessage
     public enum ClientMessage : ushort
     {
         #region ChatMessages
-        ChatMessageSay              = 0x0866,
-        ChatMessageYell             = 0x03AB,
-        ChatMessageWhisper          = 0x0D8C,
+        ChatMessageSay = 0x0C41,
+        ChatMessageYell = 0x0C43,
+        ChatMessageWhisper = 0x0D60,
         #endregion
 
         #region UserRouterClient
