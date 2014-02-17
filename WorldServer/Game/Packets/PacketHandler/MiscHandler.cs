@@ -116,11 +116,11 @@ namespace WorldServer.Game.Packets.PacketHandler
             Log.Message(LogType.Debug, "Player {0} (Guid: {1}) is active.", session.Character.Name, session.Character.Guid);
         }
 
-        [Opcode(ClientMessage.CliSetSelection, "17658")]
+        [Opcode(ClientMessage.CliSetSelection, "17898")]
         public static void HandleSetSelection(ref PacketReader packet, WorldClass session)
         {
-            byte[] guidMask = { 1, 0, 2, 7, 5, 3, 4, 6 };
-            byte[] guidBytes = { 2, 0, 3, 7, 4, 5, 6, 1 };
+            byte[] guidMask = { 1, 7, 5, 0, 6, 3, 4, 2 };
+            byte[] guidBytes = { 5, 0, 4, 3, 1, 7, 2, 6 };
 
             BitUnpack GuidUnpacker = new BitUnpack(packet);
 
