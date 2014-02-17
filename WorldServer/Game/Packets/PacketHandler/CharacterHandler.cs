@@ -293,8 +293,8 @@ namespace WorldServer.Game.PacketHandler
             SpellHandler.HandleSendKnownSpells(ref session);
             MiscHandler.HandleUpdateActionButtons(ref session);
 
-            //if (session.Character.LoginCinematic)
-            //    CinematicHandler.HandleStartCinematic(ref session);
+            if (session.Character.LoginCinematic)
+                CinematicHandler.HandleStartCinematic(ref session);
 
             ObjectHandler.HandleUpdateObjectCreate(ref session);
         }
