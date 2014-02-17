@@ -46,7 +46,7 @@ namespace Framework.Constants.NetMessage
         #endregion
 
         #region JAMClientSpell
-        SendKnownSpells                   = 0x0623,
+        SendKnownSpells = 0x1B05,
         #endregion
 
         #region JAMClientDispatch

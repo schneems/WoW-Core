@@ -32,7 +32,7 @@ namespace Framework.Constants.NetMessage
         #endregion
 
         #region Legacy
-        ActivePlayer                = 0x0A12,
+        ActivePlayer = 0x173A,
         #endregion
 
         // Value > 0x1FFF are not known.
@@ -44,7 +44,7 @@ namespace Framework.Constants.NetMessage
         EnumCharacters = 0x12C2,
         PlayerLogin = 0x17D3,
         LoadingScreenNotify = 0x1691,
-        SetActionButton             = 0x0D5E,
+        SetActionButton = 0x1393,
         CreateCharacter = 0x09B9,
         QueryPlayerName             = 0x05F4,
         QueryRealmName              = 0x0472,
