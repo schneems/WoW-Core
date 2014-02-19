@@ -1,6 +1,4 @@
-﻿using Framework.Constants;
-using System.Collections.Generic;
-/*
+﻿/*
  * Copyright (C) 2012-2014 Arctium <http://arctium.org>
  * 
  * This program is free software: you can redistribute it and/or modify
@@ -17,6 +15,11 @@ using System.Collections.Generic;
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+using System;
+using Framework.Configuration;
+using Framework.Constants;
+using System.Collections.Generic;
+
 namespace Framework.ObjectDefines
 {
     public class ChatMessageValues
@@ -29,16 +32,18 @@ namespace Framework.ObjectDefines
         public List<SmartGuid> Guids = new List<SmartGuid>(4);
         public MessageType ChatType = MessageType.ChatMessageSay;
         public byte Language        = 0;
-        public int RealmId          = 1;
+        public int RealmId          = Convert.ToInt32(WorldConfig.RealmId);
         public string Message       = "";
+        public string From          = "";
 
         public ChatMessageValues() { }
-        public ChatMessageValues(MessageType type, string message, bool hasLanguage = false, bool hasRealmId = false)
+        public ChatMessageValues(MessageType type, string message, bool hasLanguage = false, bool hasRealmId = false, string source = "")
         {
-            ChatType = type;
-            Message = message;
+            ChatType    = type;
+            Message     = message;
             HasLanguage = hasLanguage;
-            HasRealmId = hasRealmId;
+            HasRealmId  = hasRealmId;
+            From        = source;
         }
     }
 }

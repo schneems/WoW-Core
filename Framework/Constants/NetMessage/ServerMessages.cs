@@ -62,7 +62,7 @@ namespace Framework.Constants.NetMessage
         UpdateTalentData = 0x0C68,
         LearnedSpells = 0x0C99,
         MOTD = 0x0E20,
-        Chat = 0x0E60,// struct
+        Chat = 0x0E60,
         AccountDataTimes = 0x0F40,
         LoginSetTimeSpeed = 0x0F4A,
         QueryNPCTextResponse = 0x10E0,// struct
@@ -74,7 +74,7 @@ namespace Framework.Constants.NetMessage
         UpdateActionButtons = 0x1768,
         DestroyObject = 0x1D69,
         CacheVersion = 0x1E41,
-        QueryPlayerNameResponse = 0x1E5B,// struct
+        QueryPlayerNameResponse = 0x1E5B,
         DBReply = 0x1F01,// struct
         #endregion
 
