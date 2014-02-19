@@ -25,13 +25,13 @@ namespace WorldServer.Game.Packets.PacketHandler
 {
     public class GossipHandler : Globals
     {
-        [Opcode(ClientMessage.CliTalkToGossip, "17658")]
+        [Opcode(ClientMessage.CliTalkToGossip, "17898")]
         public static void HandleTalkToGossip(ref PacketReader packet, WorldClass session)
         {
             BitUnpack BitUnpack = new BitUnpack(packet);
 
-            byte[] guidMask = { 7, 3, 6, 5, 2, 1, 4, 0 };
-            byte[] guidBytes = { 3, 4, 6, 1, 0, 2, 7, 5 };
+            byte[] guidMask = { 0, 7, 4, 5, 6, 3, 2, 1 };
+            byte[] guidBytes = { 6, 0, 1, 7, 2, 5, 4, 3 };
 
             var guid = BitUnpack.GetPackedValue(guidMask, guidBytes);
             var gossipData = GossipMgr.GetGossip<Creature>(SmartGuid.GetGuid(guid));
@@ -41,27 +41,23 @@ namespace WorldServer.Game.Packets.PacketHandler
                 PacketWriter gossipMessage = new PacketWriter(ServerMessage.GossipMessage);
                 BitPack BitPack = new BitPack(gossipMessage, guid);
 
-                BitPack.WriteGuidMask(7, 6, 0);
-                BitPack.Write(0, 19);              // gossipData.QuestsCount
-                BitPack.WriteGuidMask(4, 3, 2);
-                BitPack.Write(0, 20);              // gossipData.OptionsCount
-                BitPack.WriteGuidMask(1, 5);
+                BitPack.WriteGuidMask(7, 6, 1);
+                BitPack.Write(0, 19);
+                BitPack.WriteGuidMask(0, 4, 5, 2, 3);
+                BitPack.Write(0, 20);
 
                 BitPack.Flush();
 
-                BitPack.WriteGuidBytes(2, 7);
-
-                gossipMessage.WriteInt32(gossipData.FriendshipFactionID);
-
-                BitPack.WriteGuidBytes(3, 1);
+                BitPack.WriteGuidBytes(6, 2);
 
                 gossipMessage.WriteInt32(gossipData.TextID);
 
-                BitPack.WriteGuidBytes(5);
+                BitPack.WriteGuidBytes(1, 5);
 
                 gossipMessage.WriteInt32(gossipData.Id);
+                gossipMessage.WriteInt32(gossipData.FriendshipFactionID);
 
-                BitPack.WriteGuidBytes(6, 4, 0);
+                BitPack.WriteGuidBytes(4, 7, 3, 0);
 
                 session.Send(ref gossipMessage);
             }

@@ -3660,73 +3660,72 @@ namespace WorldServer.Game.Packets.PacketHandler
             PacketWriter moveUpdate = new PacketWriter(ServerMessage.MoveUpdate);
             BitPack BitPack = new BitPack(moveUpdate, guid);
 
-
-            BitPack.WriteGuidMask(7);
-            BitPack.Write(!movementValues.HasMovementFlags2);
-            BitPack.Write(1);
-            BitPack.Write(1);
-            BitPack.Write(0);
-            BitPack.Write(movementValues.Time == 0);
-            BitPack.WriteGuidMask(6);
-            BitPack.Write(0);
-            BitPack.WriteGuidMask(0);
-            BitPack.Write(movementValues.IsTransport);
-            BitPack.WriteGuidMask(4);
             BitPack.Write(!movementValues.HasMovementFlags);
-            BitPack.WriteGuidMask(5, 3);
-            BitPack.Write(!movementValues.HasRotation);
-            BitPack.WriteGuidMask(1);
-            BitPack.Write(1);
-            BitPack.WriteGuidMask(2);
-            BitPack.Write<uint>(0, 22);
-
-            if (movementValues.HasMovementFlags2)
-                BitPack.Write((uint)movementValues.MovementFlags2, 13);
-
-            BitPack.Write(0);
 
             if (movementValues.HasMovementFlags)
                 BitPack.Write((uint)movementValues.MovementFlags, 30);
 
+            BitPack.Write(1);
+            BitPack.WriteGuidMask(6);
+            BitPack.Write(1);
+            BitPack.WriteGuidMask(5, 1);
+            BitPack.Write(0);
+            BitPack.Write(0);
+            BitPack.WriteGuidMask(4, 0);
+            BitPack.Write(!movementValues.HasRotation);
+            BitPack.Write(!movementValues.HasMovementFlags2);
+            BitPack.Write(1);
+
+            if (movementValues.HasMovementFlags2)
+                BitPack.Write((uint)movementValues.MovementFlags2, 13);
+
+            BitPack.WriteGuidMask(7);
+            BitPack.Write<uint>(0, 22);
+            BitPack.WriteGuidMask(2);
             BitPack.Write(movementValues.IsFallingOrJumping);
+            BitPack.Write(movementValues.IsTransport);
 
             if (movementValues.IsFallingOrJumping)
                 BitPack.Write(movementValues.HasJumpData);
 
+            BitPack.Write(0);
+            BitPack.WriteGuidMask(3);
+            BitPack.Write(movementValues.Time == 0);
+
             BitPack.Flush();
+
+            BitPack.WriteGuidBytes(3, 6);
+
+            moveUpdate.WriteFloat(vector.X);
+
+            BitPack.WriteGuidBytes(4);
 
             if (movementValues.IsFallingOrJumping)
             {
                 if (movementValues.HasJumpData)
                 {
-                    moveUpdate.WriteFloat(movementValues.CurrentSpeed);
                     moveUpdate.WriteFloat(movementValues.Sin);
                     moveUpdate.WriteFloat(movementValues.Cos);
+                    moveUpdate.WriteFloat(movementValues.CurrentSpeed);
                 }
 
-                moveUpdate.WriteUInt32(movementValues.FallTime);
                 moveUpdate.WriteFloat(movementValues.JumpVelocity);
+                moveUpdate.WriteUInt32(movementValues.FallTime);
             }
 
-            BitPack.WriteGuidBytes(3);
-
             moveUpdate.WriteFloat(vector.Y);
-
-            BitPack.WriteGuidBytes(5, 0, 7, 6);
-
-            moveUpdate.WriteFloat(vector.Z);
-
-            BitPack.WriteGuidBytes(1);
 
             if (movementValues.Time != 0)
                 moveUpdate.WriteUInt32(movementValues.Time);
 
-            moveUpdate.WriteFloat(vector.X);
+            BitPack.WriteGuidBytes(1, 2, 5, 0);
+
+            moveUpdate.WriteFloat(vector.Z);
+
+            BitPack.WriteGuidBytes(7);
 
             if (movementValues.HasRotation)
                 moveUpdate.WriteFloat(vector.O);
-
-            BitPack.WriteGuidBytes(2, 4);
 
             var session = WorldMgr.GetSession(guid);
             if (session != null)
@@ -3743,17 +3742,17 @@ namespace WorldServer.Game.Packets.PacketHandler
             PacketWriter setWalkSpeed = new PacketWriter(ServerMessage.MoveSetWalkSpeed);
             BitPack BitPack = new BitPack(setWalkSpeed, session.Character.Guid);
 
-            BitPack.WriteGuidMask(2, 6, 1, 0, 3, 5, 4, 7);
+            BitPack.WriteGuidMask(1, 0, 6, 3, 5, 4, 7, 2);
 
             BitPack.Flush();
 
-            BitPack.WriteGuidBytes(7, 5);
-
             setWalkSpeed.WriteFloat(speed);
 
-            BitPack.WriteGuidBytes(2, 3, 1, 0, 6);
+            BitPack.WriteGuidBytes(6, 1, 5);
 
             setWalkSpeed.WriteUInt32(0);
+
+            BitPack.WriteGuidBytes(2, 4, 3, 0, 7);
 
             session.Send(ref setWalkSpeed);
         }
@@ -3763,19 +3762,19 @@ namespace WorldServer.Game.Packets.PacketHandler
             PacketWriter setRunSpeed = new PacketWriter(ServerMessage.MoveSetRunSpeed);
             BitPack BitPack = new BitPack(setRunSpeed, session.Character.Guid);
 
-            BitPack.WriteGuidMask(3, 4, 5, 7, 1, 2, 6, 0);
+            BitPack.WriteGuidMask(1, 5, 2, 0, 4, 3, 7, 6);
 
             BitPack.Flush();
 
-            BitPack.WriteGuidBytes(5, 3);
-
-            setRunSpeed.WriteFloat(speed);
-
-            BitPack.WriteGuidBytes(2, 7);
+            BitPack.WriteGuidBytes(3, 2, 6, 0);
 
             setRunSpeed.WriteUInt32(0);
 
-            BitPack.WriteGuidBytes(1, 6, 0, 4);
+            BitPack.WriteGuidBytes(5);
+
+            setRunSpeed.WriteFloat(speed);
+
+            BitPack.WriteGuidBytes(7, 4, 1);
 
             session.Send(ref setRunSpeed);
         }
