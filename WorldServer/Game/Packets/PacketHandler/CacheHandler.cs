@@ -271,6 +271,7 @@ namespace WorldServer.Game.Packets.PacketHandler
                     queryPlayerNameResponse.WriteUInt8(pChar.Race);
                     queryPlayerNameResponse.WriteUInt8(pChar.Gender);
                     queryPlayerNameResponse.WriteUInt8(pChar.Class);
+
                     BitPack.WriteGuidBytes(7, 3, 2, 5, 4, 0, 6);
                     BitPack.Write(0);
                     BitPack.WriteGuidMask(2, 5, 0, 7);                     

@@ -32,7 +32,7 @@ namespace Framework.ObjectDefines
         public List<SmartGuid> Guids = new List<SmartGuid>(4);
         public MessageType ChatType = MessageType.ChatMessageSay;
         public byte Language        = 0;
-        public int RealmId          = Convert.ToInt32(WorldConfig.RealmId);
+        public uint RealmId         = WorldConfig.RealmId;
         public string Message       = "";
         public string From          = "";
 
