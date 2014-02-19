@@ -144,14 +144,14 @@ namespace WorldServer.Game.Packets.PacketHandler
             BitPack.Write(1);
             BitPack.Write(1);
 
-            BitPack.Write(!chatMessage.HasRealmId); // unknown uint
+            BitPack.Write(!chatMessage.HasRealmId);
 
             BitPack.Flush();
 
             chat.WriteUInt8((byte)chatMessage.ChatType);
 
             if (chatMessage.HasRealmId)
-                chat.WriteInt32(chatMessage.RealmId);
+                chat.WriteUInt32(chatMessage.RealmId);
 
             BitPack.WriteGuidBytes(GuidBytes3);
             BitPack.WriteGuidBytes(GuidBytes);
@@ -163,7 +163,7 @@ namespace WorldServer.Game.Packets.PacketHandler
                 chat.WriteUInt8(chatMessage.Language);
 
             if (chatMessage.HasRealmId) 
-                chat.WriteInt32(chatMessage.RealmId); // unknown uint
+                chat.WriteUInt32(chatMessage.RealmId);
 
             switch (chatMessage.ChatType)
             {

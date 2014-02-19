@@ -50,13 +50,13 @@ namespace Framework.Constants.NetMessage
         #endregion
 
         #region JAMClientDispatch
-        QueryCreatureResponse = 0x00E0, // struct
+        QueryCreatureResponse = 0x00E0,
         EnumCharactersResult = 0x040A,
         LogoutComplete = 0x0429,
         TransferPending = 0x0440,
         NewWorld = 0x05AB,
         UnlearnedSpells = 0x05E3,
-        QueryGameObjectResponse = 0x066A,// struct
+        QueryGameObjectResponse = 0x066A,
         GenerateRandomCharacterNameResult = 0x074B,
         UITime = 0x0C22,
         UpdateTalentData = 0x0C68,
@@ -65,19 +65,19 @@ namespace Framework.Constants.NetMessage
         Chat = 0x0E60,
         AccountDataTimes = 0x0F40,
         LoginSetTimeSpeed = 0x0F4A,
-        QueryNPCTextResponse = 0x10E0,// struct
+        QueryNPCTextResponse = 0x10E0,
         AddonInfo = 0x10E2,
         CreateChar = 0x1469,
         DeleteChar = 0x1529,
         AuthResponse = 0x15A0,
-        RealmQueryResponse = 0x1652,// struct
+        RealmQueryResponse = 0x1652,
         UpdateActionButtons = 0x1768,
         DestroyObject = 0x1D69,
         CacheVersion = 0x1E41,
         QueryPlayerNameResponse = 0x1E5B,
-        DBReply = 0x1F01,// struct
+        DBReply = 0x1F01,
         #endregion
 
-        TransferInitiate                  = 0x4F57,
+        TransferInitiate = 0x4F57,
     }
 }
