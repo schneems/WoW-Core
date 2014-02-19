@@ -167,13 +167,13 @@ namespace WorldServer.Game.Packets.PacketHandler
         {
             BitUnpack BitUnpack = new BitUnpack(packet);
 
-            byte[] guidMask     = { 5, 1, 4, 3, 2, 0, 7, 6 };
-            byte[] guidBytes    = { 3, 1, 4, 6, 2, 0, 5, 7 };
+            byte[] guidMask = { 5, 1, 4, 3, 2, 0, 7, 6 };
+            byte[] guidBytes = { 3, 1, 4, 6, 2, 0, 5, 7 };
             
-            var gossipTextId    = packet.Read<int>();
-            var guid            = BitUnpack.GetPackedValue(guidMask, guidBytes);
+            var gossipTextId = packet.Read<int>();
+            var guid = BitUnpack.GetPackedValue(guidMask, guidBytes);
 
-            var gossipData      = GossipMgr.GetGossip<Creature>(SmartGuid.GetGuid(guid));
+            var gossipData = GossipMgr.GetGossip<Creature>(SmartGuid.GetGuid(guid));
 
             if (gossipData != null)
             {
@@ -181,7 +181,6 @@ namespace WorldServer.Game.Packets.PacketHandler
                 BitPack BitPack = new BitPack(queryNPCTextResponse);
 
                 queryNPCTextResponse.WriteInt32(0);
-
                 queryNPCTextResponse.WriteFloat(1);
 
                 for (int i = 0; i < 7; i++)
@@ -195,7 +194,7 @@ namespace WorldServer.Game.Packets.PacketHandler
                 var size = (uint)queryNPCTextResponse.BaseStream.Length - 8;
 
                 queryNPCTextResponse.WriteUInt32Pos(size, 4);
-
+                queryNPCTextResponse.WriteInt8(0);
                 queryNPCTextResponse.WriteInt32(gossipTextId);
 
                 BitPack.Write(1);
@@ -423,9 +422,9 @@ namespace WorldServer.Game.Packets.PacketHandler
 
             size += textLength + alternativeTextLength;
 
-            dbReply.WriteUInt32((uint)DBTypes.BroadcastText);
             dbReply.WriteInt32(broadCastText.Id);
-            dbReply.WriteUInt32(0);    // UnixTime, last change server side
+            dbReply.WriteUInt32((uint)DBTypes.BroadcastText);
+            dbReply.WriteUInt32(0);
             dbReply.WriteUInt32((uint)size);
 
             dbReply.WriteInt32(broadCastText.Id);
