@@ -109,7 +109,7 @@ namespace Framework.Network.Realm
                     var username = result.Read<string>(0, "name").ToUpper();
                     var password = result.Read<string>(0, "password").ToUpper();
 
-                    // WoW 5.4.2.x
+                    // WoW 5.4.7.x
                     if (ClientBuild >= 17898)
                     {
                         SecureRemotePassword.CalculateX(username, password);

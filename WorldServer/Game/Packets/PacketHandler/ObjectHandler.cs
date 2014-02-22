@@ -80,11 +80,11 @@ namespace WorldServer.Game.Packets.PacketHandler
             return destroyObject;
         }
 
-        [Opcode(ClientMessage.ObjectUpdateFailed, "17658")]
+        [Opcode(ClientMessage.ObjectUpdateFailed, "17930")]
         public static void HandleObjectUpdateFailed(ref PacketReader packet, WorldClass session)
         {
-            byte[] guidMask = { 5, 6, 4, 3, 7, 1, 2, 0 };
-            byte[] guidBytes = {6, 3, 0, 7, 1, 4, 2, 5 };
+            byte[] guidMask = { 0, 4, 3, 1, 5, 7, 6, 2 };
+            byte[] guidBytes = { 4, 7, 0, 6, 5, 2, 1, 3 };
 
             BitUnpack GuidUnpacker = new BitUnpack(packet);
 
