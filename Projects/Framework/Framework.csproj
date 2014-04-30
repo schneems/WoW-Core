@@ -1,0 +1,97 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{B7D0E27F-3AB2-413A-B9AF-040C67750639}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Framework</RootNamespace>
+    <AssemblyName>Framework</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <PlatformTarget>x64</PlatformTarget>
+    <OutputPath>..\..\Compiled\Debug\</OutputPath>
+    <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
+    <DefineConstants>TRACE;DEBUG</DefineConstants>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <Optimize>true</Optimize>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <PlatformTarget>x64</PlatformTarget>
+    <OutputPath>..\..\Compiled\Release\</OutputPath>
+    <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
+    <Optimize>true</Optimize>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Database">
+      <HintPath>..\..\Libraries\Database.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Attributes\AuthMessageAttribute.cs" />
+    <Compile Include="Attributes\ConsoleCommandAttribute.cs" />
+    <Compile Include="Constants\Authentication\AuthResult.cs" />
+    <Compile Include="Constants\Misc\LogType.cs" />
+    <Compile Include="Constants\Net\AuthChannel.cs" />
+    <Compile Include="Constants\Net\AuthClientMessage.cs" />
+    <Compile Include="Constants\Net\AuthServerMessage.cs" />
+    <Compile Include="Constants\Net\ClientMessage.cs" />
+    <Compile Include="Constants\Net\ServerMessage.cs" />
+    <Compile Include="Cryptography\BNet\BNetCrypt.cs" />
+    <Compile Include="Cryptography\BNet\SRP6a.cs" />
+    <Compile Include="Cryptography\SARC4.cs" />
+    <Compile Include="Cryptography\WoW\WoWCrypt.cs" />
+    <Compile Include="Database\Auth\AuthDB.cs" />
+    <Compile Include="Database\Auth\Entities\Account.cs" />
+    <Compile Include="Database\Auth\Entities\AllowedClass.cs" />
+    <Compile Include="Database\Auth\Entities\AllowedRace.cs" />
+    <Compile Include="Database\Auth\Entities\Component.cs" />
+    <Compile Include="Database\Auth\Entities\Module.cs" />
+    <Compile Include="Database\Auth\Entities\Realm.cs" />
+    <Compile Include="Database\Character\CharacterDB.cs" />
+    <Compile Include="Database\DB.cs" />
+    <Compile Include="Database\Database.cs" />
+    <Compile Include="Database\World\WorldDB.cs" />
+    <Compile Include="Logging\IO\LogWriter.cs" />
+    <Compile Include="Logging\Log.cs" />
+    <Compile Include="Logging\PacketLog.cs" />
+    <Compile Include="Misc\Command.cs" />
+    <Compile Include="Misc\Config.cs" />
+    <Compile Include="Misc\Extensions.cs" />
+    <Compile Include="Misc\Singleton.cs" />
+    <Compile Include="Network\Packets\AuthPacket.cs" />
+    <Compile Include="Network\Packets\AuthPacketHeader.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Database\Character\Entities\" />
+    <Folder Include="Database\World\Entities\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Configs\AuthServer.conf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
