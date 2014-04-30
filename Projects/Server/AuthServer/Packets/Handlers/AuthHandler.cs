@@ -64,7 +64,7 @@ namespace AuthServer.Packets.Handlers
                         break;
                     case "2e":
                     case "85":
-                    case "20":
+                    case "19":
                         session.SecureRemotePassword = new SRP6a(session.Account.Salt, session.Account.Email, session.Account.PasswordVerifier);
                         session.SecureRemotePassword.CalculateB();
 
@@ -149,7 +149,7 @@ namespace AuthServer.Packets.Handlers
                 {
                     case "2e":
                     case "85":
-                    case "20":
+                    case "19":
                         proofVerification.WriteFourCC("auth");
                         proofVerification.WriteFourCC("\0\0EU");
                         proofVerification.Write(module.Hash.ToByteArray());
