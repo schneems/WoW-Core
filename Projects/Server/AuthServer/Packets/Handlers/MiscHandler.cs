@@ -33,7 +33,10 @@ namespace AuthServer.Packets.Handlers
         public static void OnInformationRequest(AuthPacket packet, AuthSession session)
         {
             Log.Message(LogType.Debug, "Program: {0}", packet.ReadFourCC());
-            Log.Message(LogType.Debug, "Platform: {0}", packet.ReadFourCC());
+
+            session.Account.OS = packet.ReadFourCC();
+
+            Log.Message(LogType.Debug, "Platform: {0}", session.Account.OS);
             Log.Message(LogType.Debug, "Locale: {0}", packet.ReadFourCC());
 
             var componentCount = packet.Read<int>(6);
