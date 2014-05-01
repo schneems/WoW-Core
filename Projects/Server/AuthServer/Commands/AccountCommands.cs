@@ -50,6 +50,7 @@ namespace AuthServer.Commands
                         Email            = email,
                         PasswordVerifier = srp.V.ToHexString(),
                         Salt             = salt,
+                        Region           = "XX",
                         Expansion        = 5
                     };
 

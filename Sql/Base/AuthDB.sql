@@ -1,5 +1,5 @@
 /*
-Date: 2014-05-01 01:55:30
+Date: 2014-05-01 02:46:15
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -18,7 +18,7 @@ CREATE TABLE `Accounts` (
   `SessionKey` varchar(80) DEFAULT NULL,
   `SecurityFlags` tinyint(4) unsigned NOT NULL,
   `Language` varchar(4) DEFAULT NULL,
-  `Region` varchar(4) DEFAULT 'XX',
+  `Region` varchar(4) NOT NULL DEFAULT 'XX',
   `OS` varchar(4) DEFAULT NULL,
   `Expansion` tinyint(4) unsigned NOT NULL DEFAULT '4',
   `IsOnline` bit(1) NOT NULL DEFAULT b'0',

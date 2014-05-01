@@ -34,11 +34,11 @@ namespace AuthServer.Packets.Handlers
         {
             Log.Message(LogType.Debug, "Program: {0}", packet.ReadFourCC());
 
-            session.Account.OS = packet.ReadFourCC();
-            session.Account.Language = packet.ReadFourCC();
+            var os = packet.ReadFourCC();
+            var language = packet.ReadFourCC();
 
-            Log.Message(LogType.Debug, "Platform: {0}", session.Account.OS);
-            Log.Message(LogType.Debug, "Locale: {0}", session.Account.Language);
+            Log.Message(LogType.Debug, "Platform: {0}", os);
+            Log.Message(LogType.Debug, "Locale: {0}", language);
 
             var componentCount = packet.Read<int>(6);
 
@@ -84,7 +84,15 @@ namespace AuthServer.Packets.Handlers
 
                 // First account lookup on database
                 if ((session.Account = account) != null)
+                {
+                    session.Account.IP = session.GetClientIP();
+                    session.Account.OS = os;
+                    session.Account.Language = language;
+
+                    DB.Auth.Update(session.Account, "IP", session.Account.IP, "OS", session.Account.OS, "Language", session.Account.Language);
+
                     AuthHandler.SendProofRequest(session);
+                }
                 else
                     AuthHandler.SendAuthComplete(true, AuthResult.BadLoginInformation, session);
             }

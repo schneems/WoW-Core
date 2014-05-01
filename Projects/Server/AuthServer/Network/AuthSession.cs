@@ -17,6 +17,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Net;
 using System.Net.Sockets;
 using System.Security.Cryptography;
 using System.Text;
@@ -162,6 +163,13 @@ namespace AuthServer.Network
 
             // Update SessionKey in database
             DB.Auth.Update(Account, "SessionKey", Account.SessionKey);
+        }
+
+        public string GetClientIP()
+        {
+            var ipEndPoint = client.RemoteEndPoint as IPEndPoint;
+
+            return ipEndPoint != null ? ipEndPoint.Address.ToString() : "";
         }
 
         public void Dispose()

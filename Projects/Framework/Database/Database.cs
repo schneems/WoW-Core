@@ -34,7 +34,7 @@ namespace Framework.Database
 
         public bool Add<T>(T entity) where T : class
         {
-            //try
+            try
             {
                 var table = Set<T>();
 
@@ -43,12 +43,12 @@ namespace Framework.Database
 
                 return SaveChangesAsync().Result > 0;
             }
-            //catch (Exception ex)
+            catch (Exception ex)
             {
-                //Log.Message(LogType.Error, "{0}", ex.Message);
+                Log.Message(LogType.Error, "{0}", ex.Message);
             }
 
-            //return false;
+            return false;
         }
 
         public bool Update<T>(T original, params object[] values) where T : class
