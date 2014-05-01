@@ -47,45 +47,49 @@ namespace AuthServer.Packets.Handlers
 
             session.Modules.ForEach(module =>
             {
-                var moduleStart = module.Hash.Substring(0, 2);
-
-                switch (moduleStart)
+                // Only auth modules are supported here.
+                if (module.Type == "auth")
                 {
-                    case "36":
-                    case "c3":
-                    case "b3":
-                        proofRequest.WriteFourCC("auth");
-                        proofRequest.WriteFourCC("\0\0EU");
-                        proofRequest.Write(module.Hash.ToByteArray());
-                        proofRequest.Write(module.Size, 10);
+                    var moduleStart = module.Hash.Substring(0, 2);
 
-                        proofRequest.Write(module.Data.ToByteArray());
+                    switch (moduleStart)
+                    {
+                        case "36":
+                        case "c3":
+                        case "b3":
+                            proofRequest.WriteFourCC(module.Type);
+                            proofRequest.WriteFourCC("\0\0" + session.Account.Region);
+                            proofRequest.Write(module.Hash.ToByteArray());
+                            proofRequest.Write(module.Size, 10);
 
-                        break;
-                    case "2e":
-                    case "85":
-                    case "19":
-                        session.SecureRemotePassword = new SRP6a(session.Account.Salt, session.Account.Email, session.Account.PasswordVerifier);
-                        session.SecureRemotePassword.CalculateB();
+                            proofRequest.Write(module.Data.ToByteArray());
 
-                        proofRequest.WriteFourCC("auth");
-                        proofRequest.WriteFourCC("\0\0EU");
-                        proofRequest.Write(module.Hash.ToByteArray());
-                        proofRequest.Write(module.Size, 10);
+                            break;
+                        case "2e":
+                        case "85":
+                        case "19":
+                            session.SecureRemotePassword = new SRP6a(session.Account.Salt, session.Account.Email, session.Account.PasswordVerifier);
+                            session.SecureRemotePassword.CalculateB();
 
-                        // Flush & write the state id
-                        proofRequest.Flush();
-                        proofRequest.Write(0, 8);
+                            proofRequest.WriteFourCC(module.Type);
+                            proofRequest.WriteFourCC("\0\0" + session.Account.Region);
+                            proofRequest.Write(module.Hash.ToByteArray());
+                            proofRequest.Write(module.Size, 10);
 
-                        proofRequest.Write(session.SecureRemotePassword.I);
-                        proofRequest.Write(session.SecureRemotePassword.S);
-                        proofRequest.Write(session.SecureRemotePassword.B);
-                        proofRequest.Write(session.SecureRemotePassword.S2);
+                            // Flush & write the state id
+                            proofRequest.Flush();
+                            proofRequest.Write(0, 8);
 
-                        break;
-                    default:
-                        Log.Message(LogType.Error, "Module '{0}' not used in this state", moduleStart);
-                        break;
+                            proofRequest.Write(session.SecureRemotePassword.I);
+                            proofRequest.Write(session.SecureRemotePassword.S);
+                            proofRequest.Write(session.SecureRemotePassword.B);
+                            proofRequest.Write(session.SecureRemotePassword.S2);
+
+                            break;
+                        default:
+                            Log.Message(LogType.Debug, "Module '{0}' not used in this state", moduleStart);
+                            break;
+                    }
                 }
             });
 
@@ -143,38 +147,42 @@ namespace AuthServer.Packets.Handlers
 
             session.Modules.ForEach(module =>
             {
-                var moduleStart = module.Hash.Substring(0, 2);
-
-                switch (moduleStart)
+                // Only auth modules are supported here.
+                if (module.Type == "auth")
                 {
-                    case "2e":
-                    case "85":
-                    case "19":
-                        proofVerification.WriteFourCC("auth");
-                        proofVerification.WriteFourCC("\0\0EU");
-                        proofVerification.Write(module.Hash.ToByteArray());
-                        proofVerification.Write(161, 10);
+                    var moduleStart = module.Hash.Substring(0, 2);
 
-                        // Flush & write the state id
-                        proofVerification.Flush();
-                        proofVerification.Write(3, 8);
+                    switch (moduleStart)
+                    {
+                        case "2e":
+                        case "85":
+                        case "19":
+                            proofVerification.WriteFourCC(module.Type);
+                            proofVerification.WriteFourCC("\0\0" + session.Account.Region);
+                            proofVerification.Write(module.Hash.ToByteArray());
+                            proofVerification.Write(161, 10);
 
-                        proofVerification.Write(session.SecureRemotePassword.ServerM);
-                        proofVerification.Write(session.SecureRemotePassword.S2);
+                            // Flush & write the state id
+                            proofVerification.Flush();
+                            proofVerification.Write(3, 8);
 
-                        break;
-                    case "5e":
-                    case "8c":
-                    case "1a":
-                        proofVerification.WriteFourCC("auth");
-                        proofVerification.WriteFourCC("\0\0EU");
-                        proofVerification.Write(module.Hash.ToByteArray());
-                        proofVerification.Write(module.Size, 10);
+                            proofVerification.Write(session.SecureRemotePassword.ServerM);
+                            proofVerification.Write(session.SecureRemotePassword.S2);
 
-                        break;
-                    default:
-                        Log.Message(LogType.Error, "Module '{0}' not used in this state", moduleStart);
-                        break;
+                            break;
+                        case "5e":
+                        case "8c":
+                        case "1a":
+                            proofVerification.WriteFourCC(module.Type);
+                            proofVerification.WriteFourCC("\0\0" + session.Account.Region);
+                            proofVerification.Write(module.Hash.ToByteArray());
+                            proofVerification.Write(module.Size, 10);
+
+                            break;
+                        default:
+                            Log.Message(LogType.Debug, "Module '{0}' not used in this state", moduleStart);
+                            break;
+                    }
                 }
             });
 
