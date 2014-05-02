@@ -29,7 +29,7 @@ namespace AuthServer.Packets.Handlers
 {
     class MiscHandler
     {
-        [AuthMessage(AuthClientMessage.InformationRequest, AuthChannel.None)]
+        [AuthMessage(AuthClientMessage.InformationRequest, AuthChannel.BattleNet)]
         public static void OnInformationRequest(AuthPacket packet, AuthSession session)
         {
             Log.Message(LogType.Debug, "Program: {0}", packet.ReadFourCC());
@@ -80,7 +80,7 @@ namespace AuthServer.Packets.Handlers
             {
                 var accountLength = packet.Read<int>(9) + 3;
                 var accountName = packet.ReadString(accountLength);
-                var account = DB.Auth.Accounts.First(a => a.Email == accountName);
+                var account = DB.Auth.Accounts.SingleOrDefault(a => a.Email == accountName);
 
                 // First account lookup on database
                 if ((session.Account = account) != null)

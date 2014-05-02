@@ -96,7 +96,7 @@ namespace AuthServer.Packets.Handlers
             session.Send(proofRequest);
         }
 
-        [AuthMessage(AuthClientMessage.ProofResponse, AuthChannel.None)]
+        [AuthMessage(AuthClientMessage.ProofResponse, AuthChannel.BattleNet)]
         public static void OnProofResponse(AuthPacket packet, AuthSession session)
         {
             var moduleCount = packet.Read<byte>(3);

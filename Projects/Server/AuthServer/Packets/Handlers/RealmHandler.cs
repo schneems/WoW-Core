@@ -99,7 +99,6 @@ namespace AuthServer.Packets.Handlers
                 realmlist.Write(++realmCounter, 8);
 
                 // End
-                realmlist.Flush();
                 realmlist.Write(new byte[] { 0x43, 0x02 });
                 realmlist.Finish();
 
