@@ -14,13 +14,17 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
- 
-namespace Framework.Constants.Net
+
+namespace AuthServer.Constants.Authentication
 {
-    public enum AuthChannel : byte
+    public enum AuthResult : byte
     {
-        BattleNet = 0,
-        Creep     = 1,
-        WoW       = 2
+        GlobalSuccess       = 0x00,
+        BadLoginInformation = 0x68,
+        InvalidProgram      = 0x6D,
+        InvalidPlatform     = 0x6E,
+        InvalidLocale       = 0x6F,
+        InvalidGameVersion  = 0x70,
+        AlreadyLoggedIn     = 0xCD,
     }
 }

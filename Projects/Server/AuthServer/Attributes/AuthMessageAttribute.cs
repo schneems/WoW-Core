@@ -15,9 +15,15 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace Framework.Constants.Net
+using System;
+using AuthServer.Constants.Net;
+
+namespace AuthServer.Attributes
 {
-    public enum ServerMessage : ushort
+    [AttributeUsage(AttributeTargets.Method)]
+    public sealed class AuthMessageAttribute(AuthClientMessage message, AuthChannel channel) : Attribute
     {
+        public AuthClientMessage Message { get; } = message;
+        public AuthChannel Channel { get; } = channel;
     }
 }

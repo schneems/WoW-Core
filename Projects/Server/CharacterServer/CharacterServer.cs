@@ -15,28 +15,25 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-using AuthServer.Commands;
-using AuthServer.Configuration;
-using AuthServer.Managers;
-using AuthServer.Network;
-using AuthServer.Network.Packets;
+using CharacterServer.Configuration;
+using CharacterServer.Network;
 using Framework.Constants.Misc;
 using Framework.Database;
 using Framework.Logging;
 
-namespace AuthServer
+namespace CharacterServer
 {
-    class AuthServer
+    class CharacterServer
     {
         static void Main(string[] args)
         {
             ReadArguments(args);
 
-            var authConnection = DB.CreateConnection(AuthConfig.AuthDBHost, AuthConfig.AuthDBUser, AuthConfig.AuthDBPassword,
-                                                     AuthConfig.AuthDBDataBase, AuthConfig.AuthDBPort, AuthConfig.MySqlPooling,
-                                                     AuthConfig.MySqlMinPoolSize, AuthConfig.MySqlMaxPoolSize);
+            var charConnection = DB.CreateConnection(CharacterConfig.CharacterDBHost, CharacterConfig.CharacterDBUser, CharacterConfig.CharacterDBPassword,
+                                                     CharacterConfig.CharacterDBDataBase, CharacterConfig.CharacterDBPort, CharacterConfig.MySqlPooling,
+                                                     CharacterConfig.MySqlMinPoolSize, CharacterConfig.MySqlMaxPoolSize);
 
-            DB.Initialize(out DB.Auth, authConnection);
+            DB.Initialize(out DB.Character, charConnection);
 
             Log.Message(LogType.Init, "_____________World of Warcraft_____________");
             Log.Message(LogType.Init, "    __                                     ");
@@ -44,18 +41,13 @@ namespace AuthServer
             Log.Message(LogType.Init, "---/__|---)__----__--_/_--------------_--_-");
             Log.Message(LogType.Init, "  /   |  /   ) /   ' /    /   /   /  / /  )");
             Log.Message(LogType.Init, "_/____|_/_____(___ _(_ __/___(___(__/_/__/_");
-            Log.Message(LogType.Init, "________________AuthServer_________________");
+            Log.Message(LogType.Init, "________________CharacterServer________________");
             Log.Message();
 
-            Log.Message(LogType.Normal, "Starting Arctium WoW AuthServer...");
+            Log.Message(LogType.Normal, "Starting Arctium WoW CharacterServer...");
 
-            using (var server = new Server(AuthConfig.BindIP, AuthConfig.BindPort))
+            using (var server = new Server(CharacterConfig.BindIP, CharacterConfig.BindPort))
             {
-                PacketManager.DefineMessageHandler();
-
-                Manager.Initialize();
-
-                ConsoleCommandManager.InitCommands();
             }
         }
 
@@ -66,7 +58,7 @@ namespace AuthServer
                 switch (args[i - 1])
                 {
                     case "-config":
-                        AuthConfig.Initialize(args[i]);
+                        CharacterConfig.Initialize(args[i]);
                         break;
                     default:
                         Log.Message(LogType.Error, "'{0}' isn't a valid argument.", args[i - 1]);
@@ -74,8 +66,8 @@ namespace AuthServer
                 }
             }
 
-            if (!AuthConfig.IsInitialized)
-                AuthConfig.Initialize("./Configs/AuthServer.conf");
+            if (!CharacterConfig.IsInitialized)
+                CharacterConfig.Initialize("./Configs/CharacterServer.conf");
         }
     }
 }

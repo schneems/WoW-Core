@@ -18,14 +18,13 @@
 using System;
 using System.Collections.Concurrent;
 using System.Reflection;
-using AuthServer.Network;
-using Framework.Attributes;
+using AuthServer.Attributes;
+using AuthServer.Constants.Net;
 using Framework.Constants.Misc;
-using Framework.Constants.Net;
 using Framework.Logging;
 using Framework.Network.Packets;
 
-namespace AuthServer.Packets
+namespace AuthServer.Network.Packets
 {
     class PacketManager
     {

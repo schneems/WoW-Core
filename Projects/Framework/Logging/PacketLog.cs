@@ -19,7 +19,6 @@ using System;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
-using Framework.Constants.Net;
 using Framework.Logging.IO;
 
 namespace Framework.Logging
@@ -33,7 +32,7 @@ namespace Framework.Logging
             logger = new LogWriter(directory, file);
         }
 
-        public static async void Write<T>(ushort value, byte[] data, EndPoint remote, AuthChannel channel = 0)
+        public static async void Write<T>(ushort value, byte[] data, EndPoint remote)
         {
             Func<Task> write = async delegate
             {
@@ -47,9 +46,6 @@ namespace Framework.Logging
 
                 if (Enum.IsDefined(typeof(T), value))
                     sb.AppendLine(string.Format("Name: {0}", Enum.GetName(typeof(T), value)));
-
-                if (typeof(T) == typeof(AuthClientMessage) || typeof(T) == typeof(AuthServerMessage))
-                    sb.AppendLine(string.Format("Channel: {0}", channel));
 
                 sb.AppendLine(string.Format("Value: 0x{0:X} ({0})", value));
                 sb.AppendLine(string.Format("Length: {0}", data.Length));

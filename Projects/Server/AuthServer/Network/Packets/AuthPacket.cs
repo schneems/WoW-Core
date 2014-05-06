@@ -18,7 +18,8 @@
 using System;
 using System.IO;
 using System.Text;
-using Framework.Constants.Net;
+using AuthServer.Constants.Net;
+using AuthServer.Network.Packets;
 using Framework.Misc;
 
 namespace Framework.Network.Packets

@@ -17,16 +17,15 @@
 
 using System;
 using System.Net;
+using AuthServer.Attributes;
+using AuthServer.Constants.Net;
 using AuthServer.Managers;
-using AuthServer.Network;
-using Framework.Attributes;
 using Framework.Constants.Misc;
-using Framework.Constants.Net;
 using Framework.Logging;
 using Framework.Misc;
 using Framework.Network.Packets;
 
-namespace AuthServer.Packets.Handlers
+namespace AuthServer.Network.Packets.Handlers
 {
     class RealmHandler
     {

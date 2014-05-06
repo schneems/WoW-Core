@@ -16,16 +16,15 @@
  */
 
 using System.Linq;
-using AuthServer.Network;
-using Framework.Attributes;
-using Framework.Constants.Authentication;
+using AuthServer.Attributes;
+using AuthServer.Constants.Authentication;
+using AuthServer.Constants.Net;
 using Framework.Constants.Misc;
-using Framework.Constants.Net;
 using Framework.Database;
 using Framework.Logging;
 using Framework.Network.Packets;
 
-namespace AuthServer.Packets.Handlers
+namespace AuthServer.Network.Packets.Handlers
 {
     class MiscHandler
     {

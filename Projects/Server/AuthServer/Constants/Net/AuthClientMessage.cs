@@ -15,16 +15,20 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace Framework.Constants.Authentication
+namespace AuthServer.Constants.Net
 {
-    public enum AuthResult : byte
+    public enum AuthClientMessage : ushort
     {
-        GlobalSuccess       = 0x00,
-        BadLoginInformation = 0x68,
-        InvalidProgram      = 0x6D,
-        InvalidPlatform     = 0x6E,
-        InvalidLocale       = 0x6F,
-        InvalidGameVersion  = 0x70,
-        AlreadyLoggedIn     = 0xCD,
+        #region None
+        ProofResponse      = 0x02,
+        InformationRequest = 0x09,
+        #endregion
+        #region Creep
+        Ping               = 0x00,
+        #endregion
+        #region WoW
+        RealmUpdate        = 0x00,
+        JoinRequest        = 0x08,
+        #endregion
     }
 }

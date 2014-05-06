@@ -15,15 +15,9 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-using System;
-using Framework.Constants.Net;
-
-namespace Framework.Attributes
+namespace CharacterServer.Network.Packets
 {
-    [AttributeUsage(AttributeTargets.Method)]
-    public sealed class AuthMessageAttribute(AuthClientMessage message, AuthChannel channel) : Attribute
+    class PacketManager
     {
-        public AuthClientMessage Message { get; } = message;
-        public AuthChannel Channel { get; } = channel;
     }
 }

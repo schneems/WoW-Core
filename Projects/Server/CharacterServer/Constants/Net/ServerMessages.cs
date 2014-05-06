@@ -15,20 +15,9 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace Framework.Constants.Net
+namespace CharacterServer.Constants.Net
 {
-    public enum AuthServerMessage : ushort
+    class ServerMessages
     {
-        #region None
-        Complete      = 0x00,
-        ProofRequest  = 0x02,
-        #endregion
-        #region Creep
-        Pong          = 0x00,
-        #endregion
-        #region WoW
-        RealmUpdate   = 0x02,
-        JoinResponse  = 0x08
-        #endregion
     }
 }

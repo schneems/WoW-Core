@@ -15,19 +15,20 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-
-namespace Framework.Database.Auth.Entities
+namespace AuthServer.Constants.Net
 {
-    public class Module
+    public enum AuthServerMessage : ushort
     {
-        [Key, Column(Order = 0)]
-        public string Hash   { get; set; }
-        public string Type   { get; set; }
-        public string Name   { get; set; }
-        public string System { get; set; }
-        public int Size      { get; set; }
-        public string Data   { get; set; }
+        #region None
+        Complete      = 0x00,
+        ProofRequest  = 0x02,
+        #endregion
+        #region Creep
+        Pong          = 0x00,
+        #endregion
+        #region WoW
+        RealmUpdate   = 0x02,
+        JoinResponse  = 0x08
+        #endregion
     }
 }

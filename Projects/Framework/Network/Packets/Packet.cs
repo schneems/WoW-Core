@@ -14,14 +14,19 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
-using Framework.Constants.Net;
-
+ 
 namespace Framework.Network.Packets
 {
-    public class AuthPacketHeader
+    public class Packet
     {
-        public byte Message { get; set; }
-        public AuthChannel Channel { get; set; }
+        public PacketHeader Header { get; set; }
+
+        public Packet(byte[] data)
+        {
+        }
+
+        public void Finish()
+        {
+        }
     }
 }

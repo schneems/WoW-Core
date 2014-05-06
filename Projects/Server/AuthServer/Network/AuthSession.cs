@@ -21,9 +21,9 @@ using System.Net;
 using System.Net.Sockets;
 using System.Security.Cryptography;
 using System.Text;
-using AuthServer.Packets;
+using AuthServer.Network.Packets;
 using Framework.Constants.Misc;
-using Framework.Constants.Net;
+using AuthServer.Constants.Net;
 using Framework.Cryptography.BNet;
 using Framework.Database;
 using Framework.Database.Auth.Entities;
@@ -99,7 +99,7 @@ namespace AuthServer.Network
         {
             var packet = new AuthPacket(dataBuffer, size);
             
-            PacketLog.Write<AuthClientMessage>(packet.Header.Message, packet.Data, client.RemoteEndPoint, packet.Header.Channel);
+            PacketLog.Write<AuthClientMessage>(packet.Header.Message, packet.Data, client.RemoteEndPoint);
            
             if (packet != null)
                 PacketManager.InvokeHandler(packet, this);

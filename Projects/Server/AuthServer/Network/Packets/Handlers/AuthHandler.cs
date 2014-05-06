@@ -15,18 +15,17 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+using AuthServer.Attributes;
+using AuthServer.Constants.Authentication;
+using AuthServer.Constants.Net;
 using AuthServer.Managers;
-using AuthServer.Network;
-using Framework.Attributes;
-using Framework.Constants.Authentication;
 using Framework.Constants.Misc;
-using Framework.Constants.Net;
 using Framework.Cryptography.BNet;
 using Framework.Logging;
 using Framework.Misc;
 using Framework.Network.Packets;
 
-namespace AuthServer.Packets.Handlers
+namespace AuthServer.Network.Packets.Handlers
 {
     class AuthHandler
     {

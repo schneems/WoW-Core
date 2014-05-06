@@ -15,20 +15,13 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace Framework.Constants.Net
+using AuthServer.Constants.Net;
+
+namespace AuthServer.Network.Packets
 {
-    public enum AuthClientMessage : ushort
+    public class AuthPacketHeader
     {
-        #region None
-        ProofResponse      = 0x02,
-        InformationRequest = 0x09,
-        #endregion
-        #region Creep
-        Ping               = 0x00,
-        #endregion
-        #region WoW
-        RealmUpdate        = 0x00,
-        JoinRequest        = 0x08,
-        #endregion
+        public byte Message { get; set; }
+        public AuthChannel Channel { get; set; }
     }
 }

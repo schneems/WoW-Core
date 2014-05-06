@@ -15,19 +15,11 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-
-namespace Framework.Database.Auth.Entities
+namespace Framework.Network.Packets
 {
-    public class Module
+    public class PacketHeader
     {
-        [Key, Column(Order = 0)]
-        public string Hash   { get; set; }
-        public string Type   { get; set; }
-        public string Name   { get; set; }
-        public string System { get; set; }
-        public int Size      { get; set; }
-        public string Data   { get; set; }
+        public ushort Message { get; set; }
+        public ushort Size    { get; set; }
     }
 }
