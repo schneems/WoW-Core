@@ -45,7 +45,7 @@ namespace AuthServer.Network.Packets.Handlers
                 joinResponse.Write(Manager.Realms.RealmList.Count == 0, 1);
 
                 joinResponse.Write(BitConverter.ToUInt32(serverSalt, 0), 32);
-                joinResponse.Write(Manager.Realms.RealmList.Count * 2, 5);
+                joinResponse.Write(Manager.Realms.RealmList.Count, 5);
 
                 foreach (var realm in Manager.Realms.RealmList)
                 {
@@ -54,8 +54,6 @@ namespace AuthServer.Network.Packets.Handlers
 
                     Array.Reverse(port);
 
-                    joinResponse.Write(ip);
-                    joinResponse.Write(port);
                     joinResponse.Write(ip);
                     joinResponse.Write(port);
                 }
@@ -72,7 +70,7 @@ namespace AuthServer.Network.Packets.Handlers
         {
             Log.Message(LogType.Debug, "Received realm update.");
 
-            var complete = new AuthPacket(AuthServerMessage.Complete, AuthChannel.WoW);
+            var complete = new AuthPacket(AuthServerMessage.RealmComplete, AuthChannel.WoW);
 
             complete.Flush();
             complete.Write(0, 8);
