@@ -50,6 +50,8 @@ namespace Framework.Network.Packets
             if (Read<bool>(1))
                 Header.Channel = (AuthChannel)Read<byte>(4);
 
+            Header.Message = (ushort)((Header.Message + 0x3F) << (byte)Header.Channel);
+
             Data = new byte[size];
 
             Buffer.BlockCopy(data, 0, Data, 0, size);
@@ -60,12 +62,12 @@ namespace Framework.Network.Packets
             stream = new BinaryWriter(new MemoryStream());
 
             Header = new AuthPacketHeader();
-            Header.Message = (byte)message;
+            Header.Message = (ushort)message;
             Header.Channel = channel;
 
             var hasChannel = channel != AuthChannel.BattleNet;
 
-            Write(Header.Message, 6);
+            Write(Header.Message >= 0x7E ? (Header.Message >> (byte)channel) - 0x3F : Header.Message - 0x3F, 6);
             Write(hasChannel, 1);
 
             if (hasChannel)

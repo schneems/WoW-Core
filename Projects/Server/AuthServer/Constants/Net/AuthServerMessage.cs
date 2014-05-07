@@ -20,15 +20,16 @@ namespace AuthServer.Constants.Net
     public enum AuthServerMessage : ushort
     {
         #region None
-        Complete      = 0x00,
-        ProofRequest  = 0x02,
+        Complete      = (0x00 + 0x3F) << AuthChannel.BattleNet,
+        ProofRequest  = (0x02 + 0x3F) << AuthChannel.BattleNet,
         #endregion
         #region Creep
-        Pong          = 0x00,
+        Pong          = (0x00 + 0x3F) << AuthChannel.Creep,
         #endregion
         #region WoW
-        RealmUpdate   = 0x02,
-        JoinResponse  = 0x08
+        RealmComplete = (0x00 + 0x3F) << AuthChannel.WoW,
+        RealmUpdate   = (0x02 + 0x3F) << AuthChannel.WoW,
+        JoinResponse  = (0x08 + 0x3F) << AuthChannel.WoW
         #endregion
     }
 }
