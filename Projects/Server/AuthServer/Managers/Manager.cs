@@ -27,5 +27,16 @@ namespace AuthServer.Managers
             Module = ModuleManager.GetInstance();
             Realm  = RealmManager.GetInstance();
         }
+
+        public static bool GetState()
+        {
+            var state = false;
+            var nullState = Module != null && Realm != null;
+
+            if (nullState)
+                state = nullState && (Module.IsInitialized && Realm.IsInitialized);
+
+            return state;
+        }
     }
 }

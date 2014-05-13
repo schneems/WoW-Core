@@ -58,7 +58,6 @@ namespace AuthServer.Network.Packets.Handlers
                     joinResponse.Write(port);
                 }
 
-                joinResponse.Flush();
                 joinResponse.Write(0, 5);
 
                 session.Send(joinResponse);

@@ -29,13 +29,10 @@ namespace AuthServer.Managers
 {
     class RealmManager : Singleton<RealmManager>
     {
-        public bool IsInitialized { get; private set; }
         public readonly ConcurrentDictionary<int, Realm> RealmList;
 
         RealmManager()
         {
-            IsInitialized = false;
-
             RealmList = new ConcurrentDictionary<int, Realm>();
 
             new Thread(() =>
@@ -66,10 +63,10 @@ namespace AuthServer.Managers
                             Log.Message(LogType.Debug, "Added Realm (Id: {0}, Name: {1})", r.Id, r.Name);
                     }
 
+                    IsInitialized = true;
+
                     if (RealmList.IsEmpty)
                         Log.Message(LogType.Debug, "No realms available");
-
-                    IsInitialized = true;
 
                     Thread.Sleep(AuthConfig.RealmListUpdateTime);
                 }

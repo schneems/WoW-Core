@@ -50,6 +50,8 @@ namespace AuthServer.Managers
                     Log.Message(LogType.Debug, "New auth module '{0}' loaded", m.Hash);
 
             Log.Message(LogType.Debug, "Successfully loaded {0} auth modules", Modules.Count);
+
+            IsInitialized = true;
         }
 
         public void WriteModuleHeader(AuthSession session, AuthPacket packet, Module module, int size = 0)

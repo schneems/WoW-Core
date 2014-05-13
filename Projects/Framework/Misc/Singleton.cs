@@ -23,6 +23,8 @@ namespace Framework.Misc
 {
     public abstract class Singleton<T> where T : class
     {
+        public bool IsInitialized { get; set; } = false;
+
         static Dictionary<string, T> objects = new Dictionary<string, T>();
         static object sync = new object();
 

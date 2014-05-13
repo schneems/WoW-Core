@@ -19,6 +19,7 @@ using System.Linq;
 using AuthServer.Attributes;
 using AuthServer.Constants.Authentication;
 using AuthServer.Constants.Net;
+using AuthServer.Managers;
 using Framework.Constants.Misc;
 using Framework.Database;
 using Framework.Logging;
@@ -31,6 +32,12 @@ namespace AuthServer.Network.Packets.Handlers
         [AuthMessage(AuthClientMessage.InformationRequest, AuthChannel.BattleNet)]
         public static void OnInformationRequest(AuthPacket packet, AuthSession session)
         {
+            if (!Manager.GetState())
+            {
+                AuthHandler.SendAuthComplete(true, AuthResult.ServerBusy, session);
+                return;
+            }
+
             Log.Message(LogType.Debug, "Program: {0}", packet.ReadFourCC());
 
             var os = packet.ReadFourCC();

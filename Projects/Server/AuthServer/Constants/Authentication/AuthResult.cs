@@ -27,6 +27,7 @@ namespace AuthServer.Constants.Authentication
         InvalidPlatform     = 0x6E,
         InvalidLocale       = 0x6F,
         InvalidGameVersion  = 0x70,
+        ServerBusy          = 0x71,
         AlreadyLoggedIn     = 0xCD,
     }
 }
