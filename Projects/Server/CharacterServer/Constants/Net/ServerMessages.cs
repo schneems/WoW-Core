@@ -49,5 +49,11 @@ namespace CharacterServer.Constants.Net
             UndeleteCharacterResponse               = 0x2000,
             UndeleteCooldownStatusResponse          = 0x2000,
         }
+
+        public enum Connection : ushort
+        {
+            AuthChallenge                           = 0x2000,
+            Pong                                    = 0x2000,
+        }
     }
 }
