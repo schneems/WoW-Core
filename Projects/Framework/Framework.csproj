@@ -47,6 +47,9 @@
     <Compile Include="Cryptography\BNet\BNetCrypt.cs" />
     <Compile Include="Cryptography\BNet\SRP6a.cs" />
     <Compile Include="Cryptography\SARC4.cs" />
+    <Compile Include="Cryptography\WoW\RsaCrypt.cs" />
+    <Compile Include="Cryptography\WoW\RsaData.cs" />
+    <Compile Include="Cryptography\WoW\RsaStore.cs" />
     <Compile Include="Cryptography\WoW\WoWCrypt.cs" />
     <Compile Include="Database\Auth\AuthDB.cs" />
     <Compile Include="Database\Auth\Entities\Account.cs" />
