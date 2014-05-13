@@ -21,9 +21,9 @@ using System.Net;
 using System.Net.Sockets;
 using System.Security.Cryptography;
 using System.Text;
+using AuthServer.Constants.Net;
 using AuthServer.Network.Packets;
 using Framework.Constants.Misc;
-using AuthServer.Constants.Net;
 using Framework.Cryptography.BNet;
 using Framework.Database;
 using Framework.Database.Auth.Entities;
@@ -36,7 +36,7 @@ namespace AuthServer.Network
     class AuthSession : IDisposable
     {
         public Account Account { get; set; }
-        public List<Module> Modules { get; set; }
+        public IEnumerable<Module> Modules { get; set; }
         public SRP6a SecureRemotePassword { get; set; }
         public BNetCrypt Crypt { get; set; }
 

@@ -15,17 +15,13 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace AuthServer.Managers
+namespace AuthServer.Constants.Authentication
 {
-    class Manager
+    enum PasswordModuleState : byte
     {
-        public static ModuleManager Module;
-        public static RealmManager Realm;
-
-        public static void Initialize()
-        {
-            Module = ModuleManager.GetInstance();
-            Realm  = RealmManager.GetInstance();
-        }
+        ServerChallenge = 0,
+        ClientChallenge = 1,
+        ClientProof     = 2,
+        ValidateProof   = 3
     }
 }

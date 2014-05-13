@@ -15,13 +15,12 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+using System.Linq;
 using AuthServer.Attributes;
 using AuthServer.Constants.Authentication;
 using AuthServer.Constants.Net;
 using AuthServer.Managers;
-using Framework.Constants.Misc;
 using Framework.Cryptography.BNet;
-using Framework.Logging;
 using Framework.Misc;
 using Framework.Network.Packets;
 
@@ -31,60 +30,37 @@ namespace AuthServer.Network.Packets.Handlers
     {
         public static void SendProofRequest(AuthSession session)
         {
-            // Default modules are Win64
-            session.Modules = Manager.Modules.Module64List;
+            session.Modules = Manager.Module.Modules.Where(m => m.System == session.Account.OS);
 
-            // Switch module list for different systems
-            if (session.Account.OS == "Win")
-                session.Modules = Manager.Modules.ModuleList;
-            else if (session.Account.OS == "Mc64")
-                session.Modules = Manager.Modules.ModuleMacList;
+            var thumbprintModule = session.Modules.SingleOrDefault(m => m.Name == "Thumbprint");
+            var passwordModule = session.Modules.SingleOrDefault(m => m.Name == "Password");
 
             var proofRequest = new AuthPacket(AuthServerMessage.ProofRequest);
 
+            // Send two modules (Thumbprint & Password).
             proofRequest.Write(2, 3);
 
-            session.Modules.ForEach(module =>
-            {
-                // Only auth modules are supported here.
-                if (module.Type == "auth")
-                {
-                    switch (module.Name)
-                    {
-                        case "Thumbprint":
-                            proofRequest.WriteFourCC(module.Type);
-                            proofRequest.WriteFourCC("\0\0" + session.Account.Region);
-                            proofRequest.Write(module.Hash.ToByteArray());
-                            proofRequest.Write(module.Size, 10);
+            /// Thumbprint module
+            Manager.Module.WriteModuleHeader(session, proofRequest, thumbprintModule);
 
-                            proofRequest.Write(module.Data.ToByteArray());
+            // Data 
+            proofRequest.Write(thumbprintModule.Data.ToByteArray());
 
-                            break;
-                        case "Password":
-                            session.SecureRemotePassword = new SRP6a(session.Account.Salt, session.Account.Email, session.Account.PasswordVerifier);
-                            session.SecureRemotePassword.CalculateB();
+            session.SecureRemotePassword = new SRP6a(session.Account.Salt, session.Account.Email, session.Account.PasswordVerifier);
+            session.SecureRemotePassword.CalculateB();
 
-                            proofRequest.WriteFourCC(module.Type);
-                            proofRequest.WriteFourCC("\0\0" + session.Account.Region);
-                            proofRequest.Write(module.Hash.ToByteArray());
-                            proofRequest.Write(module.Size, 10);
+            /// Password module
+            Manager.Module.WriteModuleHeader(session, proofRequest, passwordModule);
 
-                            // Flush & write the state id
-                            proofRequest.Flush();
-                            proofRequest.Write(0, 8);
+            // State
+            proofRequest.Flush();
+            proofRequest.Write(PasswordModuleState.ServerChallenge, 8);
 
-                            proofRequest.Write(session.SecureRemotePassword.I);
-                            proofRequest.Write(session.SecureRemotePassword.S);
-                            proofRequest.Write(session.SecureRemotePassword.B);
-                            proofRequest.Write(session.SecureRemotePassword.S2);
-
-                            break;
-                        default:
-                            Log.Message(LogType.Debug, "Module '{0}' not used in this state", module.Name);
-                            break;
-                    }
-                }
-            });
+            // Data
+            proofRequest.Write(session.SecureRemotePassword.I);
+            proofRequest.Write(session.SecureRemotePassword.S);
+            proofRequest.Write(session.SecureRemotePassword.B);
+            proofRequest.Write(session.SecureRemotePassword.S2);
 
             session.Send(proofRequest);
         }
@@ -97,14 +73,14 @@ namespace AuthServer.Network.Packets.Handlers
             for (int i = 0; i < moduleCount; i++)
             {
                 var dataSize = packet.Read<int>(10);
-                var stateId = packet.Read(1)[0];
+                var state = packet.Read<PasswordModuleState>(8);
 
-                switch (stateId)
+                switch (state)
                 {
-                    case 1:
+                    case PasswordModuleState.ClientChallenge:
                         SendAuthComplete(false, AuthResult.GlobalSuccess, session);
                         break;
-                    case 2:
+                    case PasswordModuleState.ClientProof:
                         // Wrong password module data size
                         if (dataSize != 0x121)
                             return;
@@ -120,7 +96,7 @@ namespace AuthServer.Network.Packets.Handlers
                         {
                             session.SecureRemotePassword.CalculateServerM(m1);
 
-                            SendProofVerification(session, clientChallenge);
+                            SendProofValidation(session, clientChallenge);
                         }
                         else
                             SendAuthComplete(true, AuthResult.BadLoginInformation, session);
@@ -132,48 +108,31 @@ namespace AuthServer.Network.Packets.Handlers
             }
         }
 
-        public static void SendProofVerification(AuthSession session, byte[] clientChallenge)
+        public static void SendProofValidation(AuthSession session, byte[] clientChallenge)
         {
-            var proofVerification = new AuthPacket(AuthServerMessage.ProofRequest);
+            var passwordModule = session.Modules.SingleOrDefault(m => m.Name == "Password");
+            var riskFingerprintModule = session.Modules.SingleOrDefault(m => m.Name == "RiskFingerprint");
 
-            proofVerification.Write(2, 3);
+            var proofValidation = new AuthPacket(AuthServerMessage.ProofRequest);
 
-            session.Modules.ForEach(module =>
-            {
-                // Only auth modules are supported here.
-                if (module.Type == "auth")
-                {
-                    switch (module.Name)
-                    {
-                        case "Password":
-                            proofVerification.WriteFourCC(module.Type);
-                            proofVerification.WriteFourCC("\0\0" + session.Account.Region);
-                            proofVerification.Write(module.Hash.ToByteArray());
-                            proofVerification.Write(161, 10);
+            // Send two modules (Password & RiskFingerprint).
+            proofValidation.Write(2, 3);
 
-                            // Flush & write the state id
-                            proofVerification.Flush();
-                            proofVerification.Write(3, 8);
+            /// Password module
+            Manager.Module.WriteModuleHeader(session, proofValidation, passwordModule, 161);
 
-                            proofVerification.Write(session.SecureRemotePassword.ServerM);
-                            proofVerification.Write(session.SecureRemotePassword.S2);
+            // State
+            proofValidation.Flush();
+            proofValidation.Write(PasswordModuleState.ValidateProof, 8);
 
-                            break;
-                        case "RiskFingerprint":
-                            proofVerification.WriteFourCC(module.Type);
-                            proofVerification.WriteFourCC("\0\0" + session.Account.Region);
-                            proofVerification.Write(module.Hash.ToByteArray());
-                            proofVerification.Write(module.Size, 10);
+            // Data
+            proofValidation.Write(session.SecureRemotePassword.ServerM);
+            proofValidation.Write(session.SecureRemotePassword.S2);
 
-                            break;
-                        default:
-                            Log.Message(LogType.Debug, "Module '{0}' not used in this state", module.Name);
-                            break;
-                    }
-                }
-            });
+            /// RiskFingerprint module
+            Manager.Module.WriteModuleHeader(session, proofValidation, riskFingerprintModule);
 
-            session.Send(proofVerification);
+            session.Send(proofValidation);
         }
 
         public static void SendAuthComplete(bool failed, AuthResult result, AuthSession session)

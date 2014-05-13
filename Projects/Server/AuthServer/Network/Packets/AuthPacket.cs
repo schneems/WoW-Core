@@ -66,8 +66,9 @@ namespace Framework.Network.Packets
             Header.Channel = channel;
 
             var hasChannel = channel != AuthChannel.BattleNet;
+            var msg = Header.Message >= 0x7E ? (Header.Message >> (byte)channel) - 0x3F : Header.Message - 0x3F;
 
-            Write(Header.Message >= 0x7E ? (Header.Message >> (byte)channel) - 0x3F : Header.Message - 0x3F, 6);
+            Write(msg, 6);
             Write(hasChannel, 1);
 
             if (hasChannel)
@@ -143,7 +144,9 @@ namespace Framework.Network.Packets
                 count += bitsToRead;
             }
 
-            return (T)Convert.ChangeType(value, typeof(T));
+            var type = typeof(T).IsEnum ? typeof(T).GetEnumUnderlyingType() : typeof(T);
+
+            return (T)Convert.ChangeType(value, type);
         }
 
         public string ReadFourCC()

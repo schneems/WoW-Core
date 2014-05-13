@@ -46,6 +46,7 @@
     <Compile Include="Commands\ConsoleCommandManager.cs" />
     <Compile Include="Configuration\AuthConfig.cs" />
     <Compile Include="Constants\Authentication\AuthResult.cs" />
+    <Compile Include="Constants\Authentication\PasswordModuleState.cs" />
     <Compile Include="Constants\Net\AuthChannel.cs" />
     <Compile Include="Constants\Net\AuthClientMessage.cs" />
     <Compile Include="Constants\Net\AuthServerMessage.cs" />

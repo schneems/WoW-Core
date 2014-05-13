@@ -20,6 +20,8 @@ namespace AuthServer.Constants.Authentication
     public enum AuthResult : byte
     {
         GlobalSuccess       = 0x00,
+        InternalError       = 0x64,
+        CorruptedModule     = 0x65,
         BadLoginInformation = 0x68,
         InvalidProgram      = 0x6D,
         InvalidPlatform     = 0x6E,

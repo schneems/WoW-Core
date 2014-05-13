@@ -42,12 +42,12 @@ namespace AuthServer.Network.Packets.Handlers
             {
                 var joinResponse = new AuthPacket(AuthServerMessage.JoinResponse, AuthChannel.WoW);
 
-                joinResponse.Write(Manager.Realms.RealmList.Count == 0, 1);
+                joinResponse.Write(Manager.Realm.RealmList.Count == 0, 1);
 
                 joinResponse.Write(BitConverter.ToUInt32(serverSalt, 0), 32);
-                joinResponse.Write(Manager.Realms.RealmList.Count, 5);
+                joinResponse.Write(Manager.Realm.RealmList.Count, 5);
 
-                foreach (var realm in Manager.Realms.RealmList)
+                foreach (var realm in Manager.Realm.RealmList)
                 {
                     var ip = IPAddress.Parse(realm.Value.IP).GetAddressBytes();
                     var port = BitConverter.GetBytes(realm.Value.Port);
@@ -77,7 +77,7 @@ namespace AuthServer.Network.Packets.Handlers
 
             var realmCounter = 0;
 
-            foreach (var realm in Manager.Realms.RealmList)
+            foreach (var realm in Manager.Realm.RealmList)
             {
                 var realmlist = new AuthPacket(AuthServerMessage.RealmUpdate, AuthChannel.WoW);
 

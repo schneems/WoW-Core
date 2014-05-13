@@ -18,25 +18,23 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using AuthServer.Network;
 using Framework.Constants.Misc;
 using Framework.Database;
 using Framework.Database.Auth.Entities;
 using Framework.Logging;
 using Framework.Misc;
+using Framework.Network.Packets;
 
 namespace AuthServer.Managers
 {
     class ModuleManager : Singleton<ModuleManager>
     {
-        public readonly List<Module> ModuleList;
-        public readonly List<Module> Module64List;
-        public readonly List<Module> ModuleMacList;
+        public readonly List<Module> Modules;
 
         ModuleManager()
         {
-            ModuleList = new List<Module>();
-            Module64List = new List<Module>();
-            ModuleMacList = new List<Module>();
+            Modules = new List<Module>();
 
             UpdateModules();
         }
@@ -48,16 +46,18 @@ namespace AuthServer.Managers
             var modules = DB.Auth.Modules.Select(m => m);
 
             foreach (var m in modules)
-            {
-                if (m.System == "Win" && AddModule(m, ModuleList))
-                    Log.Message(LogType.Debug, "New Win auth module '{0}' loaded", m.Hash);
-                else if (m.System == "Wn64" && AddModule(m, Module64List))
-                    Log.Message(LogType.Debug, "New Win64 auth module '{0}' loaded", m.Hash);
-                else if (m.System == "Mc64" && AddModule(m, ModuleMacList))
-                    Log.Message(LogType.Debug, "New Mac64 auth module '{0}' loaded", m.Hash);
-            }
+                if (AddModule(m, Modules))
+                    Log.Message(LogType.Debug, "New auth module '{0}' loaded", m.Hash);
 
-            Log.Message(LogType.Debug, "Successfully loaded {0} auth modules", ModuleList.Count);
+            Log.Message(LogType.Debug, "Successfully loaded {0} auth modules", Modules.Count);
+        }
+
+        public void WriteModuleHeader(AuthSession session, AuthPacket packet, Module module, int size = 0)
+        {
+            packet.WriteFourCC(module.Type);
+            packet.WriteFourCC("\0\0" + session.Account.Region);
+            packet.Write(module.Hash.ToByteArray());
+            packet.Write(size == 0 ? module.Size : size, 10);
         }
 
         bool AddModule(Module module, IList list)
