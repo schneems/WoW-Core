@@ -19,5 +19,35 @@ namespace CharacterServer.Constants.Net
 {
     class ServerMessages
     {
+        public enum General : ushort
+        {
+            SetVeteranTrial                         = 0x2000,
+            AuthResponse                            = 0x2000,
+            WaitQueueUpdate                         = 0x2000,
+            WaitQueueFinish                         = 0x2000,
+            EnumCharactersResult                    = 0x2000,
+            GenerateRandomCharacterNameResult       = 0x2000,
+            UpdateExpansionLevel                    = 0x2000,
+            CharCustomize                           = 0x2000,
+            CreateChar                              = 0x2000,
+            DeleteChar                              = 0x2000,
+            CacheVersion                            = 0x2000,
+            CharacterLoginFailed                    = 0x2000,
+            AccountDataTimes                        = 0x2000,
+            AddonInfo                               = 0x2000,
+            GetAccountCharacterListResult           = 0x2000,
+            LiveRegionGetAccountCharacterListResult = 0x2000,
+            CharacterRenameResult                   = 0x2000,
+            LiveRegionCharacterCopyResult           = 0x2000,
+            LiveRegionAccountRestoreResult          = 0x2000,
+            CharacterObjectTestResponse             = 0x2000,
+            CharFactionChangeResult                 = 0x2000,
+            CharacterUpgradeStarted                 = 0x2000,
+            CharacterUpgradeComplete                = 0x2000,
+            CharacterUpgradeAborted                 = 0x2000,
+            UpdateCharacterFlags                    = 0x2000,
+            UndeleteCharacterResponse               = 0x2000,
+            UndeleteCooldownStatusResponse          = 0x2000,
+        }
     }
 }
