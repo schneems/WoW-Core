@@ -21,7 +21,6 @@ namespace CharacterServer.Constants.Net
     {
         public enum UserClient : ushort
         {
-            ConnectToFailed                    = 0x2000,
             GenerateRandomCharacterName        = 0x2000,
             EnumCharacters                     = 0x2000,
             ReorderCharacters                  = 0x2000,
@@ -40,7 +39,6 @@ namespace CharacterServer.Constants.Net
             EnumCharactersDeletedByClient      = 0x2000,
             UndeleteCharacter                  = 0x2000,
             GetUndeleteCharacterCooldownStatus = 0x2000,
-            CheatResetUndeleteCooldown         = 0x2000
         }
 
         public enum UserRouterClient : ushort
