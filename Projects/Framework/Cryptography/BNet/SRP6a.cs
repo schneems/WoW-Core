@@ -69,10 +69,10 @@ namespace Framework.Cryptography.BNet
 
             g = new byte[] { 2 };
 
-            BN = N.MakeBigInteger();
-            gBN = g.MakeBigInteger();
-            k = sha256.ComputeHash(N.Combine(g)).MakeBigInteger();
-            v = passwordVerifier.ToByteArray().MakeBigInteger();
+            BN = N.ToBigInteger();
+            gBN = g.ToBigInteger();
+            k = sha256.ComputeHash(N.Combine(g)).ToBigInteger();
+            v = passwordVerifier.ToByteArray().ToBigInteger();
         }
 
         public void CalculateX(string accountName, string password, bool calcB)
@@ -80,7 +80,7 @@ namespace Framework.Cryptography.BNet
             I = sha256.ComputeHash(Encoding.UTF8.GetBytes(accountName));
 
             var p = sha256.ComputeHash(Encoding.UTF8.GetBytes(I.ToHexString() + ":" + password.ToUpper()));
-            var x = sha256.ComputeHash(S.Combine(p)).MakeBigInteger();
+            var x = sha256.ComputeHash(S.Combine(p)).ToBigInteger();
 
             CalculateV(x, calcB);
         }
@@ -103,15 +103,15 @@ namespace Framework.Cryptography.BNet
 
             S2 = randBytes;
 
-            b = randBytes.MakeBigInteger();
+            b = randBytes.ToBigInteger();
             B = GetBytes(((k * v + BigInteger.ModPow(gBN, b, BN)) % BN).ToByteArray(), 0x80);
         }
 
         public void CalculateU(byte[] a)
         {
-            A = a.MakeBigInteger();
+            A = a.ToBigInteger();
 
-            CalculateS(sha256.ComputeHash(a.Combine(B)).MakeBigInteger());
+            CalculateS(sha256.ComputeHash(a.Combine(B)).ToBigInteger());
         }
 
         void CalculateS(BigInteger u)
@@ -148,6 +148,7 @@ namespace Framework.Cryptography.BNet
 
         public void CalculateClientM(byte[] a)
         {
+            var IHash = sha256.ComputeHash(Encoding.UTF8.GetBytes(I.ToHexString()));
             var NHash = sha256.ComputeHash(N);
             var gHash = sha256.ComputeHash(g);
 
@@ -155,14 +156,14 @@ namespace Framework.Cryptography.BNet
                 NHash[i] ^= (byte)gHash[i];
 
             // Concat all variables for M1 hash
-            var hash = NHash.Combine(sha256.ComputeHash(Encoding.UTF8.GetBytes(I.ToHexString()))).Combine(S).Combine(a).Combine(B).Combine(SessionKey);
+            var hash = NHash.Combine(IHash, S, a, B, SessionKey);
 
             ClientM = sha256.ComputeHash(hash);
         }
 
         public void CalculateServerM(byte[] m1)
         {
-            ServerM = sha256.ComputeHash(GetBytes(A.ToByteArray(), 0x80).Combine(m1).Combine(SessionKey));
+            ServerM = sha256.ComputeHash(GetBytes(A.ToByteArray(), 0x80).Combine(m1, SessionKey));
         }
 
         public byte[] GetBytes(byte[] data, int count = 0x40)

@@ -95,12 +95,18 @@ namespace Framework.Misc
             return true;
         }
 
-        public static byte[] Combine(this byte[] data, byte[] data2)
+        public static byte[] Combine(this byte[] data, params byte[][] pData)
         {
-            var combined = new byte[data.Length + data2.Length];
+            var combined = data;
 
-            Buffer.BlockCopy(data, 0, combined, 0, data.Length);
-            Buffer.BlockCopy(data2, 0, combined, data.Length, data2.Length);
+            foreach (var arr in pData)
+            {
+                var currentSize = combined.Length;
+
+                Array.Resize(ref combined, currentSize + arr.Length);
+
+                Buffer.BlockCopy(arr, 0, combined, currentSize, arr.Length);
+            }
 
             return combined;
         }
@@ -114,24 +120,21 @@ namespace Framework.Misc
 
             return hex.ToUpper();
         }
-
-        public static BigInteger MakeBigInteger(this byte[] data, bool isBigEndian = false)
-        {
-            if (isBigEndian)
-                Array.Reverse(data);
-
-            return new BigInteger(data.Combine(new byte[] { 0 }));
-        }
         #endregion
         #region Generic
-        public static BigInteger AssignValue<T>(this T value, bool isBigEndian = false)
+        public static BigInteger ToBigInteger<T>(this T value, bool isBigEndian = false)
         {
             var ret = BigInteger.Zero;
 
             switch (typeof(T).Name)
             {
                 case "Byte[]":
-                    ret = (value as byte[]).MakeBigInteger(isBigEndian);
+                    var data = value as byte[];
+
+                    if (isBigEndian)
+                        Array.Reverse(data);
+
+                    ret = new BigInteger(data.Combine(new byte[] { 0 })); ;
                     break;
                 case "BigInteger":
                     ret = (BigInteger)Convert.ChangeType(value, typeof(BigInteger));

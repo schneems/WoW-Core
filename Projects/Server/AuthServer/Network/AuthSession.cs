@@ -70,6 +70,7 @@ namespace AuthServer.Network
 
                 if (recievedBytes != 0)
                 {
+                    // Enable packet encryption.
                     if (Crypt == null && dataBuffer[0] == 0x45 && dataBuffer[1] == 0x01)
                     {
                         Crypt = new BNetCrypt(SecureRemotePassword.SessionKey);
