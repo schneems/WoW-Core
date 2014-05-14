@@ -43,12 +43,13 @@
     <Compile Include="Attributes\MessageAttribute.cs" />
     <Compile Include="Constants\Net\ClientMessages.cs" />
     <Compile Include="Constants\Net\ServerMessages.cs" />
+    <Compile Include="Network\Packets\Handlers\NetHandler.cs" />
     <Compile Include="RealmServer.cs" />
     <Compile Include="Configuration\CharacterConfig.cs" />
     <Compile Include="Network\RealmSession.cs" />
     <Compile Include="Network\Packets\Handlers\AddonHandler.cs" />
     <Compile Include="Network\Packets\Handlers\CharacterHandler.cs" />
-    <Compile Include="Network\Packets\Handlers\ConnectionHandler.cs" />
+    <Compile Include="Network\Packets\Handlers\AuthHandler.cs" />
     <Compile Include="Network\Packets\Handlers\MiscHandler.cs" />
     <Compile Include="Network\Packets\PacketManager.cs" />
     <Compile Include="Network\Server.cs" />

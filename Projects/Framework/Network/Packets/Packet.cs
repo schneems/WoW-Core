@@ -112,9 +112,21 @@ namespace Framework.Network.Packets
             }
         }
 
+        public T Read<T>(T[] data, int index)
+        {
+            return data[index] = stream.Read<T>();
+        }
+
         public byte[] ReadBytes(int count)
         {
             return stream.ReadBytes(count);
+        }
+
+        public string ReadString(byte bits)
+        {
+            var length = GetBit<int>(bits);
+
+            return Read<string>(length);
         }
         #endregion
         #region Writer

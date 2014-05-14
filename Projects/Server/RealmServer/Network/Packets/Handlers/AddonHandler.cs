@@ -15,15 +15,38 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.IO;
+using System.IO.Compression;
 
 namespace RealmServer.Network.Packets.Handlers
 {
     class AddonHandler
     {
+        public static void LoadAddonInfoData(RealmSession session, byte[] packedData, int packedSize, int unpackedSize)
+        {
+            var unpackedAddonData = new byte[unpackedSize];
+
+            if (packedSize > 4)
+            {
+                using (var inflate = new DeflateStream(new MemoryStream(packedData), CompressionMode.Decompress))
+                {
+                    var decompressed = new MemoryStream();
+                    inflate.CopyTo(decompressed);
+
+
+                    decompressed.Seek(0, SeekOrigin.Begin);
+
+                    for (int i = 0; i < unpackedSize; i++)
+                        unpackedAddonData[i] = (byte)decompressed.ReadByte();
+                }
+            }
+
+            HandleAddonInfo(session, unpackedAddonData);
+        }
+
+        public static void HandleAddonInfo(RealmSession session, byte[] addonData)
+        {
+
+        }
     }
 }

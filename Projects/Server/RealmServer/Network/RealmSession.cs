@@ -92,7 +92,7 @@ namespace RealmServer.Network
 
                     Log.Message(LogType.Debug, "Initial packet transfer for Client '{0}' successfully initialized.", GetClientIP(e));
 
-                    ConnectionHandler.HandleAuthChallenge(this);
+                    AuthHandler.HandleAuthChallenge(this);
                 }
                 else
                 {

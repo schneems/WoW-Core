@@ -21,22 +21,7 @@ using Framework.Network.Packets;
 
 namespace RealmServer.Network.Packets.Handlers
 {
-    class ConnectionHandler
+    class NetHandler
     {
-        public static void HandleAuthChallenge(RealmSession session)
-        {
-
-        }
-
-        [Message(ClientMessages.AuthSession)]
-        public static void OnAuthSession(Packet packet, RealmSession session)
-        {
-
-        }
-
-        public static void HandleAuthResponse(RealmSession session)
-        {
-
-        }
     }
 }
