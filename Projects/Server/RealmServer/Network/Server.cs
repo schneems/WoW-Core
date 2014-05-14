@@ -23,7 +23,7 @@ using System.Threading.Tasks;
 using Framework.Constants.Misc;
 using Framework.Logging;
 
-namespace CharacterServer.Network
+namespace RealmServer.Network
 {
     class Server : IDisposable
     {
@@ -36,7 +36,7 @@ namespace CharacterServer.Network
 
             if (!IPAddress.TryParse(ip, out bindIP))
             {
-                Log.Message(LogType.Normal, "CharacterServer can't be started: Invalid IP-Address ({0})", ip);
+                Log.Message(LogType.Normal, "RealmServer can't be started: Invalid IP-Address ({0})", ip);
                 Console.ReadKey(true);
 
                 Environment.Exit(0);
@@ -69,7 +69,7 @@ namespace CharacterServer.Network
 
                     if (clientSocket != null)
                     {
-                        var worker = new CharacterSession(clientSocket);
+                        var worker = new RealmSession(clientSocket);
 
                         await Task.Factory.StartNew(worker.Accept);
                     }

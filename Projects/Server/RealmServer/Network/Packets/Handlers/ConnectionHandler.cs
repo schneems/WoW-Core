@@ -15,26 +15,26 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-using CharacterServer.Attributes;
-using CharacterServer.Constants.Net;
+using RealmServer.Attributes;
+using RealmServer.Constants.Net;
 using Framework.Network.Packets;
 
-namespace CharacterServer.Network.Packets.Handlers
+namespace RealmServer.Network.Packets.Handlers
 {
     class ConnectionHandler
     {
-        public static void HandleAuthChallenge(CharacterSession session)
+        public static void HandleAuthChallenge(RealmSession session)
         {
 
         }
 
         [Message(ClientMessages.AuthSession)]
-        public static void OnAuthSession(Packet packet, CharacterSession session)
+        public static void OnAuthSession(Packet packet, RealmSession session)
         {
 
         }
 
-        public static void HandleAuthResponse(CharacterSession session)
+        public static void HandleAuthResponse(RealmSession session)
         {
 
         }

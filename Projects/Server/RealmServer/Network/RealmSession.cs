@@ -19,16 +19,16 @@ using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Net.Sockets;
-using CharacterServer.Network.Packets;
-using CharacterServer.Network.Packets.Handlers;
+using RealmServer.Network.Packets;
+using RealmServer.Network.Packets.Handlers;
 using Framework.Constants.Misc;
 using Framework.Cryptography.WoW;
 using Framework.Logging;
 using Framework.Network.Packets;
 
-namespace CharacterServer.Network
+namespace RealmServer.Network
 {
-    class CharacterSession : IDisposable
+    class RealmSession : IDisposable
     {
         public WoWCrypt Crypt { get; private set; }
 
@@ -37,7 +37,7 @@ namespace CharacterServer.Network
         bool[] isTransferInitiated;
         byte[] dataBuffer = new byte[0x2000];
 
-        public CharacterSession(Socket socket)
+        public RealmSession(Socket socket)
         {
             client = socket;
             packetQueue = new Queue<Packet>();
@@ -101,7 +101,8 @@ namespace CharacterServer.Network
                     Dispose();
                 }
             }
-
+            else
+                Dispose();
         }
 
         void Process(object sender, SocketAsyncEventArgs e)

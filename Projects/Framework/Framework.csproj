@@ -81,7 +81,7 @@
     <None Include="Configs\AuthServer.conf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Configs\CharacterServer.conf">
+    <None Include="Configs\RealmServer.conf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>

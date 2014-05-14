@@ -21,9 +21,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CharacterServer.Network.Packets.Handlers
+namespace RealmServer.Network.Packets.Handlers
 {
-    class AddonHandler
+    class MiscHandler
     {
     }
 }

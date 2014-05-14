@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Arctium WoW CharacterServer")]
+[assembly: AssemblyTitle("Arctium WoW RealmServer")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Arctium Emulation")]
-[assembly: AssemblyProduct("CharacterServer")]
+[assembly: AssemblyProduct("RealmServer")]
 [assembly: AssemblyCopyright("Copyright © 2012-2014 Arctium Emulation")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]

@@ -22,9 +22,9 @@ using Framework.Logging;
 using Framework.Logging.IO;
 using Framework.Misc;
 
-namespace CharacterServer.Configuration
+namespace RealmServer.Configuration
 {
-    class CharacterConfig
+    class RealmConfig
     {
         public static bool IsInitialized = false;
         static Config config;
@@ -84,7 +84,7 @@ namespace CharacterServer.Configuration
         static void ReadConfig()
         {
             if (!IsInitialized)
-                throw new InvalidOperationException("CharacterServer config not initialized.");
+                throw new InvalidOperationException("RealmServer config not initialized.");
 
             CharacterDBHost       = config.Read("CharacterDB.Host", "127.0.0.1");
             CharacterDBPort       = config.Read("CharacterDB.Port", 3306);

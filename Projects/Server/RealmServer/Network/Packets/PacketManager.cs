@@ -18,18 +18,18 @@
 using System;
 using System.Collections.Concurrent;
 using System.Reflection;
-using CharacterServer.Attributes;
-using CharacterServer.Constants.Net;
+using RealmServer.Attributes;
+using RealmServer.Constants.Net;
 using Framework.Constants.Misc;
 using Framework.Logging;
 using Framework.Network.Packets;
 
-namespace CharacterServer.Network.Packets
+namespace RealmServer.Network.Packets
 {
     class PacketManager
     {
         static ConcurrentDictionary<ClientMessages, HandlePacket> MessageHandlers = new ConcurrentDictionary<ClientMessages, HandlePacket>();
-        delegate void HandlePacket(Packet packet, CharacterSession session);
+        delegate void HandlePacket(Packet packet, RealmSession session);
 
         public static void DefineMessageHandler()
         {
@@ -41,7 +41,7 @@ namespace CharacterServer.Network.Packets
                         MessageHandlers.TryAdd(msgAttr.Message, Delegate.CreateDelegate(typeof(HandlePacket), methodInfo) as HandlePacket);
         }
 
-        public static bool InvokeHandler(Packet reader, CharacterSession session)
+        public static bool InvokeHandler(Packet reader, RealmSession session)
         {
             var message = (ClientMessages)reader.Header.Message;
 

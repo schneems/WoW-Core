@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace CharacterServer.Constants.Net
+namespace RealmServer.Constants.Net
 {
     public enum ServerMessages : ushort
     {

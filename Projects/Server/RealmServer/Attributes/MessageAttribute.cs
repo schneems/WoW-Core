@@ -1,6 +1,6 @@
 ﻿/*
  * Copyright (C) 2012-2014 Arctium Emulation <http://arctium.org>
- *
+ * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -16,14 +16,13 @@
  */
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using RealmServer.Constants.Net;
 
-namespace CharacterServer.Network.Packets.Handlers
+namespace RealmServer.Attributes
 {
-    class MiscHandler
+    [AttributeUsage(AttributeTargets.Method)]
+    public sealed class MessageAttribute(ClientMessages message) : Attribute
     {
+        public ClientMessages Message { get; } = message;
     }
 }

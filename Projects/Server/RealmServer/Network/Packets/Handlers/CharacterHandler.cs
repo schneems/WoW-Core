@@ -15,54 +15,54 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-using CharacterServer.Attributes;
-using CharacterServer.Constants.Net;
+using RealmServer.Attributes;
+using RealmServer.Constants.Net;
 using Framework.Network.Packets;
 
-namespace CharacterServer.Network.Packets.Handlers
+namespace RealmServer.Network.Packets.Handlers
 {
     class CharacterHandler
     {
         [Message(ClientMessages.EnumCharacters)]
-        public static void OnEnumCharacters(Packet packet, CharacterSession session)
+        public static void OnEnumCharacters(Packet packet, RealmSession session)
         {
 
         }
 
-        public static void HandleEnumCharactersResult(CharacterSession session)
+        public static void HandleEnumCharactersResult(RealmSession session)
         {
 
         }
 
         [Message(ClientMessages.CreateCharacter)]
-        public static void OnCreateCharacter(Packet packet, CharacterSession session)
+        public static void OnCreateCharacter(Packet packet, RealmSession session)
         {
 
         }
 
-        public static void HandleCreateChar(CharacterSession session)
+        public static void HandleCreateChar(RealmSession session)
         {
 
         }
 
         [Message(ClientMessages.CharDelete)]
-        public static void OnCharDelete(Packet packet, CharacterSession session)
+        public static void OnCharDelete(Packet packet, RealmSession session)
         {
 
         }
 
-        public static void HandleDeleteChar(CharacterSession session)
+        public static void HandleDeleteChar(RealmSession session)
         {
 
         }
 
         [Message(ClientMessages.GenerateRandomCharacterName)]
-        public static void OnGenerateRandomCharacterName(Packet packet, CharacterSession session)
+        public static void OnGenerateRandomCharacterName(Packet packet, RealmSession session)
         {
 
         }
 
-        public static void HandleGenerateRandomCharacterNameResult(CharacterSession session)
+        public static void HandleGenerateRandomCharacterNameResult(RealmSession session)
         {
 
         }
