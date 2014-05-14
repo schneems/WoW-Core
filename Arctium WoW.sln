@@ -7,7 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Framework", "Projects\Frame
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AuthServer", "Projects\Server\AuthServer\AuthServer.csproj", "{8497E5BC-BDA3-4216-82C0-1244CDACA222}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RealmServer", "Projects\Server\CharacterServer\RealmServer.csproj", "{30F73824-6464-42C5-9006-61DA89C2396D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RealmServer", "Projects\Server\RealmServer\RealmServer.csproj", "{30F73824-6464-42C5-9006-61DA89C2396D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
