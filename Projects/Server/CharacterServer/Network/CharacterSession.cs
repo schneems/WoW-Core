@@ -17,7 +17,10 @@
 
 using System;
 using System.Collections.Generic;
+using System.Net;
 using System.Net.Sockets;
+using CharacterServer.Network.Packets;
+using CharacterServer.Network.Packets.Handlers;
 using Framework.Constants.Misc;
 using Framework.Cryptography.WoW;
 using Framework.Logging;
@@ -25,18 +28,20 @@ using Framework.Network.Packets;
 
 namespace CharacterServer.Network
 {
-    class CharacterSession
+    class CharacterSession : IDisposable
     {
         public WoWCrypt Crypt { get; private set; }
 
         Socket client;
         Queue<Packet> packetQueue;
+        bool[] isTransferInitiated;
         byte[] dataBuffer = new byte[0x2000];
 
         public CharacterSession(Socket socket)
         {
             client = socket;
             packetQueue = new Queue<Packet>();
+            isTransferInitiated = new bool[2]; // ServerInitiated, ClientInitiated
         }
 
         public void Accept()
@@ -45,11 +50,58 @@ namespace CharacterServer.Network
 
             socketEventargs.SetBuffer(dataBuffer, 0, dataBuffer.Length);
 
-            socketEventargs.Completed += Process;
+            socketEventargs.Completed += OnConnection;
             socketEventargs.UserToken = client;
             socketEventargs.SocketFlags = SocketFlags.None;
 
             client.ReceiveAsync(socketEventargs);
+        }
+
+        void OnConnection(object sender, SocketAsyncEventArgs e)
+        {
+            if (!isTransferInitiated[0])
+            {
+                var serverToClient = "WORLD OF WARCRAFT CONNECTION - SERVER TO CLIENT";
+                var transferInitiate = new Packet();
+
+                transferInitiate.Write((ushort)serverToClient.Length + 1);
+                transferInitiate.Write(serverToClient, true);
+
+                Send(transferInitiate);
+
+                isTransferInitiated[0] = true;
+            }
+            else if (!isTransferInitiated[1])
+            {
+                var clientToServer = "WORLD OF WARCRAFT CONNECTION - CLIENT TO SERVER";
+                var data = new byte[0x30];
+
+                Buffer.BlockCopy(dataBuffer, 0, data, 0, data.Length);
+
+                var transferInitiate = new Packet(data, false);
+
+                var length = transferInitiate.Read<ushort>();
+                var msg = transferInitiate.Read<string>(0, true);
+
+                if (msg == clientToServer)
+                {
+                    isTransferInitiated[1] = true;
+
+                    e.Completed -= OnConnection;
+                    e.Completed += Process;
+
+                    Log.Message(LogType.Debug, "Initial packet transfer for Client '{0}' successfully initialized.", GetClientIP(e));
+
+                    ConnectionHandler.HandleAuthChallenge(this);
+                }
+                else
+                {
+                    Log.Message(LogType.Debug, "Wrong initial packet transfer data for Client '{0}'", GetClientIP(e));
+
+                    Dispose();
+                }
+            }
+
         }
 
         void Process(object sender, SocketAsyncEventArgs e)
@@ -76,9 +128,9 @@ namespace CharacterServer.Network
                             dataBuffer[2] = (byte)(0xFF & message);
                             dataBuffer[3] = (byte)(0xFF & (message >> 8));
 
-                            var length = BitConverter.ToUInt16(dataBuffer, 0) + 4;
-
+                            var length     = BitConverter.ToUInt16(dataBuffer, 0) + 4;
                             var packetData = new byte[length];
+
                             Buffer.BlockCopy(dataBuffer, 0, packetData, 0, length);
 
                             var packet = new Packet(packetData);
@@ -100,7 +152,7 @@ namespace CharacterServer.Network
                         ProcessPacket(packet);
                     }
 
-                    client.ReceiveAsync(e);
+                    (e.UserToken as Socket).ReceiveAsync(e);
                 }
             }
             catch (Exception ex)
@@ -111,13 +163,10 @@ namespace CharacterServer.Network
 
         void ProcessPacket(Packet packet)
         {
-            packet = packetQueue.Count > 0 ? packetQueue.Dequeue() : packet;
+            if (packetQueue.Count > 0)
+                packet = packetQueue.Dequeue();
 
-            //TODO Invoke packet handlers
-        }
-
-        void Decode(ref byte[] data)
-        {
+            PacketManager.InvokeHandler(packet, this);
         }
 
         public void Send(Packet packet)
@@ -126,25 +175,25 @@ namespace CharacterServer.Network
             {
                 packet.Finish();
 
-                /*if (Crypt != null && Crypt.IsInitialized)
+                if (Crypt != null && Crypt.IsInitialized)
                 {
-                    uint totalLength = (uint)packet.Size - 2;
+                    uint totalLength = (uint)packet.Header.Size - 2;
                     totalLength <<= 13;
-                    totalLength |= ((uint)packet.Opcode & 0x1FFF);
+                    totalLength |= ((uint)packet.Header.Message & 0x1FFF);
 
                     var header = BitConverter.GetBytes(totalLength);
 
                     Crypt.Encrypt(header, 4);
 
-                    buffer[0] = header[0];
-                    buffer[1] = header[1];
-                    buffer[2] = header[2];
-                    buffer[3] = header[3];
-                }*/
+                    packet.Data[0] = header[0];
+                    packet.Data[1] = header[1];
+                    packet.Data[2] = header[2];
+                    packet.Data[3] = header[3];
+                }
 
                 var socketEventargs = new SocketAsyncEventArgs();
 
-                //socketEventargs.SetBuffer(packet.Data, 0, packet.Data.Length);
+                socketEventargs.SetBuffer(packet.Data, 0, packet.Data.Length);
 
                 socketEventargs.Completed += SendCompleted;
                 socketEventargs.UserToken = packet;
@@ -163,6 +212,21 @@ namespace CharacterServer.Network
 
         void SendCompleted(object sender, SocketAsyncEventArgs e)
         {
+
+        }
+
+        public string GetClientIP(SocketAsyncEventArgs e)
+        {
+            var ipEndPoint = e.RemoteEndPoint as IPEndPoint;
+
+            return ipEndPoint != null ? ipEndPoint.Address.ToString() : "";
+        }
+
+        public void Dispose()
+        {
+            isTransferInitiated = new bool[2];
+
+            client.Dispose();
         }
     }
 }

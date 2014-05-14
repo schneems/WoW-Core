@@ -35,22 +35,33 @@ namespace Framework.Network.Packets
         bool flushed;
         #endregion
 
-        public Packet(byte[] data)
+        public Packet()
+        {
+            stream = new BinaryWriter(new MemoryStream());
+
+            if (stream == null)
+                throw new InvalidOperationException("");
+        }
+
+        public Packet(byte[] data, bool readHeader = true)
         {
             stream = new BinaryReader(new MemoryStream(data));
 
             if (stream == null)
                 throw new InvalidOperationException("");
 
-            Header = new PacketHeader
+            if (readHeader)
             {
-                Size    = stream.Read<ushort>(),
-                Message = stream.Read<ushort>()
-            };
+                Header = new PacketHeader
+                {
+                    Size    = stream.Read<ushort>(),
+                    Message = stream.Read<ushort>()
+                };
 
-            // Copy packet buffer for logging, etc.
-            Data = new byte[Header.Size];
-            Buffer.BlockCopy(data, 4, Data, 0, Header.Size);
+                // Copy packet buffer for logging, etc.
+                Data = new byte[Header.Size];
+                Buffer.BlockCopy(data, 4, Data, 0, Header.Size);
+            }
         }
 
         public Packet(object message)
@@ -71,7 +82,7 @@ namespace Framework.Network.Packets
         }
 
         #region Reader
-        public T Read<T>(int count, bool isCString = false)
+        public T Read<T>(int count = 0, bool isCString = false)
         {
             switch (typeof(T).Name)
             {
