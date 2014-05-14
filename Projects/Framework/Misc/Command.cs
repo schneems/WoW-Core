@@ -15,8 +15,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-using System;
-using System.Globalization;
 using Framework.Constants.Misc;
 using Framework.Logging;
 
@@ -28,7 +26,7 @@ namespace Framework.Misc
         {
             try
             {
-                return (T)Convert.ChangeType(args[index], typeof(T), CultureInfo.GetCultureInfo("en-US").NumberFormat);
+                return args[index].ChangeType<T>();
             }
             catch
             {

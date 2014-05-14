@@ -46,7 +46,7 @@ namespace Framework.Misc
         public T Read<T>(string name, T value, bool hex = false)
         {
             string nameValue = null;
-            T trueValue = (T)Convert.ChangeType(value, typeof(T));
+            var trueValue = value.ChangeType<T>();
             var lineCounter = 0;
 
             try
@@ -76,14 +76,14 @@ namespace Framework.Misc
                 }
 
                 if (hex)
-                    return (T)Convert.ChangeType(Convert.ToInt32(nameValue, 16), typeof(T));
+                    return Convert.ToInt32(nameValue, 16).ChangeType<T>();
 
                 if (typeof(T) == typeof(bool))
                 {
                     if (nameValue == "0")
-                        return (T)Convert.ChangeType(false, typeof(T));
+                        return false.ChangeType<T>();
                     else if (nameValue == "1")
-                        return (T)Convert.ChangeType(true, typeof(T));
+                        return true.ChangeType<T>();
                 }
 
             }
@@ -92,7 +92,7 @@ namespace Framework.Misc
                 Log.Message(LogType.Error, "Error while reading config option: '{0}'", name);
             }
 
-            return (T)Convert.ChangeType(nameValue, typeof(T));
+            return nameValue.ChangeType<T>();
         }
     }
 }

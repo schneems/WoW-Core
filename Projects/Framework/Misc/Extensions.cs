@@ -17,6 +17,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Numerics;
 
@@ -144,6 +145,10 @@ namespace Framework.Misc
             }
 
             return ret;
+        }
+        public static T ChangeType<T>(this object value)
+        {
+            return (T)Convert.ChangeType(value, typeof(T), CultureInfo.GetCultureInfo("en-US").NumberFormat);
         }
         #endregion
     }
