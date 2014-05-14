@@ -17,35 +17,33 @@
 
 namespace CharacterServer.Constants.Net
 {
-    class ClientMessages
+    public enum ClientMessages : ushort
     {
-        public enum UserClient : ushort
-        {
-            GenerateRandomCharacterName        = 0x2000,
-            EnumCharacters                     = 0x2000,
-            ReorderCharacters                  = 0x2000,
-            CreateCharacter                    = 0x2000,
-            CharCustomize                      = 0x2000,
-            CharRaceOrFactionChange            = 0x2000,
-            ReadyForAccountDataTimes           = 0x2000,
-            CharDelete                         = 0x2000,
-            CharForceDelete                    = 0x2000,
-            GetAccountCharacterList            = 0x2000,
-            LiveRegionGetAccountCharacterList  = 0x2000,
-            LiveRegionCharacterCopy            = 0x2000,
-            LiveRegionAccountRestore           = 0x2000,
-            CharacterRenameRequest             = 0x2000,
-            SwitchCharacter                    = 0x2000,
-            EnumCharactersDeletedByClient      = 0x2000,
-            UndeleteCharacter                  = 0x2000,
-            GetUndeleteCharacterCooldownStatus = 0x2000,
-        }
+        #region UserClient
+        GenerateRandomCharacterName        = 0x2000,
+        EnumCharacters                     = 0x2000,
+        ReorderCharacters                  = 0x2000,
+        CreateCharacter                    = 0x2000,
+        CharCustomize                      = 0x2000,
+        CharRaceOrFactionChange            = 0x2000,
+        ReadyForAccountDataTimes           = 0x2000,
+        CharDelete                         = 0x2000,
+        CharForceDelete                    = 0x2000,
+        GetAccountCharacterList            = 0x2000,
+        LiveRegionGetAccountCharacterList  = 0x2000,
+        LiveRegionCharacterCopy            = 0x2000,
+        LiveRegionAccountRestore           = 0x2000,
+        CharacterRenameRequest             = 0x2000,
+        SwitchCharacter                    = 0x2000,
+        EnumCharactersDeletedByClient      = 0x2000,
+        UndeleteCharacter                  = 0x2000,
+        GetUndeleteCharacterCooldownStatus = 0x2000,
+        #endregion
 
-        public enum UserRouterClient : ushort
-        {
-            AuthSession                        = 0x2000,
-            Ping                               = 0x2000,
-            LogDisconnect                      = 0x2000
-        }
+        #region UserRouterClient
+        AuthSession                        = 0x2000,
+        Ping                               = 0x2000,
+        LogDisconnect                      = 0x2000
+        #endregion
     }
 }
