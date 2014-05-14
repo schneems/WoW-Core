@@ -40,12 +40,12 @@
     <Reference Include="System.Data" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Attributes\MessageAttribute.cs" />
     <Compile Include="Constants\Net\ClientMessages.cs" />
     <Compile Include="Constants\Net\ServerMessages.cs" />
     <Compile Include="CharacterServer.cs" />
     <Compile Include="Configuration\CharacterConfig.cs" />
     <Compile Include="Network\CharacterSession.cs" />
-    <Compile Include="Network\Packets\Handlers\AccountHandler.cs" />
     <Compile Include="Network\Packets\Handlers\AddonHandler.cs" />
     <Compile Include="Network\Packets\Handlers\CharacterHandler.cs" />
     <Compile Include="Network\Packets\Handlers\ConnectionHandler.cs" />

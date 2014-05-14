@@ -15,15 +15,56 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using CharacterServer.Attributes;
+using CharacterServer.Constants.Net;
+using Framework.Network.Packets;
 
 namespace CharacterServer.Network.Packets.Handlers
 {
     class CharacterHandler
     {
+        [Message(ClientMessages.EnumCharacters)]
+        public static void OnEnumCharacters(Packet packet, CharacterSession session)
+        {
+
+        }
+
+        public static void HandleEnumCharactersResult(CharacterSession session)
+        {
+
+        }
+
+        [Message(ClientMessages.CreateCharacter)]
+        public static void OnCreateCharacter(Packet packet, CharacterSession session)
+        {
+
+        }
+
+        public static void HandleCreateChar(CharacterSession session)
+        {
+
+        }
+
+        [Message(ClientMessages.CharDelete)]
+        public static void OnCharDelete(Packet packet, CharacterSession session)
+        {
+
+        }
+
+        public static void HandleDeleteChar(CharacterSession session)
+        {
+
+        }
+
+        [Message(ClientMessages.GenerateRandomCharacterName)]
+        public static void OnGenerateRandomCharacterName(Packet packet, CharacterSession session)
+        {
+
+        }
+
+        public static void HandleGenerateRandomCharacterNameResult(CharacterSession session)
+        {
+
+        }
     }
 }

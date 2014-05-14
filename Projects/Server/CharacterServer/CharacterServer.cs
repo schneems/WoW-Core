@@ -15,8 +15,11 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+using System;
+using System.Threading;
 using CharacterServer.Configuration;
 using CharacterServer.Network;
+using CharacterServer.Network.Packets;
 using Framework.Constants.Misc;
 using Framework.Database;
 using Framework.Logging;
@@ -41,13 +44,21 @@ namespace CharacterServer
             Log.Message(LogType.Init, "---/__|---)__----__--_/_--------------_--_-");
             Log.Message(LogType.Init, "  /   |  /   ) /   ' /    /   /   /  / /  )");
             Log.Message(LogType.Init, "_/____|_/_____(___ _(_ __/___(___(__/_/__/_");
-            Log.Message(LogType.Init, "________________CharacterServer________________");
+            Log.Message(LogType.Init, "______________CharacterServer______________");
             Log.Message();
 
             Log.Message(LogType.Normal, "Starting Arctium WoW CharacterServer...");
 
             using (var server = new Server(CharacterConfig.BindIP, CharacterConfig.BindPort))
             {
+                PacketManager.DefineMessageHandler();
+
+                Log.Message(LogType.Normal, "CharacterServer successfully started");
+                Log.Message(LogType.Normal, "Total Memory: {0} Kilobytes", GC.GetTotalMemory(false) / 1024);
+
+                // No need of console commands.
+                while (true)
+                    Thread.Sleep(1);
             }
         }
 
