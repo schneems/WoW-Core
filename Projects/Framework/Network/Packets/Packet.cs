@@ -112,9 +112,12 @@ namespace Framework.Network.Packets
             }
         }
 
-        public T Read<T>(T[] data, int index)
+        public T[] Read<T>(T[] data, params int[] indices)
         {
-            return data[index] = Read<T>();
+            for (int i = 0; i < indices.Length; i++)
+                data[indices[i]] = Read<T>();
+
+            return data;
         }
 
         public byte[] ReadBytes(int count)

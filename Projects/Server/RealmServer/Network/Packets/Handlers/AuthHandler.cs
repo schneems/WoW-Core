@@ -46,44 +46,44 @@ namespace RealmServer.Network.Packets.Handlers
 
             var realmId = packet.Read<uint>();
 
-            packet.Read(data: digest, index: 14);
+            digest[14] = packet.Read<byte>();
 
             var localChallenge = packet.Read<uint>();
 
-            packet.Read(data: digest, index: 0);
-            packet.Read(data: digest, index: 6);
-            packet.Read(data: digest, index: 2);
-            packet.Read(data: digest, index: 15);
-            packet.Read(data: digest, index: 9);
-            packet.Read(data: digest, index: 8);
-            packet.Read(data: digest, index: 19);
-            packet.Read(data: digest, index: 17);
+            digest[0]  = packet.Read<byte>();
+            digest[6]  = packet.Read<byte>();
+            digest[2]  = packet.Read<byte>();
+            digest[15] = packet.Read<byte>();
+            digest[9]  = packet.Read<byte>();
+            digest[8]  = packet.Read<byte>();
+            digest[19] = packet.Read<byte>();
+            digest[17] = packet.Read<byte>();
 
             var loginServerType = packet.Read<sbyte>();
 
-            packet.Read(data: digest, index: 1);
-            packet.Read(data: digest, index: 3);
-            packet.Read(data: digest, index: 12);
-            packet.Read(data: digest, index: 10);
-            packet.Read(data: digest, index: 4);
-            packet.Read(data: digest, index: 7);
+            digest[1]  = packet.Read<byte>();
+            digest[3]  = packet.Read<byte>();
+            digest[12] = packet.Read<byte>();
+            digest[10] = packet.Read<byte>();
+            digest[4]  = packet.Read<byte>();
+            digest[7]  = packet.Read<byte>();
 
-            var build = packet.Read<short>();
+            var build       = packet.Read<short>();
             var dosResponse = packet.Read<ulong>();
 
-            packet.Read(data: digest, index: 11);
-            packet.Read(data: digest, index: 13);
+            digest[11] = packet.Read<byte>();
+            digest[13] = packet.Read<byte>();
 
             var buildType = packet.Read<sbyte>();
 
-            packet.Read(data: digest, index: 18);
+            digest[18] = packet.Read<byte>();
 
             var loginServerId = packet.Read<uint>();
             var siteId        = packet.Read<uint>();
             var regionId      = packet.Read<uint>();
 
-            packet.Read(data: digest, index: 16);
-            packet.Read(data: digest, index: 5);
+            digest[16] = packet.Read<byte>();
+            digest[5]  = packet.Read<byte>();
 
             // AddonInfo stuff
             var packedAddonSize   = packet.Read<int>();
