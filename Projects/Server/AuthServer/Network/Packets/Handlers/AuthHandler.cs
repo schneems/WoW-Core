@@ -68,12 +68,12 @@ namespace AuthServer.Network.Packets.Handlers
         [AuthMessage(AuthClientMessage.ProofResponse, AuthChannel.BattleNet)]
         public static void OnProofResponse(AuthPacket packet, AuthSession session)
         {
-            packet.Push(out int moduleCount, 3);
+            var moduleCount = packet.Read<byte>(3);
 
             for (int i = 0; i < moduleCount; i++)
             {
-                packet.Push(out int dataSize, 10);
-                packet.Push(out PasswordModuleState state, 8);
+                var dataSize = packet.Read<int>(10);
+                var state = packet.Read<PasswordModuleState>(8);
 
                 switch (state)
                 {
@@ -85,9 +85,9 @@ namespace AuthServer.Network.Packets.Handlers
                         if (dataSize != 0x121)
                             return;
 
-                        packet.PushBytes(out var a, 0x80);
-                        packet.PushBytes(out var m1, 0x20);
-                        packet.PushBytes(out var clientChallenge, 0x80);
+                        var a = packet.Read(0x80);
+                        var m1 = packet.Read(0x20);
+                        var clientChallenge = packet.Read(0x80);
 
                         session.SecureRemotePassword.CalculateU(a);
                         session.SecureRemotePassword.CalculateClientM(a);

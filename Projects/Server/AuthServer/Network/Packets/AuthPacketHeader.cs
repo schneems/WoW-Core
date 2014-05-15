@@ -22,7 +22,6 @@ namespace AuthServer.Network.Packets
     public class AuthPacketHeader
     {
         public ushort Message { get; set; }
-        public bool HasChannel { get; set; }
         public AuthChannel Channel { get; set; }
     }
 }

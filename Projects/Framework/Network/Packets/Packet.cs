@@ -82,51 +82,53 @@ namespace Framework.Network.Packets
         }
 
         #region Reader
-        public T Read<T>()
+        public T Read<T>(int count = 0, bool isCString = false)
         {
-            return Extensions.Read<T>(stream);
-        }
-
-        public void Push<T>(T[] data, params int[] indices)
-        {
-            for (int i = 0; i < indices.Length; i++)
-                Push(out data[indices[i]]);
-        }
-
-        public void Push<T>(out T value)
-        {
-            value = Extensions.Read<T>(stream);
-        }
-
-        public void PushBytes(out byte[] data, int count)
-        {
-            data = stream.ReadBytes(count);
-        }
-
-        public void PushDynamicString(out string value, byte bits)
-        {
-            PushBits(out int length, bits);
-            PushBytes(out var stringArray, length);
-
-            value = Encoding.UTF8.GetString(stringArray);
-        }
-
-        public string PushCString(out string value)
-        {
-            var tmpString = new StringBuilder();
-            var tmpChar = stream.ReadChar();
-            var tmpEndChar = Convert.ToChar(Encoding.UTF8.GetString(new byte[] { 0 }));
-
-            while (tmpChar != tmpEndChar)
+            switch (typeof(T).Name)
             {
-                tmpString.Append(tmpChar);
-                tmpChar = stream.ReadChar();
-            }
+                case "String":
+                    if (isCString)
+                    {
+                        var tmpString = new StringBuilder();
+                        var tmpChar = stream.ReadChar();
+                        var tmpEndChar = Convert.ToChar(Encoding.UTF8.GetString(new byte[] { 0 }));
 
-            return value = tmpString.ToString();
+                        while (tmpChar != tmpEndChar)
+                        {
+                            tmpString.Append(tmpChar);
+                            tmpChar = stream.ReadChar();
+                        }
+
+                        return tmpString.ToString().ChangeType<T>();
+                    }
+                    else
+                    {
+                        var stringArray = stream.ReadBytes(count);
+
+                        return Encoding.UTF8.GetString(stringArray).ChangeType<T>();
+                    }
+                default:
+                    return Extensions.Read<T>(stream);
+            }
+        }
+
+        public T Read<T>(T[] data, int index)
+        {
+            return data[index] = Read<T>();
+        }
+
+        public byte[] ReadBytes(int count)
+        {
+            return stream.ReadBytes(count);
+        }
+
+        public string ReadString(byte bits)
+        {
+            var length = GetBit<int>(bits);
+
+            return Read<string>(length);
         }
         #endregion
-
         #region Writer
         public void Write<T>(T value, bool isCString = false)
         {
@@ -187,7 +189,7 @@ namespace Framework.Network.Packets
             }
         }
 
-        public void Finish()
+        public void Finish(bool isCryptEnabled = false)
         {
             Data = new byte[stream.BaseStream.Length];
 
@@ -210,9 +212,8 @@ namespace Framework.Network.Packets
             stream.Dispose();
         }
         #endregion
-
         #region BitReader
-        public T PushBits<T>(out T value, byte count = 1)
+        public T GetBit<T>(byte count = 1)
         {
             var ret = 0ul;
 
@@ -222,8 +223,7 @@ namespace Framework.Network.Packets
                 {
                     if (bitPosition == 8)
                     {
-                        Push(out bitValue);
-
+                        bitValue = Read<byte>();
                         bitPosition = 0;
                     }
 
@@ -235,12 +235,11 @@ namespace Framework.Network.Packets
                 }
             }
 
-            return value = ret.ChangeType<T>();
+            return ret.ChangeType<T>();
         }
         #endregion
-
         #region BitWriter
-        public void WriteBits<T>(T value, int count = 1)
+        public void PutBit<T>(T value, int count = 1)
         {
             flushed = false;
 

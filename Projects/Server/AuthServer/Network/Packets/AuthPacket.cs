@@ -30,7 +30,7 @@ namespace Framework.Network.Packets
         public byte[] Data { get; set; }
         public int ProcessedBytes { get; set; }
 
-        dynamic stream;
+        object stream;
         byte bytePart;
         byte preByte;
         int count;
@@ -45,19 +45,10 @@ namespace Framework.Network.Packets
             stream = new BinaryReader(new MemoryStream(data));
 
             Header = new AuthPacketHeader();
+            Header.Message = Read<byte>(6);
 
-            Push(out ushort message, 6);
-            Push(out bool hasChannel, 1);
-
-            Header.Message = message;
-            Header.HasChannel = hasChannel;
-
-            if (Header.HasChannel)
-            {
-                Push(out AuthChannel channel, 4);
-
-                Header.Channel = channel;
-            }
+            if (Read<bool>(1))
+                Header.Channel = (AuthChannel)Read<byte>(4);
 
             Header.Message = (ushort)((Header.Message + 0x3F) << (byte)Header.Channel);
 
@@ -99,33 +90,43 @@ namespace Framework.Network.Packets
         }
 
         #region Reader
-        public void Push<T>(out T value)
+        public T Read<T>()
         {
-            value = Extensions.Read<T>(stream);
+            var reader = stream as BinaryReader;
+
+            if (reader == null)
+                throw new InvalidOperationException("");
+
+            return reader.Read<T>();
         }
 
-        public void PushBytes(out byte[] data, int count)
+        public byte[] Read(int count)
         {
+            var reader = stream as BinaryReader;
+
+            if (reader == null)
+                throw new InvalidOperationException("");
+
             ProcessedBytes += count;
 
-            data = stream.ReadBytes(count);
+            return reader.ReadBytes(count);
         }
 
-        public void PushString(out string value, int count)
+        public string ReadString(int count)
         {
-            value = Encoding.UTF8.GetString(stream.ReadBytes(count));
+            return Encoding.UTF8.GetString(Read(count));
         }
 
-        public void Push<T>(out T value, int bits)
+        public T Read<T>(int bits)
         {
-            ulong ret = 0;
+            ulong value = 0;
             var bitsToRead = 0;
 
             while (bits != 0)
             {
                 if ((count % 8) == 0)
                 {
-                    bytePart = stream.ReadByte();
+                    bytePart = Read<byte>();
 
                     ProcessedBytes += 1;
                 }
@@ -138,25 +139,23 @@ namespace Framework.Network.Packets
 
                 bits -= bitsToRead;
 
-                ret |= (uint)((bytePart >> shiftedBits) & ((byte)(1 << bitsToRead) - 1)) << bits;
+                value |= (uint)((bytePart >> shiftedBits) & ((byte)(1 << bitsToRead) - 1)) << bits;
 
                 count += bitsToRead;
             }
 
             var type = typeof(T).IsEnum ? typeof(T).GetEnumUnderlyingType() : typeof(T);
 
-            value = (T)Convert.ChangeType(ret, type);
+            return (T)Convert.ChangeType(value, type);
         }
 
-        public void PushFourCC(out string value)
+        public string ReadFourCC()
         {
-            Push(out uint val, 32);
-
-            var data = BitConverter.GetBytes(val);
+            var data = BitConverter.GetBytes(Read<uint>(32));
 
             Array.Reverse(data);
 
-            value = Encoding.UTF8.GetString(data).Trim(new char[] { '\0' });
+            return Encoding.UTF8.GetString(data).Trim(new char[] { '\0' });
         }
         #endregion
 
