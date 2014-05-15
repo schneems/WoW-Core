@@ -32,7 +32,9 @@ namespace AuthServer.Network.Packets.Handlers
         [AuthMessage(AuthClientMessage.JoinRequest, AuthChannel.WoW)]
         public static void OnJoinRequest(AuthPacket packet, AuthSession session)
         {
-            var clientSalt = BitConverter.GetBytes(packet.Read<uint>(32));
+            packet.Push(out uint clientSaltValue, 32);
+
+            var clientSalt = BitConverter.GetBytes(clientSaltValue);
             var serverSalt = new byte[0].GenerateRandomKey(4);
 
             session.GenerateSessionKey(clientSalt, serverSalt);

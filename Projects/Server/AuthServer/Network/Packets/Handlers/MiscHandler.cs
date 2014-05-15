@@ -38,25 +38,25 @@ namespace AuthServer.Network.Packets.Handlers
                 return;
             }
 
-            Log.Message(LogType.Debug, "Program: {0}", packet.ReadFourCC());
+            packet.PushFourCC(out var prog);
+            packet.PushFourCC(out var os);
+            packet.PushFourCC(out var language);
 
-            var os = packet.ReadFourCC();
-            var language = packet.ReadFourCC();
-
+            Log.Message(LogType.Debug, "Program: {0}", prog);
             Log.Message(LogType.Debug, "Platform: {0}", os);
             Log.Message(LogType.Debug, "Locale: {0}", language);
 
-            var componentCount = packet.Read<int>(6);
+            packet.Push(out int componentCount, 6);
 
             for (int i = 0; i < componentCount; i++)
             {
-                var program = packet.ReadFourCC();
-                var platform = packet.ReadFourCC();
-                var build = packet.Read<int>(32);
+                packet.PushFourCC(out var program);
+                packet.PushFourCC(out var platform);
+                packet.Push(out int build, 32);
 
                 Log.Message(LogType.Debug, "Program: {0}", program);
                 Log.Message(LogType.Debug, "Platform: {0}", platform);
-                Log.Message(LogType.Debug, "Locale: {0}", build);
+                Log.Message(LogType.Debug, "Build: {0}", build);
 
                 if (DB.Auth.Components.Any(c => c.Program == program && c.Platform == platform && c.Build == build))
                     continue;
@@ -80,12 +80,13 @@ namespace AuthServer.Network.Packets.Handlers
                 }
             }
 
-            var hasAccountName = packet.Read<bool>(1);
+            packet.Push(out bool hasAccountName, 1);
 
             if (hasAccountName)
             {
-                var accountLength = packet.Read<int>(9) + 3;
-                var accountName = packet.ReadString(accountLength);
+                packet.Push(out int accountLength, 9);
+                packet.PushString(out var accountName, accountLength + 3);
+
                 var account = DB.Auth.Accounts.SingleOrDefault(a => a.Email == accountName);
 
                 // First account lookup on database

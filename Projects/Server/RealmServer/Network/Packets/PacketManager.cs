@@ -18,11 +18,11 @@
 using System;
 using System.Collections.Concurrent;
 using System.Reflection;
-using RealmServer.Attributes;
-using RealmServer.Constants.Net;
 using Framework.Constants.Misc;
 using Framework.Logging;
 using Framework.Network.Packets;
+using RealmServer.Attributes;
+using RealmServer.Constants.Net;
 
 namespace RealmServer.Network.Packets
 {

@@ -81,8 +81,8 @@ namespace RealmServer.Network
 
                 var transferInitiate = new Packet(data, false);
 
-                var length = transferInitiate.Read<ushort>();
-                var msg    = transferInitiate.Read<string>(0, true);
+                transferInitiate.Push(out ushort length);
+                transferInitiate.PushCString(out string msg);
 
                 if (msg == clientToServer)
                 {

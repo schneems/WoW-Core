@@ -44,54 +44,43 @@ namespace RealmServer.Network.Packets.Handlers
         {
             var digest = new byte[20];
 
-            var realmId = packet.Read<uint>();
-
-            packet.Read(data: digest, index: 14);
-
-            var localChallenge = packet.Read<uint>();
-
-            packet.Read(data: digest, index: 0);
-            packet.Read(data: digest, index: 6);
-            packet.Read(data: digest, index: 2);
-            packet.Read(data: digest, index: 15);
-            packet.Read(data: digest, index: 9);
-            packet.Read(data: digest, index: 8);
-            packet.Read(data: digest, index: 19);
-            packet.Read(data: digest, index: 17);
-
-            var loginServerType = packet.Read<sbyte>();
-
-            packet.Read(data: digest, index: 1);
-            packet.Read(data: digest, index: 3);
-            packet.Read(data: digest, index: 12);
-            packet.Read(data: digest, index: 10);
-            packet.Read(data: digest, index: 4);
-            packet.Read(data: digest, index: 7);
-
-            var build = packet.Read<short>();
-            var dosResponse = packet.Read<ulong>();
-
-            packet.Read(data: digest, index: 11);
-            packet.Read(data: digest, index: 13);
-
-            var buildType = packet.Read<sbyte>();
-
-            packet.Read(data: digest, index: 18);
-
-            var loginServerId = packet.Read<uint>();
-            var siteId        = packet.Read<uint>();
-            var regionId      = packet.Read<uint>();
-
-            packet.Read(data: digest, index: 16);
-            packet.Read(data: digest, index: 5);
+            packet.Push(out uint realmId);
+            packet.Push(out digest[14]);
+            packet.Push(out uint localChallenge);
+            packet.Push(out digest[0]);
+            packet.Push(out digest[6]);
+            packet.Push(out digest[2]);
+            packet.Push(out digest[15]);
+            packet.Push(out digest[9]);
+            packet.Push(out digest[8]);
+            packet.Push(out digest[19]);
+            packet.Push(out digest[17]);
+            packet.Push(out sbyte loginServerType);
+            packet.Push(out digest[1]);
+            packet.Push(out digest[3]);
+            packet.Push(out digest[12]);
+            packet.Push(out digest[10]);
+            packet.Push(out digest[4]);
+            packet.Push(out digest[7]);
+            packet.Push(out short build);
+            packet.Push(out ulong dosResponse);
+            packet.Push(out digest[11]);
+            packet.Push(out digest[13]);
+            packet.Push(out sbyte buildType);
+            packet.Push(out digest[18]);
+            packet.Push(out uint loginServerId);
+            packet.Push(out uint siteId);
+            packet.Push(out uint regionId);
+            packet.Push(out digest[16]);
+            packet.Push(out digest[15]);
 
             // AddonInfo stuff
-            var packedAddonSize   = packet.Read<int>();
-            var unpackedAddonSize = packet.Read<int>();
-            var unknown           = packet.Read<ushort>();
-            var packedAddonData   = packet.ReadBytes(packedAddonSize - 4);
+            packet.Push(out int packedAddonSize);
+            packet.Push(out int unpackedAddonSize);
+            packet.Push(out ushort unknown);
 
-            var account = packet.ReadString(11);
+            packet.PushBytes(out var packedAddonData, packedAddonSize - 4);
+            packet.PushDynamicString(out var account, 11);
 
             //TODO Implement security checks & field handling.
             //TODO Implement AuthResponse.
