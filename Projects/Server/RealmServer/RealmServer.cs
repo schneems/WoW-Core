@@ -17,12 +17,12 @@
 
 using System;
 using System.Threading;
-using RealmServer.Configuration;
-using RealmServer.Network;
-using RealmServer.Network.Packets;
 using Framework.Constants.Misc;
 using Framework.Database;
 using Framework.Logging;
+using RealmServer.Configuration;
+using RealmServer.Network;
+using RealmServer.Network.Packets;
 
 namespace RealmServer
 {
@@ -31,6 +31,10 @@ namespace RealmServer
         static void Main(string[] args)
         {
             ReadArguments(args);
+
+            var authConnection = DB.CreateConnection(RealmConfig.AuthDBHost, RealmConfig.AuthDBUser, RealmConfig.AuthDBPassword,
+                                                     RealmConfig.AuthDBDataBase, RealmConfig.AuthDBPort, RealmConfig.MySqlPooling,
+                                                     RealmConfig.MySqlMinPoolSize, RealmConfig.MySqlMaxPoolSize);
 
             var charConnection = DB.CreateConnection(RealmConfig.CharacterDBHost, RealmConfig.CharacterDBUser, RealmConfig.CharacterDBPassword,
                                                      RealmConfig.CharacterDBDataBase, RealmConfig.CharacterDBPort, RealmConfig.MySqlPooling,

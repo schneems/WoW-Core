@@ -28,7 +28,8 @@ namespace RealmServer.Network.Packets.Handlers
         {
             var authChallenge = new Packet(ServerMessages.AuthChallenge);
 
-            authChallenge.Write<byte>(0);     // DosZeroBits
+            authChallenge.Write<ushort>(0);
+            authChallenge.Write<byte>(1);     // DosZeroBits
 
             for (int i = 0; i < 8; i++)
                 authChallenge.Write<uint>(0); // DosChallenge
@@ -45,7 +46,7 @@ namespace RealmServer.Network.Packets.Handlers
 
             var realmId = packet.Read<uint>();
 
-            packet.Read(digest, 14);
+            packet.Read(data: digest, index: 14);
 
             var localChallenge = packet.Read<uint>();
 

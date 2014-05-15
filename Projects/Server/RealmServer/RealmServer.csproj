@@ -45,7 +45,7 @@
     <Compile Include="Constants\Net\ServerMessages.cs" />
     <Compile Include="Network\Packets\Handlers\NetHandler.cs" />
     <Compile Include="RealmServer.cs" />
-    <Compile Include="Configuration\CharacterConfig.cs" />
+    <Compile Include="Configuration\RealmConfig.cs" />
     <Compile Include="Network\RealmSession.cs" />
     <Compile Include="Network\Packets\Handlers\AddonHandler.cs" />
     <Compile Include="Network\Packets\Handlers\CharacterHandler.cs" />

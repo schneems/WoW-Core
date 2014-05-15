@@ -35,6 +35,12 @@ namespace RealmServer.Configuration
         public static string LogConsoleFile;
         public static string LogPacketFile;
 
+        public static string AuthDBHost;
+        public static int AuthDBPort;
+        public static string AuthDBUser;
+        public static string AuthDBPassword;
+        public static string AuthDBDataBase;
+
         public static string CharacterDBHost;
         public static int CharacterDBPort;
         public static string CharacterDBUser;
@@ -58,7 +64,7 @@ namespace RealmServer.Configuration
                 IsInitialized = true;
 
                 LogLevel       = (LogType)config.Read("Log.Level", 0x7, true);
-                LogDirectory   = config.Read("Log.Directory", "Logs/Auth");
+                LogDirectory   = config.Read("Log.Directory", "Logs/Realm");
                 LogConsoleFile = config.Read("Log.Console.File", "");
                 LogPacketFile  = config.Read("Log.Packet.File", "");
 
@@ -85,6 +91,12 @@ namespace RealmServer.Configuration
         {
             if (!IsInitialized)
                 throw new InvalidOperationException("RealmServer config not initialized.");
+
+            AuthDBHost            = config.Read("AuthDB.Host", "127.0.0.1");
+            AuthDBPort            = config.Read("AuthDB.Port", 3306);
+            AuthDBUser            = config.Read("AuthDB.User", "root");
+            AuthDBPassword        = config.Read("AuthDB.Password", "");
+            AuthDBDataBase        = config.Read("AuthDB.Database", "AuthDB");
 
             CharacterDBHost       = config.Read("CharacterDB.Host", "127.0.0.1");
             CharacterDBPort       = config.Read("CharacterDB.Port", 3306);

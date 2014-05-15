@@ -19,12 +19,12 @@ using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Net.Sockets;
-using RealmServer.Network.Packets;
-using RealmServer.Network.Packets.Handlers;
 using Framework.Constants.Misc;
 using Framework.Cryptography.WoW;
 using Framework.Logging;
 using Framework.Network.Packets;
+using RealmServer.Network.Packets;
+using RealmServer.Network.Packets.Handlers;
 
 namespace RealmServer.Network
 {
@@ -55,33 +55,34 @@ namespace RealmServer.Network
             socketEventargs.SocketFlags = SocketFlags.None;
 
             client.ReceiveAsync(socketEventargs);
-        }
 
-        void OnConnection(object sender, SocketAsyncEventArgs e)
-        {
             if (!isTransferInitiated[0])
             {
                 var serverToClient = "WORLD OF WARCRAFT CONNECTION - SERVER TO CLIENT";
                 var transferInitiate = new Packet();
 
-                transferInitiate.Write((ushort)serverToClient.Length + 1);
+                transferInitiate.Write((ushort)(serverToClient.Length + 1));
                 transferInitiate.Write(serverToClient, true);
 
                 Send(transferInitiate);
 
                 isTransferInitiated[0] = true;
             }
-            else if (!isTransferInitiated[1])
+        }
+
+        void OnConnection(object sender, SocketAsyncEventArgs e)
+        {
+            if (!isTransferInitiated[1])
             {
                 var clientToServer = "WORLD OF WARCRAFT CONNECTION - CLIENT TO SERVER";
-                var data = new byte[0x30];
+                var data = new byte[0x32];
 
                 Buffer.BlockCopy(dataBuffer, 0, data, 0, data.Length);
 
                 var transferInitiate = new Packet(data, false);
 
                 var length = transferInitiate.Read<ushort>();
-                var msg = transferInitiate.Read<string>(0, true);
+                var msg    = transferInitiate.Read<string>(0, true);
 
                 if (msg == clientToServer)
                 {
@@ -90,13 +91,15 @@ namespace RealmServer.Network
                     e.Completed -= OnConnection;
                     e.Completed += Process;
 
-                    Log.Message(LogType.Debug, "Initial packet transfer for Client '{0}' successfully initialized.", GetClientIP(e));
+                    Log.Message(LogType.Debug, "Initial packet transfer for Client '{0}' successfully initialized.", GetClientIP());
+
+                    client.ReceiveAsync(e);
 
                     AuthHandler.HandleAuthChallenge(this);
                 }
                 else
                 {
-                    Log.Message(LogType.Debug, "Wrong initial packet transfer data for Client '{0}'", GetClientIP(e));
+                    Log.Message(LogType.Debug, "Wrong initial packet transfer data for Client '{0}'", GetClientIP());
 
                     Dispose();
                 }
@@ -153,7 +156,7 @@ namespace RealmServer.Network
                         ProcessPacket(packet);
                     }
 
-                    (e.UserToken as Socket).ReceiveAsync(e);
+                    client.ReceiveAsync(e);
                 }
             }
             catch (Exception ex)
@@ -216,9 +219,9 @@ namespace RealmServer.Network
 
         }
 
-        public string GetClientIP(SocketAsyncEventArgs e)
+        public string GetClientIP()
         {
-            var ipEndPoint = e.RemoteEndPoint as IPEndPoint;
+            var ipEndPoint = client.RemoteEndPoint as IPEndPoint;
 
             return ipEndPoint != null ? ipEndPoint.Address.ToString() : "";
         }

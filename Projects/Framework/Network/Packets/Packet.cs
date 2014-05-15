@@ -54,8 +54,8 @@ namespace Framework.Network.Packets
             {
                 Header = new PacketHeader
                 {
-                    Size    = stream.Read<ushort>(),
-                    Message = stream.Read<ushort>()
+                    Size    = Read<ushort>(),
+                    Message = Read<ushort>()
                 };
 
                 // Copy packet buffer for logging, etc.
@@ -108,13 +108,13 @@ namespace Framework.Network.Packets
                         return Encoding.UTF8.GetString(stringArray).ChangeType<T>();
                     }
                 default:
-                    return stream.Read<T>();
+                    return Extensions.Read<T>(stream);
             }
         }
 
         public T Read<T>(T[] data, int index)
         {
-            return data[index] = stream.Read<T>();
+            return data[index] = Read<T>();
         }
 
         public byte[] ReadBytes(int count)
@@ -143,25 +143,31 @@ namespace Framework.Network.Packets
                     stream.Write(Convert.ToBoolean(value));
                     break;
                 case "SByte":
-                    stream.Write(Convert.ToBoolean(value));
+                    stream.Write(Convert.ToSByte(value));
                     break;
                 case "Byte":
-                    stream.Write(Convert.ToBoolean(value));
+                    stream.Write(Convert.ToByte(value));
+                    break;
+                case "Int16":
+                    stream.Write(Convert.ToInt16(value));
+                    break;
+                case "UInt16":
+                    stream.Write(Convert.ToUInt16(value));
                     break;
                 case "Int32":
-                    stream.Write(Convert.ToBoolean(value));
+                    stream.Write(Convert.ToInt32(value));
                     break;
                 case "UInt32":
-                    stream.Write(Convert.ToBoolean(value));
+                    stream.Write(Convert.ToUInt32(value));
                     break;
                 case "Int64":
-                    stream.Write(Convert.ToBoolean(value));
+                    stream.Write(Convert.ToInt64(value));
                     break;
                 case "UInt64":
-                    stream.Write(Convert.ToBoolean(value));
+                    stream.Write(Convert.ToUInt64(value));
                     break;
                 case "Single":
-                    stream.Write(Convert.ToBoolean(value));
+                    stream.Write(Convert.ToSingle(value));
                     break;
                 case "Byte[]":
                     var data = value as byte[];
@@ -171,7 +177,7 @@ namespace Framework.Network.Packets
                     break;
                 case "String":
                     data = Encoding.UTF8.GetBytes(value as string);
-                    data = isCString ? data : data.Combine(new byte[1]);
+                    data = isCString ? data.Combine(new byte[1]) : data;
 
                     if (data != null)
                         stream.Write(data);
@@ -183,7 +189,7 @@ namespace Framework.Network.Packets
             }
         }
 
-        public void Finish()
+        public void Finish(bool isCryptEnabled = false)
         {
             Data = new byte[stream.BaseStream.Length];
 
@@ -192,10 +198,16 @@ namespace Framework.Network.Packets
             for (int i = 0; i < Data.Length; i++)
                 Data[i] = (byte)stream.BaseStream.ReadByte();
 
-            Header.Size = (ushort)(Data.Length - 2);
+            if (Header != null)
+            {
+                Header.Size = (ushort)(Data.Length - 2);
 
-            if (Header.Size > 0x7FFF)
-                Data[0] = (byte)(0x80 | (0xFF & (Header.Size >> 16)));
+                Data[0] = (byte)(0xFF & Header.Size);
+                Data[1] = (byte)(0xFF & (Header.Size >> 8));
+
+                if (Header.Size > 0x7FFF)
+                    Data[0] = (byte)(0x80 | (0xFF & (Header.Size >> 16)));
+            }
 
             stream.Dispose();
         }
@@ -211,7 +223,7 @@ namespace Framework.Network.Packets
                 {
                     if (bitPosition == 8)
                     {
-                        bitValue = stream.Read<byte>();
+                        bitValue = Read<byte>();
                         bitPosition = 0;
                     }
 
@@ -243,7 +255,7 @@ namespace Framework.Network.Packets
                     if (bitPosition == 0)
                     {
                         bitPosition = 8;
-                        stream.Write(bitValue);
+                        Write(bitValue);
                         bitValue = 0;
                     }
                 }
@@ -255,7 +267,7 @@ namespace Framework.Network.Packets
             if (flushed || bitPosition == 8)
                 return;
 
-            stream.Write(bitValue);
+            Write(bitValue);
 
             bitValue = 0;
             bitPosition = 8;
