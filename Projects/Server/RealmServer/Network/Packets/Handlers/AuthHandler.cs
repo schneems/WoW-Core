@@ -15,6 +15,10 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+using System.Linq;
+using Framework.Cryptography;
+using Framework.Database;
+using Framework.Misc;
 using Framework.Network.Packets;
 using RealmServer.Attributes;
 using RealmServer.Constants.Net;
@@ -23,18 +27,19 @@ namespace RealmServer.Network.Packets.Handlers
 {
     class AuthHandler
     {
-        //TODO Implement field handling.
         public static void HandleAuthChallenge(RealmSession session)
         {
             var authChallenge = new Packet(ServerMessages.AuthChallenge);
 
+            // Part of the header
             authChallenge.Write<ushort>(0);
+
             authChallenge.Write<byte>(1);     // DosZeroBits
 
             for (int i = 0; i < 8; i++)
                 authChallenge.Write<uint>(0); // DosChallenge
 
-            authChallenge.Write<uint>(0);     // Challenge
+            authChallenge.Write(session.Challenge);
 
             session.Send(authChallenge);
         }
@@ -43,6 +48,9 @@ namespace RealmServer.Network.Packets.Handlers
         public static void OnAuthSession(Packet packet, RealmSession session)
         {
             var digest = new byte[20];
+
+            // Part of the header
+            packet.Read<ushort>();
 
             var realmId = packet.Read<uint>();
 
@@ -88,15 +96,32 @@ namespace RealmServer.Network.Packets.Handlers
             // AddonInfo stuff
             var packedAddonSize   = packet.Read<int>();
             var unpackedAddonSize = packet.Read<int>();
-            var unknown           = packet.Read<ushort>();
             var packedAddonData   = packet.ReadBytes(packedAddonSize - 4);
 
-            var account = packet.ReadString(11);
+            var unknown2    = packet.GetBit();
+            var accountName = packet.ReadString(11);
+
+            var account = DB.Auth.Accounts.SingleOrDefault(a => a.Email == accountName);
+
+            if (account != null)
+            {
+                var sha1 = new Sha1();
+
+                sha1.Process(account.Email);
+                sha1.Process(0u);
+                sha1.Process(localChallenge);
+                sha1.Process(session.Challenge);
+                sha1.Finish(account.SessionKey.ToByteArray(), 40);
+
+                // Check the password digest.
+                if (sha1.Digest.Compare(digest))
+                {
+                    AddonHandler.LoadAddonInfoData(session, packedAddonData, packedAddonSize, unpackedAddonSize);
+                }
+            }
 
             //TODO Implement security checks & field handling.
             //TODO Implement AuthResponse.
-
-            AddonHandler.LoadAddonInfoData(session, packedAddonData, packedAddonSize, unpackedAddonSize);
         }
 
         public static void HandleAuthResponse(RealmSession session)

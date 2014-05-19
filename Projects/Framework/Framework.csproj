@@ -29,7 +29,8 @@
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Database">
+    <Reference Include="Database, Version=6.8.3.0, Culture=neutral, processorArchitecture=AMD64">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\Libraries\Database.dll</HintPath>
     </Reference>
     <Reference Include="System" />
@@ -47,6 +48,7 @@
     <Compile Include="Cryptography\BNet\BNetCrypt.cs" />
     <Compile Include="Cryptography\BNet\SRP6a.cs" />
     <Compile Include="Cryptography\SARC4.cs" />
+    <Compile Include="Cryptography\Sha1.cs" />
     <Compile Include="Cryptography\WoW\RsaCrypt.cs" />
     <Compile Include="Cryptography\WoW\RsaData.cs" />
     <Compile Include="Cryptography\WoW\RsaStore.cs" />

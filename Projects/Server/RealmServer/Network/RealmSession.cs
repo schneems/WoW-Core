@@ -22,7 +22,9 @@ using System.Net.Sockets;
 using Framework.Constants.Misc;
 using Framework.Cryptography.WoW;
 using Framework.Logging;
+using Framework.Misc;
 using Framework.Network.Packets;
+using RealmServer.Constants.Net;
 using RealmServer.Network.Packets;
 using RealmServer.Network.Packets.Handlers;
 
@@ -31,6 +33,7 @@ namespace RealmServer.Network
     class RealmSession : IDisposable
     {
         public WoWCrypt Crypt { get; private set; }
+        public uint Challenge { get; private set; }
 
         Socket client;
         Queue<Packet> packetQueue;
@@ -95,11 +98,14 @@ namespace RealmServer.Network
 
                     client.ReceiveAsync(e);
 
+                    // Assign server challenge for auth digest calculations
+                    Challenge = BitConverter.ToUInt32(new byte[0].GenerateRandomKey(4), 0);
+
                     AuthHandler.HandleAuthChallenge(this);
                 }
                 else
                 {
-                    Log.Message(LogType.Debug, "Wrong initial packet transfer data for Client '{0}'", GetClientIP());
+                    Log.Message(LogType.Debug, "Wrong initial packet transfer data for Client '{0}'.", GetClientIP());
 
                     Dispose();
                 }
@@ -169,6 +175,8 @@ namespace RealmServer.Network
         {
             if (packetQueue.Count > 0)
                 packet = packetQueue.Dequeue();
+
+            PacketLog.Write<ClientMessages>(packet.Header.Message, packet.Data, client.RemoteEndPoint);
 
             PacketManager.InvokeHandler(packet, this);
         }

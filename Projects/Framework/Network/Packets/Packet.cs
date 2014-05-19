@@ -99,13 +99,13 @@ namespace Framework.Network.Packets
                             tmpChar = stream.ReadChar();
                         }
 
-                        return tmpString.ToString().ChangeType<T>();
+                        return (T)Convert.ChangeType(tmpString.ToString(), typeof(T));
                     }
                     else
                     {
                         var stringArray = stream.ReadBytes(count);
 
-                        return Encoding.UTF8.GetString(stringArray).ChangeType<T>();
+                        return (T)Convert.ChangeType(Encoding.UTF8.GetString(stringArray), typeof(T));
                     }
                 default:
                     return Extensions.Read<T>(stream);
@@ -127,7 +127,7 @@ namespace Framework.Network.Packets
 
         public string ReadString(byte bits)
         {
-            var length = GetBit<int>(bits);
+            var length = GetBits<int>(bits);
 
             return Read<string>(length);
         }
@@ -192,7 +192,7 @@ namespace Framework.Network.Packets
             }
         }
 
-        public void Finish(bool isCryptEnabled = false)
+        public void Finish()
         {
             Data = new byte[stream.BaseStream.Length];
 
@@ -216,52 +216,57 @@ namespace Framework.Network.Packets
         }
         #endregion
         #region BitReader
-        public T GetBit<T>(byte count = 1)
+        public bool GetBit()
         {
-            var ret = 0ul;
+            if (bitPosition == 8)
+            {
+                bitValue = Read<byte>();
+                bitPosition = 0;
+            }
+
+            int returnValue = bitValue;
+            bitValue = (byte)(2 * returnValue);
+            ++bitPosition;
+
+            return Convert.ToBoolean(returnValue >> 7);
+        }
+
+        public T GetBits<T>(byte bitCount)
+        {
+            int returnValue = 0;
 
             checked
             {
-                for (var i = count - 1; i >= 0; --i)
-                {
-                    if (bitPosition == 8)
-                    {
-                        bitValue = Read<byte>();
-                        bitPosition = 0;
-                    }
-
-                    int returnValue = bitValue;
-                    bitValue = (byte)(2 * returnValue);
-                    ++bitPosition;
-
-                    ret = Convert.ToBoolean(returnValue >> 7) ? (ulong)(1 << i) | (ulong)returnValue : (ulong)returnValue;
-                }
+                for (var i = bitCount - 1; i >= 0; --i)
+                    returnValue = GetBit() ? (1 << i) | returnValue : returnValue;
             }
 
-            return ret.ChangeType<T>();
+            return returnValue.ChangeType<T>();
         }
         #endregion
         #region BitWriter
-        public void PutBit<T>(T value, int count = 1)
+        public void PutBit<T>(T bit)
         {
-            flushed = false;
+            --bitPosition;
 
+            if (Convert.ToBoolean(bit))
+                bitValue |= (byte)(1 << (bitPosition));
+
+            if (bitPosition == 0)
+            {
+                Write(bitValue);
+
+                bitPosition = 8;
+                bitValue = 0;
+            }
+        }
+
+        public void PutBits<T>(T bit, int count)
+        {
             checked
             {
                 for (int i = count - 1; i >= 0; --i)
-                {
-                    --bitPosition;
-
-                    if (Convert.ToBoolean(((Convert.ToUInt64(value) >> i) & 1).ChangeType<T>()))
-                        bitValue |= (byte)(1 << (bitPosition));
-
-                    if (bitPosition == 0)
-                    {
-                        bitPosition = 8;
-                        Write(bitValue);
-                        bitValue = 0;
-                    }
-                }
+                    Write<T>((T)Convert.ChangeType(((Convert.ToInt32(bit) >> i) & 1), typeof(T)));
             }
         }
 

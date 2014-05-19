@@ -40,6 +40,7 @@ namespace RealmServer
                                                      RealmConfig.CharacterDBDataBase, RealmConfig.CharacterDBPort, RealmConfig.MySqlPooling,
                                                      RealmConfig.MySqlMinPoolSize, RealmConfig.MySqlMaxPoolSize);
 
+            DB.Initialize(out DB.Auth, authConnection);
             DB.Initialize(out DB.Character, charConnection);
 
             Log.Message(LogType.Init, "_____________World of Warcraft_____________");

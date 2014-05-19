@@ -17,6 +17,8 @@
 
 using System.IO;
 using System.IO.Compression;
+using Framework.Constants.Misc;
+using Framework.Logging;
 
 namespace RealmServer.Network.Packets.Handlers
 {
@@ -24,24 +26,33 @@ namespace RealmServer.Network.Packets.Handlers
     {
         public static void LoadAddonInfoData(RealmSession session, byte[] packedData, int packedSize, int unpackedSize)
         {
-            var unpackedAddonData = new byte[unpackedSize];
-
-            if (packedSize > 4)
+            // Check ZLib header (normal mode)
+            if (packedData[0] == 0x78 && packedData[1] == 0x9C)
             {
-                using (var inflate = new DeflateStream(new MemoryStream(packedData), CompressionMode.Decompress))
+                var unpackedAddonData = new byte[unpackedSize];
+
+                if (packedSize > 0)
                 {
-                    var decompressed = new MemoryStream();
-                    inflate.CopyTo(decompressed);
+                    using (var inflate = new DeflateStream(new MemoryStream(packedData, 2, packedSize - 6), CompressionMode.Decompress))
+                    {
+                        var decompressed = new MemoryStream();
+                        inflate.CopyTo(decompressed);
 
+                        decompressed.Seek(0, SeekOrigin.Begin);
 
-                    decompressed.Seek(0, SeekOrigin.Begin);
-
-                    for (int i = 0; i < unpackedSize; i++)
-                        unpackedAddonData[i] = (byte)decompressed.ReadByte();
+                        for (int i = 0; i < unpackedSize; i++)
+                            unpackedAddonData[i] = (byte)decompressed.ReadByte();
+                    }
                 }
-            }
 
-            HandleAddonInfo(session, unpackedAddonData);
+                HandleAddonInfo(session, unpackedAddonData);
+            }
+            else
+            {
+                Log.Message(LogType.Error, "Wrong AddonInfo for Client '{0}'.", session.GetClientIP());
+
+                session.Dispose();
+            }
         }
 
         public static void HandleAddonInfo(RealmSession session, byte[] addonData)

@@ -71,7 +71,7 @@ namespace RealmServer.Constants.Net
         #endregion
 
         #region NetClient
-        AuthChallenge                           = 0x2000,
+        AuthChallenge                           = 0x0B86,
         Pong                                    = 0x2000,
         #endregion
     }
