@@ -39,7 +39,7 @@ namespace AuthServer.Managers
             {
                 while (true)
                 {
-                    Log.Message(LogType.Debug, "Updating Realm List...");
+                    Log.Message(LogType.Debug, "Updating RealmList...");
                     
                     Realm realm;
                     var realms = DB.Auth.Realms.Select(r => r);

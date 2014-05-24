@@ -41,6 +41,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Attributes\MessageAttribute.cs" />
+    <Compile Include="Constants\Authentication\LoginServerTypes.cs" />
     <Compile Include="Constants\Net\ClientMessages.cs" />
     <Compile Include="Constants\Net\ServerMessages.cs" />
     <Compile Include="Network\Packets\Handlers\NetHandler.cs" />
