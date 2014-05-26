@@ -84,31 +84,28 @@ namespace AuthServer.Network.Packets.Handlers
                 switch (state)
                 {
                     case PasswordModuleState.ClientChallenge:
-                        if (session.GameAccount == null)
+                        if (session.GameAccount == null && session.GameAccounts.Count >= 1)
                         {
-                            var riskFingerprintModule = client.Modules.SingleOrDefault(m => m.Name == "RiskFingerprint");
-
-                            if (dataSize >= 7)
+                            if (session.GameAccounts.Count > 1)
                             {
                                 var region = packet.Read<Regions>(8);
                                 var gameLength = packet.Read<byte>(8);
                                 var game = packet.ReadString(gameLength);
 
                                 session.GameAccount = session.GameAccounts.SingleOrDefault(ga => ga.Game + ga.Index == game && ga.Region == region);
+
+                                var riskFingerprint = new AuthPacket(AuthServerMessage.ProofRequest);
+
+                                riskFingerprint.Write(1, 3);
+
+                                Manager.ModuleMgr.WriteRiskFingerprint(client, riskFingerprint);
+
+                                client.SendPacket(riskFingerprint);
+
+                                return;
                             }
                             else
-                                session.GameAccount = session.GameAccounts.Count == 1 ? session.GameAccounts[0] : null;
-
-                            var riskFingerprint = new AuthPacket(AuthServerMessage.ProofRequest);
-
-                            riskFingerprint.Write(1, 3);
-
-                            /// RiskFingerprint module
-                            Manager.ModuleMgr.WriteModuleHeader(client, riskFingerprint, riskFingerprintModule);
-
-                            client.SendPacket(riskFingerprint);
-
-                            return;
+                                session.GameAccount = session.GameAccounts[0];
                         }
 
                         if (!session.GameAccount.IsOnline)
@@ -159,7 +156,7 @@ namespace AuthServer.Network.Packets.Handlers
 
             var proofValidation = new AuthPacket(AuthServerMessage.ProofRequest);
 
-            var moduleCount = client.Session.GameAccounts.Count > 1 ? 2 : 1;
+            var moduleCount = 2;
 
             proofValidation.Write(moduleCount, 3);
 
@@ -195,6 +192,8 @@ namespace AuthServer.Network.Packets.Handlers
                 // Data
                 proofValidation.Write(gameAccountBuffer.Data);
             }
+            else
+                Manager.ModuleMgr.WriteRiskFingerprint(client, proofValidation);
 
             client.SendPacket(proofValidation);
         }

@@ -1,5 +1,5 @@
 /*
-Date: 2014-05-25 21:41:09
+Date: 2014-05-26 21:00:05
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -10,10 +10,10 @@ SET FOREIGN_KEY_CHECKS=0;
 DROP TABLE IF EXISTS `Accounts`;
 CREATE TABLE `Accounts` (
   `Id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `GivenName` varchar(100) DEFAULT '',
-  `Surname` varchar(100) DEFAULT '',
-  `Email` varchar(100) DEFAULT NULL,
-  `Tag` varchar(30) DEFAULT '',
+  `GivenName` varchar(100) NOT NULL DEFAULT '',
+  `Surname` varchar(100) NOT NULL DEFAULT '',
+  `Email` varchar(100) NOT NULL,
+  `Tag` varchar(30) NOT NULL DEFAULT '',
   `Region` tinyint(4) NOT NULL,
   `Language` varchar(4) DEFAULT NULL,
   `Flags` bigint(20) unsigned NOT NULL,

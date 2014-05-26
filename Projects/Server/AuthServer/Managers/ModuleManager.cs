@@ -56,6 +56,14 @@ namespace AuthServer.Managers
             IsInitialized = true;
         }
 
+        bool AddModule(Module module, IList list)
+        {
+            if (!list.Contains(module))
+                return list.Add(module) != -1;
+
+            return false;
+        }
+
         public void WriteModuleHeader(Client client, AuthPacket packet, Module module, int size = 0)
         {
             packet.WriteFourCC(module.Type);
@@ -64,12 +72,11 @@ namespace AuthServer.Managers
             packet.Write(size == 0 ? module.Size : size, 10);
         }
 
-        bool AddModule(Module module, IList list)
+        public void WriteRiskFingerprint(Client client, AuthPacket packet)
         {
-            if (!list.Contains(module))
-                return list.Add(module) != -1;
+            var riskFingerprintModule = client.Modules.SingleOrDefault(m => m.Name == "RiskFingerprint");
 
-            return false;
+            WriteModuleHeader(client, packet, riskFingerprintModule);
         }
     }
 }
