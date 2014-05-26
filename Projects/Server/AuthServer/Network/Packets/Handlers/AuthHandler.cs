@@ -252,14 +252,15 @@ namespace AuthServer.Network.Packets.Handlers
 
 
                 complete.Write(account.Id, 32);
-                complete.Write(account.Region, 8);
-                complete.Write(account.Flags, 64);
+                complete.Write((byte)account.Region, 8);
+                complete.Write((ulong)account.Flags, 64);
 
-                complete.Write(gameAccount.Region, 8);
+                complete.Write((byte)gameAccount.Region, 8);
                 complete.WriteString(gameAccount.AccountId + "#" + gameAccount.Index, 5, false, -1);
-                complete.Write(gameAccount.Flags, 64);
+                complete.Write((ulong)gameAccount.Flags, 64);
 
                 complete.Write(account.LoginFailures, 32);
+                complete.Write(0, 8);
             }
 
             client.SendPacket(complete);

@@ -215,9 +215,7 @@ namespace Framework.Network.Packets
             var bitsToWrite = 0;
             var shiftedBits = 0;
 
-            var type = typeof(T).IsEnum ? typeof(T).GetEnumUnderlyingType() : typeof(T);
-
-            var unpacked = (ulong)Convert.ChangeType(value, type);
+            var unpacked = (ulong)Convert.ChangeType(value, typeof(ulong));
             byte packedByte = 0;
 
             while (bits != 0)

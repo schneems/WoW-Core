@@ -100,23 +100,30 @@ namespace RealmServer.Network.Packets.Handlers
 
             var unknown2    = packet.GetBit();
             var accountName = packet.ReadString(11);
+            var accountParts = accountName.Split(new[] { '#' });
 
-            var account = DB.Auth.Accounts.SingleOrDefault(a => a.Email == accountName);
-
-            if (account != null)
+            if (accountParts.Length == 2)
             {
-                var sha1 = new Sha1();
+                var accountId = int.Parse(accountParts[0]);
+                var gameIndex = byte.Parse(accountParts[1]);
 
-                sha1.Process(account.Email);
-                sha1.Process(0u);
-                sha1.Process(localChallenge);
-                sha1.Process(session.Challenge);
-                //sha1.Finish(account.SessionKey.ToByteArray(), 40);
+                var gameAccount = DB.Auth.GameAccounts.SingleOrDefault(ga => ga.AccountId == accountId && ga.Index == gameIndex);
 
-                // Check the password digest.
-                if (sha1.Digest.Compare(digest))
+                if (gameAccount != null)
                 {
-                    AddonHandler.LoadAddonInfoData(session, packedAddonData, packedAddonSize, unpackedAddonSize);
+                    var sha1 = new Sha1();
+
+                    sha1.Process(accountName);
+                    sha1.Process(0u);
+                    sha1.Process(localChallenge);
+                    sha1.Process(session.Challenge);
+                    sha1.Finish(gameAccount.SessionKey.ToByteArray(), 40);
+
+                    // Check the password digest.
+                    if (sha1.Digest.Compare(digest))
+                    {
+                        AddonHandler.LoadAddonInfoData(session, packedAddonData, packedAddonSize, unpackedAddonSize);
+                    }
                 }
             }
 
