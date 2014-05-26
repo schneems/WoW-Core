@@ -1,6 +1,6 @@
 ﻿/*
  * Copyright (C) 2012-2014 Arctium Emulation <http://arctium.org>
- * 
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -52,6 +52,12 @@ namespace AuthServer
             using (var server = new Server(AuthConfig.BindIP, AuthConfig.BindPort))
             {
                 PacketManager.DefineMessageHandler();
+
+                // Set all game accounts offline
+                foreach (var ga in DB.Auth.GameAccounts)
+                    ga.IsOnline = false;
+
+                DB.Auth.Update();
 
                 Manager.Initialize();
 

@@ -15,8 +15,11 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+using System;
+
 namespace Framework.Constants.Account
 {
+    [Flags]
     public enum AccountFlags : ulong
     {
         None                                 = 0x0,

@@ -44,6 +44,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Attributes\ConsoleCommandAttribute.cs" />
+    <Compile Include="Constants\Account\AccountFlags.cs" />
+    <Compile Include="Constants\Account\GameAccountFlags.cs" />
+    <Compile Include="Constants\Account\Regions.cs" />
     <Compile Include="Constants\Misc\LogType.cs" />
     <Compile Include="Cryptography\BNet\BNetCrypt.cs" />
     <Compile Include="Cryptography\BNet\SRP6a.cs" />
@@ -55,6 +58,7 @@
     <Compile Include="Cryptography\WoW\WoWCrypt.cs" />
     <Compile Include="Database\Auth\AuthDB.cs" />
     <Compile Include="Database\Auth\Entities\Account.cs" />
+    <Compile Include="Database\Auth\Entities\GameAccount.cs" />
     <Compile Include="Database\Auth\Entities\AllowedClass.cs" />
     <Compile Include="Database\Auth\Entities\AllowedRace.cs" />
     <Compile Include="Database\Auth\Entities\Component.cs" />

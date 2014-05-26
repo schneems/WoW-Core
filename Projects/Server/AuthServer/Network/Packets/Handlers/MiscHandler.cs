@@ -20,6 +20,7 @@ using AuthServer.Attributes;
 using AuthServer.Constants.Authentication;
 using AuthServer.Constants.Net;
 using AuthServer.Managers;
+using AuthServer.Network.Sessions;
 using Framework.Constants.Misc;
 using Framework.Database;
 using Framework.Logging;
@@ -30,19 +31,20 @@ namespace AuthServer.Network.Packets.Handlers
     class MiscHandler
     {
         [AuthMessage(AuthClientMessage.InformationRequest, AuthChannel.BattleNet)]
-        public static void OnInformationRequest(AuthPacket packet, AuthSession session)
+        public static void OnInformationRequest(AuthPacket packet, Client client)
         {
+            var session = client.Session;
             if (!Manager.GetState())
             {
-                AuthHandler.SendAuthComplete(true, AuthResult.ServerBusy, session);
+                AuthHandler.SendAuthComplete(true, AuthResult.ServerBusy, client);
                 return;
             }
 
-            Log.Message(LogType.Debug, "Program: {0}", packet.ReadFourCC());
-
+            var game = packet.ReadFourCC();
             var os = packet.ReadFourCC();
             var language = packet.ReadFourCC();
 
+            Log.Message(LogType.Debug, "Program: {0}", game);
             Log.Message(LogType.Debug, "Platform: {0}", os);
             Log.Message(LogType.Debug, "Locale: {0}", language);
 
@@ -63,19 +65,19 @@ namespace AuthServer.Network.Packets.Handlers
 
                 if (!DB.Auth.Components.Any(c => c.Program == program))
                 {
-                    AuthHandler.SendAuthComplete(true, AuthResult.InvalidProgram, session);
+                    AuthHandler.SendAuthComplete(true, AuthResult.InvalidProgram, client);
                     return;
                 }
 
                 if (!DB.Auth.Components.Any(c => c.Platform == platform))
                 {
-                    AuthHandler.SendAuthComplete(true, AuthResult.InvalidPlatform, session);
+                    AuthHandler.SendAuthComplete(true, AuthResult.InvalidPlatform, client);
                     return;
                 }
 
                 if (!DB.Auth.Components.Any(c => c.Build == build))
                 {
-                    AuthHandler.SendAuthComplete(true, AuthResult.InvalidGameVersion, session);
+                    AuthHandler.SendAuthComplete(true, AuthResult.InvalidGameVersion, client);
                     return;
                 }
             }
@@ -91,25 +93,41 @@ namespace AuthServer.Network.Packets.Handlers
                 // First account lookup on database
                 if ((session.Account = account) != null)
                 {
-                    session.Account.IP = session.GetClientIP();
-                    session.Account.OS = os;
+                    // Global base account.
+                    session.Account.IP = session.GetClientInfo();
                     session.Account.Language = language;
 
-                    DB.Auth.Update(session.Account, "IP", session.Account.IP, "OS", session.Account.OS, "Language", session.Account.Language);
+                    // Assign the possible game accounts based on the game.
+                    //session.GameAccounts.ForEach(ga => ga.OS = os);
 
-                    AuthHandler.SendProofRequest(session);
+                    // Save the last changes
+                    DB.Auth.Update();
+
+                    // Used for module identification.
+                    client.Game = game;
+                    client.OS = os;
+
+                    AuthHandler.SendProofRequest(client);
                 }
                 else
-                    AuthHandler.SendAuthComplete(true, AuthResult.BadLoginInformation, session);
+                    AuthHandler.SendAuthComplete(true, AuthResult.BadLoginInformation, client);
             }
         }
 
         [AuthMessage(AuthClientMessage.Ping, AuthChannel.Creep)]
-        public static void OnPing(AuthPacket packet, AuthSession session)
+        public static void OnPing(AuthPacket packet, Client client)
         {
             var pong = new AuthPacket(AuthServerMessage.Pong, AuthChannel.Creep);
 
-            session.Send(pong);
+            client.SendPacket(pong);
+        }
+
+        [AuthMessage(AuthClientMessage.Disconnect, AuthChannel.Creep)]
+        public static void OnDisconnect(AuthPacket packet, Client client)
+        {
+            Log.Message(LogType.Debug, "Client '{0}' disconnected.", client.ConnectionInfo);
+
+            Manager.SessionMgr.RemoveClient(client.Id);
         }
     }
 }

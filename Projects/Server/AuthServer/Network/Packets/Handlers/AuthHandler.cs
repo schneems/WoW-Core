@@ -20,6 +20,8 @@ using AuthServer.Attributes;
 using AuthServer.Constants.Authentication;
 using AuthServer.Constants.Net;
 using AuthServer.Managers;
+using AuthServer.Network.Sessions;
+using Framework.Constants.Account;
 using Framework.Cryptography.BNet;
 using Framework.Misc;
 using Framework.Network.Packets;
@@ -28,12 +30,14 @@ namespace AuthServer.Network.Packets.Handlers
 {
     class AuthHandler
     {
-        public static void SendProofRequest(AuthSession session)
+        public static void SendProofRequest(Client client)
         {
-            session.Modules = Manager.Module.Modules.Where(m => m.System == session.Account.OS);
+            var session = client.Session;
 
-            var thumbprintModule = session.Modules.SingleOrDefault(m => m.Name == "Thumbprint");
-            var passwordModule = session.Modules.SingleOrDefault(m => m.Name == "Password");
+            client.Modules = Manager.ModuleMgr.Modules.Where(m => m.System == client.OS);
+
+            var thumbprintModule = client.Modules.SingleOrDefault(m => m.Name == "Thumbprint");
+            var passwordModule = client.Modules.SingleOrDefault(m => m.Name == "Password");
 
             var proofRequest = new AuthPacket(AuthServerMessage.ProofRequest);
 
@@ -41,7 +45,7 @@ namespace AuthServer.Network.Packets.Handlers
             proofRequest.Write(2, 3);
 
             /// Thumbprint module
-            Manager.Module.WriteModuleHeader(session, proofRequest, thumbprintModule);
+            Manager.ModuleMgr.WriteModuleHeader(client, proofRequest, thumbprintModule);
 
             // Data 
             proofRequest.Write(thumbprintModule.Data.ToByteArray());
@@ -50,7 +54,7 @@ namespace AuthServer.Network.Packets.Handlers
             session.SecureRemotePassword.CalculateB();
 
             /// Password module
-            Manager.Module.WriteModuleHeader(session, proofRequest, passwordModule);
+            Manager.ModuleMgr.WriteModuleHeader(client, proofRequest, passwordModule);
 
             // State
             proofRequest.Flush();
@@ -62,12 +66,14 @@ namespace AuthServer.Network.Packets.Handlers
             proofRequest.Write(session.SecureRemotePassword.B);
             proofRequest.Write(session.SecureRemotePassword.S2);
 
-            session.Send(proofRequest);
+            client.SendPacket(proofRequest);
         }
 
         [AuthMessage(AuthClientMessage.ProofResponse, AuthChannel.BattleNet)]
-        public static void OnProofResponse(AuthPacket packet, AuthSession session)
+        public static void OnProofResponse(AuthPacket packet, Client client)
         {
+            var session = client.Session;
+
             var moduleCount = packet.Read<byte>(3);
 
             for (int i = 0; i < moduleCount; i++)
@@ -78,7 +84,41 @@ namespace AuthServer.Network.Packets.Handlers
                 switch (state)
                 {
                     case PasswordModuleState.ClientChallenge:
-                        SendAuthComplete(false, AuthResult.GlobalSuccess, session);
+                        if (session.GameAccount == null)
+                        {
+                            var riskFingerprintModule = client.Modules.SingleOrDefault(m => m.Name == "RiskFingerprint");
+
+                            if (dataSize >= 7)
+                            {
+                                var region = packet.Read<Regions>(8);
+                                var gameLength = packet.Read<byte>(8);
+                                var game = packet.ReadString(gameLength);
+
+                                session.GameAccount = session.GameAccounts.SingleOrDefault(ga => ga.Game + ga.Index == game && ga.Region == region);
+                            }
+                            else
+                                session.GameAccount = session.GameAccounts.Count == 1 ? session.GameAccounts[0] : null;
+
+                            var riskFingerprint = new AuthPacket(AuthServerMessage.ProofRequest);
+
+                            riskFingerprint.Write(1, 3);
+
+                            /// RiskFingerprint module
+                            Manager.ModuleMgr.WriteModuleHeader(client, riskFingerprint, riskFingerprintModule);
+
+                            client.SendPacket(riskFingerprint);
+
+                            return;
+                        }
+
+                        if (!session.GameAccount.IsOnline)
+                        {
+                            if (session.GameAccount == null)
+                                SendAuthComplete(true, AuthResult.NoGameAccount, client);
+                            else
+                                SendAuthComplete(false, AuthResult.GlobalSuccess, client);
+                        }
+
                         break;
                     case PasswordModuleState.ClientProof:
                         // Wrong password module data size
@@ -96,10 +136,14 @@ namespace AuthServer.Network.Packets.Handlers
                         {
                             session.SecureRemotePassword.CalculateServerM(m1);
 
-                            SendProofValidation(session, clientChallenge);
+                            // Assign valid game accounts for the account
+                            if (session.Account.GameAccounts != null)
+                                session.GameAccounts = session.Account.GameAccounts.Where(ga => ga.Game == client.Game && ga.Region == session.Account.Region).ToList();
+
+                            SendProofValidation(client, clientChallenge);
                         }
                         else
-                            SendAuthComplete(true, AuthResult.BadLoginInformation, session);
+                            SendAuthComplete(true, AuthResult.BadLoginInformation, client);
 
                         break;
                     default:
@@ -108,35 +152,57 @@ namespace AuthServer.Network.Packets.Handlers
             }
         }
 
-        public static void SendProofValidation(AuthSession session, byte[] clientChallenge)
+        public static void SendProofValidation(Client client, byte[] clientChallenge)
         {
-            var passwordModule = session.Modules.SingleOrDefault(m => m.Name == "Password");
-            var riskFingerprintModule = session.Modules.SingleOrDefault(m => m.Name == "RiskFingerprint");
+            var passwordModule = client.Modules.SingleOrDefault(m => m.Name == "Password");
+            var selectedGameAccountModule = client.Modules.SingleOrDefault(m => m.Name == "SelectGameAccount");
 
             var proofValidation = new AuthPacket(AuthServerMessage.ProofRequest);
 
-            // Send two modules (Password & RiskFingerprint).
-            proofValidation.Write(2, 3);
+            var moduleCount = client.Session.GameAccounts.Count > 1 ? 2 : 1;
+
+            proofValidation.Write(moduleCount, 3);
 
             /// Password module
-            Manager.Module.WriteModuleHeader(session, proofValidation, passwordModule, 161);
+            Manager.ModuleMgr.WriteModuleHeader(client, proofValidation, passwordModule, 161);
 
             // State
             proofValidation.Flush();
             proofValidation.Write(PasswordModuleState.ValidateProof, 8);
 
             // Data
-            proofValidation.Write(session.SecureRemotePassword.ServerM);
-            proofValidation.Write(session.SecureRemotePassword.S2);
+            proofValidation.Write(client.Session.SecureRemotePassword.ServerM);
+            proofValidation.Write(client.Session.SecureRemotePassword.S2);
 
-            /// RiskFingerprint module
-            Manager.Module.WriteModuleHeader(session, proofValidation, riskFingerprintModule);
+            /// SelectGameAccount module
+            if (client.Session.GameAccounts.Count > 1)
+            {
+                var gameAccountBuffer = new AuthPacket();
 
-            session.Send(proofValidation);
+                gameAccountBuffer.Write(0, 8);
+                gameAccountBuffer.Write(client.Session.GameAccounts.Count, 8);
+
+                client.Session.GameAccounts.ForEach(ga =>
+                {
+                    gameAccountBuffer.Write(ga.Region, 8);
+                    gameAccountBuffer.WriteString(ga.Game + ga.Index, 8, false);
+                });
+
+                gameAccountBuffer.Finish();
+
+                Manager.ModuleMgr.WriteModuleHeader(client, proofValidation, selectedGameAccountModule, gameAccountBuffer.Data.Length);
+
+                // Data
+                proofValidation.Write(gameAccountBuffer.Data);
+            }
+
+            client.SendPacket(proofValidation);
         }
 
-        public static void SendAuthComplete(bool failed, AuthResult result, AuthSession session)
+        public static void SendAuthComplete(bool failed, AuthResult result, Client client)
         {
+            client.Session.GameAccount.IsOnline = true;
+
             var complete = new AuthPacket(AuthServerMessage.Complete);
 
             complete.Write(failed, 1);
@@ -150,46 +216,53 @@ namespace AuthServer.Network.Packets.Handlers
             }
             else
             {
+                // No modules supported here.
                 complete.Write(0, 3);
-                complete.Write(0x80005000, 32); // Ping request, ~10 secs
 
-                var hasOptionalData = true;
+                var pingTimeout = 0x80005000;
+                var hasRegulatorRules = true;
 
-                complete.Write(hasOptionalData, 1);
+                complete.Write(pingTimeout, 32);
+                complete.Write(hasRegulatorRules, 1);
 
-                if (hasOptionalData)
+                if (hasRegulatorRules)
                 {
-                    var hasConnectionInfo = true;
+                    var hasRegulatorInfo = true;
 
-                    complete.Write(hasConnectionInfo, 1);
+                    complete.Write(hasRegulatorInfo, 1);
 
-                    if (hasConnectionInfo)
+                    if (hasRegulatorInfo)
                     {
-                        complete.Write(25000000, 32);
-                        complete.Write(1000, 32);
+                        var threshold = 25000000;
+                        var rate = 1000;
+
+                        complete.Write(threshold, 32);
+                        complete.Write(rate, 32);
                     }
                 }
 
-                complete.Write(false, 1);
+                var haslogonInfo = true;
+                var account = client.Session.Account;
+                var gameAccount = client.Session.GameAccount;
 
-                complete.WriteString("", 8, false); // FirstName not implemented
-                complete.WriteString("", 8, false); // LastName not implemented
+                complete.Write(!haslogonInfo, 1);
 
-                complete.Write(session.Account.Id, 32);
+                complete.WriteString(account.GivenName, 8, false);
+                complete.WriteString(account.Surname, 8, false);
 
-                complete.Write(0, 8);
-                complete.Write(0, 64);
-                complete.Write(0, 8);
 
-                complete.WriteString(session.Account.Email, 5, false, -1);
+                complete.Write(account.Id, 32);
+                complete.Write(account.Region, 8);
+                complete.Write(account.Flags, 64);
 
-                complete.Write(0, 64);
-                complete.Write(0, 32);
+                complete.Write(gameAccount.Region, 8);
+                complete.WriteString(gameAccount.AccountId + "#" + gameAccount.Index, 5, false, -1);
+                complete.Write(gameAccount.Flags, 64);
 
-                complete.Write(0, 8);
+                complete.Write(account.LoginFailures, 32);
             }
 
-            session.Send(complete);
+            client.SendPacket(complete);
         }
     }
 }

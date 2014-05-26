@@ -111,7 +111,7 @@ namespace RealmServer.Network.Packets.Handlers
                 sha1.Process(0u);
                 sha1.Process(localChallenge);
                 sha1.Process(session.Challenge);
-                sha1.Finish(account.SessionKey.ToByteArray(), 40);
+                //sha1.Finish(account.SessionKey.ToByteArray(), 40);
 
                 // Check the password digest.
                 if (sha1.Digest.Compare(digest))

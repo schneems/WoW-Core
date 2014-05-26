@@ -1,6 +1,6 @@
 ﻿/*
  * Copyright (C) 2012-2014 Arctium Emulation <http://arctium.org>
- * 
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -15,22 +15,27 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+using System.Collections.Generic;
+using Framework.Constants.Account;
+
 namespace Framework.Database.Auth.Entities
 {
     public class Account
     {
         public int Id                  { get; set; }
-        public string Name             { get; set; }
+        public string GivenName        { get; set; }
+        public string Surname          { get; set; }
         public string Email            { get; set; }
+        public string Tag              { get; set; }
+        public Regions Region          { get; set; }
+        public string Language         { get; set; }
+        public AccountFlags Flags      { get; set; }
         public string PasswordVerifier { get; set; }
         public string Salt             { get; set; }
         public string IP               { get; set; }
-        public string SessionKey       { get; set; }
-        public byte SecurityFlags      { get; set; }
-        public string Language         { get; set; }
-        public string Region           { get; set; }
-        public string OS               { get; set; }
-        public byte Expansion          { get; set; }
-        public bool IsOnline           { get; set; }
+        public byte LoginFailures      { get; set; }
+
+        // Assigned GameAccounts
+        public virtual ICollection<GameAccount> GameAccounts { get; set; }
     }
 }

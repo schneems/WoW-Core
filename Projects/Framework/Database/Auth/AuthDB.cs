@@ -1,6 +1,6 @@
 ﻿/*
  * Copyright (C) 2012-2014 Arctium Emulation <http://arctium.org>
- * 
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -24,6 +24,7 @@ namespace Framework.Database.Auth
     public class AuthDB : Database
     {
         public DbSet<Account> Accounts { get; set; }
+        public DbSet<GameAccount> GameAccounts { get; set; }
         public DbSet<AllowedClass> AllowedClasses { get; set; }
         public DbSet<AllowedRace> AllowedRaces { get; set; }
         public DbSet<Component> Components { get; set; }

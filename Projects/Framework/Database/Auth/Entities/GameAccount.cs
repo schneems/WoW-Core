@@ -1,6 +1,6 @@
 ﻿/*
  * Copyright (C) 2012-2014 Arctium Emulation <http://arctium.org>
- * 
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -15,20 +15,25 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace AuthServer.Constants.Authentication
+using Framework.Constants.Account;
+
+namespace Framework.Database.Auth.Entities
 {
-    public enum AuthResult : byte
+    public class GameAccount
     {
-        GlobalSuccess       = 0x00,
-        InternalError       = 0x64,
-        CorruptedModule     = 0x65,
-        BadLoginInformation = 0x68,
-        InvalidProgram      = 0x6D,
-        InvalidPlatform     = 0x6E,
-        InvalidLocale       = 0x6F,
-        InvalidGameVersion  = 0x70,
-        ServerBusy          = 0x71,
-        NoGameAccount       = 0xC9,
-        AlreadyLoggedIn     = 0xCD,
+        public int Id                 { get; set; }
+        public string Game            { get; set; }
+        public byte Index             { get; set; }
+        public Regions Region         { get; set; }
+        public GameAccountFlags Flags { get; set; }
+        public byte BoxLevel          { get; set; }
+        public string OS              { get; set; }
+        public string SessionKey      { get; set; }
+        public bool IsOnline          { get; set; }
+
+        // Foreign key
+        public int AccountId { get; set; }
+
+        public virtual Account Account { get; set; }
     }
 }

@@ -1,6 +1,6 @@
 ﻿/*
  * Copyright (C) 2012-2014 Arctium Emulation <http://arctium.org>
- * 
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -20,6 +20,7 @@ using System.Collections.Concurrent;
 using System.Reflection;
 using AuthServer.Attributes;
 using AuthServer.Constants.Net;
+using AuthServer.Network.Sessions;
 using Framework.Constants.Misc;
 using Framework.Logging;
 using Framework.Network.Packets;
@@ -29,7 +30,7 @@ namespace AuthServer.Network.Packets
     class PacketManager
     {
         static ConcurrentDictionary<Tuple<AuthClientMessage, AuthChannel>, HandlePacket> MessageHandlers = new ConcurrentDictionary<Tuple<AuthClientMessage, AuthChannel>, HandlePacket>();
-        delegate void HandlePacket(AuthPacket packet, AuthSession session);
+        delegate void HandlePacket(AuthPacket packet, Client client);
 
         public static void DefineMessageHandler()
         {
@@ -41,7 +42,7 @@ namespace AuthServer.Network.Packets
                         MessageHandlers.TryAdd(Tuple.Create(msgAttr.Message, msgAttr.Channel), Delegate.CreateDelegate(typeof(HandlePacket), methodInfo) as HandlePacket);
         }
 
-        public static bool InvokeHandler(AuthPacket reader, AuthSession session)
+        public static bool InvokeHandler(AuthPacket reader, Client client)
         {
             var message = (AuthClientMessage)reader.Header.Message;
 
@@ -49,7 +50,7 @@ namespace AuthServer.Network.Packets
 
             if (MessageHandlers.TryGetValue(Tuple.Create(message, reader.Header.Channel), out HandlePacket packet))
             {
-                packet.Invoke(reader, session);
+                packet.Invoke(reader, client);
 
                 return true;
             }

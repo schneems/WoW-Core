@@ -1,6 +1,6 @@
 ﻿/*
  * Copyright (C) 2012-2014 Arctium Emulation <http://arctium.org>
- * 
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -17,11 +17,13 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using System.Security.Cryptography;
 using System.Text;
 using AuthServer.Constants.Net;
+using AuthServer.Managers;
 using AuthServer.Network.Packets;
 using Framework.Constants.Misc;
 using Framework.Cryptography.BNet;
@@ -31,12 +33,13 @@ using Framework.Logging;
 using Framework.Misc;
 using Framework.Network.Packets;
 
-namespace AuthServer.Network
+namespace AuthServer.Network.Sessions
 {
     class AuthSession : IDisposable
     {
         public Account Account { get; set; }
-        public IEnumerable<Module> Modules { get; set; }
+        public List<GameAccount> GameAccounts { get; set; }
+        public GameAccount GameAccount { get; set; }
         public SRP6a SecureRemotePassword { get; set; }
         public BNetCrypt Crypt { get; set; }
 
@@ -85,7 +88,8 @@ namespace AuthServer.Network
 
                     ProcessPacket(recievedBytes);
 
-                    client.ReceiveAsync(e);
+                    if (client != null)
+                        client.ReceiveAsync(e);
                 }
                 else
                     socket.Close();
@@ -101,9 +105,14 @@ namespace AuthServer.Network
             var packet = new AuthPacket(dataBuffer, size);
             
             PacketLog.Write<AuthClientMessage>(packet.Header.Message, packet.Data, client.RemoteEndPoint);
-           
+
             if (packet != null)
-                PacketManager.InvokeHandler(packet, this);
+            {
+                var currentClient = Manager.SessionMgr.Clients.AsParallel().SingleOrDefault(c => c.Value.Session.Equals(this));
+
+                if (currentClient.Value != null)
+                    PacketManager.InvokeHandler(packet, currentClient.Value);
+            }
         }
 
         public void Send(AuthPacket packet)
@@ -160,17 +169,17 @@ namespace AuthServer.Network
 
             Buffer.BlockCopy(hmac.Hash, 0, wowSessionKey, hmac.Hash.Length, hmac.Hash.Length);
 
-            Account.SessionKey = wowSessionKey.ToHexString();
+            GameAccount.SessionKey = wowSessionKey.ToHexString();
 
             // Update SessionKey in database
-            DB.Auth.Update(Account, "SessionKey", Account.SessionKey);
+            DB.Auth.Update();
         }
 
-        public string GetClientIP()
+        public string GetClientInfo()
         {
             var ipEndPoint = client.RemoteEndPoint as IPEndPoint;
 
-            return ipEndPoint != null ? ipEndPoint.Address.ToString() : "";
+            return ipEndPoint != null ? ipEndPoint.Address + ":" + ipEndPoint.Port : "";
         }
 
         public void Dispose()

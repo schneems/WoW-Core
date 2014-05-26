@@ -1,6 +1,6 @@
 ﻿/*
  * Copyright (C) 2012-2014 Arctium Emulation <http://arctium.org>
- * 
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -25,6 +25,7 @@ namespace AuthServer.Constants.Net
         #endregion
         #region Creep
         Ping               = (0x00 + 0x3F) << AuthChannel.Creep,
+        Disconnect         = (0x06 + 0x3F) << AuthChannel.Creep,
         #endregion
         #region WoW
         RealmUpdate        = (0x00 + 0x3F) << AuthChannel.WoW,

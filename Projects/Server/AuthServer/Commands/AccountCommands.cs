@@ -1,6 +1,6 @@
 ﻿/*
  * Copyright (C) 2012-2014 Arctium Emulation <http://arctium.org>
- * 
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -17,6 +17,7 @@
 
 using System.Linq;
 using Framework.Attributes;
+using Framework.Constants.Account;
 using Framework.Constants.Misc;
 using Framework.Cryptography.BNet;
 using Framework.Database;
@@ -50,8 +51,7 @@ namespace AuthServer.Commands
                         Email            = email,
                         PasswordVerifier = srp.V.ToHexString(),
                         Salt             = salt,
-                        Region           = "XX",
-                        Expansion        = 5
+                        Region           = Regions.XX,
                     };
 
                     if (DB.Auth.Add(account))

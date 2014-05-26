@@ -1,6 +1,6 @@
 ﻿/*
  * Copyright (C) 2012-2014 Arctium Emulation <http://arctium.org>
- * 
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -15,30 +15,39 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+using System.Collections.Concurrent;
+using AuthServer.Network.Sessions;
+using Framework.Database;
+using Framework.Misc;
+
 namespace AuthServer.Managers
 {
-    class Manager
+    class SessionManager : Singleton<SessionManager>
     {
-        public static ModuleManager ModuleMgr;
-        public static RealmManager RealmMgr;
-        public static SessionManager SessionMgr;
+        public ConcurrentDictionary<int, Client> Clients;
 
-        public static void Initialize()
+        SessionManager()
         {
-            ModuleMgr  = ModuleManager.GetInstance();
-            RealmMgr   = RealmManager.GetInstance();
-            SessionMgr = SessionManager.GetInstance();
+            Clients = new ConcurrentDictionary<int, Client>();
+
+            IsInitialized = true;
         }
 
-        public static bool GetState()
+        public void RemoveClient(int id)
         {
-            var state = false;
-            var nullState = ModuleMgr != null && RealmMgr != null && SessionMgr != null;
+            var client = Clients[id];
+            var session = client.Session;
 
-            if (nullState)
-                state = nullState && (ModuleMgr.IsInitialized && RealmMgr.IsInitialized && SessionMgr.IsInitialized);
+            if (session.GameAccount != null)
+            {
+                session.GameAccount.IsOnline = false;
 
-            return state;
+                DB.Auth.Update();
+
+                Manager.SessionMgr.Clients.TryRemove(id, out client);
+
+                client.Dispose();
+            }
         }
     }
 }

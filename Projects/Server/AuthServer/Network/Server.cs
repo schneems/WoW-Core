@@ -1,6 +1,6 @@
 ﻿/*
  * Copyright (C) 2012-2014 Arctium Emulation <http://arctium.org>
- * 
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -20,6 +20,8 @@ using System.Net;
 using System.Net.Sockets;
 using System.Threading;
 using System.Threading.Tasks;
+using AuthServer.Managers;
+using AuthServer.Network.Sessions;
 using Framework.Constants.Misc;
 using Framework.Logging;
 
@@ -65,13 +67,17 @@ namespace AuthServer.Network
 
                 if (listener.Pending())
                 {
+                    if (!Manager.GetState())
+                        continue;
+
                     var clientSocket = await listener.AcceptSocketAsync();
 
                     if (clientSocket != null)
                     {
-                        var worker = new AuthSession(clientSocket);
+                        var clientId = Manager.SessionMgr.Clients.Count + 1;
 
-                        await Task.Factory.StartNew(worker.Accept);
+                        if (Manager.SessionMgr.Clients.TryAdd(clientId, new Client { Id = clientId, Session = new AuthSession(clientSocket) }))
+                            await Task.Factory.StartNew(Manager.SessionMgr.Clients[clientId].Session.Accept);
                     }
                 }
             }

@@ -1,6 +1,6 @@
 ﻿/*
  * Copyright (C) 2012-2014 Arctium Emulation <http://arctium.org>
- * 
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -20,6 +20,7 @@ using System.Net;
 using AuthServer.Attributes;
 using AuthServer.Constants.Net;
 using AuthServer.Managers;
+using AuthServer.Network.Sessions;
 using Framework.Constants.Misc;
 using Framework.Logging;
 using Framework.Misc;
@@ -30,15 +31,15 @@ namespace AuthServer.Network.Packets.Handlers
     class RealmHandler
     {
         [AuthMessage(AuthClientMessage.JoinRequest, AuthChannel.WoW)]
-        public static void OnJoinRequest(AuthPacket packet, AuthSession session)
+        public static void OnJoinRequest(AuthPacket packet, Client client)
         {
             var clientSalt = BitConverter.GetBytes(packet.Read<uint>(32));
             var serverSalt = new byte[0].GenerateRandomKey(4);
 
-            session.GenerateSessionKey(clientSalt, serverSalt);
+            client.Session.GenerateSessionKey(clientSalt, serverSalt);
 
             // Continue if sessionKey is not empty
-            if (session.Account.SessionKey != "")
+            if (client.Session.GameAccount.SessionKey != "")
             {
                 var joinResponse = new AuthPacket(AuthServerMessage.JoinResponse, AuthChannel.WoW);
 
@@ -60,12 +61,12 @@ namespace AuthServer.Network.Packets.Handlers
 
                 joinResponse.Write(0, 5);
 
-                session.Send(joinResponse);
+                client.SendPacket(joinResponse);
             }
         }
 
         [AuthMessage(AuthClientMessage.RealmUpdate, AuthChannel.WoW)]
-        public static void OnRealmUpdate(AuthPacket packet, AuthSession session)
+        public static void OnRealmUpdate(AuthPacket packet, Client client)
         {
             Log.Message(LogType.Debug, "Received realm update.");
 
@@ -101,7 +102,7 @@ namespace AuthServer.Network.Packets.Handlers
                 complete.Write(realmlist.Data);
             }
 
-            session.Send(complete);
+            client.SendPacket(complete);
         }
     }
 }

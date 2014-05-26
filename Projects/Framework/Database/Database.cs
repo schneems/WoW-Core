@@ -51,20 +51,10 @@ namespace Framework.Database
             return false;
         }
 
-        public bool Update<T>(T original, params object[] values) where T : class
+        public bool Update()
         {
             try
             {
-                Parallel.For(0, values.Length / 2, i =>
-                {
-                    if (i % 2 == 0)
-                    {
-                        var entry = Entry(original);
-
-                        entry.Property(values[i].ToString()).CurrentValue = values[i + 1];
-                    }
-                });
-
                 return SaveChangesAsync().Result > 0;
             }
             catch (Exception ex)

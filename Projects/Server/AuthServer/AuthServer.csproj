@@ -53,7 +53,8 @@
     <Compile Include="Managers\Manager.cs" />
     <Compile Include="Managers\ModuleManager.cs" />
     <Compile Include="Managers\RealmManager.cs" />
-    <Compile Include="Network\AuthSession.cs" />
+    <Compile Include="Managers\SessionManager.cs" />
+    <Compile Include="Network\Sessions\AuthSession.cs" />
     <Compile Include="Network\Packets\AuthPacket.cs" />
     <Compile Include="Network\Packets\AuthPacketHeader.cs" />
     <Compile Include="Network\Server.cs" />
@@ -61,6 +62,7 @@
     <Compile Include="Network\Packets\Handlers\MiscHandler.cs" />
     <Compile Include="Network\Packets\Handlers\RealmHandler.cs" />
     <Compile Include="Network\Packets\PacketManager.cs" />
+    <Compile Include="Network\Sessions\Client.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

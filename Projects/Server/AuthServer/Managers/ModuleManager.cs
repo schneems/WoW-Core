@@ -15,10 +15,12 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using AuthServer.Network;
+using AuthServer.Network.Sessions;
+using Framework.Constants.Account;
 using Framework.Constants.Misc;
 using Framework.Database;
 using Framework.Database.Auth.Entities;
@@ -54,10 +56,10 @@ namespace AuthServer.Managers
             IsInitialized = true;
         }
 
-        public void WriteModuleHeader(AuthSession session, AuthPacket packet, Module module, int size = 0)
+        public void WriteModuleHeader(Client client, AuthPacket packet, Module module, int size = 0)
         {
             packet.WriteFourCC(module.Type);
-            packet.WriteFourCC("\0\0" + session.Account.Region);
+            packet.WriteFourCC("\0\0" + Enum.GetName(typeof(Regions), client.Session.Account.Region));
             packet.Write(module.Hash.ToByteArray());
             packet.Write(size == 0 ? module.Size : size, 10);
         }
