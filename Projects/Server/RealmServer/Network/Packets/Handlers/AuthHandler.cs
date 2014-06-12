@@ -34,12 +34,12 @@ namespace RealmServer.Network.Packets.Handlers
             // Part of the header
             authChallenge.Write<ushort>(0);
 
-            authChallenge.Write<byte>(1);     // DosZeroBits
+            authChallenge.Write(session.Challenge);
 
             for (int i = 0; i < 8; i++)
                 authChallenge.Write<uint>(0); // DosChallenge
 
-            authChallenge.Write(session.Challenge);
+            authChallenge.Write<byte>(1);     // DosZeroBits
 
             session.Send(authChallenge);
         }
@@ -47,59 +47,28 @@ namespace RealmServer.Network.Packets.Handlers
         [Message(ClientMessages.AuthSession)]
         public static void OnAuthSession(Packet packet, RealmSession session)
         {
-            var digest = new byte[20];
-
             // Part of the header
             packet.Read<ushort>();
 
-            var realmId = packet.Read<uint>();
-
-            digest[14] = packet.Read<byte>();
-
-            var localChallenge = packet.Read<uint>();
-
-            digest[0]  = packet.Read<byte>();
-            digest[6]  = packet.Read<byte>();
-            digest[2]  = packet.Read<byte>();
-            digest[15] = packet.Read<byte>();
-            digest[9]  = packet.Read<byte>();
-            digest[8]  = packet.Read<byte>();
-            digest[19] = packet.Read<byte>();
-            digest[17] = packet.Read<byte>();
-
+            var loginServerId   = packet.Read<uint>();
+            var build           = packet.Read<short>();
+            var localChallenge  = packet.Read<uint>();
+            var siteId          = packet.Read<uint>();
+            var realmId         = packet.Read<uint>();
             var loginServerType = packet.Read<sbyte>();
+            var buildType       = packet.Read<sbyte>();
+            var regionId        = packet.Read<uint>();
+            var dosResponse     = packet.Read<ulong>();
+            var digest          = packet.ReadBytes(20);
 
-            digest[1]  = packet.Read<byte>();
-            digest[3]  = packet.Read<byte>();
-            digest[12] = packet.Read<byte>();
-            digest[10] = packet.Read<byte>();
-            digest[4]  = packet.Read<byte>();
-            digest[7]  = packet.Read<byte>();
-
-            var build       = packet.Read<short>();
-            var dosResponse = packet.Read<ulong>();
-
-            digest[11] = packet.Read<byte>();
-            digest[13] = packet.Read<byte>();
-
-            var buildType = packet.Read<sbyte>();
-
-            digest[18] = packet.Read<byte>();
-
-            var loginServerId = packet.Read<uint>();
-            var siteId        = packet.Read<uint>();
-            var regionId      = packet.Read<uint>();
-
-            digest[16] = packet.Read<byte>();
-            digest[5]  = packet.Read<byte>();
+            var accountName = packet.ReadString(11);
+            var useIPv6 = packet.GetBit();
 
             // AddonInfo stuff
-            var packedAddonSize   = packet.Read<int>();
-            var unpackedAddonSize = packet.Read<int>();
-            var packedAddonData   = packet.ReadBytes(packedAddonSize - 4);
+            var compressedAddonInfoSize   = packet.Read<int>();
+            var uncompressedAddonInfoSize = packet.Read<int>();
+            var compressedAddonData       = packet.ReadBytes(compressedAddonInfoSize - 4);
 
-            var unknown2    = packet.GetBit();
-            var accountName = packet.ReadString(11);
             var accountParts = accountName.Split(new[] { '#' });
 
             if (accountParts.Length == 2)
@@ -122,7 +91,7 @@ namespace RealmServer.Network.Packets.Handlers
                     // Check the password digest.
                     if (sha1.Digest.Compare(digest))
                     {
-                        AddonHandler.LoadAddonInfoData(session, packedAddonData, packedAddonSize, unpackedAddonSize);
+                        AddonHandler.LoadAddonInfoData(session, compressedAddonData, compressedAddonInfoSize, uncompressedAddonInfoSize);
                     }
                 }
             }
@@ -133,7 +102,6 @@ namespace RealmServer.Network.Packets.Handlers
 
         public static void HandleAuthResponse(RealmSession session)
         {
-
         }
     }
 }

@@ -41,7 +41,7 @@ namespace RealmServer.Constants.Net
         #endregion
 
         #region UserRouterClient
-        AuthSession                        = 0x106C,
+        AuthSession                        = 0x0602,
         Ping                               = 0x2000,
         LogDisconnect                      = 0x2000
         #endregion

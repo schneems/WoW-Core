@@ -1,5 +1,5 @@
 /*
-Date: 2014-05-26 21:00:05
+Date: 2014-06-12 20:53:56
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -70,16 +70,34 @@ CREATE TABLE `Components` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
--- Records of components
+-- Records of Components
 -- ----------------------------
 INSERT INTO `Components` VALUES ('Bnet', 'Mc64', '37165');
 INSERT INTO `Components` VALUES ('Bnet', 'Win', '37165');
 INSERT INTO `Components` VALUES ('Bnet', 'Wn64', '37165');
-INSERT INTO `Components` VALUES ('WoW', 'base', '18179');
-INSERT INTO `Components` VALUES ('WoW', 'enUS', '18179');
-INSERT INTO `Components` VALUES ('WoWB', 'Mc64', '18179');
-INSERT INTO `Components` VALUES ('WoWB', 'Win', '18179');
-INSERT INTO `Components` VALUES ('WoWB', 'Wn64', '18179');
+INSERT INTO `Components` VALUES ('WoW', 'base', '18379');
+INSERT INTO `Components` VALUES ('WoW', 'deDE', '18379');
+INSERT INTO `Components` VALUES ('WoW', 'enGB', '18379');
+INSERT INTO `Components` VALUES ('WoW', 'enUS', '18379');
+INSERT INTO `Components` VALUES ('WoW', 'esES', '18379');
+INSERT INTO `Components` VALUES ('WoW', 'esMX', '18379');
+INSERT INTO `Components` VALUES ('WoW', 'frFR', '18379');
+INSERT INTO `Components` VALUES ('WoW', 'itIT', '18379');
+INSERT INTO `Components` VALUES ('WoW', 'koKR', '18379');
+INSERT INTO `Components` VALUES ('WoW', 'Mc64', '18379');
+INSERT INTO `Components` VALUES ('WoW', 'plPL', '18379');
+INSERT INTO `Components` VALUES ('WoW', 'ptBR', '18379');
+INSERT INTO `Components` VALUES ('WoW', 'ruRU', '18379');
+INSERT INTO `Components` VALUES ('WoW', 'Win', '18379');
+INSERT INTO `Components` VALUES ('WoW', 'Wn64', '18379');
+INSERT INTO `Components` VALUES ('WoW', 'zhCN', '18379');
+INSERT INTO `Components` VALUES ('WoW', 'zhTW', '18379');
+INSERT INTO `Components` VALUES ('WoWB', 'Mc64', '18379');
+INSERT INTO `Components` VALUES ('WoWB', 'Win', '18379');
+INSERT INTO `Components` VALUES ('WoWB', 'Wn64', '18379');
+INSERT INTO `Components` VALUES ('WoWT', 'Mc64', '18379');
+INSERT INTO `Components` VALUES ('WoWT', 'Win', '18379');
+INSERT INTO `Components` VALUES ('WoWT', 'Wn64', '18379');
 
 -- ----------------------------
 -- Table structure for GameAccounts
