@@ -21,6 +21,7 @@ using Framework.Database;
 using Framework.Misc;
 using Framework.Network.Packets;
 using RealmServer.Attributes;
+using RealmServer.Constants.Authentication;
 using RealmServer.Constants.Net;
 
 namespace RealmServer.Network.Packets.Handlers
@@ -55,14 +56,13 @@ namespace RealmServer.Network.Packets.Handlers
             var localChallenge  = packet.Read<uint>();
             var siteId          = packet.Read<uint>();
             var realmId         = packet.Read<uint>();
-            var loginServerType = packet.Read<sbyte>();
+            var loginServerType = packet.Read<LoginServerTypes>();
             var buildType       = packet.Read<sbyte>();
             var regionId        = packet.Read<uint>();
             var dosResponse     = packet.Read<ulong>();
             var digest          = packet.ReadBytes(20);
-
-            var accountName = packet.ReadString(11);
-            var useIPv6 = packet.GetBit();
+            var accountName     = packet.ReadString(11);
+            var useIPv6         = packet.GetBit();
 
             // AddonInfo stuff
             var compressedAddonInfoSize   = packet.Read<int>();
@@ -70,38 +70,74 @@ namespace RealmServer.Network.Packets.Handlers
             var compressedAddonData       = packet.ReadBytes(compressedAddonInfoSize - 4);
 
             var accountParts = accountName.Split(new[] { '#' });
+            var authResult = AuthResults.Ok;
 
-            if (accountParts.Length == 2)
+            if (loginServerType != LoginServerTypes.Battlenet)
+                authResult = AuthResults.Reject;
+
+            if (authResult == AuthResults.Ok)
             {
-                var accountId = int.Parse(accountParts[0]);
-                var gameIndex = byte.Parse(accountParts[1]);
-
-                var gameAccount = DB.Auth.GameAccounts.SingleOrDefault(ga => ga.AccountId == accountId && ga.Index == gameIndex);
-
-                if (gameAccount != null)
+                if (accountParts.Length == 2)
                 {
-                    var sha1 = new Sha1();
+                    var accountId = int.Parse(accountParts[0]);
+                    var gameIndex = byte.Parse(accountParts[1]);
 
-                    sha1.Process(accountName);
-                    sha1.Process(0u);
-                    sha1.Process(localChallenge);
-                    sha1.Process(session.Challenge);
-                    sha1.Finish(gameAccount.SessionKey.ToByteArray(), 40);
+                    var gameAccount = DB.Auth.GameAccounts.SingleOrDefault(ga => ga.AccountId == accountId && ga.Index == gameIndex);
 
-                    // Check the password digest.
-                    if (sha1.Digest.Compare(digest))
+                    if (gameAccount != null)
                     {
-                        AddonHandler.LoadAddonInfoData(session, compressedAddonData, compressedAddonInfoSize, uncompressedAddonInfoSize);
+                        var sha1 = new Sha1();
+
+                        sha1.Process(accountName);
+                        sha1.Process(0u);
+                        sha1.Process(localChallenge);
+                        sha1.Process(session.Challenge);
+                        sha1.Finish(gameAccount.SessionKey.ToByteArray(), 40);
+
+                        // Check the password digest.
+                        if (sha1.Digest.Compare(digest))
+                        {
+                            session.GameAccount = gameAccount;
+
+                            AddonHandler.LoadAddonInfoData(session, compressedAddonData, compressedAddonInfoSize, uncompressedAddonInfoSize);
+                        }
+                        else
+                            authResult = AuthResults.IncorrectPassword;
                     }
+                    else
+                        authResult = AuthResults.UnknownAccount;
                 }
+                else
+                    authResult = AuthResults.UnknownAccount;
             }
 
-            //TODO Implement security checks & field handling.
+            HandleAuthResponse(authResult, session);
+
+            //TODO [partially done] Implement security checks & field handling.
             //TODO Implement AuthResponse.
         }
 
-        public static void HandleAuthResponse(RealmSession session)
+        public static void HandleAuthResponse(AuthResults result, RealmSession session)
         {
+            var authResponse = new Packet(ServerMessages.AuthResponse);
+
+            var hasSuccessInfo = result == AuthResults.Ok;
+            var hasWaitInfo    = result == AuthResults.WaitQueue;
+
+            authResponse.Write(result);
+
+            authResponse.PutBit(hasSuccessInfo);
+            authResponse.PutBit(hasWaitInfo);
+
+            if (hasSuccessInfo)
+            {
+            }
+
+            if (hasWaitInfo)
+            {
+            }
+
+            session.Send(authResponse);
         }
     }
 }

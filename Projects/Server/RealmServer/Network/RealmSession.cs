@@ -21,6 +21,7 @@ using System.Net;
 using System.Net.Sockets;
 using Framework.Constants.Misc;
 using Framework.Cryptography.WoW;
+using Framework.Database.Auth.Entities;
 using Framework.Logging;
 using Framework.Misc;
 using Framework.Network.Packets;
@@ -32,6 +33,7 @@ namespace RealmServer.Network
 {
     class RealmSession : IDisposable
     {
+        public GameAccount GameAccount { get; set; }
         public WoWCrypt Crypt { get; private set; }
         public uint Challenge { get; private set; }
 
