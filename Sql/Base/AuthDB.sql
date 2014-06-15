@@ -10,17 +10,17 @@ SET FOREIGN_KEY_CHECKS=0;
 DROP TABLE IF EXISTS `Accounts`;
 CREATE TABLE `Accounts` (
   `Id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `GivenName` varchar(100) NOT NULL DEFAULT '',
-  `Surname` varchar(100) NOT NULL DEFAULT '',
+  `GivenName` varchar(100) DEFAULT '',
+  `Surname` varchar(100) DEFAULT '',
   `Email` varchar(100) NOT NULL,
-  `Tag` varchar(30) NOT NULL DEFAULT '',
+  `Tag` varchar(30) DEFAULT '',
   `Region` tinyint(4) NOT NULL,
   `Language` varchar(4) DEFAULT NULL,
   `Flags` bigint(20) unsigned NOT NULL,
   `PasswordVerifier` varchar(256) DEFAULT NULL,
-  `Salt` varchar(64) DEFAULT 'XX',
+  `Salt` varchar(64) DEFAULT NULL,
   `IP` varchar(15) DEFAULT NULL,
-  `LoginFailures` tinyint(4) unsigned NOT NULL DEFAULT '4',
+  `LoginFailures` tinyint(4) unsigned NOT NULL DEFAULT 0,
   PRIMARY KEY (`Id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
@@ -113,7 +113,7 @@ CREATE TABLE `GameAccounts` (
   `BoxLevel` tinyint(4) NOT NULL,
   `OS` varchar(4) DEFAULT NULL,
   `SessionKey` varchar(80) DEFAULT NULL,
-  `IsOnline` bit(1) NOT NULL COMMENT '0',
+  `IsOnline` bit(1) NOT NULL DEFAULT 0,
   PRIMARY KEY (`Id`),
   KEY `Account` (`AccountId`),
   CONSTRAINT `Account` FOREIGN KEY (`AccountId`) REFERENCES `Accounts` (`Id`)
