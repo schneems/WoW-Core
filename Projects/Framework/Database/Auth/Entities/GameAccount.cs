@@ -16,12 +16,14 @@
  */
 
 using System.Collections.Generic;
+using Framework.Attributes;
 using Framework.Constants.Account;
 
 namespace Framework.Database.Auth.Entities
 {
     public class GameAccount
     {
+        [Field(PrimaryKey = true, AutoIncrement = true)]
         public uint Id                { get; set; }
         public uint AccountId         { get; set; }
         public string Game            { get; set; }
@@ -33,9 +35,7 @@ namespace Framework.Database.Auth.Entities
         public string SessionKey      { get; set; }
         public bool IsOnline          { get; set; }
 
-        // ForeignKey
         public virtual ICollection<AllowedRace> AllowedRaces { get; set; }
-        // ForeignKey
         public virtual ICollection<AllowedClass> AllowedClasses { get; set; }
     }
 }

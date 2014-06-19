@@ -1,6 +1,6 @@
 ﻿/*
  * Copyright (C) 2012-2014 Arctium Emulation <http://arctium.org>
- * 
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -15,19 +15,15 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-using Framework.Attributes;
+using System;
 
-namespace Framework.Database.Auth.Entities
+namespace Framework.Attributes
 {
-    public class Realm
+    [AttributeUsage(AttributeTargets.Property | AttributeTargets.Field)]
+    public class FieldAttribute : Attribute
     {
-        [Field(PrimaryKey = true, AutoIncrement = true)]
-        public uint Id        { get; set; }
-        public string Name    { get; set; }
-        public string IP      { get; set; }
-        public ushort Port    { get; set; }
-        public byte Type      { get; set; }
-        public byte Status    { get; set; }
-        public byte Flags     { get; set; }
+        public bool PrimaryKey { get; set; }
+        public bool AutoIncrement { get; set; }
+        public string ForeignKey { get; set; }
     }
 }

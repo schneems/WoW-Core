@@ -16,12 +16,14 @@
  */
 
 using System.Collections.Generic;
+using Framework.Attributes;
 using Framework.Constants.Account;
 
 namespace Framework.Database.Auth.Entities
 {
     public class Account
     {
+        [Field(PrimaryKey = true, AutoIncrement = true)]
         public uint Id                 { get; set; }
         public string GivenName        { get; set; }
         public string Surname          { get; set; }
@@ -35,7 +37,6 @@ namespace Framework.Database.Auth.Entities
         public string IP               { get; set; }
         public byte LoginFailures      { get; set; }
 
-        // ForeignKey
         public virtual ICollection<GameAccount> GameAccounts { get; set; }
     }
 }
