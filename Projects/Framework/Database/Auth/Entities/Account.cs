@@ -22,7 +22,7 @@ namespace Framework.Database.Auth.Entities
 {
     public class Account
     {
-        public int Id                  { get; set; }
+        public uint Id                 { get; set; }
         public string GivenName        { get; set; }
         public string Surname          { get; set; }
         public string Email            { get; set; }
@@ -35,7 +35,7 @@ namespace Framework.Database.Auth.Entities
         public string IP               { get; set; }
         public byte LoginFailures      { get; set; }
 
-        // Assigned GameAccounts
+        // ForeignKey
         public virtual ICollection<GameAccount> GameAccounts { get; set; }
     }
 }

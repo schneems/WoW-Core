@@ -15,14 +15,10 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-
 namespace Framework.Database.Auth.Entities
 {
     public class Module
     {
-        [Key, Column(Order = 0)]
         public string Hash   { get; set; }
         public string Type   { get; set; }
         public string Name   { get; set; }

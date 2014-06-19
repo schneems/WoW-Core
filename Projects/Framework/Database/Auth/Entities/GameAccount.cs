@@ -15,13 +15,15 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+using System.Collections.Generic;
 using Framework.Constants.Account;
 
 namespace Framework.Database.Auth.Entities
 {
     public class GameAccount
     {
-        public int Id                 { get; set; }
+        public uint Id                { get; set; }
+        public uint AccountId         { get; set; }
         public string Game            { get; set; }
         public byte Index             { get; set; }
         public Regions Region         { get; set; }
@@ -31,9 +33,9 @@ namespace Framework.Database.Auth.Entities
         public string SessionKey      { get; set; }
         public bool IsOnline          { get; set; }
 
-        // Foreign key
-        public int AccountId { get; set; }
-
-        public virtual Account Account { get; set; }
+        // ForeignKey
+        public virtual ICollection<AllowedRace> AllowedRaces { get; set; }
+        // ForeignKey
+        public virtual ICollection<AllowedClass> AllowedClasses { get; set; }
     }
 }

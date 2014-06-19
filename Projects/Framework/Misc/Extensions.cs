@@ -17,6 +17,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Data.Entity.Design.PluralizationServices;
 using System.Globalization;
 using System.IO;
 using System.Numerics;
@@ -64,6 +65,13 @@ namespace Framework.Misc
                 data[i / 2] = Convert.ToByte(s.Substring(i, 2), 16);
 
             return data;
+        }
+
+        public static string Pluralize(this string s)
+        {
+            var service = PluralizationService.CreateService(new CultureInfo("en-US"));
+
+            return service.Pluralize(s);
         }
         #endregion
         #region ByteArray

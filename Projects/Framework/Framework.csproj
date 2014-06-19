@@ -28,18 +28,19 @@
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Database, Version=6.8.3.0, Culture=neutral, processorArchitecture=AMD64">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Libraries\Database.dll</HintPath>
+    <Reference Include="MySql.Data">
+      <HintPath>..\..\Libraries\MySql.Data.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Data.Entity.Design" />
     <Reference Include="System.Numerics" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
+    <Reference Include="System.XML" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Attributes\ConsoleCommandAttribute.cs" />
@@ -55,18 +56,15 @@
     <Compile Include="Cryptography\WoW\RsaData.cs" />
     <Compile Include="Cryptography\WoW\RsaStore.cs" />
     <Compile Include="Cryptography\WoW\WoWCrypt.cs" />
-    <Compile Include="Database\Auth\AuthDB.cs" />
     <Compile Include="Database\Auth\Entities\Account.cs" />
-    <Compile Include="Database\Auth\Entities\GameAccount.cs" />
     <Compile Include="Database\Auth\Entities\AllowedClass.cs" />
     <Compile Include="Database\Auth\Entities\AllowedRace.cs" />
+    <Compile Include="Database\Auth\Entities\GameAccount.cs" />
     <Compile Include="Database\Auth\Entities\Component.cs" />
     <Compile Include="Database\Auth\Entities\Module.cs" />
     <Compile Include="Database\Auth\Entities\Realm.cs" />
-    <Compile Include="Database\Character\CharacterDB.cs" />
-    <Compile Include="Database\DB.cs" />
     <Compile Include="Database\Database.cs" />
-    <Compile Include="Database\World\WorldDB.cs" />
+    <Compile Include="Database\DB.cs" />
     <Compile Include="Logging\IO\LogWriter.cs" />
     <Compile Include="Logging\Log.cs" />
     <Compile Include="Logging\PacketLog.cs" />

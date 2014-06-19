@@ -1,6 +1,6 @@
 ﻿/*
  * Copyright (C) 2012-2014 Arctium Emulation <http://arctium.org>
- * 
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -16,7 +16,6 @@
  */
 
 using System;
-using System.Collections.Generic;
 using System.Reflection;
 
 namespace Framework.Misc
@@ -25,25 +24,20 @@ namespace Framework.Misc
     {
         public bool IsInitialized { get; set; } = false;
 
-        static Dictionary<string, T> objects = new Dictionary<string, T>();
         static object sync = new object();
+        static T instance;
 
         public static T GetInstance()
         {
-            var typeName = typeof(T).FullName;
-
             lock (sync)
             {
-                if (objects.ContainsKey(typeName))
-                    return objects[typeName];
+                if (instance != null)
+                    return instance;
             }
 
             var constructorInfo = typeof(T).GetConstructor(BindingFlags.NonPublic | BindingFlags.Instance, null, Type.EmptyTypes, null);
-            var instance = constructorInfo.Invoke(new object[0]) as T;
 
-            objects.Add(instance.ToString(), instance);
-
-            return objects[typeName];
+            return instance = constructorInfo.Invoke(new object[0]) as T;
         }
     }
 }

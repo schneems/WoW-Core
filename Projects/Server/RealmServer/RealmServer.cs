@@ -32,16 +32,13 @@ namespace RealmServer
         {
             ReadArguments(args);
 
-            var authConnection = DB.CreateConnection(RealmConfig.AuthDBHost, RealmConfig.AuthDBUser, RealmConfig.AuthDBPassword,
-                                                     RealmConfig.AuthDBDataBase, RealmConfig.AuthDBPort, RealmConfig.MySqlPooling,
-                                                     RealmConfig.MySqlMinPoolSize, RealmConfig.MySqlMaxPoolSize);
+            DB.Auth.CreateConnection(RealmConfig.AuthDBHost, RealmConfig.AuthDBUser, RealmConfig.AuthDBPassword,
+                                     RealmConfig.AuthDBDataBase, RealmConfig.AuthDBPort, RealmConfig.MySqlPooling,
+                                     RealmConfig.MySqlMinPoolSize, RealmConfig.MySqlMaxPoolSize);
 
-            var charConnection = DB.CreateConnection(RealmConfig.CharacterDBHost, RealmConfig.CharacterDBUser, RealmConfig.CharacterDBPassword,
-                                                     RealmConfig.CharacterDBDataBase, RealmConfig.CharacterDBPort, RealmConfig.MySqlPooling,
-                                                     RealmConfig.MySqlMinPoolSize, RealmConfig.MySqlMaxPoolSize);
-
-            DB.Initialize(out DB.Auth, authConnection);
-            DB.Initialize(out DB.Character, charConnection);
+            DB.Character.CreateConnection(RealmConfig.CharacterDBHost, RealmConfig.CharacterDBUser, RealmConfig.CharacterDBPassword,
+                                          RealmConfig.CharacterDBDataBase, RealmConfig.CharacterDBPort, RealmConfig.MySqlPooling,
+                                          RealmConfig.MySqlMinPoolSize, RealmConfig.MySqlMaxPoolSize);
 
             Log.Message(LogType.Init, "_____________World of Warcraft_____________");
             Log.Message(LogType.Init, "    __                                     ");
