@@ -1,6 +1,6 @@
 ﻿/*
  * Copyright (C) 2012-2014 Arctium Emulation <http://arctium.org>
- * 
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -16,72 +16,125 @@
  */
 
 using System;
+using System.Collections.Generic;
 using System.Data;
-using System.Data.Common;
-using System.Data.Entity;
-using System.Threading.Tasks;
-using Framework.Constants.Misc;
-using Framework.Logging;
+using System.Globalization;
+using System.Linq;
+using System.Text;
+using Framework.Attributes;
+using Framework.Misc;
+using MySql.Data.MySqlClient;
 
 namespace Framework.Database
 {
-    public abstract class Database : DbContext
+    public class Database : IDisposable
     {
-        protected Database(IDbConnection conn) : base(conn as DbConnection, true)
-        {
-            Configuration.AutoDetectChangesEnabled = true;
-        }
+        MySqlConnection connection;
 
-        public bool Add<T>(T entity) where T : class
+        public bool CreateConnection(string host, string user, string password, string database, int port, bool pooling, int minPoolSize, int maxPoolSize)
         {
+            var pools = string.Format(";Min Pool Size={0};Max Pool Size={1}", minPoolSize, maxPoolSize);
+
+            var connectionString = "Server=" + host + ";User Id=" + user + ";Port=" + port + ";" +
+                                   "Password=" + password + ";Database=" + database + ";Allow Zero Datetime=True;" +
+                                   "Pooling=" + pooling + ";CharSet=utf8";
+
+            if (pooling)
+                connectionString += pools;
+
             try
             {
-                var table = Set<T>();
+                connection = new MySqlConnection(connectionString);
 
-                if (table != null)
-                    table.Add(entity);
-
-                return SaveChangesAsync().Result > 0;
+                connection.Open();
             }
-            catch (Exception ex)
+            catch
             {
-                Log.Message(LogType.Error, "{0}", ex.Message);
             }
 
-            return false;
+            return connection.State == ConnectionState.Open;
         }
 
-        public bool Update()
+        public bool Execute(string sql, params object[] args)
         {
+            var sqlString = new StringBuilder();
+
+            // Fix for floating point problems on some languages
+            sqlString.AppendFormat(CultureInfo.GetCultureInfo("en-US").NumberFormat, sql);
+
             try
             {
-                return SaveChangesAsync().Result > 0;
-            }
-            catch (Exception ex)
-            {
-                Log.Message(LogType.Error, "{0}", ex.Message);
-            }
+                using (var sqlCommand = new MySqlCommand(sqlString.ToString(), connection))
+                {
+                    var mParams = new List<MySqlParameter>(args.Length);
 
-            return false;
+                    foreach (var a in args)
+                        mParams.Add(new MySqlParameter("", a));
+
+                    sqlCommand.Parameters.AddRange(mParams.ToArray());
+
+                    sqlCommand.ExecuteNonQuery();
+                }
+
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
         }
 
-        public bool Remove<T>(T entity) where T : class
+        public T Add<T>(T entity) where T : class
         {
-            try
+            var properties = typeof(T).GetProperties();
+            var values = new Dictionary<string, object>(properties.Length);
+            var queryBuilder = new StringBuilder();
+
+            for (var i = 0; i < properties.Length; i++)
             {
-                var table = Set<T>();
+                var p = properties[i];
+                var pValue = p.GetValue(entity);
+                var attr = p.GetCustomAttribute<FieldAttribute>();
 
-                if (table != null)
-                    table.Remove(entity);
-
-                return SaveChangesAsync().Result > 0;
-            }
-            catch (Exception ex)
-            {
-                Log.Message(LogType.Error, "{0}", ex.Message);
+                if (pValue != null)
+                    values.Add(p.Name, pValue);
             }
 
-            return false;
+            queryBuilder.AppendFormat("INSERT INTO `{0}` (", typeof(T).Name.Pluralize());
+
+            foreach (var name in values.Keys)
+                queryBuilder.AppendFormat("`{0}`,", name);
+
+            queryBuilder.Append(") VALUES (");
+
+            for (var i = 0; i < values.Count; i++)
+                queryBuilder.Append("?,");
+
+            queryBuilder.Append(")");
+
+            var query = queryBuilder.ToString().Replace(",)", ")");
+
+            return Execute(query, values.Values.ToArray()) ? entity : null;
+        }
+
+        public T Delete<T>(T entity)
+        {
+            return default(T);
+        }
+
+        public T Update<T>(T entity)
+        {
+            return default(T);
+        }
+
+        public T Select<T>(Func<T> condition)
+        {
+            return default(T);
+        }
+
+        public void Dispose()
+        {
+            connection.Dispose();
         }
     }
 }
