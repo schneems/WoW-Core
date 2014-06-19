@@ -20,6 +20,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Globalization;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using Framework.Attributes;
 using Framework.Misc;
@@ -93,9 +94,13 @@ namespace Framework.Database
             for (var i = 0; i < properties.Length; i++)
             {
                 var p = properties[i];
-                var pValue = p.GetValue(entity);
                 var attr = p.GetCustomAttribute<FieldAttribute>();
 
+                if (attr != null && attr.AutoIncrement)
+                    continue;
+
+                var pValue = p.GetValue(entity);
+                
                 if (pValue != null)
                     values.Add(p.Name, pValue);
             }
