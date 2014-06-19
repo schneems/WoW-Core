@@ -21,7 +21,7 @@ namespace Framework.Database.Auth.Entities
 {
     public class Realm
     {
-        [Field(PrimaryKey = true, AutoIncrement = true)]
+        [Field(AutoIncrement = true)]
         public uint Id        { get; set; }
         public string Name    { get; set; }
         public string IP      { get; set; }
