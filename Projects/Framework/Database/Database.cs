@@ -20,6 +20,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Globalization;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Reflection;
 using System.Text;
 using Framework.Attributes;
@@ -122,19 +123,20 @@ namespace Framework.Database
             return Execute(query, values.Values.ToArray()) ? entity : null;
         }
 
-        public T Delete<T>(T entity)
+        public bool Delete<T>(Expression<Func<T, object>> expression)
         {
-            return default(T);
+            var bExpression = (expression.Body as UnaryExpression).Operand as BinaryExpression;
+            var builder = new QueryBuilder();
+
+            // We support only 1 table for now
+            var query = builder.BuildDelete<T>(bExpression, expression.Parameters[0].Name);
+
+            return Execute(query);
         }
 
-        public T Update<T>(T entity)
+        public void Select<T>(Expression<Func<T, object>> expression)
         {
-            return default(T);
-        }
-
-        public T Select<T>(Func<T> condition)
-        {
-            return default(T);
+            Console.WriteLine(expression.ToString());
         }
 
         public void Dispose()

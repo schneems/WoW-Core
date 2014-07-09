@@ -44,6 +44,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Attributes\ConsoleCommandAttribute.cs" />
+    <Compile Include="Attributes\FieldAttribute.cs" />
     <Compile Include="Constants\Account\AccountFlags.cs" />
     <Compile Include="Constants\Account\GameAccountFlags.cs" />
     <Compile Include="Constants\Account\Regions.cs" />
@@ -65,6 +66,7 @@
     <Compile Include="Database\Auth\Entities\Realm.cs" />
     <Compile Include="Database\Database.cs" />
     <Compile Include="Database\DB.cs" />
+    <Compile Include="Database\QueryBuilder.cs" />
     <Compile Include="Logging\IO\LogWriter.cs" />
     <Compile Include="Logging\Log.cs" />
     <Compile Include="Logging\PacketLog.cs" />
