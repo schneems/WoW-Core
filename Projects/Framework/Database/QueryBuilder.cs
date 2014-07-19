@@ -26,12 +26,22 @@ namespace Framework.Database
     {
         StringBuilder sqlString;
 
-        public string BuildSelect<T>(Expression expression, string param)
+        public string BuildSelect<T>()
         {
             sqlString = new StringBuilder();
 
             // ToDo: Add support for column selection
-            sqlString.AppendFormat("SELECT * FROM `{1}` USING `{0}` AS `{1}` WHERE ", typeof(T).Name.Pluralize(), param);
+            sqlString.AppendFormat("SELECT * FROM `{0}`", typeof(T).Name.Pluralize());
+
+            return sqlString.ToString();
+        }
+
+        public string BuildWhere<T>(Expression expression, string param)
+        {
+            sqlString = new StringBuilder();
+
+            // ToDo: Add support for column selection
+            sqlString.AppendFormat("SELECT * FROM `{0}` `{1}` WHERE ", typeof(T).Name.Pluralize(), param);
 
             Visit(expression);
 

@@ -67,6 +67,9 @@
     <Compile Include="Database\Database.cs" />
     <Compile Include="Database\DB.cs" />
     <Compile Include="Database\QueryBuilder.cs" />
+    <Compile Include="Database\SQLResult.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Logging\IO\LogWriter.cs" />
     <Compile Include="Logging\Log.cs" />
     <Compile Include="Logging\PacketLog.cs" />

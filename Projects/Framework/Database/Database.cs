@@ -82,8 +82,45 @@ namespace Framework.Database
             }
             catch
             {
-                return false;
             }
+
+            return false;
+        }
+
+        public SQLResult Select(string sql, params object[] args)
+        {
+            StringBuilder sqlString = new StringBuilder();
+            // Fix for floating point problems on some languages
+            sqlString.AppendFormat(CultureInfo.GetCultureInfo("en-US").NumberFormat, sql);
+
+            try
+            {
+                using (var sqlCommand = new MySqlCommand(sqlString.ToString(), connection))
+                {
+                    var mParams = new List<MySqlParameter>(args.Length);
+
+                    foreach (var a in args)
+                        mParams.Add(new MySqlParameter("", a));
+
+                    sqlCommand.Parameters.AddRange(mParams.ToArray());
+
+                    using (var SqlData = sqlCommand.ExecuteReader(CommandBehavior.Default))
+                    {
+                        using (var retData = new SQLResult())
+                        {
+                            retData.Load(SqlData);
+                            retData.Count = retData.Rows.Count;
+
+                            return retData;
+                        }
+                    }
+                }
+            }
+            catch
+            {
+            }
+
+            return null;
         }
 
         public T Add<T>(T entity) where T : class
@@ -101,7 +138,7 @@ namespace Framework.Database
                     continue;
 
                 var pValue = p.GetValue(entity);
-                
+
                 if (pValue != null)
                     values.Add(p.Name, pValue);
             }
@@ -123,9 +160,13 @@ namespace Framework.Database
             return Execute(query, values.Values.ToArray()) ? entity : null;
         }
 
-        public bool Delete<T>(Expression<Func<T, object>> expression)
+        public bool Delete<T>(Expression<Func<T, object>> expression) where T : class
         {
             var bExpression = (expression.Body as UnaryExpression).Operand as BinaryExpression;
+
+            if (bExpression == null)
+                throw new NotSupportedException("Only BinaryExpressions are supported.");
+
             var builder = new QueryBuilder();
 
             // We support only 1 table for now
@@ -134,9 +175,98 @@ namespace Framework.Database
             return Execute(query);
         }
 
-        public void Select<T>(Expression<Func<T, object>> expression)
+        public List<T> Select<T>() where T : new()
         {
-            Console.WriteLine(expression.ToString());
+            var builder = new QueryBuilder();
+
+            // We support only 1 table for now
+            var query = builder.BuildSelect<T>();
+            var data = Select(query);
+            var properties = typeof(T).GetProperties();
+
+            if (data.Columns.Count != properties.Length)
+                throw new NotSupportedException("Columns doesn't match the entity fields.");
+
+            var entities = new List<T>();
+
+            for (var i = 0; i < data.Count; i++)
+            {
+                var entity = new T();
+
+                for (var j = 0; j < properties.Length; j++)
+                {
+                    var p = properties[j];
+                    var val = data.Rows[i][p.Name];
+
+                    p.SetValue(entity, Convert.ChangeType(val, p.PropertyType), null);
+                }
+
+                entities.Add(entity);
+            }
+
+            return entities;
+        }
+
+        public T Single<T>(Expression<Func<T, object>> expression) where T : new()
+        {
+            var bExpression = (expression.Body as UnaryExpression).Operand as BinaryExpression;
+            var builder = new QueryBuilder();
+
+            // We support only 1 table for now
+            var query = builder.BuildWhere<T>(bExpression, expression.Parameters[0].Name);
+            var data = Select(query);
+            var properties = typeof(T).GetProperties();
+
+            if (data.Count > 1)
+                throw new NotSupportedException("Result contains more than 1 element.");
+
+            if (data.Columns.Count != properties.Length)
+                throw new NotSupportedException("Columns doesn't match the entity fields.");
+
+            var entity = new T();
+
+            for (var i = 0; i < properties.Length; i++)
+            {
+                var p = properties[i];
+                var val = data.Rows[0][p.Name];
+
+                p.SetValue(entity, Convert.ChangeType(val, p.PropertyType), null);
+            }
+
+            return entity;
+        }
+
+        public List<T> Where<T>(Expression<Func<T, object>> expression) where T : new()
+        {
+            var bExpression = (expression.Body as UnaryExpression).Operand as BinaryExpression;
+            var builder = new QueryBuilder();
+
+            // We support only 1 table for now
+            var query = builder.BuildWhere<T>(bExpression, expression.Parameters[0].Name);
+            var data = Select(query);
+            var properties = typeof(T).GetProperties();
+
+            if (data.Columns.Count != properties.Length)
+                throw new NotSupportedException("Columns doesn't match the entity fields.");
+
+            var entities = new List<T>();
+
+            for (var i = 0; i < data.Count; i++)
+            {
+                var entity = new T();
+
+                for (var j = 0; j < properties.Length; j++)
+                {
+                    var p = properties[j];
+                    var val = data.Rows[i][p.Name];
+
+                    p.SetValue(entity, Convert.ChangeType(val, p.PropertyType), null);
+                }
+
+                entities.Add(entity);
+            }
+
+            return entities;
         }
 
         public void Dispose()
