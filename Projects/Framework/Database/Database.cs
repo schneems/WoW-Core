@@ -286,7 +286,7 @@ namespace Framework.Database
             return entities;
         }
 
-        public IList Where<T>(T baseEntity, Type entityType, string query)
+        IList Where<T>(T baseEntity, Type entityType, string query)
         {
             var data = Select(query);
             var properties = entityType.GetProperties().Where(p => !p.GetMethod.IsVirtual).ToArray();
