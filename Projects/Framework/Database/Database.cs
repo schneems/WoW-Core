@@ -16,6 +16,7 @@
  */
 
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Data;
 using System.Globalization;
@@ -181,13 +182,17 @@ namespace Framework.Database
 
             // We support only 1 table for now
             var query = builder.BuildSelect<T>();
+            var properties = typeof(T).GetProperties().Where(p => !p.GetMethod.IsVirtual).ToArray();
+            var foreignKeys = typeof(T).GetProperties().Where(p => p.GetMethod.IsVirtual).ToArray();
             var data = Select(query);
-            var properties = typeof(T).GetProperties();
 
-            if (data.Columns.Count != properties.Length)
+            if (data.Columns.Count != properties.Count())
                 throw new NotSupportedException("Columns doesn't match the entity fields.");
 
-            var entities = new List<T>();
+            if (data.Count == 0)
+                return default(List<T>);
+
+            var entities = new List<T>();   
 
             for (var i = 0; i < data.Count; i++)
             {
@@ -200,6 +205,8 @@ namespace Framework.Database
 
                     p.SetValue(entity, Convert.ChangeType(val, p.PropertyType), null);
                 }
+
+                AssignForeignKeyData(entity, foreignKeys);
 
                 entities.Add(entity);
             }
@@ -215,10 +222,15 @@ namespace Framework.Database
             // We support only 1 table for now
             var query = builder.BuildWhere<T>(bExpression, expression.Parameters[0].Name);
             var data = Select(query);
-            var properties = typeof(T).GetProperties();
 
             if (data.Count > 1)
                 throw new NotSupportedException("Result contains more than 1 element.");
+
+            if (data.Count == 0)
+                return default(T);
+
+            var properties = typeof(T).GetProperties().Where(p => !p.GetMethod.IsVirtual).ToArray();
+            var foreignKeys = typeof(T).GetProperties().Where(p => p.GetMethod.IsVirtual).ToArray();
 
             if (data.Columns.Count != properties.Length)
                 throw new NotSupportedException("Columns doesn't match the entity fields.");
@@ -233,6 +245,8 @@ namespace Framework.Database
                 p.SetValue(entity, Convert.ChangeType(val, p.PropertyType), null);
             }
 
+            AssignForeignKeyData(entity, foreignKeys);
+
             return entity;
         }
 
@@ -244,7 +258,8 @@ namespace Framework.Database
             // We support only 1 table for now
             var query = builder.BuildWhere<T>(bExpression, expression.Parameters[0].Name);
             var data = Select(query);
-            var properties = typeof(T).GetProperties();
+            var properties = typeof(T).GetProperties().Where(p => !p.GetMethod.IsVirtual).ToArray();
+            var foreignKeys = typeof(T).GetProperties().Where(p => p.GetMethod.IsVirtual).ToArray();
 
             if (data.Columns.Count != properties.Length)
                 throw new NotSupportedException("Columns doesn't match the entity fields.");
@@ -263,10 +278,81 @@ namespace Framework.Database
                     p.SetValue(entity, Convert.ChangeType(val, p.PropertyType), null);
                 }
 
+                AssignForeignKeyData(entity, foreignKeys);
+
                 entities.Add(entity);
             }
 
             return entities;
+        }
+
+        public IList Where<T>(T baseEntity, Type entityType, string query)
+        {
+            var data = Select(query);
+            var properties = entityType.GetProperties().Where(p => !p.GetMethod.IsVirtual).ToArray();
+            var localBaseEntity = entityType.GetProperties().SingleOrDefault(p => p.GetMethod.IsVirtual);
+
+            if (data.Columns.Count != properties.Length)
+                throw new NotSupportedException("Columns doesn't match the entity fields.");
+
+            if (data.Count == 0)
+                return default(List<T>);
+
+            var entities = entityType.CreateList();
+
+            for (var i = 0; i < data.Count; i++)
+            {
+                var entity = Activator.CreateInstance(entityType);
+
+                for (var j = 0; j < properties.Length; j++)
+                {
+                    var p = properties[j];
+                    var val = data.Rows[i][p.Name];
+
+                    p.SetValue(entity, Convert.ChangeType(val, p.PropertyType), null);
+                }
+
+                // Check if we have a IList here
+                if (localBaseEntity != null && !localBaseEntity.PropertyType.IsGenericType)
+                    localBaseEntity.SetValue(entity, baseEntity, null);
+
+                entities.Add(entity);
+            }
+
+            return entities;
+        }
+
+        Tuple<string, object> GetForeignKeyBaseData<T>(T entity)
+        {
+            var type = typeof(T);
+
+            if ((var pKey = type.GetProperty("Id")) != null)
+            {
+                var pKeyData = pKey.GetValue(entity);
+
+                return Tuple.Create(type.Name + "Id", pKeyData); 
+            }
+
+            return null;
+        }
+
+        void AssignForeignKeyData<T>(T entity, PropertyInfo[] foreignKeys)
+        {
+            for (var j = 0; j < foreignKeys.Length; j++)
+            {
+                var p = foreignKeys[j];
+                var type = p.PropertyType.IsGenericType ? p.PropertyType.GetGenericArguments()[0] : p.PropertyType;
+                var fkBaseData = GetForeignKeyBaseData(entity);
+
+                if (fkBaseData == null)
+                    throw new NotImplementedException("Can't find foreign key base data.");
+
+                var query = string.Format("SELECT * FROM {0} WHERE {1} = '{2}'", type.Name.Pluralize(), p.PropertyType.IsGenericType ? fkBaseData.Item1 : "Id", fkBaseData.Item2);
+
+                var fkData = Where(entity, type, query);
+
+                p.SetValue(entity, p.PropertyType.IsGenericType ? fkData : fkData[0], null);
+            }
         }
 
         public void Dispose()

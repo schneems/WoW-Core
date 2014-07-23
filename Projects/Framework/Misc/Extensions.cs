@@ -16,6 +16,7 @@
  */
 
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Data.Entity.Design.PluralizationServices;
 using System.Globalization;
@@ -128,6 +129,14 @@ namespace Framework.Misc
                 hex += string.Format("{0:X2}", b);
 
             return hex.ToUpper();
+        }
+        #endregion
+        #region Type
+        public static IList CreateList(this Type type)
+        {
+            var genericType = typeof(List<>).MakeGenericType(type);
+
+            return Activator.CreateInstance(genericType) as IList;
         }
         #endregion
         #region Generic
