@@ -75,6 +75,7 @@ namespace Framework.Database
                         mParams.Add(new MySqlParameter("", a));
 
                     sqlCommand.Parameters.AddRange(mParams.ToArray());
+
                     sqlCommand.ExecuteNonQuery();
                 }
 
@@ -90,6 +91,7 @@ namespace Framework.Database
         public SQLResult Select(string sql, params object[] args)
         {
             var sqlString = new StringBuilder();
+
             // Fix for floating point problems on some languages
             sqlString.AppendFormat(CultureInfo.GetCultureInfo("en-US").NumberFormat, sql);
 
@@ -104,13 +106,14 @@ namespace Framework.Database
 
                     sqlCommand.Parameters.AddRange(mParams.ToArray());
 
-                    using (var sqlData = sqlCommand.ExecuteReader(CommandBehavior.Default))
+                    using (var SqlData = sqlCommand.ExecuteReader(CommandBehavior.Default))
                     {
-                        if (sqlData.HasRows)
+                        if (SqlData.HasRows)
                         {
                             using (var retData = new SQLResult())
                             {
-                                retData.Load(sqlData);
+
+                                retData.Load(SqlData);
                                 retData.Count = retData.Rows.Count;
 
                                 return retData;
@@ -126,7 +129,7 @@ namespace Framework.Database
             return null;
         }
 
-        public T Add<T>(T entity) where T : class
+        public bool Add<T>(T entity) where T : class
         {
             var properties = typeof(T).GetProperties();
             var values = new Dictionary<string, object>(properties.Length);
@@ -160,7 +163,17 @@ namespace Framework.Database
 
             var query = queryBuilder.ToString().Replace(",)", ")");
 
-            return Execute(query, values.Values.ToArray()) ? entity : null;
+            return Execute(query, values.Values.ToArray());
+        }
+
+        public void Update<T>(T entity, params object[] values) where T : new()
+        {
+            var pkData = GetForeignKeyBaseData(entity);
+            
+            // ToDo: Add support for more fields...
+            for (var i = 0; i < values.Length / 2; i++)
+                if (i % 2 == 0)
+                    Execute(string.Format("UPDATE `{0}` SET `{1}` = '{2}' WHERE `{3}` = '{4}'", typeof(T).Name.Pluralize(), values[i].ToString(), values[i + 1], "Id", pkData.Item2));
         }
 
         public bool Delete<T>(Expression<Func<T, object>> expression) where T : class
@@ -204,8 +217,8 @@ namespace Framework.Database
                     {
                         var p = properties[j];
                         var val = data.Rows[i][p.Name];
-
-                        p.SetValue(entity, Convert.ChangeType(val, p.PropertyType), null);
+                        
+                        p.SetValue(entity, val.ChangeType(p.PropertyType), null);
                     }
 
                     AssignForeignKeyData(entity, foreignKeys);
@@ -246,7 +259,7 @@ namespace Framework.Database
                     var p = properties[i];
                     var val = data.Rows[0][p.Name];
 
-                    p.SetValue(entity, Convert.ChangeType(val, p.PropertyType), null);
+                    p.SetValue(entity, val.ChangeType(p.PropertyType), null);
                 }
 
                 AssignForeignKeyData(entity, foreignKeys);
@@ -283,7 +296,7 @@ namespace Framework.Database
                         var p = properties[j];
                         var val = data.Rows[i][p.Name];
 
-                        p.SetValue(entity, Convert.ChangeType(val, p.PropertyType), null);
+                        p.SetValue(entity, val.ChangeType(p.PropertyType), null);
                     }
 
                     AssignForeignKeyData(entity, foreignKeys);
@@ -295,40 +308,65 @@ namespace Framework.Database
             return entities;
         }
 
+        public bool Any<T>(Expression<Func<T, object>> expression) where T : new()
+        {
+            var bExpression = (expression.Body as UnaryExpression).Operand as BinaryExpression;
+            var builder = new QueryBuilder();
+
+            // We support only 1 table for now
+            var query = builder.BuildWhere<T>(bExpression, expression.Parameters[0].Name);
+
+            return Select(query) != null;
+        }
+
         IList Where<T>(T baseEntity, Type entityType, string query)
         {
-            var data = Select(query);
-            var properties = entityType.GetProperties().Where(p => !p.GetMethod.IsVirtual).ToArray();
-            var localBaseEntity = entityType.GetProperties().SingleOrDefault(p => p.GetMethod.IsVirtual);
-
-            if (data.Columns.Count != properties.Length)
-                throw new NotSupportedException("Columns doesn't match the entity fields.");
-
-            if (data.Count == 0)
-                return default(List<T>);
-
-            var entities = entityType.CreateList();
-
-            for (var i = 0; i < data.Count; i++)
+            if ((var data = Select(query)) != null)
             {
-                var entity = Activator.CreateInstance(entityType);
+                var properties = entityType.GetProperties().Where(p => !p.GetMethod.IsVirtual).ToArray();
+                var localBaseEntity = entityType.GetProperties().SingleOrDefault(p => p.GetMethod.IsVirtual && !p.PropertyType.IsGenericType);
+                var foreignKeys = entityType.GetProperties().Where(p => p.GetMethod.IsVirtual && p.PropertyType.IsGenericType).ToArray();
 
-                for (var j = 0; j < properties.Length; j++)
+                if (data.Columns.Count != properties.Length)
+                    throw new NotSupportedException("Columns doesn't match the entity fields.");
+
+                if (data.Count == 0)
+                    return default(List<T>);
+
+                var entities = entityType.CreateList();
+
+                for (var i = 0; i < data.Count; i++)
                 {
-                    var p = properties[j];
-                    var val = data.Rows[i][p.Name];
+                    var entity = Activator.CreateInstance(entityType);
+                    Tuple<string, object> pFkData = null;
 
-                    p.SetValue(entity, Convert.ChangeType(val, p.PropertyType), null);
+                    for (var j = 0; j < properties.Length; j++)
+                    {
+                        var p = properties[j];
+                        var val = data.Rows[i][p.Name];
+
+                        if ((var attr = p.GetCustomAttribute<FieldAttribute>()) != null && attr.PrimaryKey)
+                            pFkData = Tuple.Create(p.Name, val);
+                        else if (p.Name == "Id")
+                            pFkData = Tuple.Create(entityType.Name + p.Name, val);
+
+                        p.SetValue(entity, val.ChangeType(p.PropertyType), null);
+                    }
+
+                    // Check if we have a IList here
+                    if (localBaseEntity != null && !localBaseEntity.PropertyType.IsGenericType)
+                        localBaseEntity.SetValue(entity, baseEntity, null);
+
+                    AssignForeignKeyData(entity, foreignKeys, pFkData);
+
+                    entities.Add(entity);
                 }
 
-                // Check if we have a IList here
-                if (localBaseEntity != null && !localBaseEntity.PropertyType.IsGenericType)
-                    localBaseEntity.SetValue(entity, baseEntity, null);
-
-                entities.Add(entity);
+                return entities;
             }
 
-            return entities;
+
+            return default(IList);
         }
 
         Tuple<string, object> GetForeignKeyBaseData<T>(T entity)
@@ -345,18 +383,32 @@ namespace Framework.Database
             return null;
         }
 
-        void AssignForeignKeyData<T>(T entity, PropertyInfo[] foreignKeys)
+        void AssignForeignKeyData<T>(T entity, PropertyInfo[] foreignKeys, Tuple<string, object> pFkData = null)
         {
             for (var j = 0; j < foreignKeys.Length; j++)
             {
                 var p = foreignKeys[j];
                 var type = p.PropertyType.IsGenericType ? p.PropertyType.GetGenericArguments()[0] : p.PropertyType;
-                var fkBaseData = GetForeignKeyBaseData(entity);
+                var attr = p.GetCustomAttribute<FieldAttribute>();
+                var query = "";
 
-                if (fkBaseData == null)
-                    throw new NotImplementedException("Can't find foreign key base data.");
+                if (attr != null && attr.ForeignKey != "")
+                {
+                    var baseData = GetForeignKeyBaseData(entity);
+                    var pKey = typeof(T).GetProperty(attr.ForeignKey);
+                    var pKeyData = pKey != null ? pKey.GetValue(entity) : baseData.Item2;
 
-                var query = string.Format("SELECT * FROM {0} WHERE {1} = '{2}'", type.Name.Pluralize(), p.PropertyType.IsGenericType ? fkBaseData.Item1 : "Id", fkBaseData.Item2);
+                    query = string.Format("SELECT * FROM {0} WHERE {1} = '{2}'", type.Name.Pluralize(), attr.ForeignKey, pKeyData);
+                }
+                else
+                {
+                    var fkBaseData = pFkData ?? GetForeignKeyBaseData(entity);
+
+                    if (fkBaseData == null)
+                        throw new NotImplementedException("Can't find foreign key base data.");
+
+                    query = string.Format("SELECT * FROM {0} WHERE {1} = '{2}'", type.Name.Pluralize(), p.PropertyType.IsGenericType ? fkBaseData.Item1 : "Id", fkBaseData.Item2);
+                }
 
                 var fkData = Where(entity, type, query);
 

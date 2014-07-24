@@ -40,6 +40,7 @@
     <Compile Include="AuthServer.cs" />
     <Compile Include="Commands\AccountCommands.cs" />
     <Compile Include="Commands\ConsoleCommandManager.cs" />
+    <Compile Include="Commands\RealmCommands.cs" />
     <Compile Include="Configuration\AuthConfig.cs" />
     <Compile Include="Constants\Authentication\AuthResult.cs" />
     <Compile Include="Constants\Authentication\PasswordModuleState.cs" />

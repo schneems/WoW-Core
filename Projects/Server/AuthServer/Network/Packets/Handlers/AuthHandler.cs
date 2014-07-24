@@ -113,7 +113,11 @@ namespace AuthServer.Network.Packets.Handlers
                             if (session.GameAccount == null)
                                 SendAuthComplete(true, AuthResult.NoGameAccount, client);
                             else
+                            {
                                 SendAuthComplete(false, AuthResult.GlobalSuccess, client);
+
+                                client.Session.GameAccount.IsOnline = true;
+                            }
                         }
 
                         break;
@@ -200,8 +204,6 @@ namespace AuthServer.Network.Packets.Handlers
 
         public static void SendAuthComplete(bool failed, AuthResult result, Client client)
         {
-            client.Session.GameAccount.IsOnline = true;
-
             var complete = new AuthPacket(AuthServerMessage.Complete);
 
             complete.Write(failed, 1);

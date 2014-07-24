@@ -26,12 +26,22 @@ namespace RealmServer.Network.Packets.Handlers
         [Message(ClientMessages.EnumCharacters)]
         public static void OnEnumCharacters(Packet packet, RealmSession session)
         {
-
+            HandleEnumCharactersResult(session);
         }
 
         public static void HandleEnumCharactersResult(RealmSession session)
         {
+            var enumCharactersResult = new Packet(ServerMessages.EnumCharactersResult);
 
+            enumCharactersResult.PutBit(1);
+            enumCharactersResult.PutBit(0);
+
+            enumCharactersResult.Flush();
+
+            enumCharactersResult.Write(0);
+            enumCharactersResult.Write(0);
+
+            session.Send(enumCharactersResult);
         }
 
         [Message(ClientMessages.CreateCharacter)]

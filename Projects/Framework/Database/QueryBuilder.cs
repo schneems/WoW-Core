@@ -16,6 +16,7 @@
  */
 
 using System.Linq.Expressions;
+using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
 using Framework.Misc;
@@ -101,7 +102,25 @@ namespace Framework.Database
             if (condition == " AND " || condition == " OR ")
                 sqlString.Append(condition);
             else
-                sqlString.AppendFormat("{0}{1}'{2}'", Regex.Replace(bExpression.Left.ToString(), @"^Convert\(|\)$", ""), condition, Regex.Replace(bExpression.Right.ToString(), "^\"|\"$", ""));
+            {
+                if (bExpression.Right.NodeType == ExpressionType.MemberAccess)
+                {
+                    // ToDo: Handle other member types.
+                    var memberExp = bExpression.Right as MemberExpression;
+                    var val =(memberExp.Member as FieldInfo).GetValue((memberExp.Expression as ConstantExpression).Value);
+
+                    sqlString.AppendFormat("{0}{1}'{2}'", Regex.Replace(bExpression.Left.ToString(), @"^Convert\(|\)$", ""), condition, val);
+                }
+                else if (bExpression.Right.NodeType == ExpressionType.Convert)
+                {
+                    var memberExp = (bExpression.Right as UnaryExpression).Operand as MemberExpression;
+                    var val = (memberExp.Member as FieldInfo).GetValue((memberExp.Expression as ConstantExpression).Value);
+
+                    sqlString.AppendFormat("{0}{1}'{2}'", Regex.Replace(bExpression.Left.ToString(), @"^Convert\(|\)$", ""), condition, val);
+                }
+                else
+                    sqlString.AppendFormat("{0}{1}'{2}'", Regex.Replace(bExpression.Left.ToString(), @"^Convert\(|\)$", ""), condition, Regex.Replace(bExpression.Right.ToString(), "^\"|\"$", ""));
+            }
 
             Visit(bExpression.Right);
 

@@ -41,6 +41,8 @@
     <Compile Include="Constants\Authentication\LoginServerTypes.cs" />
     <Compile Include="Constants\Net\ClientMessages.cs" />
     <Compile Include="Constants\Net\ServerMessages.cs" />
+    <Compile Include="Managers\GameAccountManager.cs" />
+    <Compile Include="Managers\Manager.cs" />
     <Compile Include="Network\Packets\Handlers\NetHandler.cs" />
     <Compile Include="RealmServer.cs" />
     <Compile Include="Configuration\RealmConfig.cs" />
@@ -64,9 +66,7 @@
       <SubType>Designer</SubType>
     </None>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Managers\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

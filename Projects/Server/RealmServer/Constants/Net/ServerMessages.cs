@@ -53,10 +53,10 @@ namespace RealmServer.Constants.Net
 
         #region RealmConnection
         SetVeteranTrial                         = 0x2000,
-        AuthResponse                            = 0x2000,
+        AuthResponse                            = 0x0028,
         WaitQueueUpdate                         = 0x2000,
         WaitQueueFinish                         = 0x2000,
-        EnumCharactersResult                    = 0x2000,
+        EnumCharactersResult                    = 0x1561,
         UpdateExpansionLevel                    = 0x2000,
         AddonInfo                               = 0x2000,
         SetTimeZoneInformation                  = 0x2000,
@@ -71,7 +71,7 @@ namespace RealmServer.Constants.Net
         #endregion
 
         #region NetClient
-        AuthChallenge                           = 0x01C9,
+        AuthChallenge                           = 0x0114,
         Pong                                    = 0x2000,
         #endregion
     }

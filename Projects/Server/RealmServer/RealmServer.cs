@@ -1,6 +1,6 @@
 ﻿/*
  * Copyright (C) 2012-2014 Arctium Emulation <http://arctium.org>
- * 
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -21,6 +21,7 @@ using Framework.Constants.Misc;
 using Framework.Database;
 using Framework.Logging;
 using RealmServer.Configuration;
+using RealmServer.Managers;
 using RealmServer.Network;
 using RealmServer.Network.Packets;
 
@@ -32,13 +33,14 @@ namespace RealmServer
         {
             ReadArguments(args);
 
-            DB.Auth.CreateConnection(RealmConfig.AuthDBHost, RealmConfig.AuthDBUser, RealmConfig.AuthDBPassword,
-                                     RealmConfig.AuthDBDataBase, RealmConfig.AuthDBPort, RealmConfig.MySqlPooling,
-                                     RealmConfig.MySqlMinPoolSize, RealmConfig.MySqlMaxPoolSize);
+            var authConnection = DB.Auth.CreateConnection(RealmConfig.AuthDBHost, RealmConfig.AuthDBUser, RealmConfig.AuthDBPassword,
+                                                          RealmConfig.AuthDBDataBase, RealmConfig.AuthDBPort, RealmConfig.MySqlPooling,
+                                                          RealmConfig.MySqlMinPoolSize, RealmConfig.MySqlMaxPoolSize);
 
-            DB.Character.CreateConnection(RealmConfig.CharacterDBHost, RealmConfig.CharacterDBUser, RealmConfig.CharacterDBPassword,
-                                          RealmConfig.CharacterDBDataBase, RealmConfig.CharacterDBPort, RealmConfig.MySqlPooling,
-                                          RealmConfig.MySqlMinPoolSize, RealmConfig.MySqlMaxPoolSize);
+            var charConnection = DB.Character.CreateConnection(RealmConfig.CharacterDBHost, RealmConfig.CharacterDBUser, RealmConfig.CharacterDBPassword,
+                                                               RealmConfig.CharacterDBDataBase, RealmConfig.CharacterDBPort, RealmConfig.MySqlPooling,
+                                                               RealmConfig.MySqlMinPoolSize, RealmConfig.MySqlMaxPoolSize);
+
 
             Log.Message(LogType.Init, "_____________World of Warcraft_____________");
             Log.Message(LogType.Init, "    __                                     ");
@@ -54,6 +56,8 @@ namespace RealmServer
             using (var server = new Server(RealmConfig.BindIP, RealmConfig.BindPort))
             {
                 PacketManager.DefineMessageHandler();
+
+                Manager.Initialize();
 
                 Log.Message(LogType.Normal, "RealmServer successfully started");
                 Log.Message(LogType.Normal, "Total Memory: {0} Kilobytes", GC.GetTotalMemory(false) / 1024);

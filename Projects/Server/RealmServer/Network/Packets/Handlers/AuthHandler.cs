@@ -17,12 +17,15 @@
 
 using System.Linq;
 using Framework.Cryptography;
+using Framework.Cryptography.WoW;
 using Framework.Database;
+using Framework.Database.Auth.Entities;
 using Framework.Misc;
 using Framework.Network.Packets;
 using RealmServer.Attributes;
 using RealmServer.Constants.Authentication;
 using RealmServer.Constants.Net;
+using RealmServer.Managers;
 
 namespace RealmServer.Network.Packets.Handlers
 {
@@ -38,9 +41,9 @@ namespace RealmServer.Network.Packets.Handlers
             authChallenge.Write(session.Challenge);
 
             for (int i = 0; i < 8; i++)
-                authChallenge.Write<uint>(0); // DosChallenge
+                authChallenge.Write<uint>(0);
 
-            authChallenge.Write<byte>(1);     // DosZeroBits
+            authChallenge.Write<byte>(1);
 
             session.Send(authChallenge);
         }
@@ -51,14 +54,14 @@ namespace RealmServer.Network.Packets.Handlers
             // Part of the header
             packet.Read<ushort>();
 
-            var loginServerId   = packet.Read<uint>();
+            var loginServerId   = packet.Read<int>();
             var build           = packet.Read<short>();
-            var localChallenge  = packet.Read<uint>();
+            var regionId        = packet.Read<uint>();
             var siteId          = packet.Read<uint>();
             var realmId         = packet.Read<uint>();
             var loginServerType = packet.Read<LoginServerTypes>();
             var buildType       = packet.Read<sbyte>();
-            var regionId        = packet.Read<uint>();
+            var localChallenge  = packet.Read<uint>();
             var dosResponse     = packet.Read<ulong>();
             var digest          = packet.ReadBytes(20);
             var accountName     = packet.ReadString(11);
@@ -72,7 +75,9 @@ namespace RealmServer.Network.Packets.Handlers
             var accountParts = accountName.Split(new[] { '#' });
             var authResult = AuthResults.Ok;
 
-            if (loginServerType != LoginServerTypes.Battlenet)
+            session.Realm = DB.Auth.Single<Realm>(r => r.Id == realmId);
+
+            if (loginServerType != LoginServerTypes.Battlenet || session.Realm == null)
                 authResult = AuthResults.Reject;
 
             if (authResult == AuthResults.Ok)
@@ -82,27 +87,35 @@ namespace RealmServer.Network.Packets.Handlers
                     var accountId = int.Parse(accountParts[0]);
                     var gameIndex = byte.Parse(accountParts[1]);
 
-                    var gameAccount = DB.Auth.GameAccounts.SingleOrDefault(ga => ga.AccountId == accountId && ga.Index == gameIndex);
+                    var account = DB.Auth.Single<Account>(a => a.Id == accountId);
 
-                    if (gameAccount != null)
+                    if (account != null)
                     {
-                        var sha1 = new Sha1();
+                        var gameAccount = account.GameAccounts.SingleOrDefault(ga => ga.Index == gameIndex);
 
-                        sha1.Process(accountName);
-                        sha1.Process(0u);
-                        sha1.Process(localChallenge);
-                        sha1.Process(session.Challenge);
-                        sha1.Finish(gameAccount.SessionKey.ToByteArray(), 40);
-
-                        // Check the password digest.
-                        if (sha1.Digest.Compare(digest))
+                        if (gameAccount != null)
                         {
-                            session.GameAccount = gameAccount;
+                            var sha1 = new Sha1();
 
-                            AddonHandler.LoadAddonInfoData(session, compressedAddonData, compressedAddonInfoSize, uncompressedAddonInfoSize);
+                            sha1.Process(accountName);
+                            sha1.Process(0u);
+                            sha1.Process(localChallenge);
+                            sha1.Process(session.Challenge);
+                            sha1.Finish(gameAccount.SessionKey.ToByteArray(), 40);
+
+                            // Check the password digest.
+                            if (sha1.Digest.Compare(digest))
+                            {
+                                session.Crypt = new WoWCrypt(gameAccount.SessionKey.ToByteArray());
+                                session.GameAccount = gameAccount;
+
+                                AddonHandler.LoadAddonInfoData(session, compressedAddonData, compressedAddonInfoSize, uncompressedAddonInfoSize);
+                            }
+                            else
+                                authResult = AuthResults.Failed;
                         }
                         else
-                            authResult = AuthResults.IncorrectPassword;
+                            authResult = AuthResults.UnknownAccount;
                     }
                     else
                         authResult = AuthResults.UnknownAccount;
@@ -114,11 +127,14 @@ namespace RealmServer.Network.Packets.Handlers
             HandleAuthResponse(authResult, session);
 
             //TODO [partially done] Implement security checks & field handling.
-            //TODO Implement AuthResponse.
+            //TODO [partially done] Implement AuthResponse.
         }
 
         public static void HandleAuthResponse(AuthResults result, RealmSession session)
         {
+            var gameAccount = session.GameAccount;
+            var realm = session.Realm;
+
             var authResponse = new Packet(ServerMessages.AuthResponse);
 
             var hasSuccessInfo = result == AuthResults.Ok;
@@ -128,13 +144,66 @@ namespace RealmServer.Network.Packets.Handlers
 
             authResponse.PutBit(hasSuccessInfo);
             authResponse.PutBit(hasWaitInfo);
+            authResponse.Flush();
 
             if (hasSuccessInfo)
             {
-            }
+                var allowedRaces   = Manager.GameAccountMgr.GetAvailableRaces(gameAccount, realm);
+                var allowedClasses = Manager.GameAccountMgr.GetAvailableClasses(gameAccount, realm);
+                var charTemplates  = Manager.GameAccountMgr.GetAvailableCharacterTemplates(gameAccount, realm);
 
-            if (hasWaitInfo)
-            {
+                authResponse.Write<uint>(0);
+                authResponse.Write<uint>(0);
+                authResponse.Write<uint>(0);
+                authResponse.Write<uint>(0);
+                authResponse.Write<uint>(0);
+                authResponse.Write(gameAccount.BoxLevel);
+                authResponse.Write(gameAccount.BoxLevel);
+                authResponse.Write<uint>(0);
+                authResponse.Write(allowedRaces.Count);
+                authResponse.Write(allowedClasses.Count);
+                authResponse.Write(charTemplates.Count);
+                authResponse.Write<uint>(0);
+
+                foreach (var r in allowedRaces)
+                {
+                    authResponse.Write(r.Key);
+                    authResponse.Write(r.Value);
+                }
+
+                foreach (var c in allowedClasses)
+                {
+                    authResponse.Write(c.Key);
+                    authResponse.Write(c.Value);
+                }
+
+                foreach (var set in charTemplates)
+                { 
+                    authResponse.Write(set.Id);
+                    authResponse.Write(set.CharacterTemplateClasses.Count);
+
+                    foreach (var c in set.CharacterTemplateClasses)
+                    {
+                        authResponse.Write((byte)c.ClassId);
+                        authResponse.Write(c.FactionGroup);
+                    }
+
+                    authResponse.PutBits(set.Name.Length, 7);
+                    authResponse.PutBits(set.Description.Length, 10);
+
+                    authResponse.Flush();
+
+                    authResponse.Write(set.Name);
+                    authResponse.Write(set.Description);
+                }
+
+                authResponse.PutBit(0);
+                authResponse.PutBit(0);
+                authResponse.PutBit(0);
+                authResponse.PutBit(0);
+                authResponse.PutBit(0);
+
+                authResponse.Flush();
             }
 
             session.Send(authResponse);

@@ -58,17 +58,28 @@
     <Compile Include="Cryptography\WoW\RsaStore.cs" />
     <Compile Include="Cryptography\WoW\WoWCrypt.cs" />
     <Compile Include="Database\Auth\Entities\Account.cs" />
-    <Compile Include="Database\Auth\Entities\AllowedClass.cs" />
-    <Compile Include="Database\Auth\Entities\AllowedRace.cs" />
     <Compile Include="Database\Auth\Entities\GameAccount.cs" />
+    <Compile Include="Database\Auth\Entities\GameAccountCharacterTemplate.cs" />
+    <Compile Include="Database\Auth\Entities\GameAccountClass.cs" />
+    <Compile Include="Database\Auth\Entities\GameAccountRace.cs" />
     <Compile Include="Database\Auth\Entities\Component.cs" />
     <Compile Include="Database\Auth\Entities\Module.cs" />
     <Compile Include="Database\Auth\Entities\Realm.cs" />
-    <Compile Include="Database\Database.cs" />
+    <Compile Include="Database\Auth\Entities\RealmCharacterTemplate.cs" />
+    <Compile Include="Database\Auth\Entities\RealmClass.cs" />
+    <Compile Include="Database\Auth\Entities\RealmRace.cs" />
+    <Compile Include="Database\Character\Entities\CharacterTemplateAction.cs" />
+    <Compile Include="Database\Character\Entities\CharacterTemplateClass.cs" />
+    <Compile Include="Database\Character\Entities\CharacterTemplateData.cs" />
+    <Compile Include="Database\Character\Entities\CharacterTemplateItem.cs" />
+    <Compile Include="Database\Character\Entities\CharacterTemplateSet.cs" />
+    <Compile Include="Database\Character\Entities\CharacterTemplateSkill.cs" />
+    <Compile Include="Database\Character\Entities\CharacterTemplateSpell.cs" />
     <Compile Include="Database\DB.cs" />
+    <Compile Include="Database\Database.cs" />
     <Compile Include="Database\QueryBuilder.cs" />
     <Compile Include="Database\SQLResult.cs">
-      <SubType>Component</SubType>
+      <SubType>component</SubType>
     </Compile>
     <Compile Include="Logging\IO\LogWriter.cs" />
     <Compile Include="Logging\Log.cs" />
@@ -82,7 +93,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Database\Character\Entities\" />
     <Folder Include="Database\World\Entities\" />
   </ItemGroup>
   <ItemGroup>

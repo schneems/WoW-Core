@@ -1,6 +1,6 @@
 ﻿/*
  * Copyright (C) 2012-2014 Arctium Emulation <http://arctium.org>
- * 
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -15,12 +15,17 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace Framework.Database.Auth.Entities
+using Framework.Attributes;
+
+namespace Framework.Database.Character.Entities
 {
-    public class AllowedClass
+    public class CharacterTemplateAction
     {
-        public uint GameAccountId { get; set; }
-        public byte Class         { get; set; }
-        public byte Expansion     { get; set; }
+        [Field(PrimaryKey = true)]
+        public int ClassId { get; set; }
+        public int Action { get; set; }
+        public byte Slot { get; set; }
+
+        public virtual CharacterTemplateClass CharacterTemplateClass { get; set; }
     }
 }

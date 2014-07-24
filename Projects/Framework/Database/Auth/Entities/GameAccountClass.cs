@@ -17,10 +17,12 @@
 
 namespace Framework.Database.Auth.Entities
 {
-    public class Component
+    public class GameAccountClass
     {
-        public string Program  { get; set; }
-        public string Platform { get; set; }
-        public int Build       { get; set; }
+        public int GameAccountId { get; set; }
+        public byte Class        { get; set; }
+        public byte Expansion    { get; set; }
+
+        public virtual GameAccount GameAccount { get; set; }
     }
 }

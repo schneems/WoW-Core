@@ -32,7 +32,6 @@ namespace Framework.Network.Packets
         #region Bit Variables
         byte bitPosition = 8;
         byte bitValue;
-        bool flushed;
         #endregion
 
         public Packet()
@@ -108,7 +107,7 @@ namespace Framework.Network.Packets
                         return (T)Convert.ChangeType(Encoding.UTF8.GetString(stringArray), typeof(T));
                     }
                 default:
-                    return Extensions.Read<T>(stream);
+                    return (T)Extensions.Read<T>(stream);
             }
         }
 
@@ -129,15 +128,15 @@ namespace Framework.Network.Packets
         {
             var length = GetBits<int>(bits);
 
+            bitPosition = 8;
+            bitValue = 0;
+
             return Read<string>(length);
         }
         #endregion
         #region Writer
         public void Write<T>(T value, bool isCString = false)
         {
-            // Flush bit writer if necessary
-            Flush();
-
             var type = typeof(T).IsEnum ? typeof(T).GetEnumUnderlyingType() : typeof(T);
 
             switch (type.Name)
@@ -266,21 +265,16 @@ namespace Framework.Network.Packets
             checked
             {
                 for (int i = count - 1; i >= 0; --i)
-                    Write<T>((T)Convert.ChangeType(((Convert.ToInt32(bit) >> i) & 1), typeof(T)));
+                    PutBit((T)Convert.ChangeType(((Convert.ToInt32(bit) >> i) & 1), typeof(T)));
             }
         }
 
-        void Flush()
+        public void Flush()
         {
-            if (flushed || bitPosition == 8)
-                return;
-
             Write(bitValue);
 
             bitValue = 0;
             bitPosition = 8;
-
-            flushed = true;
         }
         #endregion
     }

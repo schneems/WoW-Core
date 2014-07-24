@@ -38,7 +38,7 @@ namespace AuthServer.Commands
             if (email != null && password != null)
             {
                 var salt = new byte[0].GenerateRandomKey(0x20).ToHexString();
-                var result = DB.Auth.Accounts.Any(a => a.Email.Equals(email));
+                var result = DB.Auth.Any<Account>(a => a.Email == email);
 
                 if (!result)
                 {
@@ -71,7 +71,7 @@ namespace AuthServer.Commands
 
             if (accountId != 0 && game != "" && index != 0)
             {
-                var account = DB.Auth.Accounts.SingleOrDefault(a => a.Id.Equals(accountId));
+                var account = DB.Auth.Single<Account>(a => a.Id == accountId);
 
                 if (account != null)
                 {
@@ -90,38 +90,7 @@ namespace AuthServer.Commands
                         };
 
                         if (DB.Auth.Add(gameAccount))
-                        {
-                            // Default class/expansion data (sent in AuthResponse)
-                            var defaultAllowedClasses = new byte[,] { { 1, 0 }, { 2, 0 }, { 3, 0 }, { 4, 0 }, { 5, 0 }, { 6, 2 },
-                                                                    { 7, 0 }, { 8, 0 }, { 9, 0 }, { 10, 4 }, { 11, 0 } };
-
-                            // Default race/expansion data (sent in AuthResponse)
-                            var defaultAllowedRaces = new byte[,] { { 1, 0 }, { 2, 0 }, { 3, 0 }, { 4, 0 }, { 5, 0 }, { 6, 0 },
-                                                                  { 7, 0 }, { 8, 0 }, { 9, 3 }, { 10, 1 }, { 11, 1 }, { 22, 3 },
-                                                                  { 24, 4 }, { 25, 4 }, { 26, 4 }};
-
-                            for (int i = 0; i < defaultAllowedClasses.Length / 2; i++)
-                            {
-                                DB.Auth.Add(new AllowedClass
-                                {
-                                    AccountId = gameAccount.Id,
-                                    Class     = defaultAllowedClasses[i, 0],
-                                    Expansion = defaultAllowedClasses[i, 1]
-                                });
-                            }
-
-                            for (int i = 0; i < defaultAllowedRaces.Length / 2; i++)
-                            {
-                                DB.Auth.Add(new AllowedRace
-                                {
-                                    AccountId = gameAccount.Id,
-                                    Race      = defaultAllowedRaces[i, 0],
-                                    Expansion = defaultAllowedRaces[i, 1]
-                                });
-                            }
-
                             Log.Message(LogType.Normal, "GameAccount '{0}{1}' for Account '{2}' successfully created.", game, index, accountId);
-                        }
                     }
                 }
                 else

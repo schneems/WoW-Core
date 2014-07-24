@@ -15,12 +15,15 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace Framework.Database.Auth.Entities
+namespace RealmServer.Managers
 {
-    public class Component
+    class Manager
     {
-        public string Program  { get; set; }
-        public string Platform { get; set; }
-        public int Build       { get; set; }
+        public static GameAccountManager GameAccountMgr;
+
+        public static void Initialize()
+        {
+            GameAccountMgr = GameAccountManager.GetInstance();
+        }
     }
 }

@@ -15,12 +15,18 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace Framework.Database.Auth.Entities
+using Framework.Attributes;
+
+namespace Framework.Database.Character.Entities
 {
-    public class Component
+    public class CharacterTemplateItem
     {
-        public string Program  { get; set; }
-        public string Platform { get; set; }
-        public int Build       { get; set; }
+        [Field(PrimaryKey = true)]
+        public int ItemId { get; set; }
+        public int ClassId { get; set; }
+        public bool IsEquipped { get; set; }
+
+        [Field(ForeignKey = "ClassId")]
+        public virtual CharacterTemplateClass CharacterTemplateClass { get; set; }
     }
 }

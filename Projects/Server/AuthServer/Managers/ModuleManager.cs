@@ -45,7 +45,7 @@ namespace AuthServer.Managers
         {
             Log.Message(LogType.Debug, "Loading auth modules...");
 
-            var modules = DB.Auth.Modules.Select(m => m);
+            var modules = DB.Auth.Select<Module>();
 
             foreach (var m in modules)
                 if (AddModule(m, Modules))

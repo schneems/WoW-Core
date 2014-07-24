@@ -33,8 +33,9 @@ namespace RealmServer.Network
 {
     class RealmSession : IDisposable
     {
+        public Realm Realm { get; set; }
         public GameAccount GameAccount { get; set; }
-        public WoWCrypt Crypt { get; private set; }
+        public WoWCrypt Crypt { get; set; }
         public uint Challenge { get; private set; }
 
         Socket client;
@@ -140,7 +141,7 @@ namespace RealmServer.Network
                             dataBuffer[2] = (byte)(0xFF & message);
                             dataBuffer[3] = (byte)(0xFF & (message >> 8));
 
-                            var length     = BitConverter.ToUInt16(dataBuffer, 0) + 4;
+                            var length = BitConverter.ToUInt16(dataBuffer, 0) + 4;
                             var packetData = new byte[length];
 
                             Buffer.BlockCopy(dataBuffer, 0, packetData, 0, length);
@@ -188,6 +189,9 @@ namespace RealmServer.Network
             try
             {
                 packet.Finish();
+
+                if (packet.Header != null)
+                    PacketLog.Write<ServerMessages>(packet.Header.Message, packet.Data, client.RemoteEndPoint);
 
                 if (Crypt != null && Crypt.IsInitialized)
                 {

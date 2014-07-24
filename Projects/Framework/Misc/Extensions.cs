@@ -168,6 +168,11 @@ namespace Framework.Misc
         {
             return (T)Convert.ChangeType(value, typeof(T), CultureInfo.GetCultureInfo("en-US").NumberFormat);
         }
+
+        public static object ChangeType(this object value, Type destType)
+        {
+            return destType.IsEnum ? Enum.ToObject(destType, value) : Convert.ChangeType(value, destType);
+        }
         #endregion
     }
 }

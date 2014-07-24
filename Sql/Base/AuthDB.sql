@@ -1,8 +1,66 @@
 /*
-Date: 2014-06-12 20:53:56
+Navicat MariaDB Data Transfer
+
+Source Server         : local
+Source Server Version : 100011
+Source Host           : localhost:3306
+Source Database       : authdb
+
+Target Server Type    : MariaDB
+Target Server Version : 100011
+File Encoding         : 65001
+
+Date: 2014-06-17 03:11:15
 */
 
 SET FOREIGN_KEY_CHECKS=0;
+
+-- ----------------------------
+-- Table structure for GameAccountCharacterTemplates
+-- ----------------------------
+DROP TABLE IF EXISTS `GameAccountCharacterTemplates`;
+CREATE TABLE `GameAccountCharacterTemplates` (
+  `GameAccountId` int(10) unsigned NOT NULL,
+  `SetId` int(10) unsigned NOT NULL,
+  PRIMARY KEY (`GameAccountId`,`SetId`),
+  FOREIGN KEY (`GameAccountId`) REFERENCES `GameAccounts` (`Id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of GameAccountCharacterTemplates
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for GameAccountClasses
+-- ----------------------------
+DROP TABLE IF EXISTS `GameAccountClasses`;
+CREATE TABLE `GameAccountClasses` (
+  `GameAccountId` int(11) unsigned NOT NULL,
+  `Class` tinyint(4) unsigned NOT NULL COMMENT 'Class Id',
+  `Expansion` tinyint(4) unsigned NOT NULL COMMENT 'Expansion for class activation',
+  PRIMARY KEY (`GameAccountId`,`Class`),
+  FOREIGN KEY (`GameAccountId`) REFERENCES `GameAccounts` (`Id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of GameAccountClasses
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for GameAccountRaces
+-- ----------------------------
+DROP TABLE IF EXISTS `GameAccountRaces`;
+CREATE TABLE `GameAccountRaces` (
+  `GameAccountId` int(11) unsigned NOT NULL,
+  `Race` tinyint(4) unsigned NOT NULL COMMENT 'Race Id',
+  `Expansion` tinyint(4) unsigned NOT NULL COMMENT 'Expansion for race activation',
+  PRIMARY KEY (`GameAccountId`,`Race`),
+  FOREIGN KEY (`GameAccountId`) REFERENCES `GameAccounts` (`Id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of GameAccountRaces
+-- ----------------------------
 
 -- ----------------------------
 -- Table structure for Accounts
@@ -20,42 +78,12 @@ CREATE TABLE `Accounts` (
   `PasswordVerifier` varchar(256) DEFAULT NULL,
   `Salt` varchar(64) DEFAULT NULL,
   `IP` varchar(15) DEFAULT NULL,
-  `LoginFailures` tinyint(4) unsigned NOT NULL DEFAULT 0,
+  `LoginFailures` tinyint(4) unsigned NOT NULL DEFAULT '0',
   PRIMARY KEY (`Id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of Accounts
--- ----------------------------
-
--- ----------------------------
--- Table structure for AllowedClasses
--- ----------------------------
-DROP TABLE IF EXISTS `AllowedClasses`;
-CREATE TABLE `AllowedClasses` (
-  `AccountId` int(11) unsigned NOT NULL,
-  `Class` tinyint(4) unsigned NOT NULL COMMENT 'Class Id',
-  `Expansion` tinyint(4) unsigned NOT NULL COMMENT 'Expansion for class activation',
-  PRIMARY KEY (`AccountId`,`Class`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of AllowedClasses
--- ----------------------------
-
--- ----------------------------
--- Table structure for AllowedRaces
--- ----------------------------
-DROP TABLE IF EXISTS `AllowedRaces`;
-CREATE TABLE `AllowedRaces` (
-  `AccountId` int(11) unsigned NOT NULL,
-  `Race` tinyint(4) unsigned NOT NULL COMMENT 'Race Id',
-  `Expansion` tinyint(4) unsigned NOT NULL COMMENT 'Expansion for race activation',
-  PRIMARY KEY (`AccountId`,`Race`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of AllowedRaces
 -- ----------------------------
 
 -- ----------------------------
@@ -75,29 +103,29 @@ CREATE TABLE `Components` (
 INSERT INTO `Components` VALUES ('Bnet', 'Mc64', '37165');
 INSERT INTO `Components` VALUES ('Bnet', 'Win', '37165');
 INSERT INTO `Components` VALUES ('Bnet', 'Wn64', '37165');
-INSERT INTO `Components` VALUES ('WoW', 'base', '18379');
-INSERT INTO `Components` VALUES ('WoW', 'deDE', '18379');
-INSERT INTO `Components` VALUES ('WoW', 'enGB', '18379');
-INSERT INTO `Components` VALUES ('WoW', 'enUS', '18379');
-INSERT INTO `Components` VALUES ('WoW', 'esES', '18379');
-INSERT INTO `Components` VALUES ('WoW', 'esMX', '18379');
-INSERT INTO `Components` VALUES ('WoW', 'frFR', '18379');
-INSERT INTO `Components` VALUES ('WoW', 'itIT', '18379');
-INSERT INTO `Components` VALUES ('WoW', 'koKR', '18379');
-INSERT INTO `Components` VALUES ('WoW', 'Mc64', '18379');
-INSERT INTO `Components` VALUES ('WoW', 'plPL', '18379');
-INSERT INTO `Components` VALUES ('WoW', 'ptBR', '18379');
-INSERT INTO `Components` VALUES ('WoW', 'ruRU', '18379');
-INSERT INTO `Components` VALUES ('WoW', 'Win', '18379');
-INSERT INTO `Components` VALUES ('WoW', 'Wn64', '18379');
-INSERT INTO `Components` VALUES ('WoW', 'zhCN', '18379');
-INSERT INTO `Components` VALUES ('WoW', 'zhTW', '18379');
-INSERT INTO `Components` VALUES ('WoWB', 'Mc64', '18379');
-INSERT INTO `Components` VALUES ('WoWB', 'Win', '18379');
-INSERT INTO `Components` VALUES ('WoWB', 'Wn64', '18379');
-INSERT INTO `Components` VALUES ('WoWT', 'Mc64', '18379');
-INSERT INTO `Components` VALUES ('WoWT', 'Win', '18379');
-INSERT INTO `Components` VALUES ('WoWT', 'Wn64', '18379');
+INSERT INTO `Components` VALUES ('WoW', 'base', '18566');
+INSERT INTO `Components` VALUES ('WoW', 'deDE', '18566');
+INSERT INTO `Components` VALUES ('WoW', 'enGB', '18566');
+INSERT INTO `Components` VALUES ('WoW', 'enUS', '18566');
+INSERT INTO `Components` VALUES ('WoW', 'esES', '18566');
+INSERT INTO `Components` VALUES ('WoW', 'esMX', '18566');
+INSERT INTO `Components` VALUES ('WoW', 'frFR', '18566');
+INSERT INTO `Components` VALUES ('WoW', 'itIT', '18566');
+INSERT INTO `Components` VALUES ('WoW', 'koKR', '18566');
+INSERT INTO `Components` VALUES ('WoW', 'Mc64', '18566');
+INSERT INTO `Components` VALUES ('WoW', 'plPL', '18566');
+INSERT INTO `Components` VALUES ('WoW', 'ptBR', '18566');
+INSERT INTO `Components` VALUES ('WoW', 'ruRU', '18566');
+INSERT INTO `Components` VALUES ('WoW', 'Win', '18566');
+INSERT INTO `Components` VALUES ('WoW', 'Wn64', '18566');
+INSERT INTO `Components` VALUES ('WoW', 'zhCN', '18566');
+INSERT INTO `Components` VALUES ('WoW', 'zhTW', '18566');
+INSERT INTO `Components` VALUES ('WoWB', 'Mc64', '18566');
+INSERT INTO `Components` VALUES ('WoWB', 'Win', '18566');
+INSERT INTO `Components` VALUES ('WoWB', 'Wn64', '18566');
+INSERT INTO `Components` VALUES ('WoWT', 'Mc64', '18566');
+INSERT INTO `Components` VALUES ('WoWT', 'Win', '18566');
+INSERT INTO `Components` VALUES ('WoWT', 'Wn64', '18566');
 
 -- ----------------------------
 -- Table structure for GameAccounts
@@ -113,7 +141,7 @@ CREATE TABLE `GameAccounts` (
   `BoxLevel` tinyint(4) NOT NULL,
   `OS` varchar(4) DEFAULT NULL,
   `SessionKey` varchar(80) DEFAULT NULL,
-  `IsOnline` bit(1) NOT NULL DEFAULT 0,
+  `IsOnline` bit(1) NOT NULL DEFAULT b'0',
   PRIMARY KEY (`Id`),
   KEY `Account` (`AccountId`),
   CONSTRAINT `Account` FOREIGN KEY (`AccountId`) REFERENCES `Accounts` (`Id`)
@@ -152,6 +180,79 @@ INSERT INTO `Modules` VALUES ('8c43bda10be33a32abbc09fb2279126c7f5953336391276cf
 INSERT INTO `Modules` VALUES ('abc6bb719a73ec1055296001910e26afa561f701ad9995b1ecd7f55f9d3ca37c', 'auth', 'SelectGameAccount', 'Win', '0', null);
 INSERT INTO `Modules` VALUES ('b37136b39add83cfdbafa81857de3dd8f15b34e0135ec6cd9c3131d3a578d8c2', 'auth', 'Thumbprint', 'Mc64', '512', 'E716F4F0A01EB9C032A6C1393356A4F766F067949D71023C0CFC0613718966EF814E65CC6EE70C432A7F8AFD8A062B52603A2697E851D231D72C0277614181D713369B1E8E4BEEAB72045A9AAD45F319DB918ECDDB83C8EF8B7510600D391D45E7FEC0BEEAE904A5F9FA620F1CCDAD699D84A4739CE669B5A551831E396214E13B4C88F573F5CDC784CD01530C086B674C03BEB66403A0F87ED17ABBB403DE54CF31BE828A20C566C22E4D4263AA77220B0644D99245345BCAC276EA06925EB984D664725C3CB757140AFE12E27CB996F17159B1057E9B58B78BBB5A139C9FF6215A0D250B75FC9DD435655DDEADCD6CFD84800792C146B3633188ECEB53D2038C185E0BD51A9E6C70FD38ADF530F8DF50FB62053C5E894897AB7DD65C7AC80665F18E7989BE6E30F15E939751123D6D8A44F033175301D15AAAD2AEA06FAC60BA4065846AE938F32B1CB15F16DC0E76792A7332346896048065D17C059899E1D2300E402BD0EA74265DA6A42B1C854E2470D7B21AE4A2DAE90E602A759B2CA0EE610B50D5389DB89335D5451FE76DD85B09FD5297D6F9EFB6C34CE885007F7DF20D6A524E0C3E772FA04B3DD2E014D3A337A790943DAD523CBB5453F4FDF8E74DFE361BD5F25AB31952B478148B570DF5762643F32B994FEC99A747E4A265A66EE84A53509EC285C84679606049314FC526C61B537AC8061C788F8B86F52208');
 INSERT INTO `Modules` VALUES ('c3a1ac0694979e709c3b5486927e558af1e2be02ca96e5615c5a65aacc829226', 'auth', 'Thumbprint', 'Wn64', '512', 'E716F4F0A01EB9C032A6C1393356A4F766F067949D71023C0CFC0613718966EF814E65CC6EE70C432A7F8AFD8A062B52603A2697E851D231D72C0277614181D713369B1E8E4BEEAB72045A9AAD45F319DB918ECDDB83C8EF8B7510600D391D45E7FEC0BEEAE904A5F9FA620F1CCDAD699D84A4739CE669B5A551831E396214E13B4C88F573F5CDC784CD01530C086B674C03BEB66403A0F87ED17ABBB403DE54CF31BE828A20C566C22E4D4263AA77220B0644D99245345BCAC276EA06925EB984D664725C3CB757140AFE12E27CB996F17159B1057E9B58B78BBB5A139C9FF6215A0D250B75FC9DD435655DDEADCD6CFD84800792C146B3633188ECEB53D2038C185E0BD51A9E6C70FD38ADF530F8DF50FB62053C5E894897AB7DD65C7AC80665F18E7989BE6E30F15E939751123D6D8A44F033175301D15AAAD2AEA06FAC60BA4065846AE938F32B1CB15F16DC0E76792A7332346896048065D17C059899E1D2300E402BD0EA74265DA6A42B1C854E2470D7B21AE4A2DAE90E602A759B2CA0EE610B50D5389DB89335D5451FE76DD85B09FD5297D6F9EFB6C34CE885007F7DF20D6A524E0C3E772FA04B3DD2E014D3A337A790943DAD523CBB5453F4FDF8E74DFE361BD5F25AB31952B478148B570DF5762643F32B994FEC99A747E4A265A66EE84A53509EC285C84679606049314FC526C61B537AC8061C788F8B86F52208');
+
+-- ----------------------------
+-- Table structure for RealmCharacterTemplates
+-- ----------------------------
+DROP TABLE IF EXISTS `RealmCharacterTemplates`;
+CREATE TABLE `RealmCharacterTemplates` (
+  `RealmId` int(10) unsigned NOT NULL,
+  `SetId` int(10) unsigned DEFAULT NULL,
+  PRIMARY KEY (`RealmId`,`SetId`),
+  FOREIGN KEY (`RealmId`) REFERENCES `Realms` (`Id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of RealmCharacterTemplates
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for RealmClasses
+-- ----------------------------
+DROP TABLE IF EXISTS `RealmClasses`;
+CREATE TABLE `RealmClasses` (
+  `RealmId` int(11) unsigned NOT NULL,
+  `Class` tinyint(4) unsigned NOT NULL COMMENT 'Class Id',
+  `Expansion` tinyint(4) unsigned NOT NULL COMMENT 'Expansion for class activation',
+  PRIMARY KEY (`RealmId`,`Class`),
+  FOREIGN KEY (`RealmId`) REFERENCES `Realms` (`Id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of RealmClasses
+-- ----------------------------
+INSERT INTO `RealmClasses` VALUES ('1', '1', '0');
+INSERT INTO `RealmClasses` VALUES ('1', '2', '0');
+INSERT INTO `RealmClasses` VALUES ('1', '3', '0');
+INSERT INTO `RealmClasses` VALUES ('1', '4', '0');
+INSERT INTO `RealmClasses` VALUES ('1', '5', '0');
+INSERT INTO `RealmClasses` VALUES ('1', '6', '2');
+INSERT INTO `RealmClasses` VALUES ('1', '7', '0');
+INSERT INTO `RealmClasses` VALUES ('1', '8', '0');
+INSERT INTO `RealmClasses` VALUES ('1', '9', '0');
+INSERT INTO `RealmClasses` VALUES ('1', '10', '4');
+INSERT INTO `RealmClasses` VALUES ('1', '11', '0');
+
+-- ----------------------------
+-- Table structure for RealmRaces
+-- ----------------------------
+DROP TABLE IF EXISTS `RealmRaces`;
+CREATE TABLE `RealmRaces` (
+  `RealmId` int(11) unsigned NOT NULL,
+  `Race` tinyint(4) unsigned NOT NULL COMMENT 'Race Id',
+  `Expansion` tinyint(4) unsigned NOT NULL COMMENT 'Expansion for race activation',
+  PRIMARY KEY (`RealmId`,`Race`),
+  FOREIGN KEY (`RealmId`) REFERENCES `Realms` (`Id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of RealmRaces
+-- ----------------------------
+INSERT INTO `RealmRaces` VALUES ('1', '1', '0');
+INSERT INTO `RealmRaces` VALUES ('1', '2', '0');
+INSERT INTO `RealmRaces` VALUES ('1', '3', '0');
+INSERT INTO `RealmRaces` VALUES ('1', '4', '0');
+INSERT INTO `RealmRaces` VALUES ('1', '5', '0');
+INSERT INTO `RealmRaces` VALUES ('1', '6', '0');
+INSERT INTO `RealmRaces` VALUES ('1', '7', '0');
+INSERT INTO `RealmRaces` VALUES ('1', '8', '0');
+INSERT INTO `RealmRaces` VALUES ('1', '9', '3');
+INSERT INTO `RealmRaces` VALUES ('1', '10', '1');
+INSERT INTO `RealmRaces` VALUES ('1', '11', '1');
+INSERT INTO `RealmRaces` VALUES ('1', '22', '3');
+INSERT INTO `RealmRaces` VALUES ('1', '24', '4');
+INSERT INTO `RealmRaces` VALUES ('1', '25', '4');
+INSERT INTO `RealmRaces` VALUES ('1', '26', '4');
 
 -- ----------------------------
 -- Table structure for Realms

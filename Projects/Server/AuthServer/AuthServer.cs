@@ -52,10 +52,10 @@ namespace AuthServer
                 PacketManager.DefineMessageHandler();
 
                 // Set all game accounts offline
-                foreach (var ga in DB.Auth.GameAccounts)
+                /*foreach (var ga in DB.Auth.GameAccounts)
                     ga.IsOnline = false;
 
-                DB.Auth.Update();
+                DB.Auth.Update();*/
 
                 Manager.Initialize();
 

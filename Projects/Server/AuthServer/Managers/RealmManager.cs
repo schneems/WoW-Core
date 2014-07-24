@@ -42,7 +42,7 @@ namespace AuthServer.Managers
                     Log.Message(LogType.Debug, "Updating RealmList...");
                     
                     Realm realm;
-                    var realms = DB.Auth.Realms.Select(r => r);
+                    var realms = DB.Auth.Select<Realm>();
 
                     RealmList.ToList().ForEach(r =>
                     {
