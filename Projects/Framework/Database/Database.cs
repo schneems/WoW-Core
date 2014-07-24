@@ -75,7 +75,6 @@ namespace Framework.Database
                         mParams.Add(new MySqlParameter("", a));
 
                     sqlCommand.Parameters.AddRange(mParams.ToArray());
-
                     sqlCommand.ExecuteNonQuery();
                 }
 
@@ -90,7 +89,7 @@ namespace Framework.Database
 
         public SQLResult Select(string sql, params object[] args)
         {
-            StringBuilder sqlString = new StringBuilder();
+            var sqlString = new StringBuilder();
             // Fix for floating point problems on some languages
             sqlString.AppendFormat(CultureInfo.GetCultureInfo("en-US").NumberFormat, sql);
 
@@ -105,14 +104,17 @@ namespace Framework.Database
 
                     sqlCommand.Parameters.AddRange(mParams.ToArray());
 
-                    using (var SqlData = sqlCommand.ExecuteReader(CommandBehavior.Default))
+                    using (var sqlData = sqlCommand.ExecuteReader(CommandBehavior.Default))
                     {
-                        using (var retData = new SQLResult())
+                        if (sqlData.HasRows)
                         {
-                            retData.Load(SqlData);
-                            retData.Count = retData.Rows.Count;
+                            using (var retData = new SQLResult())
+                            {
+                                retData.Load(sqlData);
+                                retData.Count = retData.Rows.Count;
 
-                            return retData;
+                                return retData;
+                            }
                         }
                     }
                 }
@@ -184,31 +186,32 @@ namespace Framework.Database
             var query = builder.BuildSelect<T>();
             var properties = typeof(T).GetProperties().Where(p => !p.GetMethod.IsVirtual).ToArray();
             var foreignKeys = typeof(T).GetProperties().Where(p => p.GetMethod.IsVirtual).ToArray();
-            var data = Select(query);
+            var entities = new List<T>();
 
-            if (data.Columns.Count != properties.Count())
-                throw new NotSupportedException("Columns doesn't match the entity fields.");
-
-            if (data.Count == 0)
-                return default(List<T>);
-
-            var entities = new List<T>();   
-
-            for (var i = 0; i < data.Count; i++)
+            if ((var data = Select(query)) != null)
             {
-                var entity = new T();
+                if (data.Columns.Count != properties.Count())
+                    throw new NotSupportedException("Columns doesn't match the entity fields.");
 
-                for (var j = 0; j < properties.Length; j++)
+                if (data.Count == 0)
+                    return default(List<T>);
+
+                for (var i = 0; i < data.Count; i++)
                 {
-                    var p = properties[j];
-                    var val = data.Rows[i][p.Name];
+                    var entity = new T();
 
-                    p.SetValue(entity, Convert.ChangeType(val, p.PropertyType), null);
+                    for (var j = 0; j < properties.Length; j++)
+                    {
+                        var p = properties[j];
+                        var val = data.Rows[i][p.Name];
+
+                        p.SetValue(entity, Convert.ChangeType(val, p.PropertyType), null);
+                    }
+
+                    AssignForeignKeyData(entity, foreignKeys);
+
+                    entities.Add(entity);
                 }
-
-                AssignForeignKeyData(entity, foreignKeys);
-
-                entities.Add(entity);
             }
 
             return entities;
@@ -221,33 +224,37 @@ namespace Framework.Database
 
             // We support only 1 table for now
             var query = builder.BuildWhere<T>(bExpression, expression.Parameters[0].Name);
-            var data = Select(query);
 
-            if (data.Count > 1)
-                throw new NotSupportedException("Result contains more than 1 element.");
-
-            if (data.Count == 0)
-                return default(T);
-
-            var properties = typeof(T).GetProperties().Where(p => !p.GetMethod.IsVirtual).ToArray();
-            var foreignKeys = typeof(T).GetProperties().Where(p => p.GetMethod.IsVirtual).ToArray();
-
-            if (data.Columns.Count != properties.Length)
-                throw new NotSupportedException("Columns doesn't match the entity fields.");
-
-            var entity = new T();
-
-            for (var i = 0; i < properties.Length; i++)
+            if ((var data = Select(query)) != null)
             {
-                var p = properties[i];
-                var val = data.Rows[0][p.Name];
+                if (data.Count > 1)
+                    throw new NotSupportedException("Result contains more than 1 element.");
 
-                p.SetValue(entity, Convert.ChangeType(val, p.PropertyType), null);
+                if (data.Count == 0)
+                    return default(T);
+
+                var properties = typeof(T).GetProperties().Where(p => !p.GetMethod.IsVirtual).ToArray();
+                var foreignKeys = typeof(T).GetProperties().Where(p => p.GetMethod.IsVirtual).ToArray();
+
+                if (data.Columns.Count != properties.Length)
+                    throw new NotSupportedException("Columns doesn't match the entity fields.");
+
+                var entity = new T();
+
+                for (var i = 0;  i < properties.Length; i++)
+                {
+                    var p = properties[i];
+                    var val = data.Rows[0][p.Name];
+
+                    p.SetValue(entity, Convert.ChangeType(val, p.PropertyType), null);
+                }
+
+                AssignForeignKeyData(entity, foreignKeys);
+
+                return entity;
             }
 
-            AssignForeignKeyData(entity, foreignKeys);
-
-            return entity;
+            return default(T);
         }
 
         public List<T> Where<T>(Expression<Func<T, object>> expression) where T : new()
@@ -257,30 +264,32 @@ namespace Framework.Database
 
             // We support only 1 table for now
             var query = builder.BuildWhere<T>(bExpression, expression.Parameters[0].Name);
-            var data = Select(query);
-            var properties = typeof(T).GetProperties().Where(p => !p.GetMethod.IsVirtual).ToArray();
-            var foreignKeys = typeof(T).GetProperties().Where(p => p.GetMethod.IsVirtual).ToArray();
-
-            if (data.Columns.Count != properties.Length)
-                throw new NotSupportedException("Columns doesn't match the entity fields.");
-
             var entities = new List<T>();
 
-            for (var i = 0; i < data.Count; i++)
+            if ((var data = Select(query)) != null)
             {
-                var entity = new T();
+                var properties = typeof(T).GetProperties().Where(p => !p.GetMethod.IsVirtual).ToArray();
+                var foreignKeys = typeof(T).GetProperties().Where(p => p.GetMethod.IsVirtual).ToArray();
 
-                for (var j = 0; j < properties.Length; j++)
+                if (data.Columns.Count != properties.Length)
+                    throw new NotSupportedException("Columns doesn't match the entity fields.");
+
+                for (var i = 0;  i < data.Count; i++)
                 {
-                    var p = properties[j];
-                    var val = data.Rows[i][p.Name];
+                    var entity = new T();
 
-                    p.SetValue(entity, Convert.ChangeType(val, p.PropertyType), null);
+                    for (var j = 0; j < properties.Length; j++)
+                    {
+                        var p = properties[j];
+                        var val = data.Rows[i][p.Name];
+
+                        p.SetValue(entity, Convert.ChangeType(val, p.PropertyType), null);
+                    }
+
+                    AssignForeignKeyData(entity, foreignKeys);
+
+                    entities.Add(entity);
                 }
-
-                AssignForeignKeyData(entity, foreignKeys);
-
-                entities.Add(entity);
             }
 
             return entities;

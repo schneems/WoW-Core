@@ -27,6 +27,9 @@ namespace Framework.Misc
 {
     public static class Extensions
     {
+        // Create only one service
+        static PluralizationService pluralService = PluralizationService.CreateService(new CultureInfo("en-US"));
+
         #region BinaryReader
         public static Dictionary<Type, Func<BinaryReader, object>> ReadValue = new Dictionary<Type, Func<BinaryReader, object>>()
         {
@@ -54,7 +57,7 @@ namespace Framework.Misc
         #region UInt32
         public static uint LeftRotate(this uint value, int shiftCount)
         {
-            return (uint)((value << shiftCount) | (value >> (0x20 - shiftCount)));
+            return (value << shiftCount) | (value >> (0x20 - shiftCount));
         }
         #endregion
         #region String
@@ -70,9 +73,7 @@ namespace Framework.Misc
 
         public static string Pluralize(this string s)
         {
-            var service = PluralizationService.CreateService(new CultureInfo("en-US"));
-
-            return service.Pluralize(s);
+            return pluralService.Pluralize(s);
         }
         #endregion
         #region ByteArray
@@ -152,7 +153,7 @@ namespace Framework.Misc
                     if (isBigEndian)
                         Array.Reverse(data);
 
-                    ret = new BigInteger(data.Combine(new byte[] { 0 })); ;
+                    ret = new BigInteger(data.Combine(new byte[] { 0 }));
                     break;
                 case "BigInteger":
                     ret = (BigInteger)Convert.ChangeType(value, typeof(BigInteger));
