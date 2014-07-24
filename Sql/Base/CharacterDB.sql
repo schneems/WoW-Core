@@ -25,7 +25,7 @@ CREATE TABLE `CharacterTemplateActions` (
   `Slot` tinyint(3) unsigned NOT NULL,
   PRIMARY KEY (`Action`,`Slot`),
   KEY `Class` (`ClassId`),
-  FOREIGN KEY (`ClassId`) REFERENCES CharacterTemplateClasses(`Id`)
+  FOREIGN KEY (`ClassId`) REFERENCES CharacterTemplateClasses(`ClassId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -40,8 +40,8 @@ CREATE TABLE `CharacterTemplateClasses` (
   `ClassId` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `SetId` int(11) unsigned NOT NULL,
   `FactionGroup` tinyint(4) NOT NULL,
-  PRIMARY KEY (`Id`,`SetId`),
-  KEY `Id` (`Id`),
+  PRIMARY KEY (`ClassId`,`SetId`),
+  KEY `Id` (`ClassId`),
   FOREIGN KEY (`SetId`) REFERENCES CharacterTemplateSets(`Id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -62,7 +62,7 @@ CREATE TABLE `CharacterTemplateData` (
   `Z` float NOT NULL,
   `O` float NOT NULL,
   PRIMARY KEY (`ClassId`),
-  FOREIGN KEY (`ClassId`) REFERENCES CharacterTemplateClasses(`Id`)
+  FOREIGN KEY (`ClassId`) REFERENCES CharacterTemplateClasses(`ClassId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -77,8 +77,8 @@ CREATE TABLE `CharacterTemplateItems` (
   `ItemId` int(10) unsigned DEFAULT NULL,
   `ClassId` int(11) unsigned NOT NULL,
   `IsEquipped` bit(1) NOT NULL DEFAULT b'0',
-  PRIMARY KEY (`Id`,`ClassId`,`IsEquipped`),
-  FOREIGN KEY (`ClassId`) REFERENCES CharacterTemplateClasses(`Id`)
+  PRIMARY KEY (`ItemId`,`ClassId`,`IsEquipped`),
+  FOREIGN KEY (`ClassId`) REFERENCES CharacterTemplateClasses(`ClassId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -107,8 +107,8 @@ DROP TABLE IF EXISTS `CharacterTemplateSkills`;
 CREATE TABLE `CharacterTemplateSkills` (
   `SkillId` int(10) unsigned NOT NULL,
   `ClassId` int(11) unsigned NOT NULL,
-  PRIMARY KEY (`Id`,`ClassId`),
-  FOREIGN KEY (`ClassId`) REFERENCES CharacterTemplateClasses(`Id`)
+  PRIMARY KEY (`SkillId`,`ClassId`),
+  FOREIGN KEY (`ClassId`) REFERENCES CharacterTemplateClasses(`ClassId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -122,8 +122,8 @@ DROP TABLE IF EXISTS `CharacterTemplateSpells`;
 CREATE TABLE `CharacterTemplateSpells` (
   `SpellId` int(10) unsigned NOT NULL,
   `ClassId` int(11) unsigned NOT NULL,
-  PRIMARY KEY (`Id`,`ClassId`),
-  FOREIGN KEY (`ClassId`) REFERENCES CharacterTemplateClasses(`Id`)
+  PRIMARY KEY (`SpellId`,`ClassId`),
+  FOREIGN KEY (`ClassId`) REFERENCES CharacterTemplateClasses(`ClassId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
