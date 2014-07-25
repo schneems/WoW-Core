@@ -105,9 +105,15 @@ namespace Framework.Database
             {
                 if (bExpression.Right.NodeType == ExpressionType.MemberAccess)
                 {
-                    // ToDo: Handle other member types.
                     var memberExp = bExpression.Right as MemberExpression;
-                    var val =(memberExp.Member as FieldInfo).GetValue((memberExp.Expression as ConstantExpression).Value);
+
+                    while (memberExp.Expression is MemberExpression)
+                        memberExp = memberExp.Expression as MemberExpression;
+
+                    var val = (memberExp.Member as FieldInfo).GetValue((memberExp.Expression as ConstantExpression).Value);
+
+                    if ((var memberInfo = bExpression.Right as MemberExpression).Member is PropertyInfo)
+                        val = (memberInfo.Member as PropertyInfo).GetValue(val);
 
                     sqlString.AppendFormat("{0}{1}'{2}'", Regex.Replace(bExpression.Left.ToString(), @"^Convert\(|\)$", ""), condition, val);
                 }
