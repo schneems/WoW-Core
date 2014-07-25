@@ -15,14 +15,12 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-using Framework.Attributes;
-
 namespace Framework.Database.Auth.Entities
 {
     public class RealmCharacterTemplate
     {
         public int RealmId { get; set; }
-        public int SetId { get; set; }
+        public int SetId   { get; set; }
 
         public virtual Realm Realm { get; set; }
     }

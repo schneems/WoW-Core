@@ -22,8 +22,8 @@ namespace Framework.Database.Character.Entities
 {
     public class CharacterTemplateSet
     {
-        public int Id { get; set; }
-        public string Name { get; set; }
+        public int Id             { get; set; }
+        public string Name        { get; set; }
         public string Description { get; set; }
 
         [Field(ForeignKey = "SetId")]

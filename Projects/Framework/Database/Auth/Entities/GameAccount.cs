@@ -35,7 +35,7 @@ namespace Framework.Database.Auth.Entities
 
         public virtual Account Account { get; set; }
 
-        public virtual IList<GameAccountRace> GameAccountRaces { get;set; }
+        public virtual IList<GameAccountRace> GameAccountRaces { get; set; }
         public virtual IList<GameAccountClass> GameAccountClasses { get; set; }
         public virtual IList<GameAccountCharacterTemplate> GameAccountCharacterTemplates { get; set; }
     }

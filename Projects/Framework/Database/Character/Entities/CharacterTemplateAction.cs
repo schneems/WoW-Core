@@ -23,8 +23,8 @@ namespace Framework.Database.Character.Entities
     {
         [Field(PrimaryKey = true)]
         public int ClassId { get; set; }
-        public int Action { get; set; }
-        public byte Slot { get; set; }
+        public int Action  { get; set; }
+        public byte Slot   { get; set; }
 
         public virtual CharacterTemplateClass CharacterTemplateClass { get; set; }
     }

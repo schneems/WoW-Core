@@ -23,16 +23,16 @@ namespace Framework.Database.Character.Entities
     public class CharacterTemplateClass
     {
         [Field(PrimaryKey = true)]
-        public int ClassId { get; set; }
-        public int SetId { get; set; }
-        public byte FactionGroup { get; set; }
+        public int ClassId       { get; set; }
+        public int SetId         { get; set; }
+        public byte FactionGroup { get; set; } // Alliance = 3, Horde = 5
 
         public virtual CharacterTemplateSet CharacterTemplateSet { get; set; }
 
         public virtual IList<CharacterTemplateAction> CharacterTemplateActions { get; set; }
-        public virtual IList<CharacterTemplateData> CharacterTemplateData { get; set; }
-        public virtual IList<CharacterTemplateItem> CharacterTemplateItems { get; set; }
-        public virtual IList<CharacterTemplateSkill> CharacterTemplateSkills { get; set; }
-        public virtual IList<CharacterTemplateSpell> CharacterTemplateSpells { get; set; }
+        public virtual IList<CharacterTemplateData> CharacterTemplateData      { get; set; }
+        public virtual IList<CharacterTemplateItem> CharacterTemplateItems     { get; set; }
+        public virtual IList<CharacterTemplateSkill> CharacterTemplateSkills   { get; set; }
+        public virtual IList<CharacterTemplateSpell> CharacterTemplateSpells   { get; set; }
     }
 }

@@ -22,8 +22,8 @@ namespace Framework.Database.Character.Entities
     public class CharacterTemplateItem
     {
         [Field(PrimaryKey = true)]
-        public int ItemId { get; set; }
-        public int ClassId { get; set; }
+        public int ItemId      { get; set; }
+        public int ClassId     { get; set; }
         public bool IsEquipped { get; set; }
 
         [Field(ForeignKey = "ClassId")]

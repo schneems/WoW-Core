@@ -22,13 +22,13 @@ namespace Framework.Database.Character.Entities
     public class CharacterTemplateData
     {
         [Field(PrimaryKey = true)]
-        public int ClassId { get; set; }
+        public int ClassId  { get; set; }
         public ushort MapId { get; set; }
-        public ushort Zone { get; set; }
-        public float X { get; set; }
-        public float Y { get; set; }
-        public float Z { get; set; }
-        public float O { get; set; }
+        public ushort Zone  { get; set; }
+        public float X      { get; set; }
+        public float Y      { get; set; }
+        public float Z      { get; set; }
+        public float O      { get; set; }
 
         [Field(ForeignKey = "ClassId")]
         public virtual CharacterTemplateClass CharacterTemplateClass { get; set; }
