@@ -103,7 +103,7 @@ CREATE TABLE `Components` (
 INSERT INTO `Components` VALUES ('Bnet', 'Mc64', '37165');
 INSERT INTO `Components` VALUES ('Bnet', 'Win', '37165');
 INSERT INTO `Components` VALUES ('Bnet', 'Wn64', '37165');
-INSERT INTO `Components` VALUES ('WoW', 'base', '18612');
+INSERT INTO `Components` VALUES ('WoW', 'base', '18594');
 INSERT INTO `Components` VALUES ('WoW', 'deDE', '18612');
 INSERT INTO `Components` VALUES ('WoW', 'enGB', '18612');
 INSERT INTO `Components` VALUES ('WoW', 'enUS', '18612');
