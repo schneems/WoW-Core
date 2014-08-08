@@ -166,14 +166,19 @@ namespace Framework.Database
             return Execute(query, values.Values.ToArray());
         }
 
-        public void Update<T>(T entity, params object[] values) where T : new()
+        public bool Update<T>(T entity, params object[] values) where T : new()
         {
             var pkData = GetForeignKeyBaseData(entity);
+            var query = new StringBuilder();
+
+            query.AppendFormat("UPDATE `{0}` SET ", typeof(T).Name.Pluralize());
+
+            for (var i = 0; i < values.Length; i += 2)
+                query.AppendFormat("`{0}` = '{1}', ", values[i].ToString(), values[i + 1]);
+
+            query.AppendFormat("WHERE `{0}` = '{1}'", "Id", pkData.Item2);
             
-            // ToDo: Add support for more fields...
-            for (var i = 0; i < values.Length / 2; i++)
-                if (i % 2 == 0)
-                    Execute(string.Format("UPDATE `{0}` SET `{1}` = '{2}' WHERE `{3}` = '{4}'", typeof(T).Name.Pluralize(), values[i].ToString(), values[i + 1], "Id", pkData.Item2));
+            return Execute(query.Replace(", WHERE", " WHERE").ToString());
         }
 
         public bool Delete<T>(Expression<Func<T, object>> expression) where T : class
