@@ -69,10 +69,5 @@ namespace RealmServer.Constants.Net
         LogoutCancelAck                         = 0x2000,
         GetAccountCharacterListResult           = 0x2000,
         #endregion
-
-        #region NetClient
-        AuthChallenge                           = 0x0114,
-        Pong                                    = 0x2000,
-        #endregion
     }
 }

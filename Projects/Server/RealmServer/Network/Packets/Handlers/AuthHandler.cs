@@ -16,6 +16,7 @@
  */
 
 using System.Linq;
+using Framework.Constants.Net;
 using Framework.Cryptography;
 using Framework.Cryptography.WoW;
 using Framework.Database;
@@ -33,7 +34,7 @@ namespace RealmServer.Network.Packets.Handlers
     {
         public static void HandleAuthChallenge(RealmSession session)
         {
-            var authChallenge = new Packet(ServerMessages.AuthChallenge);
+            var authChallenge = new Packet(ServerMessage.AuthChallenge);
 
             // Part of the header
             authChallenge.Write<ushort>(0);

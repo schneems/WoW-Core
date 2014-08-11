@@ -26,7 +26,7 @@ namespace Framework.Cryptography.WoW
     {
         public RSAParameters RsaParams;
 
-        public RsaData(int keySize = 4096)
+        public RsaData(int keySize = 2048)
         {
             RSACryptoServiceProvider.UseMachineKeyStore = false;
 

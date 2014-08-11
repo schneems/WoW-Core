@@ -26,7 +26,6 @@ namespace RealmServer.Constants.Net
         CreateCharacter                    = 0x2000,
         CharCustomize                      = 0x2000,
         CharRaceOrFactionChange            = 0x2000,
-        ReadyForAccountDataTimes           = 0x2000,
         CharDelete                         = 0x2000,
         CharForceDelete                    = 0x2000,
         GetAccountCharacterList            = 0x2000,
@@ -42,8 +41,6 @@ namespace RealmServer.Constants.Net
 
         #region UserRouterClient
         AuthSession                        = 0x0204,
-        Ping                               = 0x2000,
-        LogDisconnect                      = 0x2000
         #endregion
     }
 }
