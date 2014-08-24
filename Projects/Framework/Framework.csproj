@@ -45,12 +45,13 @@
   <ItemGroup>
     <Compile Include="Attributes\ConsoleCommandAttribute.cs" />
     <Compile Include="Attributes\FieldAttribute.cs" />
+    <Compile Include="Attributes\GlobalMessageAttribute.cs" />
     <Compile Include="Constants\Account\AccountFlags.cs" />
     <Compile Include="Constants\Account\GameAccountFlags.cs" />
     <Compile Include="Constants\Account\Regions.cs" />
     <Compile Include="Constants\Misc\LogType.cs" />
-    <Compile Include="Constants\Net\ClientMessage.cs" />
-    <Compile Include="Constants\Net\ServerMessage.cs" />
+    <Compile Include="Constants\Net\GlobalClientMessage.cs" />
+    <Compile Include="Constants\Net\GlobalServerMessage.cs" />
     <Compile Include="Cryptography\BNet\BNetCrypt.cs" />
     <Compile Include="Cryptography\BNet\SRP6a.cs" />
     <Compile Include="Cryptography\SARC4.cs" />
@@ -101,7 +102,7 @@
     <None Include="Configs\AuthServer.conf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Configs\RealmServer.conf">
+    <None Include="Configs\CharacterServer.conf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>

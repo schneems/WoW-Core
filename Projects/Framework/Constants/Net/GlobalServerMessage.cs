@@ -1,6 +1,6 @@
 ﻿/*
  * Copyright (C) 2012-2014 Arctium Emulation <http://arctium.org>
- *
+ * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -15,17 +15,13 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-using Framework.Attributes;
-
-namespace Framework.Database.Character.Entities
+namespace Framework.Constants.Net
 {
-    public class CharacterTemplateSpell
+    // Value '0x2000' means not updated/implemented
+    public enum GlobalServerMessage : ushort
     {
-        [Field(PrimaryKey = true)]
-        public int SpellId  { get; set; }
-        public byte ClassId { get; set; }
-
-        [Field(ForeignKey = "ClassId")]
-        public virtual CharacterTemplateClass CharacterTemplateClass { get; set; }
+        SuspendComms  = 0x1882,
+        ResumeComms   = 0x128A,
+        Pong          = 0x2000,
     }
 }

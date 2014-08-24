@@ -15,17 +15,13 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-using Framework.Attributes;
+using CharacterServer.Attributes;
+using CharacterServer.Constants.Net;
+using Framework.Network.Packets;
 
-namespace Framework.Database.Character.Entities
+namespace CharacterServer.Network.Packets.Handlers
 {
-    public class CharacterTemplateSpell
+    class NetHandler
     {
-        [Field(PrimaryKey = true)]
-        public int SpellId  { get; set; }
-        public byte ClassId { get; set; }
-
-        [Field(ForeignKey = "ClassId")]
-        public virtual CharacterTemplateClass CharacterTemplateClass { get; set; }
     }
 }

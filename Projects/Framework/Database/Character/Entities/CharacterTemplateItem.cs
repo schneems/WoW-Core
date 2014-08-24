@@ -23,7 +23,7 @@ namespace Framework.Database.Character.Entities
     {
         [Field(PrimaryKey = true)]
         public int ItemId      { get; set; }
-        public int ClassId     { get; set; }
+        public byte ClassId    { get; set; }
         public bool IsEquipped { get; set; }
 
         [Field(ForeignKey = "ClassId")]

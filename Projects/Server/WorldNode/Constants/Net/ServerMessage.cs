@@ -15,17 +15,21 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-using Framework.Attributes;
-
-namespace Framework.Database.Character.Entities
+namespace WorldNode.Constants.Net
 {
-    public class CharacterTemplateSpell
+    // Value '0x2000' means not updated/implemented
+    enum ServerMessage : ushort
     {
-        [Field(PrimaryKey = true)]
-        public int SpellId  { get; set; }
-        public byte ClassId { get; set; }
+        #region Misc
+        UpdateAccountData      = 0x2000,
+        AccountDataTimes       = 0x2000,
+        #endregion
 
-        [Field(ForeignKey = "ClassId")]
-        public virtual CharacterTemplateClass CharacterTemplateClass { get; set; }
+        #region RealmConnection
+        LogoutResponse         = 0x2000,
+        LogoutComplete         = 0x2000,
+        LogoutCancelAck        = 0x2000,
+        SetTimeZoneInformation = 0x2000,
+        #endregion
     }
 }

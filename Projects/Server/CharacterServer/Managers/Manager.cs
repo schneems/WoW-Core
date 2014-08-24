@@ -15,17 +15,15 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-using Framework.Attributes;
-
-namespace Framework.Database.Character.Entities
+namespace CharacterServer.Managers
 {
-    public class CharacterTemplateSpell
+    class Manager
     {
-        [Field(PrimaryKey = true)]
-        public int SpellId  { get; set; }
-        public byte ClassId { get; set; }
+        public static GameAccountManager GameAccountMgr;
 
-        [Field(ForeignKey = "ClassId")]
-        public virtual CharacterTemplateClass CharacterTemplateClass { get; set; }
+        public static void Initialize()
+        {
+            GameAccountMgr = GameAccountManager.GetInstance();
+        }
     }
 }

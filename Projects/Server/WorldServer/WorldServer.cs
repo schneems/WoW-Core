@@ -15,17 +15,12 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-using Framework.Attributes;
-
-namespace Framework.Database.Character.Entities
+namespace WorldServer
 {
-    public class CharacterTemplateSpell
+    class WorldServer
     {
-        [Field(PrimaryKey = true)]
-        public int SpellId  { get; set; }
-        public byte ClassId { get; set; }
-
-        [Field(ForeignKey = "ClassId")]
-        public virtual CharacterTemplateClass CharacterTemplateClass { get; set; }
+        static void Main(string[] args)
+        {
+        }
     }
 }

@@ -22,8 +22,8 @@ namespace Framework.Database.Character.Entities
     public class CharacterTemplateSkill
     {
         [Field(PrimaryKey = true)]
-        public int SkillId { get; set; }
-        public int ClassId { get; set; }
+        public int SkillId  { get; set; }
+        public byte ClassId { get; set; }
 
         [Field(ForeignKey = "ClassId")]
         public virtual CharacterTemplateClass CharacterTemplateClass { get; set; }

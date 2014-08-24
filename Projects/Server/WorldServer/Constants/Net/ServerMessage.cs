@@ -15,17 +15,10 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-using Framework.Attributes;
-
-namespace Framework.Database.Character.Entities
+namespace WorldServer.Constants.Net
 {
-    public class CharacterTemplateSpell
+    // Value '0x2000' means not updated/implemented
+    enum ServerMessage : ushort
     {
-        [Field(PrimaryKey = true)]
-        public int SpellId  { get; set; }
-        public byte ClassId { get; set; }
-
-        [Field(ForeignKey = "ClassId")]
-        public virtual CharacterTemplateClass CharacterTemplateClass { get; set; }
     }
 }

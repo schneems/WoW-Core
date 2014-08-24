@@ -22,7 +22,7 @@ namespace Framework.Database.Character.Entities
     public class CharacterTemplateData
     {
         [Field(PrimaryKey = true)]
-        public int ClassId  { get; set; }
+        public byte ClassId { get; set; }
         public ushort MapId { get; set; }
         public ushort Zone  { get; set; }
         public float X      { get; set; }

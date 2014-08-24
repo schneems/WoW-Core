@@ -15,17 +15,14 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-using Framework.Attributes;
+using System;
+using Framework.Constants.Net;
 
-namespace Framework.Database.Character.Entities
+namespace Framework.Attributes
 {
-    public class CharacterTemplateSpell
+    [AttributeUsage(AttributeTargets.Method)]
+    public sealed class GlobalMessageAttribute(GlobalClientMessage message) : Attribute
     {
-        [Field(PrimaryKey = true)]
-        public int SpellId  { get; set; }
-        public byte ClassId { get; set; }
-
-        [Field(ForeignKey = "ClassId")]
-        public virtual CharacterTemplateClass CharacterTemplateClass { get; set; }
+        public GlobalClientMessage Message { get; } = message;
     }
 }
