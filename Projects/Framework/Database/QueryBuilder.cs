@@ -120,9 +120,23 @@ namespace Framework.Database
                 else if (bExpression.Right.NodeType == ExpressionType.Convert)
                 {
                     var memberExp = (bExpression.Right as UnaryExpression).Operand as MemberExpression;
-                    var val = (memberExp.Member as FieldInfo).GetValue((memberExp.Expression as ConstantExpression).Value);
+
+                    while (memberExp.Expression is MemberExpression)
+                        memberExp = memberExp.Expression as MemberExpression;
+
+                    object val = null;
+
+                    if (memberExp.Member is FieldInfo)
+                        val = (memberExp.Member as FieldInfo).GetValue((memberExp.Expression as ConstantExpression).Value);
+                    else if (memberExp.Member is PropertyInfo)
+                        val = (memberExp.Member as PropertyInfo).GetValue((memberExp.Expression as ConstantExpression).Value);
+
+                    if ((val != null) && ((var memberInfo = (bExpression.Right as MemberExpression)) != null))
+                        if (memberInfo.Member is PropertyInfo)
+                            val = (memberInfo.Member as PropertyInfo).GetValue(val);
 
                     sqlString.AppendFormat("{0}{1}'{2}'", Regex.Replace(bExpression.Left.ToString(), @"^Convert\(|\)$", ""), condition, val);
+
                 }
                 else
                     sqlString.AppendFormat("{0}{1}'{2}'", Regex.Replace(bExpression.Left.ToString(), @"^Convert\(|\)$", ""), condition, Regex.Replace(bExpression.Right.ToString(), "^\"|\"$", ""));
