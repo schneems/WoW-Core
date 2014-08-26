@@ -26,10 +26,6 @@ namespace Framework.Constants.Net
         AuthContinuedSession = 0x1806,
         Ping                 = 0x2000,
         LogDisconnect        = 0x2000,
-        SuspendTokenResponse = 0x2000,
-        EnableNagle          = 0x2000,
-        QueuedMessagesEnd    = 0x2000,
-        LogStreamingError    = 0x2000,
         #endregion
     }
 }

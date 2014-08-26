@@ -21,15 +21,10 @@ namespace WorldNode.Constants.Net
     enum ServerMessage : ushort
     {
         #region Misc
-        UpdateAccountData      = 0x2000,
         AccountDataTimes       = 0x2000,
         #endregion
 
         #region RealmConnection
-        LogoutResponse         = 0x2000,
-        LogoutComplete         = 0x2000,
-        LogoutCancelAck        = 0x2000,
-        SetTimeZoneInformation = 0x2000,
         #endregion
     }
 }
