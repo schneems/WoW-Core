@@ -19,6 +19,7 @@
     <DefineConstants>TRACE;DEBUG</DefineConstants>
     <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
     <Optimize>false</Optimize>
+	<LangVersion>experimental</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
     <PlatformTarget>x64</PlatformTarget>
@@ -26,6 +27,7 @@
     <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <Optimize>true</Optimize>
+	<LangVersion>experimental</LangVersion>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -37,10 +39,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Attributes\MessageAttribute.cs" />
-    <Compile Include="Constants\Authentication\AuthResults.cs" />
+    <Compile Include="Constants\Authentication\AuthResult.cs" />
     <Compile Include="Constants\Authentication\LoginServerTypes.cs" />
+    <Compile Include="Constants\Character\CharCreateCode.cs" />
+    <Compile Include="Constants\Character\CharDeleteCode.cs" />
+    <Compile Include="Constants\Character\CharLoginCode.cs" />
     <Compile Include="Constants\Net\ClientMessage.cs" />
     <Compile Include="Constants\Net\ServerMessage.cs" />
+    <Compile Include="Managers\CharacterManager.cs" />
+    <Compile Include="Managers\ClientDBManager.cs" />
     <Compile Include="Managers\GameAccountManager.cs" />
     <Compile Include="Managers\Manager.cs" />
     <Compile Include="Network\Packets\Handlers\NetHandler.cs" />
@@ -53,6 +60,7 @@
     <Compile Include="Network\Packets\Handlers\MiscHandler.cs" />
     <Compile Include="Network\Packets\PacketManager.cs" />
     <Compile Include="Network\Server.cs" />
+    <Compile Include="ObjectStores\ClientDB.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

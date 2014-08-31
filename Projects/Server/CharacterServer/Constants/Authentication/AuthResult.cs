@@ -17,7 +17,7 @@
 
 namespace CharacterServer.Constants.Authentication
 {
-    enum AuthResults : byte
+    enum AuthResult : byte
     {
         Ok                  = 0xC,
         Failed              = 0xD,

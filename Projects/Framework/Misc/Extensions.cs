@@ -22,6 +22,7 @@ using System.Data.Entity.Design.PluralizationServices;
 using System.Globalization;
 using System.IO;
 using System.Numerics;
+using System.Text;
 
 namespace Framework.Misc
 {
@@ -53,6 +54,98 @@ namespace Framework.Misc
 
             return (T)ReadValue[type](br);
         }
+
+       public static sbyte[] ReadSByte(this BinaryReader br, int count)
+        {
+            var arr = new sbyte[count];
+
+            for (int i = 0; i < count; i++)
+                arr[i] = br.ReadSByte();
+
+            return arr;
+        }
+
+        public static byte[] ReadByte(this BinaryReader br, int count)
+        {
+            var arr = new byte[count];
+
+            for (int i = 0; i < count; i++)
+                arr[i] = br.ReadByte();
+
+            return arr;
+        }
+
+        public static int[] ReadInt32(this BinaryReader br, int count)
+        {
+            var arr = new int[count];
+
+            for (int i = 0; i < count; i++)
+                arr[i] = br.ReadInt32();
+
+            return arr;
+        }
+
+        public static uint[] ReadUInt32(this BinaryReader br, int count)
+        {
+            var arr = new uint[count];
+
+            for (int i = 0; i < count; i++)
+                arr[i] = br.ReadUInt32();
+
+            return arr;
+        }
+
+        public static float[] ReadSingle(this BinaryReader br, int count)
+        {
+            var arr = new float[count];
+
+            for (int i = 0; i < count; i++)
+                arr[i] = br.ReadSingle();
+
+            return arr;
+        }
+
+        public static long[] ReadInt64(this BinaryReader br, int count)
+        {
+            var arr = new long[count];
+
+            for (int i = 0; i < count; i++)
+                arr[i] = br.ReadInt64();
+
+            return arr;
+        }
+
+        public static ulong[] ReadUInt64(this BinaryReader br, int count)
+        {
+            var arr = new ulong[count];
+
+            for (int i = 0; i < count; i++)
+                arr[i] = br.ReadUInt64();
+
+            return arr;
+        }
+
+        public static string ReadCString(this BinaryReader br)
+        {
+            var tmpString = new StringBuilder();
+            var tmpChar = br.ReadChar();
+            var tmpEndChar = Convert.ToChar(Encoding.UTF8.GetString(new byte[] { 0 }));
+
+            while (tmpChar != tmpEndChar)
+            {
+                tmpString.Append(tmpChar);
+                tmpChar = br.ReadChar();
+            }
+
+            return tmpString.ToString();
+        }
+
+        public static string ReadString(this BinaryReader br, int count)
+        {
+            var stringArray = br.ReadBytes(count);
+
+            return Encoding.ASCII.GetString(stringArray);
+        }
         #endregion
         #region UInt32
         public static uint LeftRotate(this uint value, int shiftCount)
@@ -71,9 +164,16 @@ namespace Framework.Misc
             return data;
         }
 
+        public static string ToLowerEnd(this string s)
+        {
+            return s[0].ToString().ToUpper() + s.Remove(0, 1).ToLower();
+        }
+
         public static string Pluralize(this string s)
         {
-            return pluralService.Pluralize(s);
+            var pluralized = pluralService.Pluralize(s);
+
+            return pluralized.EndsWith("Datas") ? pluralized.Remove(pluralized.Length - 1, 1) : pluralized;
         }
         #endregion
         #region ByteArray

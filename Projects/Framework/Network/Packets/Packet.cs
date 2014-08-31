@@ -19,6 +19,7 @@ using System;
 using System.IO;
 using System.Text;
 using Framework.Misc;
+using Framework.Objects;
 
 namespace Framework.Network.Packets
 {
@@ -106,9 +107,25 @@ namespace Framework.Network.Packets
 
                         return (T)Convert.ChangeType(Encoding.UTF8.GetString(stringArray), typeof(T));
                     }
+                case "SmartGuid":
+                    var loLength = Read<byte>();
+                    var hiLength = Read<byte>();
+
+                    return new SmartGuid { Low = GetSmartGuid(loLength), High = GetSmartGuid(hiLength) }.ChangeType<T>();
                 default:
                     return (T)Extensions.Read<T>(stream);
             }
+        }
+
+        ulong GetSmartGuid(byte length)
+        {
+            var guid = 0ul;
+
+            for (var i = 0; i < 8; i++)
+                if ((1 << i & length) != 0)
+                    guid |= (ulong)Read<byte>() << (i * 8);
+
+            return guid;
         }
 
         public T[] Read<T>(T[] data, params int[] indices)
@@ -132,6 +149,11 @@ namespace Framework.Network.Packets
             bitValue = 0;
 
             return Read<string>(length);
+        }
+
+        public void Skip(int count)
+        {
+            stream.BaseStream.Position += count;
         }
         #endregion
         #region Writer
@@ -185,12 +207,61 @@ namespace Framework.Network.Packets
                         stream.Write(data);
                     break;
                 case "SmartGuid":
+                    var guid = value as SmartGuid;
+
+                    var loGuid = GetPackedGuid(guid.Low, out byte loLength, out byte wLoLength);
+                    var hiGuid = GetPackedGuid(guid.High, out byte hiLength, out byte wHiLength);
+
+                    if (guid.Low == 0 || guid.High == 0)
+                    {
+                        Write<byte>(0);
+                        Write<byte>(0);
+                    }
+                    else
+                    {
+                        Write(loLength);
+                        Write(hiLength);
+                        WriteBytes(loGuid, wLoLength);
+                        WriteBytes(hiGuid, wHiLength);
+                    }
+
                     break;
                 default:
                     break;
             }
         }
 
+        public void WriteBytes(byte[] data, int count = 0)
+        {
+            if (count == 0)
+                stream.Write(data);
+            else
+                stream.Write(data, 0, count);
+        }
+
+        byte[] GetPackedGuid(ulong guid, out byte gLength, out byte written)
+        {
+            var packedGuid = new byte[8];
+            byte gLen = 0;
+            byte length = 0;
+
+            for (byte i = 0; guid != 0; i++)
+            {
+                if ((guid & 0xFF) != 0)
+                {
+                    gLen |= (byte)(1 << i);
+                    packedGuid[length] = (byte)(guid & 0xFF);
+                    ++length;
+                }
+
+                guid >>= 8;
+            }
+
+            gLength = gLen;
+            written = length;
+
+            return packedGuid;
+        }
         public void Finish()
         {
             Data = new byte[stream.BaseStream.Length];

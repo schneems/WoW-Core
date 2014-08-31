@@ -1,6 +1,6 @@
 ﻿/*
  * Copyright (C) 2012-2014 Arctium Emulation <http://arctium.org>
- * 
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -16,67 +16,25 @@
  */
 
 using System;
-using System.Collections.Generic;
-using System.Net;
 using System.Net.Sockets;
 using CharacterServer.Constants.Net;
 using CharacterServer.Network.Packets;
 using CharacterServer.Network.Packets.Handlers;
 using Framework.Constants.Misc;
-using Framework.Cryptography.WoW;
-using Framework.Database.Auth.Entities;
 using Framework.Logging;
 using Framework.Misc;
+using Framework.Network;
 using Framework.Network.Packets;
 
 namespace CharacterServer.Network
 {
-    class CharacterSession : IDisposable
+    class CharacterSession : SessionBase
     {
-        public Realm Realm { get; set; }
-        public GameAccount GameAccount { get; set; }
-        public WoWCrypt Crypt { get; set; }
         public uint Challenge { get; private set; }
 
-        Socket client;
-        Queue<Packet> packetQueue;
-        bool[] isTransferInitiated;
-        byte[] dataBuffer = new byte[0x2000];
+        public CharacterSession(Socket clientSocket) : base(clientSocket) { }
 
-        public CharacterSession(Socket socket)
-        {
-            client = socket;
-            packetQueue = new Queue<Packet>();
-            isTransferInitiated = new bool[2]; // ServerInitiated, ClientInitiated
-        }
-
-        public void Accept()
-        {
-            var socketEventargs = new SocketAsyncEventArgs();
-
-            socketEventargs.SetBuffer(dataBuffer, 0, dataBuffer.Length);
-
-            socketEventargs.Completed += OnConnection;
-            socketEventargs.UserToken = client;
-            socketEventargs.SocketFlags = SocketFlags.None;
-
-            client.ReceiveAsync(socketEventargs);
-
-            if (!isTransferInitiated[0])
-            {
-                var serverToClient = "WORLD OF WARCRAFT CONNECTION - SERVER TO CLIENT";
-                var transferInitiate = new Packet();
-
-                transferInitiate.Write((ushort)(serverToClient.Length + 1));
-                transferInitiate.Write(serverToClient, true);
-
-                Send(transferInitiate);
-
-                isTransferInitiated[0] = true;
-            }
-        }
-
-        void OnConnection(object sender, SocketAsyncEventArgs e)
+        public override void OnConnection(object sender, SocketAsyncEventArgs e)
         {
             if (!isTransferInitiated[1])
             {
@@ -117,64 +75,7 @@ namespace CharacterServer.Network
                 Dispose();
         }
 
-        void Process(object sender, SocketAsyncEventArgs e)
-        {
-            try
-            {
-                var socket = e.UserToken as Socket;
-                var recievedBytes = e.BytesTransferred;
-
-                if (recievedBytes != 0)
-                {
-                    if (Crypt != null && Crypt.IsInitialized)
-                    {
-                        while (recievedBytes > 0)
-                        {
-                            Crypt.Decrypt(dataBuffer, 4);
-
-                            var header = BitConverter.ToUInt32(dataBuffer, 0);
-                            var size = (ushort)(header >> 13);
-                            var message = (ushort)(header & 0x1FFF);
-
-                            dataBuffer[0] = (byte)(0xFF & size);
-                            dataBuffer[1] = (byte)(0xFF & (size >> 8));
-                            dataBuffer[2] = (byte)(0xFF & message);
-                            dataBuffer[3] = (byte)(0xFF & (message >> 8));
-
-                            var length = BitConverter.ToUInt16(dataBuffer, 0) + 4;
-                            var packetData = new byte[length];
-
-                            Buffer.BlockCopy(dataBuffer, 0, packetData, 0, length);
-
-                            var packet = new Packet(packetData);
-
-                            if (length > recievedBytes)
-                                packetQueue.Enqueue(packet);
-
-                            ProcessPacket(packet);
-
-                            recievedBytes -= length;
-
-                            Buffer.BlockCopy(dataBuffer, length, dataBuffer, 0, recievedBytes);
-                        }
-                    }
-                    else
-                    {
-                        var packet = new Packet(dataBuffer);
-
-                        ProcessPacket(packet);
-                    }
-
-                    client.ReceiveAsync(e);
-                }
-            }
-            catch (Exception ex)
-            {
-                Log.Message(LogType.Error, "{0}", ex.Message);
-            }
-        }
-
-        void ProcessPacket(Packet packet)
+        public override void ProcessPacket(Packet packet)
         {
             if (packetQueue.Count > 0)
                 packet = packetQueue.Dequeue();
@@ -184,7 +85,7 @@ namespace CharacterServer.Network
             PacketManager.InvokeHandler(packet, this);
         }
 
-        public void Send(Packet packet)
+        public override void Send(Packet packet)
         {
             try
             {
@@ -194,20 +95,7 @@ namespace CharacterServer.Network
                     PacketLog.Write<ServerMessage>(packet.Header.Message, packet.Data, client.RemoteEndPoint);
 
                 if (Crypt != null && Crypt.IsInitialized)
-                {
-                    uint totalLength = (uint)packet.Header.Size - 2;
-                    totalLength <<= 13;
-                    totalLength |= ((uint)packet.Header.Message & 0x1FFF);
-
-                    var header = BitConverter.GetBytes(totalLength);
-
-                    Crypt.Encrypt(header, 4);
-
-                    packet.Data[0] = header[0];
-                    packet.Data[1] = header[1];
-                    packet.Data[2] = header[2];
-                    packet.Data[3] = header[3];
-                }
+                    Encrypt(packet);
 
                 var socketEventargs = new SocketAsyncEventArgs();
 
@@ -231,20 +119,6 @@ namespace CharacterServer.Network
         void SendCompleted(object sender, SocketAsyncEventArgs e)
         {
 
-        }
-
-        public string GetClientIP()
-        {
-            var ipEndPoint = client.RemoteEndPoint as IPEndPoint;
-
-            return ipEndPoint != null ? ipEndPoint.Address.ToString() : "";
-        }
-
-        public void Dispose()
-        {
-            isTransferInitiated = new bool[2];
-
-            client.Dispose();
         }
     }
 }

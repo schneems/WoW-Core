@@ -22,8 +22,8 @@ namespace Framework.Database.Auth.Entities
 {
     public class GameAccount
     {
-        public int Id                 { get; set; }
-        public int AccountId          { get; set; }
+        public uint Id                { get; set; }
+        public uint AccountId         { get; set; }
         public string Game            { get; set; }
         public byte Index             { get; set; }
         public Regions Region         { get; set; }

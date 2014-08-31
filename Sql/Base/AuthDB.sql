@@ -1,66 +1,8 @@
 /*
-Navicat MariaDB Data Transfer
-
-Source Server         : local
-Source Server Version : 100011
-Source Host           : localhost:3306
-Source Database       : authdb
-
-Target Server Type    : MariaDB
-Target Server Version : 100011
-File Encoding         : 65001
-
-Date: 2014-06-17 03:11:15
+Date: 2014-08-31 02:42:39
 */
 
 SET FOREIGN_KEY_CHECKS=0;
-
--- ----------------------------
--- Table structure for GameAccountCharacterTemplates
--- ----------------------------
-DROP TABLE IF EXISTS `GameAccountCharacterTemplates`;
-CREATE TABLE `GameAccountCharacterTemplates` (
-  `GameAccountId` int(10) unsigned NOT NULL,
-  `SetId` int(10) unsigned NOT NULL,
-  PRIMARY KEY (`GameAccountId`,`SetId`),
-  FOREIGN KEY (`GameAccountId`) REFERENCES `GameAccounts` (`Id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of GameAccountCharacterTemplates
--- ----------------------------
-
--- ----------------------------
--- Table structure for GameAccountClasses
--- ----------------------------
-DROP TABLE IF EXISTS `GameAccountClasses`;
-CREATE TABLE `GameAccountClasses` (
-  `GameAccountId` int(11) unsigned NOT NULL,
-  `Class` tinyint(4) unsigned NOT NULL COMMENT 'Class Id',
-  `Expansion` tinyint(4) unsigned NOT NULL COMMENT 'Expansion for class activation',
-  PRIMARY KEY (`GameAccountId`,`Class`),
-  FOREIGN KEY (`GameAccountId`) REFERENCES `GameAccounts` (`Id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of GameAccountClasses
--- ----------------------------
-
--- ----------------------------
--- Table structure for GameAccountRaces
--- ----------------------------
-DROP TABLE IF EXISTS `GameAccountRaces`;
-CREATE TABLE `GameAccountRaces` (
-  `GameAccountId` int(11) unsigned NOT NULL,
-  `Race` tinyint(4) unsigned NOT NULL COMMENT 'Race Id',
-  `Expansion` tinyint(4) unsigned NOT NULL COMMENT 'Expansion for race activation',
-  PRIMARY KEY (`GameAccountId`,`Race`),
-  FOREIGN KEY (`GameAccountId`) REFERENCES `GameAccounts` (`Id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of GameAccountRaces
--- ----------------------------
 
 -- ----------------------------
 -- Table structure for Accounts
@@ -84,6 +26,20 @@ CREATE TABLE `Accounts` (
 
 -- ----------------------------
 -- Records of Accounts
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for CharacterRedirects
+-- ----------------------------
+DROP TABLE IF EXISTS `CharacterRedirects`;
+CREATE TABLE `CharacterRedirects` (
+  `Serial` bigint(20) unsigned NOT NULL,
+  `CharacterGuid` bigint(20) unsigned NOT NULL,
+  PRIMARY KEY (`Serial`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of CharacterRedirects
 -- ----------------------------
 
 -- ----------------------------
@@ -128,6 +84,67 @@ INSERT INTO `Components` VALUES ('WoWT', 'Win', '18764');
 INSERT INTO `Components` VALUES ('WoWT', 'Wn64', '18764');
 
 -- ----------------------------
+-- Table structure for GameAccountCharacterTemplates
+-- ----------------------------
+DROP TABLE IF EXISTS `GameAccountCharacterTemplates`;
+CREATE TABLE `GameAccountCharacterTemplates` (
+  `GameAccountId` int(10) unsigned NOT NULL,
+  `SetId` int(10) unsigned NOT NULL,
+  PRIMARY KEY (`GameAccountId`,`SetId`),
+  FOREIGN KEY (`GameAccountId`) REFERENCES `GameAccounts` (`Id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of GameAccountCharacterTemplates
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for GameAccountclasses
+-- ----------------------------
+DROP TABLE IF EXISTS `GameAccountClasses`;
+CREATE TABLE `GameAccountClasses` (
+  `GameAccountId` int(11) unsigned NOT NULL,
+  `Class` tinyint(4) unsigned NOT NULL COMMENT 'Class Id',
+  `Expansion` tinyint(4) unsigned NOT NULL COMMENT 'Expansion for class activation',
+  PRIMARY KEY (`GameAccountId`,`Class`),
+  FOREIGN KEY (`GameAccountId`) REFERENCES `GameAccounts` (`Id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of GameAccountClasses
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for GameAccountRaces
+-- ----------------------------
+DROP TABLE IF EXISTS `GameAccountRaces`;
+CREATE TABLE `GameAccountRaces` (
+  `GameAccountId` int(11) unsigned NOT NULL,
+  `Race` tinyint(4) unsigned NOT NULL COMMENT 'Race Id',
+  `Expansion` tinyint(4) unsigned NOT NULL COMMENT 'Expansion for race activation',
+  PRIMARY KEY (`GameAccountId`,`Race`),
+  FOREIGN KEY (`GameAccountId`) REFERENCES `GameAccounts` (`Id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of GameAccountRaces
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for GameAccountRedirects
+-- ----------------------------
+DROP TABLE IF EXISTS `GameAccountRedirects`;
+CREATE TABLE `GameAccountRedirects` (
+  `Serial` bigint(20) unsigned NOT NULL,
+  `GameAccountId` int(10) unsigned NOT NULL,
+  PRIMARY KEY (`Serial`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of GameAccountRedirects
+-- ----------------------------
+
+-- ----------------------------
 -- Table structure for GameAccounts
 -- ----------------------------
 DROP TABLE IF EXISTS `GameAccounts`;
@@ -141,10 +158,10 @@ CREATE TABLE `GameAccounts` (
   `BoxLevel` tinyint(4) NOT NULL,
   `OS` varchar(4) DEFAULT NULL,
   `SessionKey` varchar(80) DEFAULT NULL,
-  `IsOnline` bit(1) NOT NULL DEFAULT b'0',
+  `IsOnline` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`Id`),
   KEY `Account` (`AccountId`),
-  CONSTRAINT `Account` FOREIGN KEY (`AccountId`) REFERENCES `Accounts` (`Id`)
+  FOREIGN KEY (`AccountId`) REFERENCES `Accounts` (`Id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -187,9 +204,9 @@ INSERT INTO `Modules` VALUES ('c3a1ac0694979e709c3b5486927e558af1e2be02ca96e5615
 DROP TABLE IF EXISTS `RealmCharacterTemplates`;
 CREATE TABLE `RealmCharacterTemplates` (
   `RealmId` int(10) unsigned NOT NULL,
-  `SetId` int(10) unsigned DEFAULT NULL,
+  `SetId` int(10) unsigned NOT NULL DEFAULT '0',
   PRIMARY KEY (`RealmId`,`SetId`),
-  FOREIGN KEY (`RealmId`) REFERENCES `Realms` (`Id`)
+  FOREIGN KEY (`RealmId`) REFERENCES `Realms` (`Id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -205,23 +222,12 @@ CREATE TABLE `RealmClasses` (
   `Class` tinyint(4) unsigned NOT NULL COMMENT 'Class Id',
   `Expansion` tinyint(4) unsigned NOT NULL COMMENT 'Expansion for class activation',
   PRIMARY KEY (`RealmId`,`Class`),
-  FOREIGN KEY (`RealmId`) REFERENCES `Realms` (`Id`)
+  FOREIGN KEY (`RealmId`) REFERENCES `Realms` (`Id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of RealmClasses
 -- ----------------------------
-INSERT INTO `RealmClasses` VALUES ('1', '1', '0');
-INSERT INTO `RealmClasses` VALUES ('1', '2', '0');
-INSERT INTO `RealmClasses` VALUES ('1', '3', '0');
-INSERT INTO `RealmClasses` VALUES ('1', '4', '0');
-INSERT INTO `RealmClasses` VALUES ('1', '5', '0');
-INSERT INTO `RealmClasses` VALUES ('1', '6', '2');
-INSERT INTO `RealmClasses` VALUES ('1', '7', '0');
-INSERT INTO `RealmClasses` VALUES ('1', '8', '0');
-INSERT INTO `RealmClasses` VALUES ('1', '9', '0');
-INSERT INTO `RealmClasses` VALUES ('1', '10', '4');
-INSERT INTO `RealmClasses` VALUES ('1', '11', '0');
 
 -- ----------------------------
 -- Table structure for RealmRaces
@@ -232,27 +238,12 @@ CREATE TABLE `RealmRaces` (
   `Race` tinyint(4) unsigned NOT NULL COMMENT 'Race Id',
   `Expansion` tinyint(4) unsigned NOT NULL COMMENT 'Expansion for race activation',
   PRIMARY KEY (`RealmId`,`Race`),
-  FOREIGN KEY (`RealmId`) REFERENCES `Realms` (`Id`)
+  FOREIGN KEY (`RealmId`) REFERENCES `Realms` (`Id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of RealmRaces
 -- ----------------------------
-INSERT INTO `RealmRaces` VALUES ('1', '1', '0');
-INSERT INTO `RealmRaces` VALUES ('1', '2', '0');
-INSERT INTO `RealmRaces` VALUES ('1', '3', '0');
-INSERT INTO `RealmRaces` VALUES ('1', '4', '0');
-INSERT INTO `RealmRaces` VALUES ('1', '5', '0');
-INSERT INTO `RealmRaces` VALUES ('1', '6', '0');
-INSERT INTO `RealmRaces` VALUES ('1', '7', '0');
-INSERT INTO `RealmRaces` VALUES ('1', '8', '0');
-INSERT INTO `RealmRaces` VALUES ('1', '9', '3');
-INSERT INTO `RealmRaces` VALUES ('1', '10', '1');
-INSERT INTO `RealmRaces` VALUES ('1', '11', '1');
-INSERT INTO `RealmRaces` VALUES ('1', '22', '3');
-INSERT INTO `RealmRaces` VALUES ('1', '24', '4');
-INSERT INTO `RealmRaces` VALUES ('1', '25', '4');
-INSERT INTO `RealmRaces` VALUES ('1', '26', '4');
 
 -- ----------------------------
 -- Table structure for Realms

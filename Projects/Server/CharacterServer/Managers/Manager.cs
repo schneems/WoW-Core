@@ -19,11 +19,15 @@ namespace CharacterServer.Managers
 {
     class Manager
     {
-        public static GameAccountManager GameAccountMgr;
+        public static CharacterManager Character;
+        public static ClientDBManager ClientDB;
+        public static GameAccountManager GameAccount;
 
         public static void Initialize()
         {
-            GameAccountMgr = GameAccountManager.GetInstance();
+            Character   = CharacterManager.GetInstance();
+            ClientDB    = ClientDBManager.GetInstance();
+            GameAccount = GameAccountManager.GetInstance();
         }
     }
 }

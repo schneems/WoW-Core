@@ -29,11 +29,11 @@ namespace AuthServer.Managers
 {
     class RealmManager : Singleton<RealmManager>
     {
-        public readonly ConcurrentDictionary<int, Realm> RealmList;
+        public readonly ConcurrentDictionary<uint, Realm> RealmList;
 
         RealmManager()
         {
-            RealmList = new ConcurrentDictionary<int, Realm>();
+            RealmList = new ConcurrentDictionary<uint, Realm>();
 
             new Thread(() =>
             {

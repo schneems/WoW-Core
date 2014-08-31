@@ -47,6 +47,12 @@ namespace CharacterServer.Configuration
         public static string CharacterDBPassword;
         public static string CharacterDBDataBase;
 
+        public static string DataDBHost;
+        public static int DataDBPort;
+        public static string DataDBUser;
+        public static string DataDBPassword;
+        public static string DataDBDataBase;
+
         public static bool MySqlPooling;
         public static int MySqlMinPoolSize;
         public static int MySqlMaxPoolSize;
@@ -103,6 +109,12 @@ namespace CharacterServer.Configuration
             CharacterDBUser       = config.Read("CharacterDB.User", "root");
             CharacterDBPassword   = config.Read("CharacterDB.Password", "");
             CharacterDBDataBase   = config.Read("CharacterDB.Database", "CharacterDB");
+
+            DataDBHost            = config.Read("DataDB.Host", "127.0.0.1");
+            DataDBPort            = config.Read("DataDB.Port", 3306);
+            DataDBUser            = config.Read("DataDB.User", "root");
+            DataDBPassword        = config.Read("DataDB.Password", "");
+            DataDBDataBase        = config.Read("DataDB.Database", "DataDB");
 
             MySqlPooling          = config.Read("MySql.Pooling", true);
             MySqlMinPoolSize      = config.Read("MySql.MinPoolSize", 5);

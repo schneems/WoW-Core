@@ -166,6 +166,54 @@ namespace Framework.Database
             return Execute(query, values.Values.ToArray());
         }
 
+        public bool AddBulk<T>(IList<T> entities) where T : class
+        {
+            var properties = typeof(T).GetProperties();
+            var queryBuilder = new StringBuilder();
+
+            queryBuilder.AppendFormat("INSERT INTO `{0}` (", typeof(T).Name.Pluralize());
+
+            foreach (var p in properties)
+            {
+                var attr = p.GetCustomAttribute<FieldAttribute>();
+
+                if (attr != null && attr.AutoIncrement)
+                    continue;
+
+                queryBuilder.AppendFormat("`{0}`,", p.Name);
+            }
+
+            queryBuilder.Append(") VALUES ");
+
+            for (int i = 0; i < entities.Count; i++)
+            {
+                var entity = entities[i];
+
+                queryBuilder.Append("(");
+
+                foreach (var p in properties)
+                {
+                    var attr = p.GetCustomAttribute<FieldAttribute>();
+
+                    if (attr != null && attr.AutoIncrement)
+                        continue;
+
+                    var pValue = p.GetValue(entity);
+
+                    queryBuilder.Append(string.Format("'{0}', ", pValue));
+                }
+
+                if (i == entities.Count - 1)
+                    queryBuilder.AppendLine(");");
+                else
+                    queryBuilder.AppendLine("),");
+            }
+
+            var query = queryBuilder.Replace(", )", ")");
+
+            return Execute(query.ToString());
+        }
+
         public bool Update<T>(T entity, params object[] values) where T : new()
         {
             var pkData = GetForeignKeyBaseData(entity);
@@ -401,23 +449,25 @@ namespace Framework.Database
                 {
                     var baseData = GetForeignKeyBaseData(entity);
                     var pKey = typeof(T).GetProperty(attr.ForeignKey);
-                    var pKeyData = pKey != null ? pKey.GetValue(entity) : baseData.Item2;
+                    var pKeyData = pKey != null ? pKey.GetValue(entity) : (baseData != null ? baseData.Item2 : null);
 
-                    query = string.Format("SELECT * FROM {0} WHERE {1} = '{2}'", type.Name.Pluralize(), attr.ForeignKey, pKeyData);
+                    if (pKeyData != null)
+                        query = string.Format("SELECT * FROM {0} WHERE {1} = '{2}'", type.Name.Pluralize(), attr.ForeignKey, pKeyData);
                 }
                 else
                 {
                     var fkBaseData = pFkData ?? GetForeignKeyBaseData(entity);
 
-                    if (fkBaseData == null)
-                        throw new NotImplementedException("Can't find foreign key base data.");
-
-                    query = string.Format("SELECT * FROM {0} WHERE {1} = '{2}'", type.Name.Pluralize(), p.PropertyType.IsGenericType ? fkBaseData.Item1 : "Id", fkBaseData.Item2);
+                    if (fkBaseData != null)
+                        query = string.Format("SELECT * FROM {0} WHERE {1} = '{2}'", type.Name.Pluralize(), p.PropertyType.IsGenericType ? fkBaseData.Item1 : "Id", fkBaseData.Item2);
                 }
 
-                var fkData = Where(entity, type, query);
+                if (query != "")
+                {
+                    var fkData = Where(entity, type, query);
 
-                p.SetValue(entity, p.PropertyType.IsGenericType ? fkData : fkData[0], null);
+                    p.SetValue(entity, p.PropertyType.IsGenericType ? fkData : fkData[0], null);
+                }
             }
         }
 

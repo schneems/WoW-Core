@@ -19,8 +19,8 @@ namespace Framework.Database.Auth.Entities
 {
     public class RealmCharacterTemplate
     {
-        public int RealmId { get; set; }
-        public int SetId   { get; set; }
+        public uint RealmId { get; set; }
+        public int SetId    { get; set; }
 
         public virtual Realm Realm { get; set; }
     }

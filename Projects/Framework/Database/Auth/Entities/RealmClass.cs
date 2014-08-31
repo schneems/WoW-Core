@@ -19,7 +19,7 @@ namespace Framework.Database.Auth.Entities
 {
     public class RealmClass
     {
-        public int RealmId    { get; set; }
+        public uint RealmId   { get; set; }
         public byte Class     { get; set; }
         public byte Expansion { get; set; }
 

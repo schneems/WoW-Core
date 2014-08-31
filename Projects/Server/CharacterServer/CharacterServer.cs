@@ -24,6 +24,7 @@ using CharacterServer.Configuration;
 using CharacterServer.Managers;
 using CharacterServer.Network;
 using CharacterServer.Network.Packets;
+using Framework.Database.ClientDB.Entities;
 
 namespace CharacterServer
 {
@@ -41,6 +42,9 @@ namespace CharacterServer
                                                                CharacterConfig.CharacterDBDataBase, CharacterConfig.CharacterDBPort, CharacterConfig.MySqlPooling,
                                                                CharacterConfig.MySqlMinPoolSize, CharacterConfig.MySqlMaxPoolSize);
 
+            var dataConnection = DB.Data.CreateConnection(CharacterConfig.DataDBHost, CharacterConfig.DataDBUser, CharacterConfig.DataDBPassword,
+                                                          CharacterConfig.DataDBDataBase, CharacterConfig.DataDBPort, CharacterConfig.MySqlPooling,
+                                                          CharacterConfig.MySqlMinPoolSize, CharacterConfig.MySqlMaxPoolSize);
 
             Log.Message(LogType.Init, "_____________World of Warcraft_____________");
             Log.Message(LogType.Init, "    __                                     ");

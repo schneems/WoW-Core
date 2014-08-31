@@ -74,14 +74,14 @@ namespace CharacterServer.Network.Packets.Handlers
             var compressedAddonData       = packet.ReadBytes(compressedAddonInfoSize - 4);
 
             var accountParts = accountName.Split(new[] { '#' });
-            var authResult = AuthResults.Ok;
+            var authResult = AuthResult.Ok;
 
             session.Realm = DB.Auth.Single<Realm>(r => r.Id == realmId);
 
             if (loginServerType != LoginServerTypes.Battlenet || session.Realm == null)
-                authResult = AuthResults.Reject;
+                authResult = AuthResult.Reject;
 
-            if (authResult == AuthResults.Ok)
+            if (authResult == AuthResult.Ok)
             {
                 if (accountParts.Length == 2)
                 {
@@ -113,16 +113,16 @@ namespace CharacterServer.Network.Packets.Handlers
                                 AddonHandler.LoadAddonInfoData(session, compressedAddonData, compressedAddonInfoSize, uncompressedAddonInfoSize);
                             }
                             else
-                                authResult = AuthResults.Failed;
+                                authResult = AuthResult.Failed;
                         }
                         else
-                            authResult = AuthResults.UnknownAccount;
+                            authResult = AuthResult.UnknownAccount;
                     }
                     else
-                        authResult = AuthResults.UnknownAccount;
+                        authResult = AuthResult.UnknownAccount;
                 }
                 else
-                    authResult = AuthResults.UnknownAccount;
+                    authResult = AuthResult.UnknownAccount;
             }
 
             HandleAuthResponse(authResult, session);
@@ -131,15 +131,15 @@ namespace CharacterServer.Network.Packets.Handlers
             //TODO [partially done] Implement AuthResponse.
         }
 
-        public static void HandleAuthResponse(AuthResults result, CharacterSession session)
+        public static void HandleAuthResponse(AuthResult result, CharacterSession session)
         {
             var gameAccount = session.GameAccount;
             var realm = session.Realm;
 
             var authResponse = new Packet(ServerMessage.AuthResponse);
 
-            var hasSuccessInfo = result == AuthResults.Ok;
-            var hasWaitInfo    = result == AuthResults.WaitQueue;
+            var hasSuccessInfo = result == AuthResult.Ok;
+            var hasWaitInfo    = result == AuthResult.WaitQueue;
 
             authResponse.Write(result);
 
@@ -149,9 +149,9 @@ namespace CharacterServer.Network.Packets.Handlers
 
             if (hasSuccessInfo)
             {
-                var allowedRaces = Manager.GameAccountMgr.GetAvailableRaces(gameAccount, realm);
-                var allowedClasses = Manager.GameAccountMgr.GetAvailableClasses(gameAccount, realm);
-                var charTemplates = Manager.GameAccountMgr.GetAvailableCharacterTemplates(gameAccount, realm);
+                var allowedRaces = Manager.GameAccount.GetAvailableRaces(gameAccount, realm);
+                var allowedClasses = Manager.GameAccount.GetAvailableClasses(gameAccount, realm);
+                var charTemplates = Manager.GameAccount.GetAvailableCharacterTemplates(gameAccount, realm);
 
                 authResponse.Write<uint>(0);
                 authResponse.Write<uint>(0);

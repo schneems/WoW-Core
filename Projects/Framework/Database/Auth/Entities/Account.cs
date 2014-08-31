@@ -22,7 +22,7 @@ namespace Framework.Database.Auth.Entities
 {
     public class Account
     {
-        public int Id                  { get; set; }
+        public uint Id                 { get; set; }
         public string GivenName        { get; set; }
         public string Surname          { get; set; }
         public string Email            { get; set; }

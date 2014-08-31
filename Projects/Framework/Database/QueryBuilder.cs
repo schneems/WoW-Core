@@ -15,6 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+using System;
 using System.Linq.Expressions;
 using System.Reflection;
 using System.Text;
@@ -110,7 +111,17 @@ namespace Framework.Database
                     while (memberExp.Expression is MemberExpression)
                         memberExp = memberExp.Expression as MemberExpression;
 
-                    var val = (memberExp.Member as FieldInfo).GetValue((memberExp.Expression as ConstantExpression).Value);
+                    object val = null;
+
+                    var fieldInfo = (memberExp.Member as FieldInfo);
+
+                    if (fieldInfo != null)
+                    {
+                        if (fieldInfo.FieldType.IsEnum)
+                            val = fieldInfo.GetValue((memberExp.Expression as ConstantExpression).Value).ChangeType(fieldInfo.FieldType.UnderlyingSystemType);
+                        else
+                            val = fieldInfo.GetValue((memberExp.Expression as ConstantExpression).Value);
+                    }
 
                     if ((var memberInfo = bExpression.Right as MemberExpression).Member is PropertyInfo)
                         val = (memberInfo.Member as PropertyInfo).GetValue(val);
@@ -126,17 +137,28 @@ namespace Framework.Database
 
                     object val = null;
 
-                    if (memberExp.Member is FieldInfo)
-                        val = (memberExp.Member as FieldInfo).GetValue((memberExp.Expression as ConstantExpression).Value);
-                    else if (memberExp.Member is PropertyInfo)
-                        val = (memberExp.Member as PropertyInfo).GetValue((memberExp.Expression as ConstantExpression).Value);
+                    if ((var fieldInfo = (memberExp.Member as FieldInfo)) != null)
+                    {
+                        if (fieldInfo.FieldType.IsEnum)
+                            val = fieldInfo.GetValue((memberExp.Expression as ConstantExpression).Value).ChangeType(fieldInfo.FieldType.GetEnumUnderlyingType());
+                        else
+                            val = fieldInfo.GetValue((memberExp.Expression as ConstantExpression).Value);
+                    }
+                    else if (((var propertyInfo = memberExp.Member as PropertyInfo)) != null)
+                    {
+                        val = propertyInfo.GetValue((memberExp.Expression as ConstantExpression).Value);
+
+                        if (propertyInfo.PropertyType.IsEnum)
+                            val = propertyInfo.GetValue((memberExp.Expression as ConstantExpression).Value).ChangeType(propertyInfo.PropertyType.GetEnumUnderlyingType());
+                        else
+                            val = propertyInfo.GetValue((memberExp.Expression as ConstantExpression).Value);
+                    }
 
                     if ((val != null) && ((var memberInfo = (bExpression.Right as MemberExpression)) != null))
                         if (memberInfo.Member is PropertyInfo)
                             val = (memberInfo.Member as PropertyInfo).GetValue(val);
 
                     sqlString.AppendFormat("{0}{1}'{2}'", Regex.Replace(bExpression.Left.ToString(), @"^Convert\(|\)$", ""), condition, val);
-
                 }
                 else
                     sqlString.AppendFormat("{0}{1}'{2}'", Regex.Replace(bExpression.Left.ToString(), @"^Convert\(|\)$", ""), condition, Regex.Replace(bExpression.Right.ToString(), "^\"|\"$", ""));

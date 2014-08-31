@@ -21,6 +21,7 @@ namespace Framework.Database
     {
         public static Database Auth = new Database();
         public static Database Character = new Database();
+        public static Database Data = new Database();
         public static Database World = new Database();
     }
 }

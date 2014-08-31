@@ -19,9 +19,9 @@ namespace Framework.Database.Auth.Entities
 {
     public class GameAccountClass
     {
-        public int GameAccountId { get; set; }
-        public byte Class        { get; set; }
-        public byte Expansion    { get; set; }
+        public uint GameAccountId { get; set; }
+        public byte Class         { get; set; }
+        public byte Expansion     { get; set; }
 
         public virtual GameAccount GameAccount { get; set; }
     }
