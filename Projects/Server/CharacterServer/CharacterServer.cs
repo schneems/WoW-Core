@@ -17,14 +17,13 @@
 
 using System;
 using System.Threading;
-using Framework.Constants.Misc;
-using Framework.Database;
-using Framework.Logging;
 using CharacterServer.Configuration;
 using CharacterServer.Managers;
 using CharacterServer.Network;
 using CharacterServer.Network.Packets;
-using Framework.Database.ClientDB.Entities;
+using Framework.Constants.Misc;
+using Framework.Database;
+using Framework.Logging;
 
 namespace CharacterServer
 {

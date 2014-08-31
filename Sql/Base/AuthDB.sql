@@ -228,6 +228,17 @@ CREATE TABLE `RealmClasses` (
 -- ----------------------------
 -- Records of RealmClasses
 -- ----------------------------
+INSERT INTO `RealmClasses` VALUES ('1', '1', '0');
+INSERT INTO `RealmClasses` VALUES ('1', '2', '0');
+INSERT INTO `RealmClasses` VALUES ('1', '3', '0');
+INSERT INTO `RealmClasses` VALUES ('1', '4', '0');
+INSERT INTO `RealmClasses` VALUES ('1', '5', '0');
+INSERT INTO `RealmClasses` VALUES ('1', '6', '2');
+INSERT INTO `RealmClasses` VALUES ('1', '7', '0');
+INSERT INTO `RealmClasses` VALUES ('1', '8', '0');
+INSERT INTO `RealmClasses` VALUES ('1', '9', '0');
+INSERT INTO `RealmClasses` VALUES ('1', '10', '4');
+INSERT INTO `RealmClasses` VALUES ('1', '11', '0');
 
 -- ----------------------------
 -- Table structure for RealmRaces
@@ -244,6 +255,21 @@ CREATE TABLE `RealmRaces` (
 -- ----------------------------
 -- Records of RealmRaces
 -- ----------------------------
+INSERT INTO `RealmRaces` VALUES ('1', '1', '0');
+INSERT INTO `RealmRaces` VALUES ('1', '2', '0');
+INSERT INTO `RealmRaces` VALUES ('1', '3', '0');
+INSERT INTO `RealmRaces` VALUES ('1', '4', '0');
+INSERT INTO `RealmRaces` VALUES ('1', '5', '0');
+INSERT INTO `RealmRaces` VALUES ('1', '6', '0');
+INSERT INTO `RealmRaces` VALUES ('1', '7', '0');
+INSERT INTO `RealmRaces` VALUES ('1', '8', '0');
+INSERT INTO `RealmRaces` VALUES ('1', '9', '3');
+INSERT INTO `RealmRaces` VALUES ('1', '10', '1');
+INSERT INTO `RealmRaces` VALUES ('1', '11', '1');
+INSERT INTO `RealmRaces` VALUES ('1', '22', '3');
+INSERT INTO `RealmRaces` VALUES ('1', '24', '4');
+INSERT INTO `RealmRaces` VALUES ('1', '25', '4');
+INSERT INTO `RealmRaces` VALUES ('1', '26', '4');
 
 -- ----------------------------
 -- Table structure for Realms
