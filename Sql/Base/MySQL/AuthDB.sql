@@ -1,7 +1,3 @@
-/*
-Date: 2014-08-31 02:42:39
-*/
-
 SET FOREIGN_KEY_CHECKS=0;
 
 -- ----------------------------
@@ -59,29 +55,29 @@ CREATE TABLE `Components` (
 INSERT INTO `Components` VALUES ('Bnet', 'Mc64', '37165');
 INSERT INTO `Components` VALUES ('Bnet', 'Win', '37165');
 INSERT INTO `Components` VALUES ('Bnet', 'Wn64', '37165');
-INSERT INTO `Components` VALUES ('WoW', 'base', '18816');
-INSERT INTO `Components` VALUES ('WoW', 'deDE', '18833');
-INSERT INTO `Components` VALUES ('WoW', 'enGB', '18833');
-INSERT INTO `Components` VALUES ('WoW', 'enUS', '18833');
-INSERT INTO `Components` VALUES ('WoW', 'esES', '18833');
-INSERT INTO `Components` VALUES ('WoW', 'esMX', '18833');
-INSERT INTO `Components` VALUES ('WoW', 'frFR', '18833');
-INSERT INTO `Components` VALUES ('WoW', 'itIT', '18833');
-INSERT INTO `Components` VALUES ('WoW', 'koKR', '18833');
-INSERT INTO `Components` VALUES ('WoW', 'Mc64', '18833');
-INSERT INTO `Components` VALUES ('WoW', 'plPL', '18833');
-INSERT INTO `Components` VALUES ('WoW', 'ptBR', '18833');
-INSERT INTO `Components` VALUES ('WoW', 'ruRU', '18833');
-INSERT INTO `Components` VALUES ('WoW', 'Win', '18833');
-INSERT INTO `Components` VALUES ('WoW', 'Wn64', '18833');
-INSERT INTO `Components` VALUES ('WoW', 'zhCN', '18833');
-INSERT INTO `Components` VALUES ('WoW', 'zhTW', '18833');
-INSERT INTO `Components` VALUES ('WoWB', 'Mc64', '18833');
-INSERT INTO `Components` VALUES ('WoWB', 'Win', '18833');
-INSERT INTO `Components` VALUES ('WoWB', 'Wn64', '18833');
-INSERT INTO `Components` VALUES ('WoWT', 'Mc64', '18833');
-INSERT INTO `Components` VALUES ('WoWT', 'Win', '18833');
-INSERT INTO `Components` VALUES ('WoWT', 'Wn64', '18833');
+INSERT INTO `Components` VALUES ('WoW', 'base', '18850');
+INSERT INTO `Components` VALUES ('WoW', 'deDE', '18850');
+INSERT INTO `Components` VALUES ('WoW', 'enGB', '18850');
+INSERT INTO `Components` VALUES ('WoW', 'enUS', '18850');
+INSERT INTO `Components` VALUES ('WoW', 'esES', '18850');
+INSERT INTO `Components` VALUES ('WoW', 'esMX', '18850');
+INSERT INTO `Components` VALUES ('WoW', 'frFR', '18850');
+INSERT INTO `Components` VALUES ('WoW', 'itIT', '18850');
+INSERT INTO `Components` VALUES ('WoW', 'koKR', '18850');
+INSERT INTO `Components` VALUES ('WoW', 'Mc64', '18850');
+INSERT INTO `Components` VALUES ('WoW', 'plPL', '18850');
+INSERT INTO `Components` VALUES ('WoW', 'ptBR', '18850');
+INSERT INTO `Components` VALUES ('WoW', 'ruRU', '18850');
+INSERT INTO `Components` VALUES ('WoW', 'Win', '18850');
+INSERT INTO `Components` VALUES ('WoW', 'Wn64', '18850');
+INSERT INTO `Components` VALUES ('WoW', 'zhCN', '18850');
+INSERT INTO `Components` VALUES ('WoW', 'zhTW', '18850');
+INSERT INTO `Components` VALUES ('WoWB', 'Mc64', '18850');
+INSERT INTO `Components` VALUES ('WoWB', 'Win', '18850');
+INSERT INTO `Components` VALUES ('WoWB', 'Wn64', '18850');
+INSERT INTO `Components` VALUES ('WoWT', 'Mc64', '18850');
+INSERT INTO `Components` VALUES ('WoWT', 'Win', '18850');
+INSERT INTO `Components` VALUES ('WoWT', 'Wn64', '18850');
 
 -- ----------------------------
 -- Table structure for GameAccountCharacterTemplates
