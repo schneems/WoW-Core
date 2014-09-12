@@ -92,6 +92,8 @@ namespace AuthServer.Commands
                         if (DB.Auth.Add(gameAccount))
                             Log.Message(LogType.Normal, "GameAccount '{0}{1}' for Account '{2}' successfully created.", game, index, accountId);
                     }
+                    else
+                        Log.Message(LogType.Error, "GameAccount '{0}{1}' for Account '{2}' already in database", game, index, accountId);
                 }
                 else
                     Log.Message(LogType.Error, "Account '{0}' doesn't exist.", accountId);
