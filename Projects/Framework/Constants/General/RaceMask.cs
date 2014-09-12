@@ -47,7 +47,7 @@ namespace Framework.Constants.General
         Worgen            = 1 << 21,
         Gilnean           = 1 << 22,
         PandarenNeutral   = 1 << 23,
-        PandarenHorde     = 1 << 24,
-        PandarenAlliance  = 1 << 25
+        PandarenAlliance  = 1 << 24,
+        PandarenHorde     = 1 << 25
     }
 }
