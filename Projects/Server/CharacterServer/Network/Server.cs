@@ -22,6 +22,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Framework.Constants.Misc;
 using Framework.Logging;
+using Framework.Logging.IO;
 
 namespace CharacterServer.Network
 {
@@ -52,6 +53,8 @@ namespace CharacterServer.Network
             }
             catch (Exception ex)
             {
+                ExceptionLog.Write(ex);
+
                 Log.Message(LogType.Error, "{0}", ex.Message);
             }
         }

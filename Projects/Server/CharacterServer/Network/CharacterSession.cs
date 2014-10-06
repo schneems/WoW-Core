@@ -22,6 +22,7 @@ using CharacterServer.Network.Packets;
 using CharacterServer.Network.Packets.Handlers;
 using Framework.Constants.Misc;
 using Framework.Logging;
+using Framework.Logging.IO;
 using Framework.Misc;
 using Framework.Network;
 using Framework.Network.Packets;

@@ -23,6 +23,7 @@ using Framework.Constants.Misc;
 using Framework.Cryptography.WoW;
 using Framework.Database.Auth.Entities;
 using Framework.Logging;
+using Framework.Logging.IO;
 using Framework.Network.Packets;
 using Framework.Objects.WorldEntities;
 
@@ -153,6 +154,8 @@ namespace Framework.Network
             }
             catch (Exception ex)
             {
+                ExceptionLog.Write(ex);
+
                 Log.Message(LogType.Error, "{0}", ex.Message);
             }
         }

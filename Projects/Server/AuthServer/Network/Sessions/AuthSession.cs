@@ -30,6 +30,7 @@ using Framework.Cryptography.BNet;
 using Framework.Database;
 using Framework.Database.Auth.Entities;
 using Framework.Logging;
+using Framework.Logging.IO;
 using Framework.Misc;
 using Framework.Network.Packets;
 
@@ -96,6 +97,8 @@ namespace AuthServer.Network.Sessions
             }
             catch (Exception ex)
             {
+                ExceptionLog.Write(ex);
+
                 Log.Message(LogType.Error, "{0}", ex.Message);
             }
         }

@@ -53,16 +53,24 @@ namespace AuthServer.Configuration
 
         public static void Initialize(string file)
         {
+            // Initialize exception logger
+            if (!Directory.Exists("Crashes"))
+                Directory.CreateDirectory("Crashes");
+
+            var el = new LogWriter("Crashes", "AuthServer.log");
+
+            ExceptionLog.Initialize(el);
+
             config = new Config(file);
 
             if (config != null)
             {
                 IsInitialized = true;
 
-                LogLevel       = (LogType)config.Read("Log.Level", 0x7, true);
-                LogDirectory   = config.Read("Log.Directory", "Logs/Auth");
-                LogConsoleFile = config.Read("Log.Console.File", "");
-                LogPacketFile  = config.Read("Log.Packet.File", "");
+                LogLevel         = (LogType)config.Read("Log.Level", 0x7, true);
+                LogDirectory     = config.Read("Log.Directory", "Logs/Auth");
+                LogConsoleFile   = config.Read("Log.Console.File", "");
+                LogPacketFile    = config.Read("Log.Packet.File", "");
 
                 LogWriter fl = null;
 

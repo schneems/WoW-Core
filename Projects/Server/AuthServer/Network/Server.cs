@@ -24,6 +24,7 @@ using AuthServer.Managers;
 using AuthServer.Network.Sessions;
 using Framework.Constants.Misc;
 using Framework.Logging;
+using Framework.Logging.IO;
 
 namespace AuthServer.Network
 {
@@ -54,6 +55,8 @@ namespace AuthServer.Network
             }
             catch (Exception ex)
             {
+                ExceptionLog.Write(ex);
+
                 Log.Message(LogType.Error, "{0}", ex.Message);
             }
         }

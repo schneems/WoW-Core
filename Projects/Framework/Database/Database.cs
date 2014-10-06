@@ -25,6 +25,7 @@ using System.Linq.Expressions;
 using System.Reflection;
 using System.Text;
 using Framework.Attributes;
+using Framework.Logging.IO;
 using Framework.Misc;
 using MySql.Data.MySqlClient;
 
@@ -51,8 +52,9 @@ namespace Framework.Database
 
                 connection.Open();
             }
-            catch
+            catch (Exception ex)
             {
+                ExceptionLog.Write(ex);
             }
 
             return connection.State == ConnectionState.Open;
@@ -81,8 +83,9 @@ namespace Framework.Database
 
                 return true;
             }
-            catch
+            catch (Exception ex)
             {
+                ExceptionLog.Write(ex);
             }
 
             return false;
@@ -122,8 +125,9 @@ namespace Framework.Database
                     }
                 }
             }
-            catch
+            catch (Exception ex)
             {
+                ExceptionLog.Write(ex);
             }
 
             return null;
