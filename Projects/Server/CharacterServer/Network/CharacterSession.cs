@@ -83,7 +83,7 @@ namespace CharacterServer.Network
 
             PacketLog.Write<ClientMessage>(packet.Header.Message, packet.Data, client.RemoteEndPoint);
 
-            PacketManager.InvokeHandler(packet, this);
+            PacketManager.InvokeHandler<ClientMessage>(packet, this);
         }
 
         public override void Send(Packet packet)

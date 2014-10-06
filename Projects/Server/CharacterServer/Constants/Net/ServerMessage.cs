@@ -34,8 +34,8 @@ namespace CharacterServer.Constants.Net
         EnumCharactersResult                    = 0x1154,
         AddonInfo                               = 0x2000,
         SetTimeZoneInformation                  = 0x2000,
-        CreateChar                              = 0x13E8,
-        DeleteChar                              = 0x13FC,
+        CreateChar                              = 0x0637,
+        DeleteChar                              = 0x12A4,
         CharacterLoginFailed                    = 0x2000,
         #endregion
     }

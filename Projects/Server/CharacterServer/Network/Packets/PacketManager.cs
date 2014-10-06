@@ -48,11 +48,11 @@ namespace CharacterServer.Network.Packets
             }
         }
 
-        public static bool InvokeHandler(Packet reader, CharacterSession session)
+        public static bool InvokeHandler<T>(Packet reader, CharacterSession session)
         {
             var message = reader.Header.Message;
 
-            Log.Message(LogType.Packet, "Received Opcode: {0} (0x{0:X}), Length: {1}", message, reader.Data.Length);
+            Log.Message(LogType.Packet, "Received Opcode: {0} (0x{1:X}), Length: {1}", Enum.GetName(typeof(T), message), message, reader.Data.Length);
 
             if (MessageHandlers.TryGetValue(message, out HandlePacket packet))
             {
