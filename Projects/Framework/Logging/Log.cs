@@ -53,17 +53,17 @@ namespace Framework.Logging
             });
         }
 
-        static public void Message()
+        public static void Message()
         {
             SetLogger(LogType.None, "");
         }
 
-        static public void Message(LogType type, string text, params object[] args)
+        public static void Message(LogType type, string text, params object[] args)
         {
             SetLogger(type, text, args);
         }
 
-        static public void Wait()
+        public static void Wait()
         {
             Console.ReadKey(true);
         }

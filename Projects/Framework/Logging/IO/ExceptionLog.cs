@@ -42,7 +42,7 @@ namespace Framework.Logging.IO
             });
         }
 
-        static public void Write(Exception ex)
+        public static void Write(Exception ex)
         {
             var sb = new StringBuilder();
 
