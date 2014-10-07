@@ -100,18 +100,20 @@ namespace AuthServer.Network.Packets.Handlers
                 listUpdate.Write(0, 8);
                 listUpdate.Write(++realmCounter, 32);
 
-                // Battlenet::Client::WoWRealm::ListComplete
-                var listComplete = new AuthPacket(AuthServerMessage.ListComplete, AuthChannel.WoWRealm);
-
-                listComplete.Finish();
-
-                // Write ListComplete data to ListUpdate end
-                listUpdate.Write(listComplete.Data);
                 listUpdate.Finish();
 
                 // Write ListUpdate data to ListSubscribeResponse
                 listSubscribeResponse.Write(listUpdate.Data);
             }
+
+            // Battlenet::Client::WoWRealm::ListComplete
+            var listComplete = new AuthPacket(AuthServerMessage.ListComplete, AuthChannel.WoWRealm);
+
+            listComplete.Finish();
+
+            // Write ListComplete data to ListSubscribeResponse end
+            listSubscribeResponse.Write(listComplete.Data);
+
 
             client.SendPacket(listSubscribeResponse);
         }

@@ -251,7 +251,6 @@ namespace AuthServer.Network.Packets.Handlers
                 complete.WriteString(account.GivenName, 8, false);
                 complete.WriteString(account.Surname, 8, false);
 
-
                 complete.Write(account.Id, 32);
                 complete.Write((byte)account.Region, 8);
                 complete.Write((ulong)account.Flags, 64);
