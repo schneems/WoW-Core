@@ -102,7 +102,7 @@ namespace AuthServer.Network.Packets.Handlers
                     //session.GameAccounts.ForEach(ga => ga.OS = os);
 
                     // Save the last changes
-                    //DB.Auth.Update();
+                    DB.Auth.Update(session.Account, "IP", session.Account.IP, "Language", session.Account.Language);
 
                     // Used for module identification.
                     client.Game = game;

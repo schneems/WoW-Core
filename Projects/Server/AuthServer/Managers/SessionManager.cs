@@ -18,6 +18,7 @@
 using System.Collections.Concurrent;
 using AuthServer.Network.Sessions;
 using Framework.Database;
+using Framework.Database.Auth.Entities;
 using Framework.Misc;
 
 namespace AuthServer.Managers
@@ -42,7 +43,7 @@ namespace AuthServer.Managers
             {
                 session.GameAccount.IsOnline = false;
 
-                //DB.Auth.Update();
+                DB.Auth.Update(session.GameAccount, "IsOnline", session.GameAccount.IsOnline);
 
                 Manager.SessionMgr.Clients.TryRemove(id, out client);
 
