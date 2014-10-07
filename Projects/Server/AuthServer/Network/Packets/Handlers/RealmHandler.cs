@@ -65,44 +65,52 @@ namespace AuthServer.Network.Packets.Handlers
             }
         }
 
-        [AuthMessage(AuthClientMessage.RealmUpdate, AuthChannel.WoW)]
-        public static void OnRealmUpdate(AuthPacket packet, Client client)
+        [AuthMessage(AuthClientMessage.ListSubscribeRequest, AuthChannel.WoW)]
+        public static void OnListSubscribeRequest(AuthPacket packet, Client client)
         {
-            Log.Message(LogType.Debug, "Received realm update.");
+            Log.Message(LogType.Debug, "Received ListSubscribeRequest.");
 
-            var complete = new AuthPacket(AuthServerMessage.RealmComplete, AuthChannel.WoW);
+            // Battlenet::Client::WoWRealm::ListSubscribeResponse
+            var listSubscribeResponse = new AuthPacket(AuthServerMessage.ListSubscribeResponse, AuthChannel.WoW);
 
-            complete.Flush();
-            complete.Write(0, 8);
+            listSubscribeResponse.Flush();
+            listSubscribeResponse.Write(0, 8);
 
             var realmCounter = 0;
 
+            // Battlenet::Client::WoWRealm::ListUpdate
             foreach (var realm in Manager.RealmMgr.RealmList)
             {
-                var realmlist = new AuthPacket(AuthServerMessage.RealmUpdate, AuthChannel.WoW);
+                var listUpdate = new AuthPacket(AuthServerMessage.ListUpdate, AuthChannel.WoW);
 
-                realmlist.Write(true, 1);
-                realmlist.Write(1, 32);
-                realmlist.Write(0f, 32);
-                realmlist.Write(realm.Value.Flags, 8);
-                realmlist.Write(realm.Value.Id, 19);
-                realmlist.Write(0x80000000 + realm.Value.Type, 32);
-                realmlist.WriteString(realm.Value.Name, 10, false);
-                realmlist.Write(false, 1);
-                realmlist.Write(realm.Value.Status, 8);
-                realmlist.Write(0, 12);
-                realmlist.Write(0, 8);
-                realmlist.Write(0, 32);
-                realmlist.Write(++realmCounter, 8);
+                listUpdate.Write(true, 1);
+                listUpdate.Write(realm.Value.Category, 32);          // RealmCategory
+                listUpdate.Write(0, 32);                             // RealmPopulation, float written as uint32
+                listUpdate.Write(realm.Value.State, 8);              // RealmState
+                listUpdate.Write(realm.Value.Id, 19);                // RealmId
+                listUpdate.Write(0x80000000 + realm.Value.Type, 32); // RealmType
+                listUpdate.WriteString(realm.Value.Name, 10, false); // RealmName
+                listUpdate.Write(false, 1);                          // Battlenet::VersionString, not used for now
+                listUpdate.Write(realm.Value.Flags, 8);              // RealmInfoFlags
+                listUpdate.Write(0, 8);
+                listUpdate.Write(0, 12);
+                listUpdate.Write(0, 8);
+                listUpdate.Write(++realmCounter, 32);
 
-                // End
-                realmlist.Write(new byte[] { 0x43, 0x02 });
-                realmlist.Finish();
+                // Battlenet::Client::WoWRealm::ListComplete
+                var listComplete = new AuthPacket(AuthServerMessage.ListComplete, AuthChannel.WoW);
 
-                complete.Write(realmlist.Data);
+                listComplete.Finish();
+
+                // Write ListComplete data to ListUpdate end
+                listUpdate.Write(listComplete.Data);
+                listUpdate.Finish();
+
+                // Write ListUpdate data to ListSubscribeResponse
+                listSubscribeResponse.Write(listUpdate.Data);
             }
 
-            client.SendPacket(complete);
+            client.SendPacket(listSubscribeResponse);
         }
     }
 }

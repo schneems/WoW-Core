@@ -28,8 +28,8 @@ namespace AuthServer.Constants.Net
         Disconnect         = (0x06 + 0x3F) << AuthChannel.Creep,
         #endregion
         #region WoW
-        RealmUpdate        = (0x00 + 0x3F) << AuthChannel.WoW,
-        JoinRequest        = (0x08 + 0x3F) << AuthChannel.WoW,
+        ListSubscribeRequest = (0x00 + 0x3F) << AuthChannel.WoW,
+        JoinRequest          = (0x08 + 0x3F) << AuthChannel.WoW,
         #endregion
     }
 }

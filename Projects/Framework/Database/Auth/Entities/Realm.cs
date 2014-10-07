@@ -25,8 +25,9 @@ namespace Framework.Database.Auth.Entities
         public string Name    { get; set; }
         public string IP      { get; set; }
         public ushort Port    { get; set; }
+        public uint Category  { get; set; }
         public byte Type      { get; set; }
-        public byte Status    { get; set; }
+        public byte State     { get; set; }
         public byte Flags     { get; set; }
 
         public virtual IList<RealmRace> RealmRaces { get; set; }

@@ -55,29 +55,29 @@ CREATE TABLE `Components` (
 INSERT INTO `Components` VALUES ('Bnet', 'Mc64', '37165');
 INSERT INTO `Components` VALUES ('Bnet', 'Win', '37165');
 INSERT INTO `Components` VALUES ('Bnet', 'Wn64', '37165');
-INSERT INTO `Components` VALUES ('WoW', 'base', '18850');
-INSERT INTO `Components` VALUES ('WoW', 'deDE', '18850');
-INSERT INTO `Components` VALUES ('WoW', 'enGB', '18850');
-INSERT INTO `Components` VALUES ('WoW', 'enUS', '18850');
-INSERT INTO `Components` VALUES ('WoW', 'esES', '18850');
-INSERT INTO `Components` VALUES ('WoW', 'esMX', '18850');
-INSERT INTO `Components` VALUES ('WoW', 'frFR', '18850');
-INSERT INTO `Components` VALUES ('WoW', 'itIT', '18850');
-INSERT INTO `Components` VALUES ('WoW', 'koKR', '18850');
-INSERT INTO `Components` VALUES ('WoW', 'Mc64', '18850');
-INSERT INTO `Components` VALUES ('WoW', 'plPL', '18850');
-INSERT INTO `Components` VALUES ('WoW', 'ptBR', '18850');
-INSERT INTO `Components` VALUES ('WoW', 'ruRU', '18850');
-INSERT INTO `Components` VALUES ('WoW', 'Win', '18850');
-INSERT INTO `Components` VALUES ('WoW', 'Wn64', '18850');
-INSERT INTO `Components` VALUES ('WoW', 'zhCN', '18850');
-INSERT INTO `Components` VALUES ('WoW', 'zhTW', '18850');
-INSERT INTO `Components` VALUES ('WoWB', 'Mc64', '18850');
-INSERT INTO `Components` VALUES ('WoWB', 'Win', '18850');
-INSERT INTO `Components` VALUES ('WoWB', 'Wn64', '18850');
-INSERT INTO `Components` VALUES ('WoWT', 'Mc64', '18850');
-INSERT INTO `Components` VALUES ('WoWT', 'Win', '18850');
-INSERT INTO `Components` VALUES ('WoWT', 'Wn64', '18850');
+INSERT INTO `Components` VALUES ('WoW', 'base', '18988');
+INSERT INTO `Components` VALUES ('WoW', 'deDE', '18988');
+INSERT INTO `Components` VALUES ('WoW', 'enGB', '18988');
+INSERT INTO `Components` VALUES ('WoW', 'enUS', '18988');
+INSERT INTO `Components` VALUES ('WoW', 'esES', '18988');
+INSERT INTO `Components` VALUES ('WoW', 'esMX', '18988');
+INSERT INTO `Components` VALUES ('WoW', 'frFR', '18988');
+INSERT INTO `Components` VALUES ('WoW', 'itIT', '18988');
+INSERT INTO `Components` VALUES ('WoW', 'koKR', '18988');
+INSERT INTO `Components` VALUES ('WoW', 'Mc64', '18988');
+INSERT INTO `Components` VALUES ('WoW', 'plPL', '18988');
+INSERT INTO `Components` VALUES ('WoW', 'ptBR', '18988');
+INSERT INTO `Components` VALUES ('WoW', 'ruRU', '18988');
+INSERT INTO `Components` VALUES ('WoW', 'Win', '18988');
+INSERT INTO `Components` VALUES ('WoW', 'Wn64', '18988');
+INSERT INTO `Components` VALUES ('WoW', 'zhCN', '18988');
+INSERT INTO `Components` VALUES ('WoW', 'zhTW', '18988');
+INSERT INTO `Components` VALUES ('WoWB', 'Mc64', '18988');
+INSERT INTO `Components` VALUES ('WoWB', 'Win', '18988');
+INSERT INTO `Components` VALUES ('WoWB', 'Wn64', '18988');
+INSERT INTO `Components` VALUES ('WoWT', 'Mc64', '18988');
+INSERT INTO `Components` VALUES ('WoWT', 'Win', '18988');
+INSERT INTO `Components` VALUES ('WoWT', 'Wn64', '18988');
 
 -- ----------------------------
 -- Table structure for GameAccountCharacterTemplates
@@ -276,8 +276,9 @@ CREATE TABLE `Realms` (
   `Name` varchar(255) DEFAULT NULL,
   `IP` varchar(15) DEFAULT NULL,
   `Port` smallint(5) unsigned NOT NULL DEFAULT '8100',
+  `Category` int(11) unsigned NOT NULL DEFAULT '0',
   `Type` tinyint(4) unsigned NOT NULL,
-  `Status` tinyint(4) unsigned NOT NULL,
+  `State` tinyint(4) unsigned NOT NULL,
   `Flags` tinyint(4) unsigned NOT NULL,
   PRIMARY KEY (`Id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
@@ -285,4 +286,4 @@ CREATE TABLE `Realms` (
 -- ----------------------------
 -- Records of Realms
 -- ----------------------------
-INSERT INTO `Realms` VALUES ('1', 'Arctium WoW', '127.0.0.1', '3724', '1', '0', '0');
+INSERT INTO `Realms` VALUES ('1', 'Arctium WoW', '127.0.0.1', '3724', '1', '1', '0', '0');

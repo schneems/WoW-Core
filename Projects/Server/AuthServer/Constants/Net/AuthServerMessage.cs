@@ -27,9 +27,10 @@ namespace AuthServer.Constants.Net
         Pong          = (0x00 + 0x3F) << AuthChannel.Creep,
         #endregion
         #region WoW
-        RealmComplete = (0x00 + 0x3F) << AuthChannel.WoW,
-        RealmUpdate   = (0x02 + 0x3F) << AuthChannel.WoW,
-        JoinResponse  = (0x08 + 0x3F) << AuthChannel.WoW
+        ListSubscribeResponse = (0x00 + 0x3F) << AuthChannel.WoW,
+        ListUpdate            = (0x02 + 0x3F) << AuthChannel.WoW,
+        ListComplete          = (0x03 + 0x3F) << AuthChannel.WoW,
+        JoinResponse          = (0x08 + 0x3F) << AuthChannel.WoW
         #endregion
     }
 }

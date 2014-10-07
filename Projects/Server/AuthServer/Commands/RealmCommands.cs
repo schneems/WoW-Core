@@ -45,7 +45,7 @@ namespace AuthServer.Commands
                         IP     = realmIP,
                         Port   = realmPort,
                         Type   = 1,
-                        Status = 0,
+                        State  = 0,
                         Flags  = 0
                     };
 
