@@ -57,7 +57,7 @@ namespace Framework.Network.Packets
             Buffer.BlockCopy(data, 0, Data, 0, size);
         }
 
-        public AuthPacket(AuthServerMessage message, AuthChannel channel = AuthChannel.BattleNet)
+        public AuthPacket(AuthServerMessage message, AuthChannel channel = AuthChannel.Authentication)
         {
             stream = new BinaryWriter(new MemoryStream());
 
@@ -65,7 +65,7 @@ namespace Framework.Network.Packets
             Header.Message = (ushort)message;
             Header.Channel = channel;
 
-            var hasChannel = channel != AuthChannel.BattleNet;
+            var hasChannel = channel != AuthChannel.Authentication;
             var msg = Header.Message >= 0x7E ? (Header.Message >> (byte)channel) - 0x3F : Header.Message - 0x3F;
 
             Write(msg, 6);

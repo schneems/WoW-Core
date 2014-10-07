@@ -19,17 +19,17 @@ namespace AuthServer.Constants.Net
 {
     public enum AuthClientMessage : ushort
     {
-        #region None
-        ProofResponse      = (0x02 + 0x3F) << AuthChannel.BattleNet,
-        InformationRequest = (0x09 + 0x3F) << AuthChannel.BattleNet,
+        #region Authentication
+        ProofResponse        = (0x02 + 0x3F) << AuthChannel.Authentication,
+        InformationRequest   = (0x09 + 0x3F) << AuthChannel.Authentication,
         #endregion
-        #region Creep
-        Ping               = (0x00 + 0x3F) << AuthChannel.Creep,
-        Disconnect         = (0x06 + 0x3F) << AuthChannel.Creep,
+        #region Connection
+        Ping                 = (0x00 + 0x3F) << AuthChannel.Connection,
+        Disconnect           = (0x06 + 0x3F) << AuthChannel.Connection,
         #endregion
-        #region WoW
-        ListSubscribeRequest = (0x00 + 0x3F) << AuthChannel.WoW,
-        JoinRequest          = (0x08 + 0x3F) << AuthChannel.WoW,
+        #region WoWRealm
+        ListSubscribeRequest = (0x00 + 0x3F) << AuthChannel.WoWRealm,
+        JoinRequest          = (0x08 + 0x3F) << AuthChannel.WoWRealm,
         #endregion
     }
 }

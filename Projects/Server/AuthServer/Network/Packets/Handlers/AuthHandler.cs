@@ -69,7 +69,7 @@ namespace AuthServer.Network.Packets.Handlers
             client.SendPacket(proofRequest);
         }
 
-        [AuthMessage(AuthClientMessage.ProofResponse, AuthChannel.BattleNet)]
+        [AuthMessage(AuthClientMessage.ProofResponse, AuthChannel.Authentication)]
         public static void OnProofResponse(AuthPacket packet, Client client)
         {
             var session = client.Session;

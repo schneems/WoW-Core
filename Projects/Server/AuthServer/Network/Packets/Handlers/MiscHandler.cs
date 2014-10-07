@@ -31,7 +31,7 @@ namespace AuthServer.Network.Packets.Handlers
 {
     class MiscHandler
     {
-        [AuthMessage(AuthClientMessage.InformationRequest, AuthChannel.BattleNet)]
+        [AuthMessage(AuthClientMessage.InformationRequest, AuthChannel.Authentication)]
         public static void OnInformationRequest(AuthPacket packet, Client client)
         {
             var session = client.Session;
@@ -115,15 +115,15 @@ namespace AuthServer.Network.Packets.Handlers
             }
         }
 
-        [AuthMessage(AuthClientMessage.Ping, AuthChannel.Creep)]
+        [AuthMessage(AuthClientMessage.Ping, AuthChannel.Connection)]
         public static void OnPing(AuthPacket packet, Client client)
         {
-            var pong = new AuthPacket(AuthServerMessage.Pong, AuthChannel.Creep);
+            var pong = new AuthPacket(AuthServerMessage.Pong, AuthChannel.Connection);
 
             client.SendPacket(pong);
         }
 
-        [AuthMessage(AuthClientMessage.Disconnect, AuthChannel.Creep)]
+        [AuthMessage(AuthClientMessage.Disconnect, AuthChannel.Connection)]
         public static void OnDisconnect(AuthPacket packet, Client client)
         {
             Log.Message(LogType.Debug, "Client '{0}' disconnected.", client.ConnectionInfo);

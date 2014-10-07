@@ -30,7 +30,7 @@ namespace AuthServer.Network.Packets.Handlers
 {
     class RealmHandler
     {
-        [AuthMessage(AuthClientMessage.JoinRequest, AuthChannel.WoW)]
+        [AuthMessage(AuthClientMessage.JoinRequest, AuthChannel.WoWRealm)]
         public static void OnJoinRequest(AuthPacket packet, Client client)
         {
             var clientSalt = BitConverter.GetBytes(packet.Read<uint>(32));
@@ -41,11 +41,13 @@ namespace AuthServer.Network.Packets.Handlers
             // Continue if sessionKey is not empty
             if (client.Session.GameAccount.SessionKey != "")
             {
-                var joinResponse = new AuthPacket(AuthServerMessage.JoinResponse, AuthChannel.WoW);
+                var joinResponse = new AuthPacket(AuthServerMessage.JoinResponse, AuthChannel.WoWRealm);
 
                 joinResponse.Write(Manager.RealmMgr.RealmList.Count == 0, 1);
 
                 joinResponse.Write(BitConverter.ToUInt32(serverSalt, 0), 32);
+
+                // Battlenet::WoW::IP4AddressList
                 joinResponse.Write(Manager.RealmMgr.RealmList.Count, 5);
 
                 foreach (var realm in Manager.RealmMgr.RealmList)
@@ -59,29 +61,30 @@ namespace AuthServer.Network.Packets.Handlers
                     joinResponse.Write(port);
                 }
 
-                joinResponse.Write(0, 5);
+                // Battlenet::WoW::IP6AddressList, not implemented
+                joinResponse.Write(0, 5); 
 
                 client.SendPacket(joinResponse);
             }
         }
 
-        [AuthMessage(AuthClientMessage.ListSubscribeRequest, AuthChannel.WoW)]
+        [AuthMessage(AuthClientMessage.ListSubscribeRequest, AuthChannel.WoWRealm)]
         public static void OnListSubscribeRequest(AuthPacket packet, Client client)
         {
             Log.Message(LogType.Debug, "Received ListSubscribeRequest.");
 
             // Battlenet::Client::WoWRealm::ListSubscribeResponse
-            var listSubscribeResponse = new AuthPacket(AuthServerMessage.ListSubscribeResponse, AuthChannel.WoW);
+            var listSubscribeResponse = new AuthPacket(AuthServerMessage.ListSubscribeResponse, AuthChannel.WoWRealm);
 
-            listSubscribeResponse.Flush();
-            listSubscribeResponse.Write(0, 8);
+            listSubscribeResponse.Write(0, 1);
+            listSubscribeResponse.Write(0, 7);
 
             var realmCounter = 0;
 
             // Battlenet::Client::WoWRealm::ListUpdate
             foreach (var realm in Manager.RealmMgr.RealmList)
             {
-                var listUpdate = new AuthPacket(AuthServerMessage.ListUpdate, AuthChannel.WoW);
+                var listUpdate = new AuthPacket(AuthServerMessage.ListUpdate, AuthChannel.WoWRealm);
 
                 listUpdate.Write(true, 1);
                 listUpdate.Write(realm.Value.Category, 32);          // RealmCategory
@@ -98,7 +101,7 @@ namespace AuthServer.Network.Packets.Handlers
                 listUpdate.Write(++realmCounter, 32);
 
                 // Battlenet::Client::WoWRealm::ListComplete
-                var listComplete = new AuthPacket(AuthServerMessage.ListComplete, AuthChannel.WoW);
+                var listComplete = new AuthPacket(AuthServerMessage.ListComplete, AuthChannel.WoWRealm);
 
                 listComplete.Finish();
 

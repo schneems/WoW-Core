@@ -19,8 +19,8 @@ namespace AuthServer.Constants.Net
 {
     public enum AuthChannel : byte
     {
-        BattleNet = 0,
-        Creep     = 1,
-        WoW       = 2
+        Authentication = 0,
+        Connection     = 1,
+        WoWRealm       = 2
     }
 }
