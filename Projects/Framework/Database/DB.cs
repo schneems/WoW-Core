@@ -19,9 +19,9 @@ namespace Framework.Database
 {
     public class DB
     {
-        public static Database Auth = new Database();
-        public static Database Character = new Database();
-        public static Database Data = new Database();
-        public static Database World = new Database();
+        public static Lappa_ORM.Database Auth = new Lappa_ORM.Database();
+        public static Lappa_ORM.Database Character = new Lappa_ORM.Database();
+        public static Lappa_ORM.Database Data = new Lappa_ORM.Database();
+        public static Lappa_ORM.Database World = new Lappa_ORM.Database();
     }
 }
