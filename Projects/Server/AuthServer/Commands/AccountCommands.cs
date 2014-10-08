@@ -65,13 +65,13 @@ namespace AuthServer.Commands
         [ConsoleCommand("CreateGameAccount", "")]
         public static void CreateGameAccount(string[] args)
         {
-            var accountId = Command.Read<int>(args, 0);
+            var email = Command.Read<string>(args, 0);
             var game = Command.Read<string>(args, 1);
             var index = Command.Read<byte>(args, 2);
 
-            if (accountId != 0 && game != "" && index != 0)
+            if (email != "" && game != "" && index != 0)
             {
-                var account = DB.Auth.Single<Account>(a => a.Id == accountId);
+                var account = DB.Auth.Single<Account>(a => a.Email == email);
 
                 if (account != null)
                 {
@@ -90,13 +90,13 @@ namespace AuthServer.Commands
                         };
 
                         if (DB.Auth.Add(gameAccount))
-                            Log.Message(LogType.Normal, "GameAccount '{0}{1}' for Account '{2}' successfully created.", game, index, accountId);
+                            Log.Message(LogType.Normal, "GameAccount '{0}{1}' for Account '{2}' successfully created.", game, index, email);
                     }
                     else
-                        Log.Message(LogType.Error, "GameAccount '{0}{1}' for Account '{2}' already in database", game, index, accountId);
+                        Log.Message(LogType.Error, "GameAccount '{0}{1}' for Account '{2}' already in database", game, index, email);
                 }
                 else
-                    Log.Message(LogType.Error, "Account '{0}' doesn't exist.", accountId);
+                    Log.Message(LogType.Error, "Account '{0}' doesn't exist.", email);
             }
         }
     }
