@@ -17,10 +17,11 @@
 
 using System.Collections.Generic;
 using Framework.Attributes;
+using Lappa_ORM;
 
 namespace Framework.Database.Character.Entities
 {
-    public class CharacterTemplateClass
+    public class CharacterTemplateClass : Entity
     {
         [Field(PrimaryKey = true)]
         public byte ClassId      { get; set; }

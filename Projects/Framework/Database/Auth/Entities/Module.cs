@@ -15,15 +15,17 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+using Lappa_ORM;
+
 namespace Framework.Database.Auth.Entities
 {
-    public class Module
+    public class Module : Entity
     {
         public string Hash   { get; set; }
         public string Type   { get; set; }
         public string Name   { get; set; }
         public string System { get; set; }
-        public int Size      { get; set; }
+        public uint Size     { get; set; }
         public string Data   { get; set; }
     }
 }

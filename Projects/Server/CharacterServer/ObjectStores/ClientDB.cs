@@ -16,7 +16,7 @@
  */
 
 using System.Collections.Generic;
-using Framework.Database.ClientDB.Entities;
+using Framework.Database.Data.Entities;
 
 namespace CharacterServer.ObjectStores
 {

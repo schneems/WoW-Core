@@ -32,9 +32,11 @@ namespace AuthServer
         {
             ReadArguments(args);
 
-            DB.Auth.CreateConnection(AuthConfig.AuthDBHost, AuthConfig.AuthDBUser, AuthConfig.AuthDBPassword,
-                                     AuthConfig.AuthDBDataBase, AuthConfig.AuthDBPort, AuthConfig.MySqlPooling,
-                                     AuthConfig.MySqlMinPoolSize, AuthConfig.MySqlMaxPoolSize);
+            var connString = DB.CreateConnectionString(AuthConfig.AuthDBHost, AuthConfig.AuthDBUser, AuthConfig.AuthDBPassword,
+                                                       AuthConfig.AuthDBDataBase, AuthConfig.AuthDBPort, AuthConfig.AuthDBPooling,
+                                                       AuthConfig.AuthDBMinPoolSize, AuthConfig.AuthDBMaxPoolSize, AuthConfig.AuthDBType);
+
+            DB.Auth.CreateConnection(connString, AuthConfig.AuthDBType);
 
             Log.Message(LogType.Init, "_____________World of Warcraft_____________");
             Log.Message(LogType.Init, "    __                                     ");

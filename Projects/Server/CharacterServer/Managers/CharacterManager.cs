@@ -15,6 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using CharacterServer.ObjectStores;
@@ -40,8 +41,8 @@ namespace CharacterServer.Managers
                 var startAbilities = ClientDB.SkillLineAbilities.Where(a => a.AcquireMethod == 2 && a.SupercedesSpell == 0 &&
                                                                        a.CheckRaceClassConditions(character.GetRaceMask(), character.GetClassMask()));
 
-                var spellQuery = new DBBulkQuery<CharacterSpell>();
-                var skillQuery = new DBBulkQuery<CharacterSkill>();
+                var spellList = new List<CharacterSpell>();
+                var skillList = new List<CharacterSkill>();
 
                 Parallel.ForEach(startAbilities, ability =>
                 {
@@ -63,13 +64,13 @@ namespace CharacterServer.Managers
                         }
                     }
 
-                    spellQuery.Add(ability.Spell, new CharacterSpell
+                    spellList.Add(new CharacterSpell
                     {
                         CharacterGuid = guid,
                         SpellId       = ability.Spell
                     });
 
-                    skillQuery.Add(ability.SkillLine, new CharacterSkill
+                    skillList.Add(new CharacterSkill
                     {
                         CharacterGuid = guid,
                         SkillId       = ability.SkillLine,
@@ -77,8 +78,8 @@ namespace CharacterServer.Managers
                     });
                 });
 
-                spellQuery.Finish(DB.Character);
-                skillQuery.Finish(DB.Character);
+                DB.Character.Add(spellList.AsEnumerable());
+                DB.Character.Add(skillList.AsEnumerable());
             }
         }
 

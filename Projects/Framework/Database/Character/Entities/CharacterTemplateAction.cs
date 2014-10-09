@@ -16,10 +16,11 @@
  */
 
 using Framework.Attributes;
+using Lappa_ORM;
 
 namespace Framework.Database.Character.Entities
 {
-    public class CharacterTemplateAction
+    public class CharacterTemplateAction : Entity
     {
         [Field(PrimaryKey = true)]
         public byte ClassId { get; set; }

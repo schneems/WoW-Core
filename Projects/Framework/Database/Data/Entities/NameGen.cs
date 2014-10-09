@@ -15,14 +15,16 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace Framework.Database.ClientDB.Entities
+using Framework.Constants.General;
+using Lappa_ORM;
+
+namespace Framework.Database.Data.Entities
 {
-    public class SkillLine
+    public class NameGen : Entity
     {
-        public int ID                { get; set; }
-        public int CategoryID        { get; set; }
-        public int CanLink           { get; set; }
-        public int ParentSkillLineID { get; set; }
-        public int Flags             { get; set; }
+        public int Id      { get; set; }
+        public string Name { get; set; }
+        public Race RaceId { get; set; }
+        public int Sex     { get; set; }
     }
 }

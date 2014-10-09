@@ -17,10 +17,11 @@
 
 using System.Collections.Generic;
 using Framework.Constants.Account;
+using Lappa_ORM;
 
 namespace Framework.Database.Auth.Entities
 {
-    public class GameAccount
+    public class GameAccount : Entity
     {
         public uint Id                { get; set; }
         public uint AccountId         { get; set; }

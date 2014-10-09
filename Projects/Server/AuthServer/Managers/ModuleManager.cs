@@ -69,7 +69,7 @@ namespace AuthServer.Managers
             packet.WriteFourCC(module.Type);
             packet.WriteFourCC("\0\0" + Enum.GetName(typeof(Regions), client.Session.Account.Region));
             packet.Write(module.Hash.ToByteArray());
-            packet.Write(size == 0 ? module.Size : size, 10);
+            packet.Write(size == 0 ? module.Size : (uint)size, 10);
         }
 
         public void WriteRiskFingerprint(Client client, AuthPacket packet)

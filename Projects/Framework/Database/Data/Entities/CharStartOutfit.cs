@@ -16,10 +16,11 @@
  */
 
 using Framework.Constants.General;
+using Lappa_ORM;
 
-namespace Framework.Database.ClientDB.Entities
+namespace Framework.Database.Data.Entities
 {
-    public class CharStartOutfit
+    public class CharStartOutfit : Entity
     {
         public int Id           { get; set; }
         public Race RaceId      { get; set; }

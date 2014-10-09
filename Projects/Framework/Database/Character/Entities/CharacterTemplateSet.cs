@@ -17,10 +17,11 @@
 
 using System.Collections.Generic;
 using Framework.Attributes;
+using Lappa_ORM;
 
 namespace Framework.Database.Character.Entities
 {
-    public class CharacterTemplateSet
+    public class CharacterTemplateSet : Entity
     {
         public int Id             { get; set; }
         public string Name        { get; set; }

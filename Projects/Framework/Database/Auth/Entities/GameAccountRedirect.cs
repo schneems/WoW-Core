@@ -16,10 +16,11 @@
  */
 
 using Framework.Attributes;
+using Lappa_ORM;
 
 namespace Framework.Database.Auth.Entities
 {
-    public class GameAccountRedirect
+    public class GameAccountRedirect : Entity
     {
         [Field(PrimaryKey = true)]
         public ulong Serial       { get; set; }

@@ -15,6 +15,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+using Lappa_ORM;
+
 namespace Framework.Database
 {
     public class DB
@@ -23,5 +25,36 @@ namespace Framework.Database
         public static Lappa_ORM.Database Character = new Lappa_ORM.Database();
         public static Lappa_ORM.Database Data = new Lappa_ORM.Database();
         public static Lappa_ORM.Database World = new Lappa_ORM.Database();
+
+        public static string CreateConnectionString(string host, string user, string password, string database, int port, bool pooling, int minPoolSize, int maxPoolSize, ConnectionType connType)
+        {
+            if (connType == ConnectionType.MYSQL)
+            {
+                var pools = string.Format(";Min Pool Size={0};Max Pool Size={1}", minPoolSize, maxPoolSize);
+
+                var connectionString = "Server=" + host + ";User Id=" + user + ";Port=" + port + ";" +
+                                       "Password=" + password + ";Database=" + database + ";Allow Zero Datetime=True;" +
+                                       "Pooling=" + pooling + ";CharSet=utf8";
+
+                if (pooling)
+                    connectionString += pools;
+
+                return connectionString;
+            }
+            else if (connType == ConnectionType.MSSQL)
+            {
+                var pools = string.Format(";Min Pool Size={0};Max Pool Size={1}", minPoolSize, maxPoolSize);
+
+                var connectionString = "Data Source=" + host + "; Initial Catalog = " + database + "; User ID = " + user + "; Password = " + password + "Pooling=" + pooling;
+
+                if (pooling)
+                    connectionString += pools;
+
+                return connectionString;
+            }
+
+            return null;
+        }
+
     }
 }

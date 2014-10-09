@@ -16,10 +16,11 @@
  */
 
 using System.Collections.Generic;
+using Lappa_ORM;
 
 namespace Framework.Database.Auth.Entities
 {
-    public class Realm
+    public class Realm : Entity
     {
         public uint Id        { get; set; }
         public string Name    { get; set; }

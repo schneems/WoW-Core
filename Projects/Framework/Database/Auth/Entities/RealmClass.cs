@@ -15,9 +15,11 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+using Lappa_ORM;
+
 namespace Framework.Database.Auth.Entities
 {
-    public class RealmClass
+    public class RealmClass : Entity
     {
         public uint RealmId   { get; set; }
         public byte Class     { get; set; }

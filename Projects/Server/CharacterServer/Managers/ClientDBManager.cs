@@ -18,7 +18,7 @@
 using CharacterServer.ObjectStores;
 using Framework.Constants.Misc;
 using Framework.Database;
-using Framework.Database.ClientDB.Entities;
+using Framework.Database.Data.Entities;
 using Framework.Logging;
 using Framework.Misc;
 

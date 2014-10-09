@@ -16,10 +16,11 @@
  */
 
 using Framework.Attributes;
+using Lappa_ORM;
 
 namespace Framework.Database.Character.Entities
 {
-    public class CharacterSpell
+    public class CharacterSpell : Entity
     {
         [Field(PrimaryKey = true)]
         public ulong CharacterGuid { get; set; }

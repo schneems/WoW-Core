@@ -33,17 +33,20 @@ namespace CharacterServer
         {
             ReadArguments(args);
 
-            var authConnection = DB.Auth.CreateConnection(CharacterConfig.AuthDBHost, CharacterConfig.AuthDBUser, CharacterConfig.AuthDBPassword,
-                                                          CharacterConfig.AuthDBDataBase, CharacterConfig.AuthDBPort, CharacterConfig.MySqlPooling,
-                                                          CharacterConfig.MySqlMinPoolSize, CharacterConfig.MySqlMaxPoolSize);
+            var authConnString = DB.CreateConnectionString(CharacterConfig.AuthDBHost, CharacterConfig.AuthDBUser, CharacterConfig.AuthDBPassword,
+                                                           CharacterConfig.AuthDBDataBase, CharacterConfig.AuthDBPort, CharacterConfig.AuthDBPooling,
+                                                           CharacterConfig.AuthDBMinPoolSize, CharacterConfig.AuthDBMaxPoolSize, CharacterConfig.AuthDBType);
+            var authConnection = DB.Auth.CreateConnection(authConnString, CharacterConfig.AuthDBType);
 
-            var charConnection = DB.Character.CreateConnection(CharacterConfig.CharacterDBHost, CharacterConfig.CharacterDBUser, CharacterConfig.CharacterDBPassword,
-                                                               CharacterConfig.CharacterDBDataBase, CharacterConfig.CharacterDBPort, CharacterConfig.MySqlPooling,
-                                                               CharacterConfig.MySqlMinPoolSize, CharacterConfig.MySqlMaxPoolSize);
+            var charConnString = DB.CreateConnectionString(CharacterConfig.CharacterDBHost, CharacterConfig.CharacterDBUser, CharacterConfig.CharacterDBPassword,
+                                                           CharacterConfig.CharacterDBDataBase, CharacterConfig.CharacterDBPort, CharacterConfig.CharacterDBPooling,
+                                                           CharacterConfig.CharacterDBMinPoolSize, CharacterConfig.CharacterDBMaxPoolSize, CharacterConfig.CharacterDBType);
+            var charConnection = DB.Character.CreateConnection(charConnString, CharacterConfig.CharacterDBType);
 
-            var dataConnection = DB.Data.CreateConnection(CharacterConfig.DataDBHost, CharacterConfig.DataDBUser, CharacterConfig.DataDBPassword,
-                                                          CharacterConfig.DataDBDataBase, CharacterConfig.DataDBPort, CharacterConfig.MySqlPooling,
-                                                          CharacterConfig.MySqlMinPoolSize, CharacterConfig.MySqlMaxPoolSize);
+            var dataConnString = DB.CreateConnectionString(CharacterConfig.DataDBHost, CharacterConfig.DataDBUser, CharacterConfig.DataDBPassword,
+                                                           CharacterConfig.DataDBDataBase, CharacterConfig.DataDBPort, CharacterConfig.DataDBPooling,
+                                                           CharacterConfig.DataDBMinPoolSize, CharacterConfig.DataDBMaxPoolSize, CharacterConfig.DataDBType);
+            var dataCConnection = DB.Data.CreateConnection(dataConnString, CharacterConfig.DataDBType);
 
             Log.Message(LogType.Init, "_____________World of Warcraft_____________");
             Log.Message(LogType.Init, "    __                                     ");

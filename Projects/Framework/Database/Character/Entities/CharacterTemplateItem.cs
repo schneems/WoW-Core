@@ -16,10 +16,11 @@
  */
 
 using Framework.Attributes;
+using Lappa_ORM;
 
 namespace Framework.Database.Character.Entities
 {
-    public class CharacterTemplateItem
+    public class CharacterTemplateItem : Entity
     {
         [Field(PrimaryKey = true)]
         public int ItemId      { get; set; }

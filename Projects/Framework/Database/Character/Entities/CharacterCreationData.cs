@@ -17,10 +17,11 @@
 
 using Framework.Attributes;
 using Framework.Constants.General;
+using Lappa_ORM;
 
 namespace Framework.Database.Character.Entities
 {
-    public class CharacterCreationData
+    public class CharacterCreationData : Entity
     {
         [Field(PrimaryKey = true)]
         public Race Race           { get; set; }

@@ -16,10 +16,11 @@
  */
 
 using Framework.Attributes;
+using Lappa_ORM;
 
 namespace Framework.Database.Character.Entities
 {
-    public class CharacterCreationSkill
+    public class CharacterCreationSkill : Entity
     {
         [Field(PrimaryKey = true)]
         public byte Race    { get; set; }

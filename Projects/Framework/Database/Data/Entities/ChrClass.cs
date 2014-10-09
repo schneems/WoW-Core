@@ -16,19 +16,20 @@
  */
 
 using Framework.Constants.General;
+using Lappa_ORM;
 
-namespace Framework.Database.ClientDB.Entities
+namespace Framework.Database.Data.Entities
 {
-    public class ChrRace
+    public class ChrClass : Entity
     {
-        public Race Id                 { get; set; }
-        public int Flags               { get; set; }
-        public int FactionId           { get; set; }
-        public int ExplorationSoundId  { get; set; }
-        public int MaleDisplayId       { get; set; }
-        public int FemaleDisplayId     { get; set; }
-        public int BaseLanguage        { get; set; }
-        public int CinematicSequenceId { get; set; }
-        public int Alliance            { get; set; }
+        public Class Id                        { get; set; }
+        public int DisplayPower                { get; set; }
+        public int SpellClassSet               { get; set; }
+        public int Flags                       { get; set; }
+        public int CinematicSequenceId         { get; set; }
+        public int AttackPowerPerStrength      { get; set; }
+        public int AttackPowerPerAgility       { get; set; }
+        public int RangedAttackPowerPerAgility { get; set; }
+        public int DefaultSpec                 { get; set; }
     }
 }

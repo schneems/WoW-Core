@@ -15,9 +15,11 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+using Lappa_ORM;
+
 namespace Framework.Database.Auth.Entities
 {
-    public class GameAccountCharacterTemplate
+    public class GameAccountCharacterTemplate : Entity
     {
         public uint GameAccountId { get; set; }
         public int SetId          { get; set; }

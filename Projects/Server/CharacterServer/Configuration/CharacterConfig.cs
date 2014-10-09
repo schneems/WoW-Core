@@ -21,6 +21,7 @@ using Framework.Constants.Misc;
 using Framework.Logging;
 using Framework.Logging.IO;
 using Framework.Misc;
+using Lappa_ORM;
 
 namespace CharacterServer.Configuration
 {
@@ -35,11 +36,19 @@ namespace CharacterServer.Configuration
         public static string LogConsoleFile;
         public static string LogPacketFile;
 
+        public static ConnectionType AuthDBType;
+
         public static string AuthDBHost;
         public static int AuthDBPort;
         public static string AuthDBUser;
         public static string AuthDBPassword;
         public static string AuthDBDataBase;
+
+        public static bool AuthDBPooling;
+        public static int AuthDBMinPoolSize;
+        public static int AuthDBMaxPoolSize;
+
+        public static ConnectionType CharacterDBType;
 
         public static string CharacterDBHost;
         public static int CharacterDBPort;
@@ -47,15 +56,21 @@ namespace CharacterServer.Configuration
         public static string CharacterDBPassword;
         public static string CharacterDBDataBase;
 
+        public static bool CharacterDBPooling;
+        public static int CharacterDBMinPoolSize;
+        public static int CharacterDBMaxPoolSize;
+
+        public static ConnectionType DataDBType;
+
         public static string DataDBHost;
         public static int DataDBPort;
         public static string DataDBUser;
         public static string DataDBPassword;
         public static string DataDBDataBase;
 
-        public static bool MySqlPooling;
-        public static int MySqlMinPoolSize;
-        public static int MySqlMaxPoolSize;
+        public static bool DataDBPooling;
+        public static int DataDBMinPoolSize;
+        public static int DataDBMaxPoolSize;
 
         public static string BindIP;
         public static int BindPort;
@@ -114,30 +129,41 @@ namespace CharacterServer.Configuration
             if (!IsInitialized)
                 throw new InvalidOperationException("CharacterServer config not initialized.");
 
-            AuthDBHost            = config.Read("AuthDB.Host", "127.0.0.1");
-            AuthDBPort            = config.Read("AuthDB.Port", 3306);
-            AuthDBUser            = config.Read("AuthDB.User", "root");
-            AuthDBPassword        = config.Read("AuthDB.Password", "");
-            AuthDBDataBase        = config.Read("AuthDB.Database", "AuthDB");
+            AuthDBType             = config.Read("AuthDB.Type", ConnectionType.MYSQL);
+            AuthDBHost             = config.Read("AuthDB.Host", "127.0.0.1");
+            AuthDBPort             = config.Read("AuthDB.Port", 3306);
+            AuthDBUser             = config.Read("AuthDB.User", "root");
+            AuthDBPassword         = config.Read("AuthDB.Password", "");
+            AuthDBDataBase         = config.Read("AuthDB.Database", "AuthDB");
 
-            CharacterDBHost       = config.Read("CharacterDB.Host", "127.0.0.1");
-            CharacterDBPort       = config.Read("CharacterDB.Port", 3306);
-            CharacterDBUser       = config.Read("CharacterDB.User", "root");
-            CharacterDBPassword   = config.Read("CharacterDB.Password", "");
-            CharacterDBDataBase   = config.Read("CharacterDB.Database", "CharacterDB");
+            AuthDBPooling          = config.Read("AuthDB.Pooling", true);
+            AuthDBMinPoolSize      = config.Read("AuthDB.MinPoolSize", 5);
+            AuthDBMaxPoolSize      = config.Read("AuthDB.MaxPoolSize", 30);
 
-            DataDBHost            = config.Read("DataDB.Host", "127.0.0.1");
-            DataDBPort            = config.Read("DataDB.Port", 3306);
-            DataDBUser            = config.Read("DataDB.User", "root");
-            DataDBPassword        = config.Read("DataDB.Password", "");
-            DataDBDataBase        = config.Read("DataDB.Database", "DataDB");
+            CharacterDBType        = config.Read("CharacterDB.Type", ConnectionType.MYSQL);
+            CharacterDBHost        = config.Read("CharacterDB.Host", "127.0.0.1");
+            CharacterDBPort        = config.Read("CharacterDB.Port", 3306);
+            CharacterDBUser        = config.Read("CharacterDB.User", "root");
+            CharacterDBPassword    = config.Read("CharacterDB.Password", "");
+            CharacterDBDataBase    = config.Read("CharacterDB.Database", "CharacterDB");
 
-            MySqlPooling          = config.Read("MySql.Pooling", true);
-            MySqlMinPoolSize      = config.Read("MySql.MinPoolSize", 5);
-            MySqlMaxPoolSize      = config.Read("MySql.MaxPoolSize", 30);
+            CharacterDBPooling     = config.Read("CharacterDB.Pooling", true);
+            CharacterDBMinPoolSize = config.Read("CharacterDB.MinPoolSize", 5);
+            CharacterDBMaxPoolSize = config.Read("CharacterDB.MaxPoolSize", 30);
 
-            BindIP                = config.Read("Bind.IP", "0.0.0.0");
-            BindPort              = config.Read("Bind.Port", 3724);
+            DataDBType             = config.Read("DataDB.Type", ConnectionType.MYSQL);
+            DataDBHost             = config.Read("DataDB.Host", "127.0.0.1");
+            DataDBPort             = config.Read("DataDB.Port", 3306);
+            DataDBUser             = config.Read("DataDB.User", "root");
+            DataDBPassword         = config.Read("DataDB.Password", "");
+            DataDBDataBase         = config.Read("DataDB.Database", "DataDB");
+
+            DataDBPooling          = config.Read("DataDB.Pooling", false);
+            DataDBMinPoolSize      = config.Read("DataDB.MinPoolSize", 1);
+            DataDBMaxPoolSize      = config.Read("DataDB.MaxPoolSize", 1);
+
+            BindIP                 = config.Read("Bind.IP", "0.0.0.0");
+            BindPort               = config.Read("Bind.Port", 3724);
         }
     }
 }

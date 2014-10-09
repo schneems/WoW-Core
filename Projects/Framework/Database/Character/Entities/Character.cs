@@ -19,10 +19,11 @@ using System.Collections.Generic;
 using Framework.Attributes;
 using Framework.Constants.General;
 using Framework.Constants.Object;
+using Lappa_ORM;
 
 namespace Framework.Database.Character.Entities
 {
-    public class Character
+    public class Character : Entity
     {
         [Field(PrimaryKey = true)]
         public ulong Guid                             { get; set; }

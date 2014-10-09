@@ -43,7 +43,7 @@ namespace AuthServer.Managers
             {
                 session.GameAccount.IsOnline = false;
 
-                DB.Auth.Update(session.GameAccount, "IsOnline", session.GameAccount.IsOnline);
+                DB.Auth.Update(session.GameAccount, "IsOnline");
 
                 Manager.SessionMgr.Clients.TryRemove(id, out client);
 

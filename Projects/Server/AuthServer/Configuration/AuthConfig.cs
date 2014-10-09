@@ -21,6 +21,7 @@ using Framework.Constants.Misc;
 using Framework.Logging;
 using Framework.Logging.IO;
 using Framework.Misc;
+using Lappa_ORM;
 
 namespace AuthServer.Configuration
 {
@@ -35,15 +36,17 @@ namespace AuthServer.Configuration
         public static string LogConsoleFile;
         public static string LogPacketFile;
 
+        public static ConnectionType AuthDBType;
+
         public static string AuthDBHost; 
         public static int AuthDBPort;
         public static string AuthDBUser;
         public static string AuthDBPassword;
         public static string AuthDBDataBase;
 
-        public static bool MySqlPooling;
-        public static int MySqlMinPoolSize;
-        public static int MySqlMaxPoolSize;
+        public static bool AuthDBPooling;
+        public static int AuthDBMinPoolSize;
+        public static int AuthDBMaxPoolSize;
 
         public static string BindIP;
         public static int BindPort;
@@ -96,15 +99,16 @@ namespace AuthServer.Configuration
             if (!IsInitialized)
                 throw new InvalidOperationException("AuthServer config not initialized.");
 
+            AuthDBType          = config.Read("AuthDB.Type", ConnectionType.MYSQL);
             AuthDBHost          = config.Read("AuthDB.Host", "127.0.0.1");
             AuthDBPort          = config.Read("AuthDB.Port", 3306);
             AuthDBUser          = config.Read("AuthDB.User", "root");
             AuthDBPassword      = config.Read("AuthDB.Password", "");
             AuthDBDataBase      = config.Read("AuthDB.Database", "AuthDB");
 
-            MySqlPooling        = config.Read("MySql.Pooling", true);
-            MySqlMinPoolSize    = config.Read("MySql.MinPoolSize", 5);
-            MySqlMaxPoolSize    = config.Read("MySql.MaxPoolSize", 30);
+            AuthDBPooling       = config.Read("AuthDB.Pooling", true);
+            AuthDBMinPoolSize   = config.Read("AuthDB.MinPoolSize", 5);
+            AuthDBMaxPoolSize   = config.Read("AuthDB.MaxPoolSize", 30);
 
             BindIP              = config.Read("Bind.IP", "0.0.0.0");
             BindPort            = config.Read("Bind.Port", 1119);

@@ -16,10 +16,11 @@
  */
 
 using Framework.Attributes;
+using Lappa_ORM;
 
 namespace Framework.Database.Character.Entities
 {
-    public class CharacterTemplateSpell
+    public class CharacterTemplateSpell : Entity
     {
         [Field(PrimaryKey = true)]
         public int SpellId  { get; set; }

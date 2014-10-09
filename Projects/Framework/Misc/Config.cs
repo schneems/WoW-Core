@@ -46,22 +46,23 @@ namespace Framework.Misc
         public T Read<T>(string name, T value, bool hex = false)
         {
             string nameValue = null;
-            var trueValue = value.ChangeType<T>();
             var lineCounter = 0;
 
             try
             {
                 if (configContent.Length != 0)
                 {
-
                     foreach (var option in configContent)
                     {
                         var configOption = option.Split(new char[] { '=' }, StringSplitOptions.None);
+
                         if (configOption[0].StartsWith(name, StringComparison.Ordinal))
+                        {
                             if (configOption[1].Trim() == "")
                                 nameValue = value.ToString();
                             else
                                 nameValue = configOption[1].Replace("\"", "").Trim();
+                        }
 
                         lineCounter++;
                     }
@@ -92,7 +93,10 @@ namespace Framework.Misc
                 Log.Message(LogType.Error, "Error while reading config option: '{0}'", name);
             }
 
-            return nameValue.ChangeType<T>();
+            if (typeof(T).IsEnum)
+                return (T)Enum.Parse(typeof(T), nameValue, true);
+            else
+                return nameValue.ChangeType<T>();
         }
     }
 }
