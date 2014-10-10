@@ -23,6 +23,7 @@ using AuthServer.Network.Packets;
 using Framework.Constants.Misc;
 using Framework.Database;
 using Framework.Logging;
+using Framework.Misc;
 
 namespace AuthServer
 {
@@ -46,6 +47,8 @@ namespace AuthServer
             Log.Message(LogType.Init, "_/____|_/_____(___ _(_ __/___(___(__/_/__/_");
             Log.Message(LogType.Init, "________________AuthServer_________________");
             Log.Message();
+
+            Helpers.PrintORMInfo();
 
             Log.Message(LogType.Normal, "Starting Arctium WoW AuthServer...");
 
