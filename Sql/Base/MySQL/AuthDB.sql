@@ -10,7 +10,7 @@ CREATE TABLE `Accounts` (
   `Surname` varchar(100) DEFAULT '',
   `Email` varchar(100) NOT NULL,
   `Tag` varchar(30) DEFAULT '',
-  `Region` tinyint(4) NOT NULL,
+  `Region` tinyint(4) unsigned NOT NULL,
   `Language` varchar(4) DEFAULT NULL,
   `Flags` bigint(20) unsigned NOT NULL,
   `PasswordVerifier` varchar(256) DEFAULT NULL,
