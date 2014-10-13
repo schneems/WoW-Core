@@ -41,6 +41,7 @@ namespace AuthServer.Commands
                 {
                     var realm = new Realm
                     {
+                        Id     = DB.Auth.GetAutoIncrementValue<Realm, uint>(),
                         Name   = realmName,
                         IP     = realmIP,
                         Port   = realmPort,
@@ -51,8 +52,6 @@ namespace AuthServer.Commands
 
                     if (DB.Auth.Add(realm))
                     {
-                        var newRealm = DB.Auth.Single<Realm>(r => r.Name == realm.Name);
-
                         // Default class/expansion data (sent in AuthResponse)
                         var defaultAllowedClasses = new byte[,] { { 1, 0 }, { 2, 0 }, { 3, 0 }, { 4, 0 }, { 5, 0 }, { 6, 2 },
                                                                 { 7, 0 }, { 8, 0 }, { 9, 0 }, { 10, 4 }, { 11, 0 } };
@@ -66,7 +65,7 @@ namespace AuthServer.Commands
                         {
                             DB.Auth.Add(new RealmClass
                             {
-                                RealmId   = newRealm.Id,
+                                RealmId   = realm.Id,
                                 Class     = defaultAllowedClasses[i, 0],
                                 Expansion = defaultAllowedClasses[i, 1]
                             });
@@ -76,7 +75,7 @@ namespace AuthServer.Commands
                         {
                             DB.Auth.Add(new RealmRace
                             {
-                                RealmId   = newRealm.Id,
+                                RealmId   = realm.Id,
                                 Race      = defaultAllowedRaces[i, 0],
                                 Expansion = defaultAllowedRaces[i, 1]
                             });
