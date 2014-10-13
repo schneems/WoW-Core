@@ -276,7 +276,7 @@ CREATE TABLE `Realms` (
   `Name` varchar(255) DEFAULT NULL,
   `IP` varchar(15) DEFAULT NULL,
   `Port` smallint(5) unsigned NOT NULL DEFAULT '8100',
-  `Category` int(11) unsigned NOT NULL DEFAULT '0',
+  `Category` int(11) unsigned NOT NULL DEFAULT '1',
   `Type` tinyint(4) unsigned NOT NULL,
   `State` tinyint(4) unsigned NOT NULL,
   `Flags` tinyint(4) unsigned NOT NULL,

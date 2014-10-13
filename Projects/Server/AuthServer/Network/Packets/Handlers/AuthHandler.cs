@@ -108,16 +108,13 @@ namespace AuthServer.Network.Packets.Handlers
                                 session.GameAccount = session.GameAccounts[0];
                         }
 
-                        if (!session.GameAccount.IsOnline)
+                        if (session.GameAccount == null)
+                            SendAuthComplete(true, AuthResult.NoGameAccount, client);
+                        else if (!session.GameAccount.IsOnline)
                         {
-                            if (session.GameAccount == null)
-                                SendAuthComplete(true, AuthResult.NoGameAccount, client);
-                            else
-                            {
-                                SendAuthComplete(false, AuthResult.GlobalSuccess, client);
+                            SendAuthComplete(false, AuthResult.GlobalSuccess, client);
 
-                                client.Session.GameAccount.IsOnline = true;
-                            }
+                            client.Session.GameAccount.IsOnline = true;
                         }
 
                         break;
