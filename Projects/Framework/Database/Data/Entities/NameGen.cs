@@ -22,9 +22,9 @@ namespace Framework.Database.Data.Entities
 {
     public class NameGen : Entity
     {
-        public int Id      { get; set; }
-        public string Name { get; set; }
-        public Race RaceId { get; set; }
-        public int Sex     { get; set; }
+        public uint Id      { get; set; }
+        public string Name  { get; set; }
+        public Race RaceId  { get; set; }
+        public byte Sex     { get; set; }
     }
 }

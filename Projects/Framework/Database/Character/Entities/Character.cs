@@ -40,8 +40,8 @@ namespace Framework.Database.Character.Entities
         public byte HairColor                         { get; set; }
         public byte FacialHairStyle                   { get; set; }
         public byte Level                             { get; set; }
-        public int Zone                               { get; set; }
-        public int Map                                { get; set; }
+        public uint Zone                              { get; set; }
+        public uint Map                               { get; set; }
         public float X                                { get; set; }
         public float Y                                { get; set; }
         public float Z                                { get; set; }

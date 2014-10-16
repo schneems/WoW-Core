@@ -22,19 +22,19 @@ namespace Framework.Database.Data.Entities
 {
     public class SkillLineAbility : Entity
     {
-        public int Id                       { get; set; }
-        public uint SkillLine               { get; set; }
-        public uint Spell                   { get; set; }
-        public RaceMask RaceMask            { get; set; }
-        public ClassMask ClassMask          { get; set; }
-        public int MinSkillLineRank         { get; set; }
-        public uint SupercedesSpell         { get; set; }
-        public int AcquireMethod            { get; set; }
-        public int TrivialSkillLineRankHigh { get; set; }
-        public int TrivialSkillLineRankLow  { get; set; }
-        public int NumSkillUps              { get; set; }
-        public int UniqueBit                { get; set; }
-        public int TradeSkillCategoryId     { get; set; }
+        public uint Id                       { get; set; }
+        public uint SkillLine                { get; set; }
+        public uint Spell                    { get; set; }
+        public RaceMask RaceMask             { get; set; }
+        public ClassMask ClassMask           { get; set; }
+        public uint MinSkillLineRank         { get; set; }
+        public uint SupercedesSpell          { get; set; }
+        public uint AcquireMethod            { get; set; }
+        public uint TrivialSkillLineRankHigh { get; set; }
+        public uint TrivialSkillLineRankLow  { get; set; }
+        public uint NumSkillUps              { get; set; }
+        public uint UniqueBit                { get; set; }
+        public uint TradeSkillCategoryId     { get; set; }
 
         public bool CheckRaceClassConditions(RaceMask raceMask, ClassMask classMask)
         {

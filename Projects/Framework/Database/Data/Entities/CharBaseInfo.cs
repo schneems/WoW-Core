@@ -22,7 +22,7 @@ namespace Framework.Database.Data.Entities
 {
     public class CharBaseInfo : Entity
     {
-        public int Id        { get; set; }
+        public uint Id       { get; set; }
         public Race RaceId   { get; set; }
         public Class ClassId { get; set; }
     }

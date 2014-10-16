@@ -21,10 +21,10 @@ namespace Framework.Database.Data.Entities
 {
     public class SkillLine : Entity
     {
-        public int ID                { get; set; }
-        public int CategoryID        { get; set; }
-        public int CanLink           { get; set; }
-        public int ParentSkillLineID { get; set; }
-        public int Flags             { get; set; }
+        public uint ID                { get; set; }
+        public uint CategoryID        { get; set; }
+        public uint CanLink           { get; set; }
+        public uint ParentSkillLineID { get; set; }
+        public uint Flags             { get; set; }
     }
 }

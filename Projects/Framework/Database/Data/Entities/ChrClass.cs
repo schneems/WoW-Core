@@ -22,14 +22,14 @@ namespace Framework.Database.Data.Entities
 {
     public class ChrClass : Entity
     {
-        public Class Id                        { get; set; }
-        public int DisplayPower                { get; set; }
-        public int SpellClassSet               { get; set; }
-        public int Flags                       { get; set; }
-        public int CinematicSequenceId         { get; set; }
-        public int AttackPowerPerStrength      { get; set; }
-        public int AttackPowerPerAgility       { get; set; }
-        public int RangedAttackPowerPerAgility { get; set; }
-        public int DefaultSpec                 { get; set; }
+        public Class Id                         { get; set; }
+        public uint DisplayPower                { get; set; }
+        public uint SpellClassSet               { get; set; }
+        public uint Flags                       { get; set; }
+        public uint CinematicSequenceId         { get; set; }
+        public uint AttackPowerPerStrength      { get; set; }
+        public uint AttackPowerPerAgility       { get; set; }
+        public uint RangedAttackPowerPerAgility { get; set; }
+        public uint DefaultSpec                 { get; set; }
     }
 }

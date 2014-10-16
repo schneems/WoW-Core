@@ -26,8 +26,8 @@ namespace Framework.Database.Character.Entities
         [Field(PrimaryKey = true)]
         public Race Race           { get; set; }
         public Class Class         { get; set; }
-        public int Zone            { get; set; }
-        public int Map             { get; set; }
+        public uint Zone           { get; set; }
+        public uint Map            { get; set; }
         public float X             { get; set; }
         public float Y             { get; set; }
         public float Z             { get; set; }
