@@ -20,7 +20,7 @@ using System;
 namespace Framework.Constants.General
 {
     [Flags]
-    public enum ClassMask : int
+    public enum ClassMask : uint
     {
         All         = 0,
         Warrior     = 1 << 0,

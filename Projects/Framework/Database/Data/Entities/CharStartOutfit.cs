@@ -27,30 +27,7 @@ namespace Framework.Database.Data.Entities
         public Class ClassId     { get; set; }
         public byte SexId        { get; set; }
         public byte OutfitId     { get; set; }
-        public uint ItemId0      { get; set; }
-        public uint ItemId1      { get; set; }
-        public uint ItemId2      { get; set; }
-        public uint ItemId3      { get; set; }
-        public uint ItemId4      { get; set; }
-        public uint ItemId5      { get; set; }
-        public uint ItemId6      { get; set; }
-        public uint ItemId7      { get; set; }
-        public uint ItemId8      { get; set; }
-        public uint ItemId9      { get; set; }
-        public uint ItemId10     { get; set; }
-        public uint ItemId11     { get; set; }
-        public uint ItemId12     { get; set; }
-        public uint ItemId13     { get; set; }
-        public uint ItemId14     { get; set; }
-        public uint ItemId15     { get; set; }
-        public uint ItemId16     { get; set; }
-        public uint ItemId17     { get; set; }
-        public uint ItemId18     { get; set; }
-        public uint ItemId19     { get; set; }
-        public uint ItemId20     { get; set; }
-        public uint ItemId21     { get; set; }
-        public uint ItemId22     { get; set; }
-        public uint ItemId23     { get; set; }
+        public uint[] ItemId     { get; set; } = new uint[24];
         public uint PetDisplayId { get; set; }
         public uint PetFamilyId  { get; set; }
     }

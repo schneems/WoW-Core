@@ -173,7 +173,13 @@ namespace Framework.Misc
         {
             var pluralized = pluralService.Pluralize(s);
 
-            return pluralized.EndsWith("Datas") ? pluralized.Remove(pluralized.Length - 1, 1) : pluralized;
+            // Handle some language exceptions
+            if (pluralized.EndsWith("Datas"))
+                return pluralized.Remove(pluralized.Length - 1, 1);
+            else if (pluralized.EndsWith("Infoes"))
+                return pluralized.Remove(pluralized.Length - 2, 2);
+
+            return pluralized;
         }
         #endregion
         #region ByteArray

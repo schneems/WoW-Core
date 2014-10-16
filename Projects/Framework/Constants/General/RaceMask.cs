@@ -20,7 +20,7 @@ using System;
 namespace Framework.Constants.General
 {
     [Flags]
-    public enum RaceMask : int
+    public enum RaceMask : uint
     {
         All               = 0,
         Human             = 1 << 0,
