@@ -61,8 +61,8 @@ namespace CharacterServer.Network.Packets.Handlers
 
                 enumCharactersResult.Write(guid);
                 enumCharactersResult.Write(c.ListPosition);
-                enumCharactersResult.Write(c.Race);
-                enumCharactersResult.Write(c.Class);
+                enumCharactersResult.Write((byte)c.Race);
+                enumCharactersResult.Write((byte)c.Class);
                 enumCharactersResult.Write(c.Sex);
                 enumCharactersResult.Write(c.Skin);
                 enumCharactersResult.Write(c.Face);
@@ -76,8 +76,8 @@ namespace CharacterServer.Network.Packets.Handlers
                 enumCharactersResult.Write(c.Y);
                 enumCharactersResult.Write(c.Z);
                 enumCharactersResult.Write(guildGuid);
-                enumCharactersResult.Write(c.CharacterFlags);
-                enumCharactersResult.Write(c.CustomizeFlags);
+                enumCharactersResult.Write((uint)c.CharacterFlags);
+                enumCharactersResult.Write((uint)c.CustomizeFlags);
                 enumCharactersResult.Write(c.Flags3);
                 enumCharactersResult.Write(c.PetCreatureDisplayId);
                 enumCharactersResult.Write(c.PetLevel);
@@ -89,7 +89,7 @@ namespace CharacterServer.Network.Packets.Handlers
                 {
                     enumCharactersResult.Write(0);
                     enumCharactersResult.Write(0);
-                    enumCharactersResult.Write<byte>(0);
+                    enumCharactersResult.Write((byte)0);
                 }
 
                 enumCharactersResult.PutBits(c.Name.Length, 6);
@@ -125,7 +125,7 @@ namespace CharacterServer.Network.Packets.Handlers
 
             if (!ClientDB.ChrRaces.Any(c => c.Id == raceId) || !ClientDB.ChrClasses.Any(c => c.Id == classId))
             {
-                createChar.Write(CharCreateCode.Failed);
+                createChar.Write((byte)CharCreateCode.Failed);
 
                 session.Send(createChar);
                 return;
@@ -133,7 +133,7 @@ namespace CharacterServer.Network.Packets.Handlers
 
             if (!ClientDB.CharBaseInfo.Any(c => c.RaceId == raceId && c.ClassId == classId))
             {
-                createChar.Write(CharCreateCode.Failed);
+                createChar.Write((byte)CharCreateCode.Failed);
 
                 session.Send(createChar);
                 return;
@@ -141,7 +141,7 @@ namespace CharacterServer.Network.Packets.Handlers
 
             if (DB.Character.Any<Character>(c => c.Name == name))
             {
-                createChar.Write(CharCreateCode.NameInUse);
+                createChar.Write((byte)CharCreateCode.NameInUse);
 
                 session.Send(createChar);
                 return;
@@ -160,7 +160,7 @@ namespace CharacterServer.Network.Packets.Handlers
                     // Implement...
                 }
                 else
-                    createChar.Write(CharCreateCode.Failed);
+                    createChar.Write((byte)CharCreateCode.Failed);
             }
             else
             {
@@ -194,15 +194,15 @@ namespace CharacterServer.Network.Packets.Handlers
 
                     if (DB.Character.Add(newChar))
                     {
-                        createChar.Write(CharCreateCode.Success);
+                        createChar.Write((byte)CharCreateCode.Success);
 
                         Manager.Character.LearnStartAbilities(newChar);
                     }
                     else
-                        createChar.Write(CharCreateCode.Failed);
+                        createChar.Write((byte)CharCreateCode.Failed);
                 }
                 else
-                    createChar.Write(CharCreateCode.Failed);
+                    createChar.Write((byte)CharCreateCode.Failed);
             }
 
             session.Send(createChar);
@@ -223,9 +223,9 @@ namespace CharacterServer.Network.Packets.Handlers
             var deleteChar = new Packet(ServerMessage.DeleteChar);
 
             if (DB.Character.Delete<Character>(c => c.Guid == guid.Low && c.GameAccountId == gameAccount.Id))
-                deleteChar.Write(CharDeleteCode.Success);
+                deleteChar.Write((byte)CharDeleteCode.Success);
             else
-                deleteChar.Write(CharDeleteCode.Failed);
+                deleteChar.Write((byte)CharDeleteCode.Failed);
 
             session.Send(deleteChar);
         }

@@ -39,14 +39,14 @@ namespace CharacterServer.Network.Packets.Handlers
             var authChallenge = new Packet(ServerMessage.AuthChallenge);
 
             // Part of the header
-            authChallenge.Write<ushort>(0);
+            authChallenge.Write((ushort)0);
 
             authChallenge.Write(session.Challenge);
 
             for (int i = 0; i < 8; i++)
-                authChallenge.Write<uint>(0);
+                authChallenge.Write(0u);
 
-            authChallenge.Write<byte>(1);
+            authChallenge.Write((byte)1);
 
             session.Send(authChallenge);
         }
@@ -155,7 +155,7 @@ namespace CharacterServer.Network.Packets.Handlers
             var hasSuccessInfo = result == AuthResult.Ok;
             var hasWaitInfo    = result == AuthResult.WaitQueue;
 
-            authResponse.Write(result);
+            authResponse.Write((byte)result);
 
             authResponse.PutBit(hasSuccessInfo);
             authResponse.PutBit(hasWaitInfo);
@@ -167,18 +167,18 @@ namespace CharacterServer.Network.Packets.Handlers
                 var allowedClasses = Manager.GameAccount.GetAvailableClasses(gameAccount, realm);
                 var charTemplates = Manager.GameAccount.GetAvailableCharacterTemplates(gameAccount, realm);
 
-                authResponse.Write<uint>(0);
-                authResponse.Write<uint>(0);
-                authResponse.Write<uint>(0);
-                authResponse.Write<uint>(0);
-                authResponse.Write<uint>(0);
+                authResponse.Write(0u);
+                authResponse.Write(0u);
+                authResponse.Write(0u);
+                authResponse.Write(0u);
+                authResponse.Write(0u);
                 authResponse.Write(gameAccount.BoxLevel);
                 authResponse.Write(gameAccount.BoxLevel);
-                authResponse.Write<uint>(0);
+                authResponse.Write(0u);
                 authResponse.Write(allowedRaces.Count);
                 authResponse.Write(allowedClasses.Count);
                 authResponse.Write(charTemplates.Count);
-                authResponse.Write<uint>(0);
+                authResponse.Write(0u);
 
                 foreach (var r in allowedRaces)
                 {

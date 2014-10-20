@@ -158,77 +158,88 @@ namespace Framework.Network.Packets
         }
         #endregion
         #region Writer
-        public void Write<T>(T value, bool isCString = false)
+        public void Write(bool value)
         {
-            var type = typeof(T).IsEnum ? typeof(T).GetEnumUnderlyingType() : typeof(T);
+            writeStream.Write(value);
+        }
 
-            switch (type.Name)
+        public void Write(sbyte value)
+        {
+            writeStream.Write(value);
+        }
+
+        public void Write(byte value)
+        {
+            writeStream.Write(value);
+        }
+
+        public void Write(short value)
+        {
+            writeStream.Write(value);
+        }
+
+        public void Write(ushort value)
+        {
+            writeStream.Write(value);
+        }
+
+        public void Write(int value)
+        {
+            writeStream.Write(value);
+        }
+
+        public void Write(uint value)
+        {
+            writeStream.Write(value);
+        }
+
+        public void Write(float value)
+        {
+            writeStream.Write(value);
+        }
+
+        public void Write(long value)
+        {
+            writeStream.Write(value);
+        }
+
+        public void Write(ulong value)
+        {
+            writeStream.Write(value);
+        }
+
+        public void Write(byte[] value)
+        {
+            writeStream.Write(value);
+        }
+
+        public void Write(string value, bool isCString = false)
+        {
+            var data = Encoding.UTF8.GetBytes(value as string);
+
+            data = isCString ? data.Combine(new byte[1]) : data;
+
+            writeStream.Write(data);
+        }
+
+        public void Write(SmartGuid value)
+        {
+            var guid = value as SmartGuid;
+
+            var loGuid = GetPackedGuid(guid.Low, out byte loLength, out byte wLoLength);
+            var hiGuid = GetPackedGuid(guid.High, out byte hiLength, out byte wHiLength);
+
+            if (guid.Low == 0 || guid.High == 0)
             {
-                case "Boolean":
-                    writeStream.Write(Convert.ToBoolean(value));
-                    break;
-                case "SByte":
-                    writeStream.Write(Convert.ToSByte(value));
-                    break;
-                case "Byte":
-                    writeStream.Write(Convert.ToByte(value));
-                    break;
-                case "Int16":
-                    writeStream.Write(Convert.ToInt16(value));
-                    break;
-                case "UInt16":
-                    writeStream.Write(Convert.ToUInt16(value));
-                    break;
-                case "Int32":
-                    writeStream.Write(Convert.ToInt32(value));
-                    break;
-                case "UInt32":
-                    writeStream.Write(Convert.ToUInt32(value));
-                    break;
-                case "Int64":
-                    writeStream.Write(Convert.ToInt64(value));
-                    break;
-                case "UInt64":
-                    writeStream.Write(Convert.ToUInt64(value));
-                    break;
-                case "Single":
-                    writeStream.Write(Convert.ToSingle(value));
-                    break;
-                case "Byte[]":
-                    var data = value as byte[];
-
-                    if (data != null)
-                        writeStream.Write(data);
-                    break;
-                case "String":
-                    data = Encoding.UTF8.GetBytes(value as string);
-                    data = isCString ? data.Combine(new byte[1]) : data;
-
-                    if (data != null)
-                        writeStream.Write(data);
-                    break;
-                case "SmartGuid":
-                    var guid = value as SmartGuid;
-
-                    var loGuid = GetPackedGuid(guid.Low, out byte loLength, out byte wLoLength);
-                    var hiGuid = GetPackedGuid(guid.High, out byte hiLength, out byte wHiLength);
-
-                    if (guid.Low == 0 || guid.High == 0)
-                    {
-                        Write<byte>(0);
-                        Write<byte>(0);
-                    }
-                    else
-                    {
-                        Write(loLength);
-                        Write(hiLength);
-                        WriteBytes(loGuid, wLoLength);
-                        WriteBytes(hiGuid, wHiLength);
-                    }
-
-                    break;
-                default:
-                    break;
+                Write(0);
+                Write(0);
+            }
+            else
+            {
+                Write(loLength);
+                Write(hiLength);
+                WriteBytes(loGuid, wLoLength);
+                WriteBytes(hiGuid, wHiLength);
             }
         }
 
@@ -263,6 +274,7 @@ namespace Framework.Network.Packets
 
             return packedGuid;
         }
+
         public void Finish()
         {
             Data = new byte[writeStream.BaseStream.Length];

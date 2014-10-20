@@ -30,19 +30,21 @@ namespace Framework.Network.Packets
         public byte[] Data { get; set; }
         public int ProcessedBytes { get; set; }
 
-        object stream;
+        BinaryReader readStream;
+        BinaryWriter writeStream;
+
         byte bytePart;
         byte preByte;
         int count;
 
         public AuthPacket()
         {
-            stream = new BinaryWriter(new MemoryStream());
+            writeStream = new BinaryWriter(new MemoryStream());
         }
 
         public AuthPacket(byte[] data, int size)
         {
-            stream = new BinaryReader(new MemoryStream(data));
+            readStream = new BinaryReader(new MemoryStream(data));
 
             Header = new AuthPacketHeader();
             Header.Message = Read<byte>(6);
@@ -59,7 +61,7 @@ namespace Framework.Network.Packets
 
         public AuthPacket(AuthServerMessage message, AuthChannel channel = AuthChannel.Authentication)
         {
-            stream = new BinaryWriter(new MemoryStream());
+            writeStream = new BinaryWriter(new MemoryStream());
 
             Header = new AuthPacketHeader();
             Header.Message = (ushort)message;
@@ -77,39 +79,27 @@ namespace Framework.Network.Packets
 
         public void Finish()
         {
-            var writer = stream as BinaryWriter;
+            Data = new byte[writeStream.BaseStream.Length];
 
-            Data = new byte[writer.BaseStream.Length];
-
-            writer.BaseStream.Seek(0, SeekOrigin.Begin);
+            writeStream.BaseStream.Seek(0, SeekOrigin.Begin);
 
             for (int i = 0; i < Data.Length; i++)
-                Data[i] = (byte)writer.BaseStream.ReadByte();
+                Data[i] = (byte)writeStream.BaseStream.ReadByte();
 
-            writer.Dispose();
+            writeStream.Dispose();
         }
 
         #region Reader
         public T Read<T>()
         {
-            var reader = stream as BinaryReader;
-
-            if (reader == null)
-                throw new InvalidOperationException("");
-
-            return reader.Read<T>();
+            return readStream.Read<T>();
         }
 
         public byte[] Read(int count)
         {
-            var reader = stream as BinaryReader;
-
-            if (reader == null)
-                throw new InvalidOperationException("");
-
             ProcessedBytes += count;
 
-            return reader.ReadBytes(count);
+            return readStream.ReadBytes(count);
         }
 
         public string ReadString(int count)
@@ -160,58 +150,65 @@ namespace Framework.Network.Packets
         #endregion
 
         #region Writer
-        public void Write<T>(T value)
+        public void Write(bool value)
         {
-            var writer = stream as BinaryWriter;
+            writeStream.Write(value);
+        }
 
-            if (writer == null)
-                throw new InvalidOperationException("");
+        public void Write(sbyte value)
+        {
+            writeStream.Write(value);
+        }
 
-            switch (Type.GetTypeCode(typeof(T)))
-            {
-                case TypeCode.SByte:
-                    writer.Write(Convert.ToSByte(value));
-                    break;
-                case TypeCode.Byte:
-                    writer.Write(Convert.ToByte(value));
-                    break;
-                case TypeCode.Int16:
-                    writer.Write(Convert.ToInt16(value));
-                    break;
-                case TypeCode.UInt16:
-                    writer.Write(Convert.ToUInt16(value));
-                    break;
-                case TypeCode.Int32:
-                    writer.Write(Convert.ToInt32(value));
-                    break;
-                case TypeCode.UInt32:
-                    writer.Write(Convert.ToUInt32(value));
-                    break;
-                case TypeCode.Int64:
-                    writer.Write(Convert.ToInt64(value));
-                    break;
-                case TypeCode.UInt64:
-                    writer.Write(Convert.ToUInt64(value));
-                    break;
-                case TypeCode.Single:
-                    writer.Write(Convert.ToSingle(value));
-                    break;
-                default:
-                    if (typeof(T) == typeof(byte[]))
-                    {
-                        Flush();
+        public void Write(byte value)
+        {
+            writeStream.Write(value);
+        }
 
-                        var data = value as byte[];
-                        writer.Write(data);
-                    }
-                    break;
-            }
+        public void Write(short value)
+        {
+            writeStream.Write(value);
+        }
+
+        public void Write(ushort value)
+        {
+            writeStream.Write(value);
+        }
+
+        public void Write(int value)
+        {
+            writeStream.Write(value);
+        }
+
+        public void Write(uint value)
+        {
+            writeStream.Write(value);
+        }
+
+        public void Write(float value)
+        {
+            writeStream.Write(value);
+        }
+
+        public void Write(long value)
+        {
+            writeStream.Write(value);
+        }
+
+        public void Write(ulong value)
+        {
+            writeStream.Write(value);
+        }
+
+        public void Write(byte[] value)
+        {
+            Flush();
+
+            writeStream.Write(value);
         }
 
         public void Write<T>(T value, int bits)
         {
-            var writer = stream as BinaryWriter;
-
             var bitsToWrite = 0;
             var shiftedBits = 0;
 
@@ -222,8 +219,8 @@ namespace Framework.Network.Packets
             {
                 shiftedBits = count & 7;
 
-                if (shiftedBits != 0 && writer.BaseStream.Length > 0)
-                    writer.BaseStream.Position -= 1;
+                if (shiftedBits != 0 && writeStream.BaseStream.Length > 0)
+                    writeStream.BaseStream.Position -= 1;
 
                 bitsToWrite = 8 - shiftedBits;
 
@@ -262,7 +259,7 @@ namespace Framework.Network.Packets
             Write(bytes);
 
             if (isCString)
-                Write(new byte[1]);
+                Write((byte)0);
 
             Flush();
         }

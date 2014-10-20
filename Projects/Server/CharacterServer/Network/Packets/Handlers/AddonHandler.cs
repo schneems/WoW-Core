@@ -97,18 +97,19 @@ namespace CharacterServer.Network.Packets.Handlers
                 Log.Message(LogType.Debug, "AddonData: Name '{0}', Info Provided '{1}', CRC '0x{2:X}', URL CRC '0x{3:X}'.",
                             addonName, addonInfoProvided, addonCRC, urlCRC);
 
-                addonInfo.Write<byte>(2);           // Status
-                addonInfo.Write(addonInfoProvided); // InfoProvided
-                addonInfo.Write(true);              // KeyProvided
-                addonInfo.Write(false);             // UrlProvided
+                addonInfo.Write((byte)2);            // Status
+                addonInfo.PutBit(addonInfoProvided); // InfoProvided
+                addonInfo.PutBit(true);              // KeyProvided
+                addonInfo.PutBit(false);             // UrlProvided
+                addonInfo.Flush();
 
                 // if (UrlProvided)
                 // Not implemented
 
                 if (addonInfoProvided)
                 {
-                    addonInfo.Write<byte>(1); // Version
-                    addonInfo.Write<uint>(0); // Revision
+                    addonInfo.Write((byte)1); // Version
+                    addonInfo.Write(0u); // Revision
                 }
 
                 // if (KeyProvided)
