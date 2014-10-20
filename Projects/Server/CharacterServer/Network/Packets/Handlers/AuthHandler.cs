@@ -16,17 +16,19 @@
  */
 
 using System.Linq;
+using CharacterServer.Constants.Authentication;
+using CharacterServer.Constants.Net;
+using CharacterServer.Managers;
 using Framework.Attributes;
+using Framework.Constants.Misc;
 using Framework.Constants.Net;
 using Framework.Cryptography;
 using Framework.Cryptography.WoW;
 using Framework.Database;
 using Framework.Database.Auth.Entities;
+using Framework.Logging;
 using Framework.Misc;
 using Framework.Network.Packets;
-using CharacterServer.Constants.Authentication;
-using CharacterServer.Constants.Net;
-using CharacterServer.Managers;
 
 namespace CharacterServer.Network.Packets.Handlers
 {
@@ -109,8 +111,6 @@ namespace CharacterServer.Network.Packets.Handlers
                             {
                                 session.Crypt = new WoWCrypt(gameAccount.SessionKey.ToByteArray());
                                 session.GameAccount = gameAccount;
-
-                                AddonHandler.LoadAddonInfoData(session, compressedAddonData, compressedAddonInfoSize, uncompressedAddonInfoSize);
                             }
                             else
                                 authResult = AuthResult.Failed;
@@ -126,6 +126,20 @@ namespace CharacterServer.Network.Packets.Handlers
             }
 
             HandleAuthResponse(authResult, session);
+
+            if (authResult == AuthResult.Ok)
+            {
+                var addonData = AddonHandler.GetAddonInfoData(session, compressedAddonData, compressedAddonInfoSize, uncompressedAddonInfoSize);
+
+                if (addonData != null && addonData.Length != uncompressedAddonInfoSize)
+                {
+                    Log.Message(LogType.Error, "Addon Info data size mismatch.");
+
+                    session.Dispose();
+                }
+                else
+                    AddonHandler.HandleAddonInfo(session, addonData);
+            }
 
             //TODO [partially done] Implement security checks & field handling.
             //TODO [partially done] Implement AuthResponse.

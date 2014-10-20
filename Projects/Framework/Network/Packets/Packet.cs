@@ -28,7 +28,8 @@ namespace Framework.Network.Packets
         public PacketHeader Header { get; private set; }
         public byte[] Data { get; set; }
 
-        dynamic stream;
+        BinaryReader readStream;
+        BinaryWriter writeStream;
 
         #region Bit Variables
         byte bitPosition = 8;
@@ -37,17 +38,17 @@ namespace Framework.Network.Packets
 
         public Packet()
         {
-            stream = new BinaryWriter(new MemoryStream());
+            writeStream = new BinaryWriter(new MemoryStream());
 
-            if (stream == null)
+            if (writeStream == null)
                 throw new InvalidOperationException("");
         }
 
         public Packet(byte[] data, bool readHeader = true)
         {
-            stream = new BinaryReader(new MemoryStream(data));
+            readStream = new BinaryReader(new MemoryStream(data));
 
-            if (stream == null)
+            if (readStream == null)
                 throw new InvalidOperationException("");
 
             if (readHeader)
@@ -66,9 +67,9 @@ namespace Framework.Network.Packets
 
         public Packet(object message)
         {
-            stream = new BinaryWriter(new MemoryStream());
+            writeStream = new BinaryWriter(new MemoryStream());
 
-            if (stream == null)
+            if (writeStream == null)
                 throw new InvalidOperationException("");
 
             Header = new PacketHeader
@@ -90,20 +91,20 @@ namespace Framework.Network.Packets
                     if (isCString)
                     {
                         var tmpString = new StringBuilder();
-                        var tmpChar = stream.ReadChar();
+                        var tmpChar = readStream.ReadChar();
                         var tmpEndChar = Convert.ToChar(Encoding.UTF8.GetString(new byte[] { 0 }));
 
                         while (tmpChar != tmpEndChar)
                         {
                             tmpString.Append(tmpChar);
-                            tmpChar = stream.ReadChar();
+                            tmpChar = readStream.ReadChar();
                         }
 
                         return (T)Convert.ChangeType(tmpString.ToString(), typeof(T));
                     }
                     else
                     {
-                        var stringArray = stream.ReadBytes(count);
+                        var stringArray = readStream.ReadBytes(count);
 
                         return (T)Convert.ChangeType(Encoding.UTF8.GetString(stringArray), typeof(T));
                     }
@@ -113,7 +114,7 @@ namespace Framework.Network.Packets
 
                     return new SmartGuid { Low = GetSmartGuid(loLength), High = GetSmartGuid(hiLength) }.ChangeType<T>();
                 default:
-                    return (T)Extensions.Read<T>(stream);
+                    return (T)Extensions.Read<T>(readStream);
             }
         }
 
@@ -138,7 +139,7 @@ namespace Framework.Network.Packets
 
         public byte[] ReadBytes(int count)
         {
-            return stream.ReadBytes(count);
+            return readStream.ReadBytes(count);
         }
 
         public string ReadString(byte bits)
@@ -153,7 +154,7 @@ namespace Framework.Network.Packets
 
         public void Skip(int count)
         {
-            stream.BaseStream.Position += count;
+            readStream.BaseStream.Position += count;
         }
         #endregion
         #region Writer
@@ -164,47 +165,47 @@ namespace Framework.Network.Packets
             switch (type.Name)
             {
                 case "Boolean":
-                    stream.Write(Convert.ToBoolean(value));
+                    writeStream.Write(Convert.ToBoolean(value));
                     break;
                 case "SByte":
-                    stream.Write(Convert.ToSByte(value));
+                    writeStream.Write(Convert.ToSByte(value));
                     break;
                 case "Byte":
-                    stream.Write(Convert.ToByte(value));
+                    writeStream.Write(Convert.ToByte(value));
                     break;
                 case "Int16":
-                    stream.Write(Convert.ToInt16(value));
+                    writeStream.Write(Convert.ToInt16(value));
                     break;
                 case "UInt16":
-                    stream.Write(Convert.ToUInt16(value));
+                    writeStream.Write(Convert.ToUInt16(value));
                     break;
                 case "Int32":
-                    stream.Write(Convert.ToInt32(value));
+                    writeStream.Write(Convert.ToInt32(value));
                     break;
                 case "UInt32":
-                    stream.Write(Convert.ToUInt32(value));
+                    writeStream.Write(Convert.ToUInt32(value));
                     break;
                 case "Int64":
-                    stream.Write(Convert.ToInt64(value));
+                    writeStream.Write(Convert.ToInt64(value));
                     break;
                 case "UInt64":
-                    stream.Write(Convert.ToUInt64(value));
+                    writeStream.Write(Convert.ToUInt64(value));
                     break;
                 case "Single":
-                    stream.Write(Convert.ToSingle(value));
+                    writeStream.Write(Convert.ToSingle(value));
                     break;
                 case "Byte[]":
                     var data = value as byte[];
 
                     if (data != null)
-                        stream.Write(data);
+                        writeStream.Write(data);
                     break;
                 case "String":
                     data = Encoding.UTF8.GetBytes(value as string);
                     data = isCString ? data.Combine(new byte[1]) : data;
 
                     if (data != null)
-                        stream.Write(data);
+                        writeStream.Write(data);
                     break;
                 case "SmartGuid":
                     var guid = value as SmartGuid;
@@ -234,9 +235,9 @@ namespace Framework.Network.Packets
         public void WriteBytes(byte[] data, int count = 0)
         {
             if (count == 0)
-                stream.Write(data);
+                writeStream.Write(data);
             else
-                stream.Write(data, 0, count);
+                writeStream.Write(data, 0, count);
         }
 
         byte[] GetPackedGuid(ulong guid, out byte gLength, out byte written)
@@ -264,12 +265,12 @@ namespace Framework.Network.Packets
         }
         public void Finish()
         {
-            Data = new byte[stream.BaseStream.Length];
+            Data = new byte[writeStream.BaseStream.Length];
 
-            stream.BaseStream.Seek(0, SeekOrigin.Begin);
+            writeStream.BaseStream.Seek(0, SeekOrigin.Begin);
 
             for (int i = 0; i < Data.Length; i++)
-                Data[i] = (byte)stream.BaseStream.ReadByte();
+                Data[i] = (byte)writeStream.BaseStream.ReadByte();
 
             if (Header != null)
             {
@@ -282,7 +283,7 @@ namespace Framework.Network.Packets
                     Data[0] = (byte)(0x80 | (0xFF & (Header.Size >> 16)));
             }
 
-            stream.Dispose();
+            writeStream.Dispose();
         }
         #endregion
         #region BitReader

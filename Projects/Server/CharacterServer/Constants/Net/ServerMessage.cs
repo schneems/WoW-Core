@@ -32,7 +32,7 @@ namespace CharacterServer.Constants.Net
         ConnectTo                               = 0x1082,
         AuthResponse                            = 0x0564,
         EnumCharactersResult                    = 0x1154,
-        AddonInfo                               = 0x2000,
+        AddonInfo                               = 0x1400,
         SetTimeZoneInformation                  = 0x2000,
         CreateChar                              = 0x0637,
         DeleteChar                              = 0x12A4,
