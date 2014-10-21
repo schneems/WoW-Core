@@ -19,13 +19,13 @@ using System;
 using System.Net.Sockets;
 using CharacterServer.Constants.Net;
 using CharacterServer.Network.Packets;
-using CharacterServer.Network.Packets.Handlers;
 using Framework.Constants.Misc;
 using Framework.Logging;
-using Framework.Logging.IO;
 using Framework.Misc;
 using Framework.Network;
 using Framework.Network.Packets;
+using ClientPacket = Framework.Packets.Client.Authentication;
+using ServerPacket = Framework.Packets.Server.Authentication;
 
 namespace CharacterServer.Network
 {
@@ -44,12 +44,9 @@ namespace CharacterServer.Network
 
                 Buffer.BlockCopy(dataBuffer, 0, data, 0, data.Length);
 
-                var transferInitiate = new Packet(data, false);
+                var transferInit = new ClientPacket.TransferInitiate { Packet = new Packet(data, false) }.Read() as ClientPacket.TransferInitiate;
 
-                var length = transferInitiate.Read<ushort>();
-                var msg    = transferInitiate.Read<string>(0, true);
-
-                if (msg == clientToServer)
+                if (transferInit.Msg == clientToServer)
                 {
                     isTransferInitiated[1] = true;
 
@@ -63,7 +60,7 @@ namespace CharacterServer.Network
                     // Assign server challenge for auth digest calculations
                     Challenge = BitConverter.ToUInt32(new byte[0].GenerateRandomKey(4), 0);
 
-                    AuthHandler.HandleAuthChallenge(this);
+                    Send(new ServerPacket.AuthChallenge { Challenge = Challenge });
                 }
                 else
                 {
@@ -81,26 +78,27 @@ namespace CharacterServer.Network
             if (packetQueue.Count > 0)
                 packet = packetQueue.Dequeue();
 
-            PacketLog.Write<ClientMessage>(packet.Header.Message, packet.Data, client.RemoteEndPoint);
-
             PacketManager.InvokeHandler<ClientMessage>(packet, this);
+
+            PacketLog.Write<ClientMessage>(packet.Header.Message, packet.Data, client.RemoteEndPoint);
         }
 
-        public override void Send(Packet packet)
+        public override void Send(IServerPacket packet)
         {
             try
             {
-                packet.Finish();
+                packet.Write();
+                packet.Packet.Finish();
 
-                if (packet.Header != null)
-                    PacketLog.Write<ServerMessage>(packet.Header.Message, packet.Data, client.RemoteEndPoint);
+                if (packet.Packet.Header != null)
+                    PacketLog.Write<ServerMessage>(packet.Packet.Header.Message, packet.Packet.Data, client.RemoteEndPoint);
 
                 if (Crypt != null && Crypt.IsInitialized)
-                    Encrypt(packet);
+                    Encrypt(packet.Packet);
 
                 var socketEventargs = new SocketAsyncEventArgs();
 
-                socketEventargs.SetBuffer(packet.Data, 0, packet.Data.Length);
+                socketEventargs.SetBuffer(packet.Packet.Data, 0, packet.Packet.Data.Length);
 
                 socketEventargs.Completed += SendCompleted;
                 socketEventargs.UserToken = packet;
@@ -119,7 +117,6 @@ namespace CharacterServer.Network
 
         void SendCompleted(object sender, SocketAsyncEventArgs e)
         {
-
         }
     }
 }

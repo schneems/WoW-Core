@@ -18,18 +18,17 @@
 using System;
 using System.Collections.Concurrent;
 using System.Reflection;
+using CharacterServer.Attributes;
 using Framework.Attributes;
 using Framework.Constants.Misc;
 using Framework.Logging;
 using Framework.Network.Packets;
-using CharacterServer.Attributes;
 
 namespace CharacterServer.Network.Packets
 {
     class PacketManager
     {
-        static ConcurrentDictionary<ushort, HandlePacket> MessageHandlers = new ConcurrentDictionary<ushort, HandlePacket>();
-        delegate void HandlePacket(Packet packet, CharacterSession session);
+        static ConcurrentDictionary<ushort, Tuple<MethodInfo, Type>> MessageHandlers = new ConcurrentDictionary<ushort, Tuple<MethodInfo, Type>>();
 
         public static void DefineMessageHandler()
         {
@@ -42,7 +41,7 @@ namespace CharacterServer.Network.Packets
                     foreach (dynamic msgAttr in methodInfo.GetCustomAttributes())
                     {
                         if (msgAttr is GlobalMessageAttribute || msgAttr is MessageAttribute)
-                            MessageHandlers.TryAdd((ushort)msgAttr.Message, Delegate.CreateDelegate(typeof(HandlePacket), methodInfo) as HandlePacket);
+                            MessageHandlers.TryAdd((ushort)msgAttr.Message, Tuple.Create(methodInfo, methodInfo.GetParameters()[0].ParameterType));
                     }
                 }
             }
@@ -54,9 +53,13 @@ namespace CharacterServer.Network.Packets
 
             Log.Message(LogType.Packet, "Received Opcode: {0} (0x{1:X}), Length: {1}", Enum.GetName(typeof(T), message), message, reader.Data.Length);
 
-            if (MessageHandlers.TryGetValue(message, out HandlePacket packet))
+            if (MessageHandlers.TryGetValue(message, out var data))
             {
-                packet.Invoke(reader, session);
+                var handlerObj = Activator.CreateInstance(data.Item2) as IClientPacket;
+
+                handlerObj.Packet = reader;
+
+                data.Item1.Invoke(null, new object[] { handlerObj.Read(), session });
 
                 return true;
             }

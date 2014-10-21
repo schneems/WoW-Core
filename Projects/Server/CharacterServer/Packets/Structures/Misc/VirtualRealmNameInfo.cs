@@ -15,14 +15,25 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace Framework.Constants.Net
+using Framework.Network.Packets;
+
+namespace CharacterServer.Packets.Structures.Misc
 {
-    // Value '0x2000' means not updated/implemented
-    public enum GlobalServerMessage : ushort
+    public struct VirtualRealmNameInfo : IServerStruct
     {
-        AuthChallenge = 0x10AA,
-        SuspendComms  = 0x1882,
-        ResumeComms   = 0x128A,
-        Pong          = 0x2000,
+        public bool IsLocal               { get; set; }
+        public string RealmNameActual     { get; set; }
+        public string RealmNameNormalized { get; set; }
+
+        public void Write(Packet packet)
+        {
+            packet.PutBit(IsLocal);
+            packet.PutBits(RealmNameActual.Length, 8);
+            packet.PutBits(RealmNameNormalized.Length, 8);
+            packet.Flush();
+
+            packet.Write(RealmNameActual);
+            packet.Write(RealmNameNormalized);
+        }
     }
 }

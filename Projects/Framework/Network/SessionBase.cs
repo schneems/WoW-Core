@@ -26,6 +26,7 @@ using Framework.Logging;
 using Framework.Logging.IO;
 using Framework.Network.Packets;
 using Framework.Objects.WorldEntities;
+using Framework.Packets.Server.Authentication;
 
 namespace Framework.Network
 {
@@ -62,13 +63,7 @@ namespace Framework.Network
 
             if (!isTransferInitiated[0])
             {
-                var serverToClient = "WORLD OF WARCRAFT CONNECTION - SERVER TO CLIENT";
-                var transferInitiate = new Packet();
-
-                transferInitiate.Write((ushort)(serverToClient.Length + 1));
-                transferInitiate.Write(serverToClient, true);
-
-                Send(transferInitiate);
+                Send(new TransferInitiate());
 
                 isTransferInitiated[0] = true;
             }
@@ -146,6 +141,8 @@ namespace Framework.Network
                     {
                         var packet = new Packet(dataBuffer);
 
+                        packet.Skip(2);
+
                         ProcessPacket(packet);
                     }
 
@@ -161,7 +158,7 @@ namespace Framework.Network
         }
 
         public abstract void ProcessPacket(Packet packet);
-        public abstract void Send(Packet packet);
+        public abstract void Send(IServerPacket packet);
 
         public void Encrypt(Packet packet)
         {
@@ -200,11 +197,28 @@ namespace Framework.Network
             return ipEndPoint != null ? ipEndPoint.Address.ToString() : "";
         }
 
+        #region IDisposable Support
+        private bool disposedValue = false;
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!disposedValue)
+            {
+                if (disposing)
+                {
+                    isTransferInitiated = new bool[2];
+
+                    client.Dispose();
+                }
+
+                disposedValue = true;
+            }
+        }
+
         public void Dispose()
         {
-            isTransferInitiated = new bool[2];
-
-            client.Dispose();
+            Dispose(true);
         }
+        #endregion
     }
 }

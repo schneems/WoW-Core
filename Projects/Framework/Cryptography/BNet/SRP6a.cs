@@ -178,10 +178,29 @@ namespace Framework.Cryptography.BNet
             return bytes;
         }
 
+        #region IDisposable Support
+        private bool disposedValue = false;
+
+        void Dispose(bool disposing)
+        {
+            if (!disposedValue)
+            {
+                if (disposing)
+                {
+                    sha256.Dispose();
+                }
+
+                SessionKey = null;
+                ServerM = null;
+
+                disposedValue = true;
+            }
+        }
+
         public void Dispose()
         {
-            SessionKey = null;
-            ServerM = null;
+            Dispose(true);
         }
+        #endregion
     }
 }

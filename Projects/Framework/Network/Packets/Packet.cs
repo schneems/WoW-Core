@@ -39,17 +39,11 @@ namespace Framework.Network.Packets
         public Packet()
         {
             writeStream = new BinaryWriter(new MemoryStream());
-
-            if (writeStream == null)
-                throw new InvalidOperationException("");
         }
 
         public Packet(byte[] data, bool readHeader = true)
         {
             readStream = new BinaryReader(new MemoryStream(data));
-
-            if (readStream == null)
-                throw new InvalidOperationException("");
 
             if (readHeader)
             {
@@ -65,12 +59,9 @@ namespace Framework.Network.Packets
             }
         }
 
-        public Packet(object message)
+        public Packet(object message, bool authHeader = false)
         {
             writeStream = new BinaryWriter(new MemoryStream());
-
-            if (writeStream == null)
-                throw new InvalidOperationException("");
 
             Header = new PacketHeader
             {
@@ -80,42 +71,47 @@ namespace Framework.Network.Packets
 
             Write(Header.Size);
             Write(Header.Message);
+
+            if (authHeader)
+                Write((ushort)0);
         }
 
         #region Reader
         public T Read<T>(int count = 0, bool isCString = false)
         {
-            switch (typeof(T).Name)
+            if (typeof(T) == typeof(string))
             {
-                case "String":
-                    if (isCString)
+                if (isCString)
+                {
+                    var tmpString = new StringBuilder();
+                    var tmpChar = readStream.ReadChar();
+                    var tmpEndChar = Convert.ToChar(Encoding.UTF8.GetString(new byte[] { 0 }));
+
+                    while (tmpChar != tmpEndChar)
                     {
-                        var tmpString = new StringBuilder();
-                        var tmpChar = readStream.ReadChar();
-                        var tmpEndChar = Convert.ToChar(Encoding.UTF8.GetString(new byte[] { 0 }));
-
-                        while (tmpChar != tmpEndChar)
-                        {
-                            tmpString.Append(tmpChar);
-                            tmpChar = readStream.ReadChar();
-                        }
-
-                        return (T)Convert.ChangeType(tmpString.ToString(), typeof(T));
+                        tmpString.Append(tmpChar);
+                        tmpChar = readStream.ReadChar();
                     }
-                    else
-                    {
-                        var stringArray = readStream.ReadBytes(count);
 
-                        return (T)Convert.ChangeType(Encoding.UTF8.GetString(stringArray), typeof(T));
-                    }
-                case "SmartGuid":
-                    var loLength = Read<byte>();
-                    var hiLength = Read<byte>();
+                    return (T)Convert.ChangeType(tmpString.ToString(), typeof(T));
+                }
+                else
+                {
+                    var stringArray = readStream.ReadBytes(count);
 
-                    return new SmartGuid { Low = GetSmartGuid(loLength), High = GetSmartGuid(hiLength) }.ChangeType<T>();
-                default:
-                    return (T)Extensions.Read<T>(readStream);
+                    return (T)Convert.ChangeType(Encoding.UTF8.GetString(stringArray), typeof(T));
+                }
             }
+
+            if (typeof(T) == typeof(SmartGuid))
+            {
+                var loLength = Read<byte>();
+                var hiLength = Read<byte>();
+
+                return new SmartGuid { Low = GetSmartGuid(loLength), High = GetSmartGuid(hiLength) }.ChangeType<T>();
+            }
+
+            return (T)Extensions.Read<T>(readStream);
         }
 
         ulong GetSmartGuid(byte length)
@@ -249,6 +245,13 @@ namespace Framework.Network.Packets
                 writeStream.Write(data);
             else
                 writeStream.Write(data, 0, count);
+        }
+
+        public void Write(Packet pkt)
+        {
+            pkt.Finish();
+
+            Write(pkt.Data);
         }
 
         byte[] GetPackedGuid(ulong guid, out byte gLength, out byte written)

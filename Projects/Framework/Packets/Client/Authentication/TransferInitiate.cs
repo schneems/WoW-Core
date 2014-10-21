@@ -1,6 +1,6 @@
 ﻿/*
  * Copyright (C) 2012-2014 Arctium Emulation <http://arctium.org>
- * 
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -15,14 +15,21 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace Framework.Constants.Net
+using Framework.Network.Packets;
+
+namespace Framework.Packets.Client.Authentication
 {
-    // Value '0x2000' means not updated/implemented
-    public enum GlobalServerMessage : ushort
+    public class TransferInitiate() : IClientPacket
     {
-        AuthChallenge = 0x10AA,
-        SuspendComms  = 0x1882,
-        ResumeComms   = 0x128A,
-        Pong          = 0x2000,
+        public string Msg { get; private set; }
+
+        public override IClientPacket Read()
+        {
+            Packet.Skip(2);
+
+            Msg = Packet.Read<string>(0, true);
+
+            return this;
+        }
     }
 }

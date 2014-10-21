@@ -28,7 +28,6 @@ namespace CharacterServer.Constants.Net
         #endregion
 
         #region RealmConnection
-        AuthChallenge                           = 0x10AA,
         ConnectTo                               = 0x1082,
         AuthResponse                            = 0x0564,
         EnumCharactersResult                    = 0x1154,

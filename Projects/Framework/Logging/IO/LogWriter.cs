@@ -42,10 +42,27 @@ namespace Framework.Logging.IO
             await logStream.FlushAsync();
         }
 
+        #region IDisposable Support
+        private bool disposedValue = false;
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!disposedValue)
+            {
+                if (disposing)
+                {
+                    LogFile = "";
+                    logStream.Dispose();
+                }
+
+                disposedValue = true;
+            }
+        }
+
         public void Dispose()
         {
-            LogFile = "";
-            logStream.Dispose();
+            Dispose(true);
         }
+        #endregion
     }
 }

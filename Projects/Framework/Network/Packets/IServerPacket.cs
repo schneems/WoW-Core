@@ -15,14 +15,22 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace Framework.Constants.Net
+namespace Framework.Network.Packets
 {
-    // Value '0x2000' means not updated/implemented
-    public enum GlobalServerMessage : ushort
+    public abstract class IServerPacket
     {
-        AuthChallenge = 0x10AA,
-        SuspendComms  = 0x1882,
-        ResumeComms   = 0x128A,
-        Pong          = 0x2000,
+        public Packet Packet { get; private set; }
+
+        protected IServerPacket()
+        {
+            Packet = new Packet();
+        }
+
+        protected IServerPacket(object netMessage, bool authHeader = false)
+        {
+            Packet = new Packet(netMessage, authHeader);
+        }
+
+        public abstract void Write();
     }
 }

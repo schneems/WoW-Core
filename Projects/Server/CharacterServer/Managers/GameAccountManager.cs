@@ -17,6 +17,8 @@
 
 using System.Collections.Generic;
 using System.Linq;
+using CharacterServer.Packets.Structures.Character;
+using CharacterServer.Packets.Structures.Misc;
 using Framework.Database;
 using Framework.Database.Auth.Entities;
 using Framework.Database.Character.Entities;
@@ -30,33 +32,53 @@ namespace CharacterServer.Managers
         {
         }
 
-        public Dictionary<byte, byte> GetAvailableRaces(GameAccount gameAccount, Realm realm)
+        public List<RaceClassAvailability> GetAvailableRaces(GameAccount gameAccount, Realm realm)
         {
-            var races = new Dictionary<byte, byte>();
+            var races = new List<RaceClassAvailability>();
 
             if (gameAccount.GameAccountRaces != null)
-                gameAccount.GameAccountRaces.ToList().ForEach(gar => races.Add(gar.Race, gar.Expansion));
+            {
+                gameAccount.GameAccountRaces.ToList().ForEach(gar =>
+                {
+                    races.Add(new RaceClassAvailability { RaceOrClassID = gar.Race, RequiredExpansion = gar.Expansion });
+                });
+            }
             else if (realm.RealmRaces != null)
-                realm.RealmRaces.ToList().ForEach(rr => races.Add(rr.Race, rr.Expansion));
+            {
+                realm.RealmRaces.ToList().ForEach(rr =>
+                {
+                    races.Add(new RaceClassAvailability { RaceOrClassID = rr.Race, RequiredExpansion = rr.Expansion });
+                });
+            }
 
             return races;
         }
 
-        public Dictionary<byte, byte> GetAvailableClasses(GameAccount gameAccount, Realm realm)
+        public List<RaceClassAvailability> GetAvailableClasses(GameAccount gameAccount, Realm realm)
         {
-            var classes = new Dictionary<byte, byte>();
-    
+            var classes = new List<RaceClassAvailability>();
+
             if (gameAccount.GameAccountClasses != null)
-                gameAccount.GameAccountClasses.ToList().ForEach(gac => classes.Add(gac.Class, gac.Expansion));
+            {
+                gameAccount.GameAccountClasses.ToList().ForEach(gac =>
+                {
+                    classes.Add(new RaceClassAvailability { RaceOrClassID = gac.Class, RequiredExpansion = gac.Expansion });
+                });
+            }
             else if (realm.RealmClasses != null)
-                realm.RealmClasses.ToList().ForEach(rc => classes.Add(rc.Class, rc.Expansion));
+            {
+                realm.RealmClasses.ToList().ForEach(rc =>
+                {
+                    classes.Add(new RaceClassAvailability { RaceOrClassID = rc.Class, RequiredExpansion = rc.Expansion });
+                });
+            }
 
             return classes;
         }
 
-        public List<CharacterTemplateSet> GetAvailableCharacterTemplates(GameAccount gameAccount, Realm realm)
+        public List<AvailableCharacterTemplateSet> GetAvailableCharacterTemplates(GameAccount gameAccount, Realm realm)
         {
-            var charTemplates = new List<CharacterTemplateSet>();
+            var charTemplates = new List<AvailableCharacterTemplateSet>();
 
             if (gameAccount.GameAccountCharacterTemplates != null)
             {
@@ -65,7 +87,25 @@ namespace CharacterServer.Managers
                     var set = DB.Character.Single<CharacterTemplateSet>(cts => cts.Id == gat.SetId);
 
                     if (set != null)
-                        charTemplates.Add(set);
+                    {
+                        var templateSet = new AvailableCharacterTemplateSet
+                        {
+                            TemplateSetID = (uint)set.Id,
+                            Name          = set.Name,
+                            Description   = set.Description,
+                        };
+
+                        set.CharacterTemplateClasses.ToList().ForEach(ctc =>
+                        {
+                            templateSet.Classes.Add(new AvailableCharacterTemplateClass
+                            {
+                                ClassID      = ctc.ClassId,
+                                FactionGroup = ctc.FactionGroup
+                            });
+                        });
+
+                        charTemplates.Add(templateSet);
+                    }
                 });
             }
             else
@@ -76,8 +116,23 @@ namespace CharacterServer.Managers
                     {
                         var set = DB.Character.Single<CharacterTemplateSet>(cts => cts.Id == rt.SetId);
 
-                        if (set != null)
-                            charTemplates.Add(set);
+                        var templateSet = new AvailableCharacterTemplateSet
+                        {
+                            TemplateSetID = (uint)set.Id,
+                            Name          = set.Name,
+                            Description   = set.Description,
+                        };
+
+                        set.CharacterTemplateClasses.ToList().ForEach(ctc =>
+                        {
+                            templateSet.Classes.Add(new AvailableCharacterTemplateClass
+                            {
+                                ClassID      = ctc.ClassId,
+                                FactionGroup = ctc.FactionGroup
+                            });
+                        });
+
+                        charTemplates.Add(templateSet);
                     });
                 }
             }

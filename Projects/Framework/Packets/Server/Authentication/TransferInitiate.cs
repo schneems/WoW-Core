@@ -1,6 +1,6 @@
 ﻿/*
  * Copyright (C) 2012-2014 Arctium Emulation <http://arctium.org>
- * 
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -15,14 +15,18 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace Framework.Constants.Net
+using Framework.Network.Packets;
+
+namespace Framework.Packets.Server.Authentication
 {
-    // Value '0x2000' means not updated/implemented
-    public enum GlobalServerMessage : ushort
+    public class TransferInitiate() : IServerPacket
     {
-        AuthChallenge = 0x10AA,
-        SuspendComms  = 0x1882,
-        ResumeComms   = 0x128A,
-        Pong          = 0x2000,
+        public override void Write()
+        {
+            var serverToClient = "WORLD OF WARCRAFT CONNECTION - SERVER TO CLIENT";
+
+            Packet.Write((ushort)(serverToClient.Length + 1));
+            Packet.Write(serverToClient, true);
+        }
     }
 }

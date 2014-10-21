@@ -27,11 +27,6 @@ namespace Framework.Cryptography.WoW
         bool isEncryptionInitialized;
         bool isDecryptionInitialized;
 
-        public RsaCrypt()
-        {
-            Dispose();
-        }
-
         public void InitializeEncryption(RsaData rsaData)
         {
             InitializeEncryption(rsaData.RsaParams.D, rsaData.RsaParams.P, rsaData.RsaParams.Q, rsaData.RsaParams.DP, rsaData.RsaParams.DQ, rsaData.RsaParams.InverseQ);
@@ -96,19 +91,36 @@ namespace Framework.Cryptography.WoW
             return BigInteger.ModPow(c, e, n).ToByteArray();
         }
 
+        #region IDisposable Support
+        private bool disposedValue = false;
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!disposedValue)
+            {
+                if (disposing)
+                {
+                    e = 0;
+                    n = 0;
+                    d = 0;
+                    p = 0;
+                    q = 0;
+                    dp = 0;
+                    dq = 0;
+                    iq = 0;
+
+                    isEncryptionInitialized = false;
+                    isDecryptionInitialized = false;
+                }
+
+                disposedValue = true;
+            }
+        }
+
         public void Dispose()
         {
-            this.e  = 0;
-            this.n  = 0;
-            this.d  = 0;
-            this.p  = 0;
-            this.q  = 0;
-            this.dp = 0;
-            this.dq = 0;
-            this.iq = 0;
-
-            isEncryptionInitialized = false;
-            isDecryptionInitialized = false;
+            Dispose(true);
         }
+        #endregion
     }
 }

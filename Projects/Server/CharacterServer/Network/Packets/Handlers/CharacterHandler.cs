@@ -33,7 +33,7 @@ namespace CharacterServer.Network.Packets.Handlers
 {
     class CharacterHandler
     {
-        [Message(ClientMessage.EnumCharacters)]
+        //[Message(ClientMessage.EnumCharacters)]
         public static void OnEnumCharacters(Packet packet, CharacterSession session)
         {
             HandleEnumCharactersResult(session);
@@ -99,10 +99,10 @@ namespace CharacterServer.Network.Packets.Handlers
                 enumCharactersResult.Write(c.Name);
             }
 
-            session.Send(enumCharactersResult);
+            //session.Send(enumCharactersResult);
         }
 
-        [Message(ClientMessage.CreateCharacter)]
+        //[Message(ClientMessage.CreateCharacter)]
         public static void OnCreateCharacter(Packet packet, CharacterSession session)
         {
             var nameLength     = packet.GetBits<int>(6);
@@ -127,7 +127,7 @@ namespace CharacterServer.Network.Packets.Handlers
             {
                 createChar.Write((byte)CharCreateCode.Failed);
 
-                session.Send(createChar);
+                //session.Send(createChar);
                 return;
             }
 
@@ -135,7 +135,7 @@ namespace CharacterServer.Network.Packets.Handlers
             {
                 createChar.Write((byte)CharCreateCode.Failed);
 
-                session.Send(createChar);
+                //session.Send(createChar);
                 return;
             }
 
@@ -143,7 +143,7 @@ namespace CharacterServer.Network.Packets.Handlers
             {
                 createChar.Write((byte)CharCreateCode.NameInUse);
 
-                session.Send(createChar);
+                //session.Send(createChar);
                 return;
             }
 
@@ -205,10 +205,10 @@ namespace CharacterServer.Network.Packets.Handlers
                     createChar.Write((byte)CharCreateCode.Failed);
             }
 
-            session.Send(createChar);
+            //session.Send(createChar);
         }
 
-        [Message(ClientMessage.CharDelete)]
+        //[Message(ClientMessage.CharDelete)]
         public static void OnCharDelete(Packet packet, CharacterSession session)
         {
             var guid = packet.Read<SmartGuid>();
@@ -227,10 +227,10 @@ namespace CharacterServer.Network.Packets.Handlers
             else
                 deleteChar.Write((byte)CharDeleteCode.Failed);
 
-            session.Send(deleteChar);
+            //session.Send(deleteChar);
         }
 
-        [Message(ClientMessage.GenerateRandomCharacterName)]
+        //[Message(ClientMessage.GenerateRandomCharacterName)]
         public static void OnGenerateRandomCharacterName(Packet packet, CharacterSession session)
         {
 

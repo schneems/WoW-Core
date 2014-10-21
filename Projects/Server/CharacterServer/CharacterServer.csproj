@@ -88,6 +88,15 @@
     <Compile Include="Network\Packets\PacketManager.cs" />
     <Compile Include="Network\Server.cs" />
     <Compile Include="ObjectStores\ClientDB.cs" />
+    <Compile Include="Packets\Client\Authentication\AuthSession.cs" />
+    <Compile Include="Packets\Server\Authentication\AuthResponse.cs" />
+    <Compile Include="Packets\Structures\Authentication\AuthSuccessInfo.cs" />
+    <Compile Include="Packets\Structures\Authentication\AuthWaitInfo.cs" />
+    <Compile Include="Packets\Structures\Character\AvailableCharacterTemplateClass.cs" />
+    <Compile Include="Packets\Structures\Character\AvailableCharacterTemplateSet.cs" />
+    <Compile Include="Packets\Structures\Misc\RaceClassAvailability.cs" />
+    <Compile Include="Packets\Structures\Misc\VirtualRealmInfo.cs" />
+    <Compile Include="Packets\Structures\Misc\VirtualRealmNameInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -96,6 +105,7 @@
       <Name>Framework</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

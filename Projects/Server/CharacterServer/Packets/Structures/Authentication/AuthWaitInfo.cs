@@ -15,14 +15,20 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace Framework.Constants.Net
+using Framework.Network.Packets;
+
+namespace CharacterServer.Packets.Structures.Authentication
 {
-    // Value '0x2000' means not updated/implemented
-    public enum GlobalServerMessage : ushort
+    public struct AuthWaitInfo : IServerStruct
     {
-        AuthChallenge = 0x10AA,
-        SuspendComms  = 0x1882,
-        ResumeComms   = 0x128A,
-        Pong          = 0x2000,
+        public uint WaitCount { get; set; }
+        public bool HasFCM    { get; set; }
+
+        public void Write(Packet packet)
+        {
+            packet.Write(WaitCount);
+            packet.PutBit(HasFCM);
+            packet.Flush();
+        }
     }
 }

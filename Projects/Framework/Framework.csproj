@@ -137,12 +137,18 @@
     <Compile Include="Misc\Extensions.cs" />
     <Compile Include="Misc\Helpers.cs" />
     <Compile Include="Misc\Singleton.cs" />
+    <Compile Include="Network\Packets\IClientPacket.cs" />
+    <Compile Include="Network\Packets\IServerStruct.cs" />
+    <Compile Include="Network\Packets\IServerPacket.cs" />
     <Compile Include="Network\Packets\Packet.cs" />
     <Compile Include="Network\Packets\PacketHeader.cs" />
     <Compile Include="Network\SessionBase.cs" />
     <Compile Include="Objects\IWorldObject.cs" />
     <Compile Include="Objects\SmartGuid.cs" />
     <Compile Include="Objects\WorldEntities\Player.cs" />
+    <Compile Include="Packets\Client\Authentication\TransferInitiate.cs" />
+    <Compile Include="Packets\Server\Authentication\AuthChallenge.cs" />
+    <Compile Include="Packets\Server\Authentication\TransferInitiate.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

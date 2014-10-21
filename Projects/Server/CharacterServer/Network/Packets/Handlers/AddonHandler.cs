@@ -120,7 +120,7 @@ namespace CharacterServer.Network.Packets.Handlers
             // for (var i = 0; i < bannedAddons; i++)
             // Not implemented...
 
-            session.Send(addonInfo);
+            //session.Send(addonInfo);
         }
     }
 }

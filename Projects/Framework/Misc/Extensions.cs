@@ -188,6 +188,17 @@ namespace Framework.Misc
         {
             return destType.IsEnum ? Enum.ToObject(destType, value) : Convert.ChangeType(value, destType);
         }
+
+        public static T[] Slice<T>(this T[] arr, int start, int end)
+        {
+            var newLength = end - start;
+            var ret = new T[newLength];
+
+            for (var i = 0; i < newLength; i++)
+                ret[i] = arr[start + i];
+
+            return ret;
+        }
         #endregion
     }
 }
