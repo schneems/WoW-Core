@@ -18,7 +18,7 @@
 using System;
 using System.Net.Sockets;
 using CharacterServer.Constants.Net;
-using CharacterServer.Network.Packets;
+using CharacterServer.Packets;
 using Framework.Constants.Misc;
 using Framework.Logging;
 using Framework.Misc;

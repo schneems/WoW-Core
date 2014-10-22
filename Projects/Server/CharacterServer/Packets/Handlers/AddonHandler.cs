@@ -17,13 +17,14 @@
 
 using System.IO;
 using System.IO.Compression;
+using CharacterServer.Network;
 using CharacterServer.Packets.Server.Misc;
 using CharacterServer.Packets.Structures.Misc;
 using Framework.Constants.Misc;
 using Framework.Logging;
 using Framework.Network.Packets;
 
-namespace CharacterServer.Network.Packets.Handlers
+namespace CharacterServer.Packets.Handlers
 {
     class AddonHandler
     {

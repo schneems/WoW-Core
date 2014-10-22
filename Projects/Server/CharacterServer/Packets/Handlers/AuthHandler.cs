@@ -18,6 +18,7 @@
 using System.Linq;
 using CharacterServer.Constants.Authentication;
 using CharacterServer.Managers;
+using CharacterServer.Network;
 using CharacterServer.Packets.Client.Authentication;
 using CharacterServer.Packets.Server.Authentication;
 using Framework.Attributes;
@@ -30,7 +31,7 @@ using Framework.Database.Auth.Entities;
 using Framework.Logging;
 using Framework.Misc;
 
-namespace CharacterServer.Network.Packets.Handlers
+namespace CharacterServer.Packets.Handlers
 {
     class AuthHandler
     {

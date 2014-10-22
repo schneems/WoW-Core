@@ -20,6 +20,7 @@ using CharacterServer.Attributes;
 using CharacterServer.Constants.Character;
 using CharacterServer.Constants.Net;
 using CharacterServer.Managers;
+using CharacterServer.Network;
 using CharacterServer.ObjectStores;
 using CharacterServer.Packets.Client.Character;
 using CharacterServer.Packets.Server.Character;
@@ -30,7 +31,7 @@ using Framework.Database.Character.Entities;
 using Framework.Network.Packets;
 using Framework.Objects;
 
-namespace CharacterServer.Network.Packets.Handlers
+namespace CharacterServer.Packets.Handlers
 {
     class CharacterHandler
     {

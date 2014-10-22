@@ -19,12 +19,13 @@ using System;
 using System.Collections.Concurrent;
 using System.Reflection;
 using CharacterServer.Attributes;
+using CharacterServer.Network;
 using Framework.Attributes;
 using Framework.Constants.Misc;
 using Framework.Logging;
 using Framework.Network.Packets;
 
-namespace CharacterServer.Network.Packets
+namespace CharacterServer.Packets
 {
     class PacketManager
     {
