@@ -218,6 +218,14 @@ namespace Framework.Network.Packets
             writeStream.Write(data);
         }
 
+        public void WriteBytes(byte[] data, int count = 0)
+        {
+            if (count == 0)
+                writeStream.Write(data);
+            else
+                writeStream.Write(data, 0, count);
+        }
+
         public void Write(SmartGuid value)
         {
             var guid = value as SmartGuid;
@@ -239,12 +247,11 @@ namespace Framework.Network.Packets
             }
         }
 
-        public void WriteBytes(byte[] data, int count = 0)
+        public void Write(Vector3 vec)
         {
-            if (count == 0)
-                writeStream.Write(data);
-            else
-                writeStream.Write(data, 0, count);
+            Write(vec.X);
+            Write(vec.Y);
+            Write(vec.Z);
         }
 
         public void Write(Packet pkt)
@@ -358,6 +365,9 @@ namespace Framework.Network.Packets
 
         public void Flush()
         {
+            if (bitPosition == 8)
+                return;
+
             Write(bitValue);
 
             bitValue = 0;

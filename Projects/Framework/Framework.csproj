@@ -145,6 +145,7 @@
     <Compile Include="Network\SessionBase.cs" />
     <Compile Include="Objects\IWorldObject.cs" />
     <Compile Include="Objects\SmartGuid.cs" />
+    <Compile Include="Objects\Vector3.cs" />
     <Compile Include="Objects\WorldEntities\Player.cs" />
     <Compile Include="Packets\Client\Authentication\TransferInitiate.cs" />
     <Compile Include="Packets\Server\Authentication\AuthChallenge.cs" />

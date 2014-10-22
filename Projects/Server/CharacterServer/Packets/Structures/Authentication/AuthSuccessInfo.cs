@@ -56,7 +56,7 @@ namespace CharacterServer.Packets.Structures.Authentication
             packet.Write(Templates.Count);
             packet.Write(CurrencyID);
 
-            VirtualRealms.ForEach(vr  => vr.Write(packet));
+            VirtualRealms.ForEach(vr => vr.Write(packet));
             AvailableRaces.ForEach(ar => ar.Write(packet));
             AvailableClasses.ForEach(ac => ac.Write(packet));
             Templates.ForEach(t => t.Write(packet));

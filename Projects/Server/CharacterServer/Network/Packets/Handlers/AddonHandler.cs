@@ -17,7 +17,8 @@
 
 using System.IO;
 using System.IO.Compression;
-using CharacterServer.Constants.Net;
+using CharacterServer.Packets.Server.Misc;
+using CharacterServer.Packets.Structures.Misc;
 using Framework.Constants.Misc;
 using Framework.Logging;
 using Framework.Network.Packets;
@@ -82,7 +83,7 @@ namespace CharacterServer.Network.Packets.Handlers
         //! TODO Implement server side addon & banned addon handling
         public static void HandleAddonInfo(CharacterSession session, byte[] addonData)
         {
-            var addonInfo = new Packet(ServerMessage.AddonInfo);
+            var addonInfo = new AddonInfo();
             var addonDataReader = new Packet(addonData, false);
 
             var addons = addonDataReader.Read<uint>();
@@ -97,30 +98,15 @@ namespace CharacterServer.Network.Packets.Handlers
                 Log.Message(LogType.Debug, "AddonData: Name '{0}', Info Provided '{1}', CRC '0x{2:X}', URL CRC '0x{3:X}'.",
                             addonName, addonInfoProvided, addonCRC, urlCRC);
 
-                addonInfo.Write((byte)2);            // Status
-                addonInfo.PutBit(addonInfoProvided); // InfoProvided
-                addonInfo.PutBit(true);              // KeyProvided
-                addonInfo.PutBit(false);             // UrlProvided
-                addonInfo.Flush();
-
-                // if (UrlProvided)
-                // Not implemented
-
-                if (addonInfoProvided)
+                addonInfo.Addons.Add(new AddonInfoData
                 {
-                    addonInfo.Write((byte)1); // Version
-                    addonInfo.Write(0u); // Revision
-                }
-
-                // if (KeyProvided)
-                if (true)
-                    addonInfo.Write(addonPublicKey);
+                    InfoProvided = addonInfoProvided,
+                    KeyProvided  = true,
+                    KeyData      = addonPublicKey
+                });
             }
 
-            // for (var i = 0; i < bannedAddons; i++)
-            // Not implemented...
-
-            //session.Send(addonInfo);
+            session.Send(addonInfo);
         }
     }
 }
