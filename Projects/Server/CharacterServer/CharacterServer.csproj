@@ -80,6 +80,7 @@
     <Compile Include="CharacterServer.cs" />
     <Compile Include="Configuration\CharacterConfig.cs" />
     <Compile Include="Network\CharacterSession.cs" />
+    <Compile Include="Packets\Client\Character\GenerateRandomCharacterName.cs" />
     <Compile Include="Packets\Handlers\AddonHandler.cs" />
     <Compile Include="Packets\Handlers\CharacterHandler.cs" />
     <Compile Include="Packets\Handlers\AuthHandler.cs" />
@@ -94,6 +95,7 @@
     <Compile Include="Packets\Server\Character\CreateChar.cs" />
     <Compile Include="Packets\Server\Character\DeleteChar.cs" />
     <Compile Include="Packets\Server\Character\EnumCharactersResult.cs" />
+    <Compile Include="Packets\Server\Character\GenerateRandomCharacterNameResult.cs" />
     <Compile Include="Packets\Server\Misc\AddonInfo.cs" />
     <Compile Include="Packets\Structures\Authentication\AuthSuccessInfo.cs" />
     <Compile Include="Packets\Structures\Authentication\AuthWaitInfo.cs" />

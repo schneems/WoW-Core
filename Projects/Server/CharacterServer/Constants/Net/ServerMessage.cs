@@ -24,7 +24,7 @@ namespace CharacterServer.Constants.Net
         #endregion
 
         #region GlueMgr (Character)
-        GenerateRandomCharacterNameResult       = 0x2000,
+        GenerateRandomCharacterNameResult       = 0x0653,
         #endregion
 
         #region RealmConnection

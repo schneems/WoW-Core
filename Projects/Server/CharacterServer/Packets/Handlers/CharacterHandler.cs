@@ -15,6 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+using System;
 using System.Linq;
 using CharacterServer.Attributes;
 using CharacterServer.Constants.Character;
@@ -28,7 +29,6 @@ using CharacterServer.Packets.Structures.Character;
 using Framework.Constants.Object;
 using Framework.Database;
 using Framework.Database.Character.Entities;
-using Framework.Network.Packets;
 using Framework.Objects;
 
 namespace CharacterServer.Packets.Handlers
@@ -76,7 +76,7 @@ namespace CharacterServer.Packets.Handlers
         }
 
         [Message(ClientMessage.CreateCharacter)]
-        public static void OnCreateCharacter(CreateCharacter createCharacter, CharacterSession session)
+        public static void HandleCreateCharacter(CreateCharacter createCharacter, CharacterSession session)
         {
             var createChar = new CreateChar { Code = CharCreateCode.InProgress };
 
@@ -150,7 +150,7 @@ namespace CharacterServer.Packets.Handlers
         }
 
         [Message(ClientMessage.CharDelete)]
-        public static void OnCharDelete(CharDelete charDelete, CharacterSession session)
+        public static void HandleCharDelete(CharDelete charDelete, CharacterSession session)
         {
             if (charDelete.Guid.CreationBits > 0 && charDelete.Guid.Type == GuidType.Player)
             {
@@ -167,10 +167,22 @@ namespace CharacterServer.Packets.Handlers
                 session.Dispose();
         }
 
-        //[Message(ClientMessage.GenerateRandomCharacterName)]
-        public static void OnGenerateRandomCharacterName(Packet packet, CharacterSession session)
+        [Message(ClientMessage.GenerateRandomCharacterName)]
+        public static void HandleGenerateRandomCharacterName(GenerateRandomCharacterName generateRandomCharacterName, CharacterSession session)
         {
+            var rand = new Random(Environment.TickCount);
+            var generateRandomCharacterNameResult = new GenerateRandomCharacterNameResult();
 
+            var names = ClientDB.NameGens.Where(n => n.RaceId == generateRandomCharacterName.Race && n.Sex == generateRandomCharacterName.Sex).Select(n => n.Name).ToList();
+
+            do
+            {
+                generateRandomCharacterNameResult.Name = names[rand.Next(names.Count)];
+            } while (DB.Character.Any<Character>(c => c.Name == generateRandomCharacterNameResult.Name));
+
+            generateRandomCharacterNameResult.Success = generateRandomCharacterNameResult.Name != "";
+
+            session.Send(generateRandomCharacterNameResult);
         }
     }
 }

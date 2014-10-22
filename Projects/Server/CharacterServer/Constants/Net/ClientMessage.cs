@@ -22,7 +22,7 @@ namespace CharacterServer.Constants.Net
     {
         #region UserClient
         ConnectToFailed                      = 0x2000,
-        GenerateRandomCharacterName          = 0x2000,
+        GenerateRandomCharacterName          = 0x01BC,
         EnumCharacters                       = 0x01EC,
         ReorderCharacters                    = 0x2000,
         LoadingScreenNotify                  = 0x2000,
