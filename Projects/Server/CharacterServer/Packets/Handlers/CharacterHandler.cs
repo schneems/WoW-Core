@@ -38,7 +38,9 @@ namespace CharacterServer.Packets.Handlers
         [Message(ClientMessage.EnumCharacters)]
         public static void HandleEnumCharacters(EnumCharacters enumCharacters, CharacterSession session)
         {
-            var charList = DB.Character.Where<Character>(c => c.GameAccountId == session.GameAccount.Id);
+            // ORM seems to have problems with session.GameAccount.Id...
+            var gameAccount = session.GameAccount;
+            var charList = DB.Character.Where<Character>(c => c.GameAccountId == gameAccount.Id);
 
             var enumCharactersResult = new EnumCharactersResult();
 
@@ -140,7 +142,7 @@ namespace CharacterServer.Packets.Handlers
                             createChar.Code = CharCreateCode.Success;
                     }
                     else
-                        createChar.Code = CharCreateCode.Success;
+                        createChar.Code = CharCreateCode.Failed;
                 }
             }
 

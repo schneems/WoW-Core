@@ -48,6 +48,7 @@ namespace CharacterServer.Packets.Structures.Authentication
             packet.Write(VirtualRealms.Count);
             packet.Write(TimeRemain);
             packet.Write(TimeOptions);
+            packet.Write(TimeRested);
             packet.Write(ActiveExpansionLevel);
             packet.Write(AccountExpansionLevel);
             packet.Write(TimeSecondsUntilPCKick);

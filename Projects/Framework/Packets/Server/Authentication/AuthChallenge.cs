@@ -20,7 +20,7 @@ using Framework.Network.Packets;
 
 namespace Framework.Packets.Server.Authentication
 {
-    public class AuthChallenge() : IServerPacket(GlobalServerMessage.AuthChallenge)
+    public class AuthChallenge() : IServerPacket(GlobalServerMessage.AuthChallenge, true)
     {
         public uint Challenge      { get; set; }
         public byte[] DosChallenge { get; set; } = new byte[32];

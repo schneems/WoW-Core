@@ -32,8 +32,8 @@ namespace CharacterServer.Packets.Server.Character
 
         public override void Write()
         {
-            Packet.Write(Success);
-            Packet.Write(IsDeletedCharacters);
+            Packet.PutBit(Success);
+            Packet.PutBit(IsDeletedCharacters);
             Packet.Flush();
 
             Characters.ForEach(c => c.Write(Packet));

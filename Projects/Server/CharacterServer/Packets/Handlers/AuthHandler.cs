@@ -98,9 +98,11 @@ namespace CharacterServer.Packets.Handlers
                     return;
                 }
 
-                authResponse.SuccessInfo.AvailableRaces   = Manager.GameAccount.GetAvailableRaces(session.GameAccount, session.Realm);
-                authResponse.SuccessInfo.AvailableClasses = Manager.GameAccount.GetAvailableClasses(session.GameAccount, session.Realm);
-                authResponse.SuccessInfo.Templates        = Manager.GameAccount.GetAvailableCharacterTemplates(session.GameAccount, session.Realm);
+                authResponse.SuccessInfo.ActiveExpansionLevel  = session.GameAccount.BoxLevel;
+                authResponse.SuccessInfo.AccountExpansionLevel = session.GameAccount.BoxLevel;
+                authResponse.SuccessInfo.AvailableRaces        = Manager.GameAccount.GetAvailableRaces(session.GameAccount, session.Realm);
+                authResponse.SuccessInfo.AvailableClasses      = Manager.GameAccount.GetAvailableClasses(session.GameAccount, session.Realm);
+                authResponse.SuccessInfo.Templates             = Manager.GameAccount.GetAvailableCharacterTemplates(session.GameAccount, session.Realm);
 
                 session.Send(authResponse);
 
