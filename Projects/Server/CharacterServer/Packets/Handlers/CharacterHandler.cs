@@ -49,6 +49,7 @@ namespace CharacterServer.Packets.Handlers
                 enumCharactersResult.Characters.Add(new CharacterListEntry
                 {
                     Guid                 = new SmartGuid { Type = GuidType.Player, MapId = (ushort)c.Map, CreationBits = c.Guid },
+                    Name                 = c.Name,
                     ListPosition         = c.ListPosition,
                     RaceID               = c.Race,
                     ClassID              = c.Class,
@@ -66,6 +67,7 @@ namespace CharacterServer.Packets.Handlers
                     Flags                = c.CharacterFlags,
                     Flags2               = c.CustomizeFlags,
                     Flags3               = c.Flags3,
+                    FirstLogin           = c.FirstLogin == 1,
                     PetCreatureDisplayID = c.PetCreatureDisplayId,
                     PetExperienceLevel   = c.PetLevel,
                     PetCreatureFamilyID  = c.PetCreatureFamily,
@@ -129,7 +131,7 @@ namespace CharacterServer.Packets.Handlers
                             Z               = creationData.Z,
                             O               = creationData.O,
                             CharacterFlags  = CharacterFlags.Decline,
-                            FirstLogin      = true
+                            FirstLogin      = 1
                         };
 
                         if (DB.Character.Add(newChar))
@@ -155,8 +157,10 @@ namespace CharacterServer.Packets.Handlers
             if (charDelete.Guid.CreationBits > 0 && charDelete.Guid.Type == GuidType.Player)
             {
                 var deleteChar = new DeleteChar();
+                var guid = charDelete.Guid;
+                var gameAccount = session.GameAccount;
 
-                if (DB.Character.Delete<Character>(c => c.Guid == charDelete.Guid.Low && c.GameAccountId == session.GameAccount.Id))
+                if (DB.Character.Delete<Character>(c => c.Guid == guid.Low && c.GameAccountId == gameAccount.Id))
                     deleteChar.Code = CharDeleteCode.Success;
                 else
                     deleteChar.Code = CharDeleteCode.Failed;

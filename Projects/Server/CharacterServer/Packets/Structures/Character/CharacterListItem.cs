@@ -19,7 +19,7 @@ using Framework.Network.Packets;
 
 namespace CharacterServer.Packets.Structures.Character
 {
-    class CharacterListItem : IServerStruct
+    struct CharacterListItem : IServerStruct
     {
         public uint DisplayID        { get; set; }
         public uint DisplayEnchantID { get; set; }

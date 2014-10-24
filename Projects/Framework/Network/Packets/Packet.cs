@@ -226,17 +226,15 @@ namespace Framework.Network.Packets
                 writeStream.Write(data, 0, count);
         }
 
-        public void Write(SmartGuid value)
+        public void Write(SmartGuid guid)
         {
-            var guid = value as SmartGuid;
-
             var loGuid = GetPackedGuid(guid.Low, out byte loLength, out byte wLoLength);
             var hiGuid = GetPackedGuid(guid.High, out byte hiLength, out byte wHiLength);
 
             if (guid.Low == 0 || guid.High == 0)
             {
-                Write(0);
-                Write(0);
+                Write((byte)0);
+                Write((byte)0);
             }
             else
             {

@@ -50,7 +50,7 @@ namespace Framework.Database.Character.Entities
         public CharacterFlags CharacterFlags          { get; set; }
         public CharacterCustomizeFlags CustomizeFlags { get; set; }
         public uint Flags3                            { get; set; }
-        public bool FirstLogin                        { get; set; }
+        public byte FirstLogin                        { get; set; }
         public uint PetCreatureDisplayId              { get; set; }
         public uint PetLevel                          { get; set; }
         public uint PetCreatureFamily                 { get; set; }

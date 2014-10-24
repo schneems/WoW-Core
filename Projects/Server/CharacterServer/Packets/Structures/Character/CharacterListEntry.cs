@@ -53,6 +53,8 @@ namespace CharacterServer.Packets.Structures.Character
 
         public void Write(Packet packet)
         {
+            InventoryItems.Initialize();
+
             packet.Write(Guid);
             packet.Write(ListPosition);
             packet.Write((byte)RaceID);

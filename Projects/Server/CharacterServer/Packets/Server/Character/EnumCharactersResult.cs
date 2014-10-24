@@ -36,6 +36,9 @@ namespace CharacterServer.Packets.Server.Character
             Packet.PutBit(IsDeletedCharacters);
             Packet.Flush();
 
+            Packet.Write(Characters.Count);
+            Packet.Write(FactionChangeRestrictions.Count);
+
             Characters.ForEach(c => c.Write(Packet));
             FactionChangeRestrictions.ForEach(fcr => fcr.Write(Packet));
         }
