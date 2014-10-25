@@ -133,7 +133,7 @@ CREATE TABLE `Characters` (
   `CharacterFlags` int(10) unsigned NOT NULL DEFAULT '0',
   `CustomizeFlags` int(10) unsigned NOT NULL DEFAULT '0',
   `Flags3` int(10) unsigned NOT NULL DEFAULT '0',
-  `FirstLogin` bit(1) NOT NULL DEFAULT b'1',
+  `FirstLogin` tinyint(3) NOT NULL DEFAULT '1',
   `PetCreatureDisplayId` int(10) unsigned NOT NULL DEFAULT '0',
   `PetLevel` int(10) unsigned NOT NULL DEFAULT '0',
   `PetCreatureFamily` int(10) unsigned NOT NULL DEFAULT '0',
