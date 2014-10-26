@@ -15,15 +15,19 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-using Framework.Attributes;
-using Lappa_ORM;
+using Framework.Network.Packets;
 
-namespace Framework.Database.Auth.Entities
+namespace Framework.Packets.Client.Net
 {
-    public class GameAccountRedirect : Entity
+    public class LogDisconnect : IClientPacket
     {
-        [Field(PrimaryKey = true)]
-        public ulong Key          { get; set; }
-        public uint GameAccountId { get; set; }
+        public uint Reason { get; set; }
+
+        public override IClientPacket Read()
+        {
+            Reason = Packet.Read<uint>();
+
+            return this;
+        }
     }
 }

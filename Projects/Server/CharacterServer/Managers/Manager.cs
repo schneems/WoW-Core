@@ -22,12 +22,14 @@ namespace CharacterServer.Managers
         public static CharacterManager Character;
         public static ClientDBManager ClientDB;
         public static GameAccountManager GameAccount;
+        public static RedirectManager Redirect;
 
         public static void Initialize()
         {
             Character   = CharacterManager.GetInstance();
             ClientDB    = ClientDBManager.GetInstance();
             GameAccount = GameAccountManager.GetInstance();
+            Redirect    = RedirectManager.GetInstance();
         }
     }
 }

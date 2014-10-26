@@ -15,15 +15,15 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-using Framework.Attributes;
-using Lappa_ORM;
-
-namespace Framework.Database.Auth.Entities
+namespace WorldServer.Managers
 {
-    public class GameAccountRedirect : Entity
+    class Manager
     {
-        [Field(PrimaryKey = true)]
-        public ulong Key          { get; set; }
-        public uint GameAccountId { get; set; }
+        public static RedirectManager Redirect;
+
+        public static void Initialize()
+        {
+            Redirect = RedirectManager.GetInstance();
+        }
     }
 }

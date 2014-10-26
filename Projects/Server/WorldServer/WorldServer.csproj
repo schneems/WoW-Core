@@ -78,10 +78,28 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Attributes\MessageAttribute.cs" />
+    <Compile Include="Configuration\WorldConfig.cs" />
     <Compile Include="Constants\Net\ClientMessage.cs" />
     <Compile Include="Constants\Net\ServerMessage.cs" />
+    <Compile Include="Managers\Manager.cs" />
+    <Compile Include="Managers\RedirectManager.cs" />
+    <Compile Include="Network\WorldSession.cs" />
+    <Compile Include="Network\Server.cs" />
+    <Compile Include="Packets\Handlers\AuthHandler.cs" />
+    <Compile Include="Packets\Handlers\CharacterHandler.cs" />
+    <Compile Include="Packets\PacketManager.cs" />
     <Compile Include="WorldServer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Packets\Client\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Framework\Framework.csproj">
+      <Project>{b7d0e27f-3ab2-413a-b9af-040c67750639}</Project>
+      <Name>Framework</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

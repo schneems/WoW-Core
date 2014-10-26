@@ -15,12 +15,85 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+using System;
+using System.Threading;
+using Framework.Constants.Misc;
+using Framework.Database;
+using Framework.Logging;
+using Framework.Misc;
+using WorldServer.Configuration;
+using WorldServer.Managers;
+using WorldServer.Network;
+using WorldServer.Packets;
+
 namespace WorldServer
 {
     class WorldServer
     {
         static void Main(string[] args)
         {
+            ReadArguments(args);
+
+            var authConnString = DB.CreateConnectionString(WorldConfig.AuthDBHost, WorldConfig.AuthDBUser, WorldConfig.AuthDBPassword,
+                                                           WorldConfig.AuthDBDataBase, WorldConfig.AuthDBPort, WorldConfig.AuthDBPooling,
+                                                           WorldConfig.AuthDBMinPoolSize, WorldConfig.AuthDBMaxPoolSize, WorldConfig.AuthDBType);
+            var authConnection = DB.Auth.CreateConnection(authConnString, WorldConfig.AuthDBType);
+
+            var charConnString = DB.CreateConnectionString(WorldConfig.CharacterDBHost, WorldConfig.CharacterDBUser, WorldConfig.CharacterDBPassword,
+                                                           WorldConfig.CharacterDBDataBase, WorldConfig.CharacterDBPort, WorldConfig.CharacterDBPooling,
+                                                           WorldConfig.CharacterDBMinPoolSize, WorldConfig.CharacterDBMaxPoolSize, WorldConfig.CharacterDBType);
+            var charConnection = DB.Character.CreateConnection(charConnString, WorldConfig.CharacterDBType);
+
+            var dataConnString = DB.CreateConnectionString(WorldConfig.DataDBHost, WorldConfig.DataDBUser, WorldConfig.DataDBPassword,
+                                                           WorldConfig.DataDBDataBase, WorldConfig.DataDBPort, WorldConfig.DataDBPooling,
+                                                           WorldConfig.DataDBMinPoolSize, WorldConfig.DataDBMaxPoolSize, WorldConfig.DataDBType);
+            var dataCConnection = DB.Data.CreateConnection(dataConnString, WorldConfig.DataDBType);
+
+            Log.Message(LogType.Init, "_____________World of Warcraft_____________");
+            Log.Message(LogType.Init, "    __                                     ");
+            Log.Message(LogType.Init, "    / |                     ,              ");
+            Log.Message(LogType.Init, "---/__|---)__----__--_/_--------------_--_-");
+            Log.Message(LogType.Init, "  /   |  /   ) /   ' /    /   /   /  / /  )");
+            Log.Message(LogType.Init, "_/____|_/_____(___ _(_ __/___(___(__/_/__/_");
+            Log.Message(LogType.Init, "________________WorldServer________________");
+            Log.Message();
+
+            Helpers.PrintORMInfo();
+
+            Log.Message(LogType.Normal, "Starting Arctium WoW WorldServer...");
+
+            using (var server = new Server(WorldConfig.BindIP, WorldConfig.BindPort))
+            {
+                PacketManager.DefineMessageHandler();
+
+                Manager.Initialize();
+
+                Log.Message(LogType.Normal, "WorldServer successfully started");
+                Log.Message(LogType.Normal, "Total Memory: {0} Kilobytes", GC.GetTotalMemory(false) / 1024);
+
+                // No need of console commands.
+                while (true)
+                    Thread.Sleep(1);
+            }
+        }
+
+        static void ReadArguments(string[] args)
+        {
+            for (int i = 1; i < args.Length; i += 2)
+            {
+                switch (args[i - 1])
+                {
+                    case "-config":
+                        WorldConfig.Initialize(args[i]);
+                        break;
+                    default:
+                        Log.Message(LogType.Error, "'{0}' isn't a valid argument.", args[i - 1]);
+                        break;
+                }
+            }
+
+            if (!WorldConfig.IsInitialized)
+                WorldConfig.Initialize("./Configs/WorldServer.conf");
         }
     }
 }

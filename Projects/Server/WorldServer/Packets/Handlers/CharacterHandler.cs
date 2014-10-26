@@ -1,6 +1,6 @@
 ﻿/*
  * Copyright (C) 2012-2014 Arctium Emulation <http://arctium.org>
- *
+ * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -16,14 +16,20 @@
  */
 
 using Framework.Attributes;
-using Lappa_ORM;
+using Framework.Constants.Misc;
+using Framework.Constants.Net;
+using Framework.Logging;
+using Framework.Packets.Client.Character;
+using WorldServer.Network;
 
-namespace Framework.Database.Auth.Entities
+namespace WorldServer.Packets.Handlers
 {
-    public class GameAccountRedirect : Entity
+    class CharacterHandler
     {
-        [Field(PrimaryKey = true)]
-        public ulong Key          { get; set; }
-        public uint GameAccountId { get; set; }
+        [GlobalMessage(GlobalClientMessage.PlayerLogin)]
+        public static void HandlePlayerLogin(PlayerLogin playerLogin, WorldSession session)
+        {
+            Log.Message(LogType.Debug, "Character with GUID '{0}' tried to login...", playerLogin.PlayerGUID.CreationBits);
+        }
     }
 }

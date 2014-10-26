@@ -15,15 +15,14 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-using Framework.Attributes;
 using Lappa_ORM;
 
 namespace Framework.Database.Auth.Entities
 {
-    public class GameAccountRedirect : Entity
+    public class WorldServer : Entity
     {
-        [Field(PrimaryKey = true)]
-        public ulong Key          { get; set; }
-        public uint GameAccountId { get; set; }
+        public int MapId      { get; set; }
+        public string Address { get; set; }
+        public ushort Port    { get; set; }
     }
 }

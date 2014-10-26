@@ -72,6 +72,7 @@
     <Compile Include="Constants\Account\AccountFlags.cs" />
     <Compile Include="Constants\Account\GameAccountFlags.cs" />
     <Compile Include="Constants\Account\Regions.cs" />
+    <Compile Include="Constants\Character\CharLoginCode.cs" />
     <Compile Include="Constants\General\Class.cs" />
     <Compile Include="Constants\General\ClassMask.cs" />
     <Compile Include="Constants\General\Race.cs" />
@@ -104,6 +105,7 @@
     <Compile Include="Database\Auth\Entities\RealmCharacterTemplate.cs" />
     <Compile Include="Database\Auth\Entities\RealmClass.cs" />
     <Compile Include="Database\Auth\Entities\RealmRace.cs" />
+    <Compile Include="Database\Auth\Entities\WorldServer.cs" />
     <Compile Include="Database\Character\Entities\Character.cs" />
     <Compile Include="Database\Character\Entities\CharacterAction.cs" />
     <Compile Include="Database\Character\Entities\CharacterCreationAction.cs" />
@@ -147,9 +149,16 @@
     <Compile Include="Objects\SmartGuid.cs" />
     <Compile Include="Objects\Vector3.cs" />
     <Compile Include="Objects\WorldEntities\Player.cs" />
+    <Compile Include="Packets\Client\Authentication\AuthContinuedSession.cs" />
     <Compile Include="Packets\Client\Authentication\TransferInitiate.cs" />
+    <Compile Include="Packets\Client\Character\PlayerLogin.cs" />
+    <Compile Include="Packets\Client\Net\LogDisconnect.cs" />
+    <Compile Include="Packets\Client\Net\SuspendCommsAck.cs" />
     <Compile Include="Packets\Server\Authentication\AuthChallenge.cs" />
     <Compile Include="Packets\Server\Authentication\TransferInitiate.cs" />
+    <Compile Include="Packets\Server\Character\CharacterLoginFailed.cs" />
+    <Compile Include="Packets\Server\Net\ResumeComms.cs" />
+    <Compile Include="Packets\Server\Net\SuspendComms.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -160,6 +169,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Configs\CharacterServer.conf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Configs\WorldServer.conf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>

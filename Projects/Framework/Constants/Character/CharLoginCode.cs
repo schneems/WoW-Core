@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace CharacterServer.Constants.Character
+namespace Framework.Constants.Character
 {
     public enum CharLoginCode : byte
     {

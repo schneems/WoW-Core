@@ -29,6 +29,8 @@ namespace Framework.Cryptography.WoW
 
         SARC4 SARC4Encrypt, SARC4Decrypt;
 
+        public WoWCrypt() { }
+
         public WoWCrypt(byte[] sessionKey)
         {
             IsInitialized = false;
@@ -41,6 +43,31 @@ namespace Framework.Cryptography.WoW
 
             var decryptSHA1 = new HMACSHA1(ServerDecryptionKey);
             var encryptSHA1 = new HMACSHA1(ServerEncryptionKey);
+
+            SARC4Encrypt.PrepareKey(encryptSHA1.ComputeHash(sessionKey));
+            SARC4Decrypt.PrepareKey(decryptSHA1.ComputeHash(sessionKey));
+
+            var PacketEncryptionDummy = new byte[0x400];
+            var PacketDecryptionDummy = new byte[0x400];
+
+            SARC4Encrypt.ProcessBuffer(PacketEncryptionDummy, PacketEncryptionDummy.Length);
+            SARC4Decrypt.ProcessBuffer(PacketDecryptionDummy, PacketDecryptionDummy.Length);
+
+            IsInitialized = true;
+        }
+
+        public void Initialize(byte[] sessionKey, byte[] clientSeed, byte[] serverSeed)
+        {
+            IsInitialized = false;
+
+            if (IsInitialized)
+                throw new InvalidOperationException("PacketCrypt already initialized!");
+
+            SARC4Encrypt = new SARC4();
+            SARC4Decrypt = new SARC4();
+
+            var decryptSHA1 = new HMACSHA1(serverSeed);
+            var encryptSHA1 = new HMACSHA1(clientSeed);
 
             SARC4Encrypt.PrepareKey(encryptSHA1.ComputeHash(sessionKey));
             SARC4Decrypt.PrepareKey(decryptSHA1.ComputeHash(sessionKey));

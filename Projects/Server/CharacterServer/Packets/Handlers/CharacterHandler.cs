@@ -26,10 +26,15 @@ using CharacterServer.ObjectStores;
 using CharacterServer.Packets.Client.Character;
 using CharacterServer.Packets.Server.Character;
 using CharacterServer.Packets.Structures.Character;
+using Framework.Attributes;
+using Framework.Constants.Character;
+using Framework.Constants.Net;
 using Framework.Constants.Object;
 using Framework.Database;
 using Framework.Database.Character.Entities;
 using Framework.Objects;
+using Framework.Packets.Client.Character;
+using Framework.Packets.Server.Character;
 
 namespace CharacterServer.Packets.Handlers
 {
@@ -187,6 +192,13 @@ namespace CharacterServer.Packets.Handlers
             generateRandomCharacterNameResult.Success = generateRandomCharacterNameResult.Name != "";
 
             session.Send(generateRandomCharacterNameResult);
+        }
+
+        // Always send login failed here!
+        [GlobalMessage(GlobalClientMessage.PlayerLogin)]
+        public static void HandlePlayerLogin(PlayerLogin playerLogin, CharacterSession session)
+        {
+            session.Send(new CharacterLoginFailed { Code = CharLoginCode.NoWorld });
         }
     }
 }

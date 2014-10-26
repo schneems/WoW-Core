@@ -21,8 +21,10 @@ namespace Framework.Constants.Net
     public enum GlobalServerMessage : ushort
     {
         AuthChallenge = 0x10AA,
+        ConnectTo     = 0x1082,
         SuspendComms  = 0x1882,
         ResumeComms   = 0x128A,
         Pong          = 0x2000,
+        CharacterLoginFailed = 0x1327
     }
 }

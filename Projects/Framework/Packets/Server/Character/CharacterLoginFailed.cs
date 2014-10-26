@@ -1,6 +1,6 @@
 ﻿/*
  * Copyright (C) 2012-2014 Arctium Emulation <http://arctium.org>
- *
+ * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -15,15 +15,19 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-using Framework.Attributes;
-using Lappa_ORM;
+using Framework.Constants.Character;
+using Framework.Constants.Net;
+using Framework.Network.Packets;
 
-namespace Framework.Database.Auth.Entities
+namespace Framework.Packets.Server.Character
 {
-    public class GameAccountRedirect : Entity
+    public class CharacterLoginFailed() : IServerPacket(GlobalServerMessage.CharacterLoginFailed)
     {
-        [Field(PrimaryKey = true)]
-        public ulong Key          { get; set; }
-        public uint GameAccountId { get; set; }
+        public CharLoginCode Code { get; set; }
+
+        public override void Write()
+        {
+            Packet.Write((byte)Code);
+        }
     }
 }

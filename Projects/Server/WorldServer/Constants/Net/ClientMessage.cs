@@ -18,7 +18,7 @@
 namespace WorldServer.Constants.Net
 {
     // Value '0x2000' means not updated/implemented
-    enum ClientMessage : ushort
+    public enum ClientMessage : ushort
     {
         #region Account
         #endregion
@@ -30,7 +30,6 @@ namespace WorldServer.Constants.Net
         #endregion
 
         #region UserClient
-        PlayerLogin                          = 0x2000,
         #endregion
     }
 }

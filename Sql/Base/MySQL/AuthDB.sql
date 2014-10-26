@@ -149,9 +149,9 @@ CREATE TABLE `GameAccounts` (
   `AccountId` int(11) unsigned NOT NULL,
   `Game` varchar(10) DEFAULT NULL,
   `Index` tinyint(4) unsigned NOT NULL DEFAULT '0',
-  `Region` tinyint(4) NOT NULL,
-  `Flags` bigint(20) NOT NULL,
-  `BoxLevel` tinyint(4) NOT NULL,
+  `Region` tinyint(4) unsigned NOT NULL,
+  `Flags` bigint(20) unsigned NOT NULL,
+  `BoxLevel` tinyint(4) unsigned NOT NULL,
   `OS` varchar(4) DEFAULT NULL,
   `SessionKey` varchar(80) DEFAULT NULL,
   `IsOnline` tinyint(1) NOT NULL DEFAULT '0',
@@ -287,3 +287,19 @@ CREATE TABLE `Realms` (
 -- Records of Realms
 -- ----------------------------
 INSERT INTO `Realms` VALUES ('1', 'Arctium WoW', '127.0.0.1', '3724', '1', '1', '0', '0');
+
+-- ----------------------------
+-- Table structure for WorldServers
+-- ----------------------------
+DROP TABLE IF EXISTS `WorldServers`;
+CREATE TABLE `WorldServers` (
+  `MapId` int(10) NOT NULL DEFAULT '-1',
+  `Address` varchar(15) DEFAULT '',
+  `Port` smallint(5) unsigned NOT NULL DEFAULT '8100',
+  PRIMARY KEY (`MapId`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of WorldServers
+-- ----------------------------
+INSERT INTO `WorldServers` VALUES ('-1', '127.0.0.1', '8100');

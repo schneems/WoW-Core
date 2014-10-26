@@ -1,6 +1,6 @@
 ﻿/*
  * Copyright (C) 2012-2014 Arctium Emulation <http://arctium.org>
- *
+ * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -15,15 +15,22 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-using Framework.Attributes;
-using Lappa_ORM;
+using Framework.Network.Packets;
+using Framework.Objects;
 
-namespace Framework.Database.Auth.Entities
+namespace Framework.Packets.Client.Character
 {
-    public class GameAccountRedirect : Entity
+    public class PlayerLogin : IClientPacket
     {
-        [Field(PrimaryKey = true)]
-        public ulong Key          { get; set; }
-        public uint GameAccountId { get; set; }
+        public SmartGuid PlayerGUID { get; set; }
+        public float FarClip        { get; set; }
+
+        public override IClientPacket Read()
+        {
+            PlayerGUID = Packet.Read<SmartGuid>();
+            FarClip    = Packet.Read<float>();
+
+            return this;
+        }
     }
 }

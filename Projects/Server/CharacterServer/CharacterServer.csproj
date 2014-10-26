@@ -70,7 +70,6 @@
     <Compile Include="Constants\Authentication\LoginServerTypes.cs" />
     <Compile Include="Constants\Character\CharCreateCode.cs" />
     <Compile Include="Constants\Character\CharDeleteCode.cs" />
-    <Compile Include="Constants\Character\CharLoginCode.cs" />
     <Compile Include="Constants\Net\ClientMessage.cs" />
     <Compile Include="Constants\Net\ServerMessage.cs" />
     <Compile Include="Managers\CharacterManager.cs" />
@@ -79,11 +78,15 @@
     <Compile Include="Managers\Manager.cs" />
     <Compile Include="CharacterServer.cs" />
     <Compile Include="Configuration\CharacterConfig.cs" />
+    <Compile Include="Managers\RedirectManager.cs" />
     <Compile Include="Network\CharacterSession.cs" />
     <Compile Include="Packets\Client\Character\GenerateRandomCharacterName.cs" />
+    <Compile Include="Packets\Client\Misc\LoadingScreenNotify.cs" />
     <Compile Include="Packets\Handlers\AddonHandler.cs" />
     <Compile Include="Packets\Handlers\CharacterHandler.cs" />
     <Compile Include="Packets\Handlers\AuthHandler.cs" />
+    <Compile Include="Packets\Handlers\MiscHandler.cs" />
+    <Compile Include="Packets\Handlers\NetHandler.cs" />
     <Compile Include="Packets\PacketManager.cs" />
     <Compile Include="Network\Server.cs" />
     <Compile Include="ObjectStores\ClientDB.cs" />
@@ -97,6 +100,7 @@
     <Compile Include="Packets\Server\Character\EnumCharactersResult.cs" />
     <Compile Include="Packets\Server\Character\GenerateRandomCharacterNameResult.cs" />
     <Compile Include="Packets\Server\Misc\AddonInfo.cs" />
+    <Compile Include="Packets\Server\Net\ConnectTo.cs" />
     <Compile Include="Packets\Structures\Authentication\AuthSuccessInfo.cs" />
     <Compile Include="Packets\Structures\Authentication\AuthWaitInfo.cs" />
     <Compile Include="Packets\Structures\Character\AvailableCharacterTemplateClass.cs" />

@@ -15,15 +15,21 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-using Framework.Attributes;
-using Lappa_ORM;
+using Framework.Network.Packets;
 
-namespace Framework.Database.Auth.Entities
+namespace CharacterServer.Packets.Client.Misc
 {
-    public class GameAccountRedirect : Entity
+    class LoadingScreenNotify : IClientPacket
     {
-        [Field(PrimaryKey = true)]
-        public ulong Key          { get; set; }
-        public uint GameAccountId { get; set; }
+        public int MapID    { get; set; }
+        public bool Showing { get; set; }
+
+        public override IClientPacket Read()
+        {
+            MapID   = Packet.Read<int>();
+            Showing = Packet.GetBit();
+
+            return this;
+        }
     }
 }

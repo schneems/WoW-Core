@@ -25,7 +25,9 @@ namespace Framework.Constants.Net
         AuthSession          = 0x1B05,
         AuthContinuedSession = 0x1806,
         Ping                 = 0x2000,
-        LogDisconnect        = 0x2000,
+        LogDisconnect        = 0x1856,
         #endregion
+
+        PlayerLogin          = 0x03A8,
     }
 }

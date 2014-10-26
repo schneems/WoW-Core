@@ -25,7 +25,7 @@ namespace CharacterServer.Constants.Net
         GenerateRandomCharacterName          = 0x01BC,
         EnumCharacters                       = 0x01EC,
         ReorderCharacters                    = 0x2000,
-        LoadingScreenNotify                  = 0x2000,
+        LoadingScreenNotify                  = 0x09B8,
         CreateCharacter                      = 0x10F3,
         CharCustomize                        = 0x2000,
         CharRaceOrFactionChange              = 0x2000,
