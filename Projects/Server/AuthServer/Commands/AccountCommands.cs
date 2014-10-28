@@ -100,6 +100,27 @@ namespace AuthServer.Commands
                 else
                     Log.Message(LogType.Error, "Account '{0}' doesn't exist.", email);
             }
+                    [ConsoleCommand("DeleteAccount", "")]
+        public static void DeleteAccount(string[] args)
+        {
+            var email = Command.Read<string>(args, 0);
+            if (email != "")
+            {
+                var account = DB.Auth.Single<Account>(a => a.Email == email);
+                if (account != null)
+                {
+
+                    if (DB.Auth.Delete<Account>(account))
+                        Log.Message(LogType.Normal, "Account deleted");
+                    else
+                        Log.Message(LogType.Error, "Failed to delete account");
+                }
+                else
+                {
+                    Log.Message(LogType.Error, "Account doesn't exsist");
+                }
+            }
+        }
         }
     }
 }
