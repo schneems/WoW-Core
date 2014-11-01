@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WorldNode", "Projects\Serve
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WorldServer", "Projects\Server\WorldServer\WorldServer.csproj", "{91F8FB24-9BB6-4C20-9B33-BB4360D01B08}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RemoteServer", "Projects\Server\RemoteServer\RemoteServer.csproj", "{CB15C7E6-BC3E-4C11-B4AF-D3FBC3F80C82}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -61,6 +63,14 @@ Global
 		{91F8FB24-9BB6-4C20-9B33-BB4360D01B08}.Release|x64.Build.0 = Release|x64
 		{91F8FB24-9BB6-4C20-9B33-BB4360D01B08}.Release|x86.ActiveCfg = Release|x86
 		{91F8FB24-9BB6-4C20-9B33-BB4360D01B08}.Release|x86.Build.0 = Release|x86
+		{CB15C7E6-BC3E-4C11-B4AF-D3FBC3F80C82}.Debug|x64.ActiveCfg = Debug|x64
+		{CB15C7E6-BC3E-4C11-B4AF-D3FBC3F80C82}.Debug|x64.Build.0 = Debug|x64
+		{CB15C7E6-BC3E-4C11-B4AF-D3FBC3F80C82}.Debug|x86.ActiveCfg = Debug|x86
+		{CB15C7E6-BC3E-4C11-B4AF-D3FBC3F80C82}.Debug|x86.Build.0 = Debug|x86
+		{CB15C7E6-BC3E-4C11-B4AF-D3FBC3F80C82}.Release|x64.ActiveCfg = Release|x64
+		{CB15C7E6-BC3E-4C11-B4AF-D3FBC3F80C82}.Release|x64.Build.0 = Release|x64
+		{CB15C7E6-BC3E-4C11-B4AF-D3FBC3F80C82}.Release|x86.ActiveCfg = Release|x86
+		{CB15C7E6-BC3E-4C11-B4AF-D3FBC3F80C82}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

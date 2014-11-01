@@ -28,14 +28,12 @@ namespace CharacterServer.Constants.Net
         #endregion
 
         #region RealmConnection
-        ConnectTo                               = 0x175A,
         AuthResponse                            = 0x0DA9,
         EnumCharactersResult                    = 0x05AF,
         AddonInfo                               = 0x1D9F,
         SetTimeZoneInformation                  = 0x2000,
         CreateChar                              = 0x0107,
         DeleteChar                              = 0x0BC4,
-        CharacterLoginFailed                    = 0x2000,
         #endregion
     }
 }
