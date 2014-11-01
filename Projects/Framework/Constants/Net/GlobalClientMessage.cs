@@ -21,13 +21,13 @@ namespace Framework.Constants.Net
     public enum GlobalClientMessage : ushort
     {
         #region UserRouterClient
-        SuspendCommsAck      = 0x1876,
-        AuthSession          = 0x1B05,
-        AuthContinuedSession = 0x1806,
+        SuspendCommsAck      = 0x0C56,
+        AuthSession          = 0x0487,
+        AuthContinuedSession = 0x0485,
         Ping                 = 0x2000,
-        LogDisconnect        = 0x1856,
+        LogDisconnect        = 0x04D5,
         #endregion
 
-        PlayerLogin          = 0x03A8,
+        PlayerLogin          = 0x0B1D,
     }
 }
