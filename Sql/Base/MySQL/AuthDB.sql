@@ -29,7 +29,7 @@ CREATE TABLE `Accounts` (
 -- ----------------------------
 DROP TABLE IF EXISTS `CharacterRedirects`;
 CREATE TABLE `CharacterRedirects` (
-  `Serial` bigint(20) unsigned NOT NULL,
+  `Key` bigint(20) unsigned NOT NULL,
   `CharacterGuid` bigint(20) unsigned NOT NULL,
   PRIMARY KEY (`Serial`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
