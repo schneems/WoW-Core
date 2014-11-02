@@ -84,7 +84,7 @@ namespace AuthServer.Network.Packets.Handlers
                 switch (state)
                 {
                     case PasswordModuleState.ClientChallenge:
-                        if (session.GameAccount == null && session.GameAccounts.Count >= 1)
+                        if (session.GameAccounts != null && session.GameAccount == null)
                         {
                             if (session.GameAccounts.Count > 1)
                             {
@@ -136,7 +136,7 @@ namespace AuthServer.Network.Packets.Handlers
 
                             // Assign valid game accounts for the account
                             if (session.Account.GameAccounts != null)
-                                session.GameAccounts = session.Account.GameAccounts.Where(ga => ga.Game == client.Game && ga.Region == session.Account.Region).ToList();
+                                session.GameAccounts = session.Account.GameAccounts.Where(ga => ga.Game == client.Game).ToList();
 
                             SendProofValidation(client, clientChallenge);
                         }
@@ -173,7 +173,7 @@ namespace AuthServer.Network.Packets.Handlers
             proofValidation.Write(client.Session.SecureRemotePassword.S2);
 
             /// SelectGameAccount module
-            if (client.Session.GameAccounts.Count > 1)
+            if (client.Session.GameAccounts != null && client.Session.GameAccounts.Count > 1)
             {
                 var gameAccountBuffer = new AuthPacket();
 
