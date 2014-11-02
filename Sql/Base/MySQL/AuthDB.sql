@@ -31,7 +31,7 @@ DROP TABLE IF EXISTS `CharacterRedirects`;
 CREATE TABLE `CharacterRedirects` (
   `Key` bigint(20) unsigned NOT NULL,
   `CharacterGuid` bigint(20) unsigned NOT NULL,
-  PRIMARY KEY (`Serial`)
+  PRIMARY KEY (`Key`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
