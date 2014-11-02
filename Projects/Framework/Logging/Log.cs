@@ -18,6 +18,7 @@
 using System;
 using System.Collections.Concurrent;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using Framework.Constants.Misc;
 using Framework.Logging.IO;
@@ -29,11 +30,11 @@ namespace Framework.Logging
         static LogType logLevel;
         static BlockingCollection<Tuple<ConsoleColor, string>> logQueue = new BlockingCollection<Tuple<ConsoleColor, string>>();
 
-        public static async void Initialize(LogType logLevel, LogWriter fileLogger = null)
+        public static void Initialize(LogType logLevel, LogWriter fileLogger = null)
         {
             Log.logLevel = logLevel;
 
-            await Task.Delay(1).ContinueWith(async _ =>
+            var logThread = new Thread(() =>
             {
                 while (true)
                 {
@@ -44,13 +45,16 @@ namespace Framework.Logging
                         var msg = log.Item2;
 
                         if (fileLogger != null)
-                            await fileLogger.Write(msg);
+                            Task.Run(async () => await fileLogger.Write(msg));
 
                         Console.ForegroundColor = log.Item1;
                         Console.WriteLine(msg);
                     }
                 }
             });
+
+            logThread.IsBackground = true;
+            logThread.Start();
         }
 
         public static void Message()
