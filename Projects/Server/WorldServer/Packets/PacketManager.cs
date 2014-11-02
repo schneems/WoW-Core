@@ -52,7 +52,7 @@ namespace WorldServer.Packets
         {
             var message = reader.Header.Message;
 
-            Log.Message(LogType.Packet, "Received Opcode: {0} (0x{1:X}), Length: {1}", Enum.GetName(typeof(T), message), message, reader.Data.Length);
+            Log.Message(LogType.Packet, "Received Opcode: {0} (0x{1:X}), Length: {2}", Enum.GetName(typeof(T), message), message, reader.Data.Length);
 
             if (MessageHandlers.TryGetValue(message, out var data))
             {
