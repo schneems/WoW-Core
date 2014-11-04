@@ -17,6 +17,7 @@
 
 using System;
 using System.Net.Sockets;
+using System.Threading.Tasks;
 using CharacterServer.Constants.Net;
 using CharacterServer.Packets;
 using Framework.Constants.Misc;
@@ -44,7 +45,9 @@ namespace CharacterServer.Network
 
                 Buffer.BlockCopy(dataBuffer, 0, data, 0, data.Length);
 
-                var transferInit = new ClientPacket.TransferInitiate { Packet = new Packet(data, false) }.Read() as ClientPacket.TransferInitiate;
+                var transferInit = new ClientPacket.TransferInitiate { Packet = new Packet(data, false) } as ClientPacket.TransferInitiate;
+
+                transferInit.Read();
 
                 if (transferInit.Msg == clientToServer)
                 {
@@ -73,14 +76,14 @@ namespace CharacterServer.Network
                 Dispose();
         }
 
-        public override void ProcessPacket(Packet packet)
+        public override async Task ProcessPacket(Packet packet)
         {
             if (packetQueue.Count > 0)
                 packet = packetQueue.Dequeue();
 
-            PacketManager.InvokeHandler<ClientMessage>(packet, this);
-
             PacketLog.Write<ClientMessage>(packet.Header.Message, packet.Data, client.RemoteEndPoint);
+
+            await PacketManager.InvokeHandler<ClientMessage>(packet, this);
         }
 
         public override void Send(IServerPacket packet)

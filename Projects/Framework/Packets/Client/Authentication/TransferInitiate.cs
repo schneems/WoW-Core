@@ -23,13 +23,11 @@ namespace Framework.Packets.Client.Authentication
     {
         public string Msg { get; private set; }
 
-        public override IClientPacket Read()
+        public override void Read()
         {
             Packet.Skip(2);
 
             Msg = Packet.Read<string>(0, true);
-
-            return this;
         }
     }
 }

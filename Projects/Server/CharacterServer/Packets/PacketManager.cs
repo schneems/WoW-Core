@@ -18,10 +18,13 @@
 using System;
 using System.Collections.Concurrent;
 using System.Reflection;
+using System.Threading.Tasks;
 using CharacterServer.Attributes;
+using CharacterServer.Constants.Net;
 using CharacterServer.Network;
 using Framework.Attributes;
 using Framework.Constants.Misc;
+using Framework.Constants.Net;
 using Framework.Logging;
 using Framework.Network.Packets;
 
@@ -48,11 +51,9 @@ namespace CharacterServer.Packets
             }
         }
 
-        public static bool InvokeHandler<T>(Packet reader, CharacterSession session)
+        public static async Task InvokeHandler<T>(Packet reader, CharacterSession session)
         {
             var message = reader.Header.Message;
-
-            Log.Message(LogType.Packet, "Received Opcode: {0} (0x{1:X}), Length: {2}", Enum.GetName(typeof(T), message), message, reader.Data.Length);
 
             if (MessageHandlers.TryGetValue(message, out var data))
             {
@@ -60,12 +61,22 @@ namespace CharacterServer.Packets
 
                 handlerObj.Packet = reader;
 
-                data.Item1.Invoke(null, new object[] { handlerObj.Read(), session });
+                await Task.Run(() => handlerObj.Read());
 
-                return true;
+                if (handlerObj.IsReadComplete)
+                    data.Item1.Invoke(null, new object[] { handlerObj, session });
+                else
+                    Log.Message(LogType.Error, "Packet read for '{0}' failed.", data.Item2.Name);
             }
+            else
+            {
+                var msgName = Enum.GetName(typeof(ClientMessage), message) ?? Enum.GetName(typeof(GlobalClientMessage), message);
 
-            return false;
+                if (msgName == null)
+                    Log.Message(LogType.Error, "Received unknown opcode '0x{0:X}, Length: {1}'.", message, reader.Data.Length);
+                else
+                    Log.Message(LogType.Error, "Packet handler for '{0} (0x{1:X}), Length: {2}' not implemented.", msgName, message, reader.Data.Length);
+            }
         }
     }
 }

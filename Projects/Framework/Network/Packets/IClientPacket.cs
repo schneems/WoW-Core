@@ -20,7 +20,8 @@ namespace Framework.Network.Packets
     public abstract class IClientPacket
     {
         public Packet Packet { protected get; set; }
+        public bool IsReadComplete { get { return Packet.IsReadComplete; } }
 
-        public abstract IClientPacket Read();
+        public abstract void Read();
     }
 }

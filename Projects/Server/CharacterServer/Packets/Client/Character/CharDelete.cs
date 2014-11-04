@@ -24,11 +24,9 @@ namespace CharacterServer.Packets.Client.Character
     {
         public SmartGuid Guid { get; set; }
 
-        public override IClientPacket Read()
+        public override void Read()
         {
             Guid = Packet.Read<SmartGuid>();
-
-            return this;
         }
     }
 }

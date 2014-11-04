@@ -25,12 +25,10 @@ namespace Framework.Packets.Client.Character
         public SmartGuid PlayerGUID { get; set; }
         public float FarClip        { get; set; }
 
-        public override IClientPacket Read()
+        public override void Read()
         {
             PlayerGUID = Packet.Read<SmartGuid>();
             FarClip    = Packet.Read<float>();
-
-            return this;
         }
     }
 }

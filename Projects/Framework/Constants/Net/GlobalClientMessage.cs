@@ -24,7 +24,7 @@ namespace Framework.Constants.Net
         SuspendCommsAck      = 0x0C56,
         AuthSession          = 0x0487,
         AuthContinuedSession = 0x0485,
-        Ping                 = 0x2000,
+        Ping                 = 0x0416,
         LogDisconnect        = 0x04D5,
         #endregion
 

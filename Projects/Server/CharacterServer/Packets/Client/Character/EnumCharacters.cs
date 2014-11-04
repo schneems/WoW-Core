@@ -21,9 +21,8 @@ namespace CharacterServer.Packets.Client.Character
 {
     class EnumCharacters : IClientPacket
     {
-        public override IClientPacket Read()
+        public override void Read()
         {
-            return this;
         }
     }
 }

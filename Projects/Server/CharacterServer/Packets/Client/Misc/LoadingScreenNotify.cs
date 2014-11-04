@@ -24,12 +24,10 @@ namespace CharacterServer.Packets.Client.Misc
         public int MapID    { get; set; }
         public bool Showing { get; set; }
 
-        public override IClientPacket Read()
+        public override void Read()
         {
             MapID   = Packet.Read<int>();
             Showing = Packet.GetBit();
-
-            return this;
         }
     }
 }

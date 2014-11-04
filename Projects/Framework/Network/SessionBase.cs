@@ -19,6 +19,7 @@ using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Net.Sockets;
+using System.Threading.Tasks;
 using Framework.Constants.Misc;
 using Framework.Cryptography.WoW;
 using Framework.Database.Auth.Entities;
@@ -125,7 +126,7 @@ namespace Framework.Network
 
                             Buffer.BlockCopy(dataBuffer, 0, packetData, 0, length);
 
-                            var packet = new Packet(packetData);
+                            var packet = new Packet(packetData, true);
 
                             if (length > recievedBytes)
                                 packetQueue.Enqueue(packet);
@@ -141,8 +142,6 @@ namespace Framework.Network
                     {
                         var packet = new Packet(dataBuffer);
 
-                        packet.Skip(2);
-
                         ProcessPacket(packet);
                     }
 
@@ -157,7 +156,7 @@ namespace Framework.Network
             }
         }
 
-        public abstract void ProcessPacket(Packet packet);
+        public abstract Task ProcessPacket(Packet packet);
         public abstract void Send(IServerPacket packet);
 
         public void Encrypt(Packet packet)

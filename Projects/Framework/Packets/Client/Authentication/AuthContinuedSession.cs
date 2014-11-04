@@ -25,13 +25,11 @@ namespace Framework.Packets.Client.Authentication
         public ulong Key         { get; set; }
         public byte[] Digest     { get; set; }
 
-        public override IClientPacket Read()
+        public override void Read()
         {
             DosResponse = Packet.Read<ulong>();
             Key         = Packet.Read<ulong>();
             Digest      = Packet.ReadBytes(20);
-
-            return this;
         }
     }
 }

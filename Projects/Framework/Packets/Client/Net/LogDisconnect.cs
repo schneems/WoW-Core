@@ -23,11 +23,9 @@ namespace Framework.Packets.Client.Net
     {
         public uint Reason { get; set; }
 
-        public override IClientPacket Read()
+        public override void Read()
         {
             Reason = Packet.Read<uint>();
-
-            return this;
         }
     }
 }

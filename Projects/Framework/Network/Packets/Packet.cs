@@ -27,6 +27,7 @@ namespace Framework.Network.Packets
     {
         public PacketHeader Header { get; private set; }
         public byte[] Data { get; set; }
+        public bool IsReadComplete { get { return readStream.BaseStream.Position >= Data.Length; } }
 
         BinaryReader readStream;
         BinaryWriter writeStream;
@@ -41,22 +42,37 @@ namespace Framework.Network.Packets
             writeStream = new BinaryWriter(new MemoryStream());
         }
 
-        public Packet(byte[] data, bool readHeader = true)
+        public Packet(byte[] data, bool readHeader)
         {
-            readStream = new BinaryReader(new MemoryStream(data));
-
             if (readHeader)
             {
                 Header = new PacketHeader
                 {
-                    Size    = Read<ushort>(),
-                    Message = Read<ushort>()
+                    Size    = BitConverter.ToUInt16(data, 0),
+                    Message = BitConverter.ToUInt16(data, 2)
                 };
 
-                // Copy packet buffer for logging, etc.
                 Data = new byte[Header.Size];
                 Buffer.BlockCopy(data, 4, Data, 0, Header.Size);
+
+                readStream = new BinaryReader(new MemoryStream(Data));
             }
+            else
+                readStream = new BinaryReader(new MemoryStream(data));
+        }
+
+        public Packet(byte[] data)
+        {
+            Header = new PacketHeader
+            {
+                Size    = (ushort)(BitConverter.ToUInt16(data, 0) - 4),
+                Message = (ushort)BitConverter.ToUInt32(data, 2)
+            };
+
+            Data = new byte[Header.Size];
+            Buffer.BlockCopy(data, 6, Data, 0, Header.Size);
+
+            readStream = new BinaryReader(new MemoryStream(Data));
         }
 
         public Packet(object message, bool authHeader = false)

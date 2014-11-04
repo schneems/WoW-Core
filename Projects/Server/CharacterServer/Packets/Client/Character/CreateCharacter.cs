@@ -35,7 +35,7 @@ namespace CharacterServer.Packets.Client.Character
         public int TemplateSetID      { get; set; }
         public string Name            { get; set; }
 
-        public override IClientPacket Read()
+        public override void Read()
         {
             var nameLength     = Packet.GetBits<int>(6);
             var useTemplateSet = Packet.GetBit();
@@ -54,8 +54,6 @@ namespace CharacterServer.Packets.Client.Character
 
             if (useTemplateSet)
                 TemplateSetID = Packet.Read<int>();
-
-            return this;
         }
     }
 }

@@ -19,7 +19,7 @@ using Framework.Network.Packets;
 
 namespace CharacterServer.Packets.Client.Authentication
 {
-    public class AuthSession() : IClientPacket
+    public class AuthSession : IClientPacket
     {
         public int LoginServerID             { get; private set; }
         public ushort Build                  { get; private set; }
@@ -37,7 +37,7 @@ namespace CharacterServer.Packets.Client.Authentication
         public int CompressedAddonInfoSize   { get; private set; }
         public int UncompressedAddonInfoSize { get; private set; }
 
-        public override IClientPacket Read()
+        public override void Read()
         {
             LoginServerID   = Packet.Read<int>();
             Build           = Packet.Read<ushort>();
@@ -56,8 +56,6 @@ namespace CharacterServer.Packets.Client.Authentication
             UncompressedAddonInfoSize = Packet.Read<int>();
 
             AddonInfo = Packet.ReadBytes(CompressedAddonInfoSize - 4);
-
-            return this;
         }
     }
 }

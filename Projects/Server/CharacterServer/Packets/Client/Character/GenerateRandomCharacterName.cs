@@ -25,12 +25,10 @@ namespace CharacterServer.Packets.Client.Character
         public Race Race { get; set; }
         public byte Sex  { get; set; }
 
-        public override IClientPacket Read()
+        public override void Read()
         {
             Race = Packet.Read<Race>();
             Sex  = Packet.Read<byte>();
-
-            return this;
         }
     }
 }

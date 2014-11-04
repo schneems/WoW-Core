@@ -24,12 +24,10 @@ namespace Framework.Packets.Client.Net
         public uint Serial    { get; set; }
         public uint Timestamp { get; set; }
 
-        public override IClientPacket Read()
+        public override void Read()
         {
             Serial    = Packet.Read<uint>();
             Timestamp = Packet.Read<uint>();
-
-            return this;
         }
     }
 }
