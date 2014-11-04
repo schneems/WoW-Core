@@ -15,6 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+using System.Net.Sockets;
 using System.Reflection;
 using Framework.Constants.Misc;
 using Framework.Logging;
@@ -30,6 +31,26 @@ namespace Framework.Misc
 
             Log.Message(LogType.Init, "Loaded Lappa ORM lib '{0}'.", ormLib.GetName().Version);
             Log.Message();
+        }
+
+        public static bool CheckConnection(string ip, int port)
+        {
+            var canConnect = false;
+
+            using (var socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp))
+            {
+                try
+                {
+                    socket.Connect(ip, port);
+
+                    canConnect = true;
+                }
+                catch
+                {
+                }
+            }
+
+            return canConnect;
         }
     }
 }
