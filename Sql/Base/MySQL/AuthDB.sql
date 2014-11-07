@@ -125,9 +125,9 @@ CREATE TABLE `GameAccountRaces` (
 -- ----------------------------
 DROP TABLE IF EXISTS `GameAccountRedirects`;
 CREATE TABLE `GameAccountRedirects` (
-  `Serial` bigint(20) unsigned NOT NULL,
+  `Key` bigint(20) unsigned NOT NULL,
   `GameAccountId` int(10) unsigned NOT NULL,
-  PRIMARY KEY (`Serial`)
+  PRIMARY KEY (`Key`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
