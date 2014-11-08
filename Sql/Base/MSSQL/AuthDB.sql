@@ -1,13 +1,15 @@
 -- ----------------------------
 -- Table structure for accounts
 -- ----------------------------
+DROP TABLE [dbo].[accounts]
+GO
 CREATE TABLE [dbo].[accounts] (
 [Id] bigint NOT NULL IDENTITY(1,1) ,
 [GivenName] nvarchar(100) NULL DEFAULT (N'') ,
 [Surname] nvarchar(100) NULL DEFAULT (N'') ,
 [Email] nvarchar(100) NOT NULL ,
 [Tag] nvarchar(30) NULL DEFAULT (N'') ,
-[Region] smallint NOT NULL ,
+[Region] tinyint NOT NULL ,
 [Language] nvarchar(4) NULL DEFAULT NULL ,
 [Flags] bigint NOT NULL ,
 [PasswordVerifier] nvarchar(256) NULL DEFAULT NULL ,
@@ -30,8 +32,10 @@ GO
 -- ----------------------------
 -- Table structure for characterredirects
 -- ----------------------------
+DROP TABLE [dbo].[characterredirects]
+GO
 CREATE TABLE [dbo].[characterredirects] (
-[Serial] bigint NOT NULL ,
+[Key] bigint NOT NULL ,
 [CharacterGuid] bigint NOT NULL 
 )
 
@@ -45,10 +49,12 @@ GO
 -- ----------------------------
 -- Table structure for components
 -- ----------------------------
+DROP TABLE [dbo].[components]
+GO
 CREATE TABLE [dbo].[components] (
 [Program] nvarchar(4) NOT NULL ,
 [Platform] nvarchar(4) NOT NULL ,
-[Build] bigint NOT NULL 
+[Build] int NOT NULL 
 )
 
 
@@ -57,9 +63,6 @@ GO
 -- ----------------------------
 -- Records of components
 -- ----------------------------
-INSERT INTO [dbo].[components] ([Program], [Platform], [Build]) VALUES (N'Bnet', N'Mc64', N'37165')
-GO
-GO
 INSERT INTO [dbo].[components] ([Program], [Platform], [Build]) VALUES (N'Bnet', N'Win', N'37165')
 GO
 GO
@@ -69,76 +72,60 @@ GO
 INSERT INTO [dbo].[components] ([Program], [Platform], [Build]) VALUES (N'WoW', N'base', N'19057')
 GO
 GO
-INSERT INTO [dbo].[components] ([Program], [Platform], [Build]) VALUES (N'WoW', N'deDE', N'19103')
+INSERT INTO [dbo].[components] ([Program], [Platform], [Build]) VALUES (N'WoW', N'deDE', N'19116')
 GO
 GO
-INSERT INTO [dbo].[components] ([Program], [Platform], [Build]) VALUES (N'WoW', N'enGB', N'19103')
+INSERT INTO [dbo].[components] ([Program], [Platform], [Build]) VALUES (N'WoW', N'enGB', N'19116')
 GO
 GO
-INSERT INTO [dbo].[components] ([Program], [Platform], [Build]) VALUES (N'WoW', N'enUS', N'19103')
+INSERT INTO [dbo].[components] ([Program], [Platform], [Build]) VALUES (N'WoW', N'enUS', N'19116')
 GO
 GO
-INSERT INTO [dbo].[components] ([Program], [Platform], [Build]) VALUES (N'WoW', N'esES', N'19103')
+INSERT INTO [dbo].[components] ([Program], [Platform], [Build]) VALUES (N'WoW', N'esES', N'19116')
 GO
 GO
-INSERT INTO [dbo].[components] ([Program], [Platform], [Build]) VALUES (N'WoW', N'esMX', N'19103')
+INSERT INTO [dbo].[components] ([Program], [Platform], [Build]) VALUES (N'WoW', N'esMX', N'19116')
 GO
 GO
-INSERT INTO [dbo].[components] ([Program], [Platform], [Build]) VALUES (N'WoW', N'frFR', N'19103')
+INSERT INTO [dbo].[components] ([Program], [Platform], [Build]) VALUES (N'WoW', N'frFR', N'19116')
 GO
 GO
-INSERT INTO [dbo].[components] ([Program], [Platform], [Build]) VALUES (N'WoW', N'itIT', N'19103')
+INSERT INTO [dbo].[components] ([Program], [Platform], [Build]) VALUES (N'WoW', N'itIT', N'19116')
 GO
 GO
-INSERT INTO [dbo].[components] ([Program], [Platform], [Build]) VALUES (N'WoW', N'koKR', N'19103')
+INSERT INTO [dbo].[components] ([Program], [Platform], [Build]) VALUES (N'WoW', N'koKR', N'19116')
 GO
 GO
-INSERT INTO [dbo].[components] ([Program], [Platform], [Build]) VALUES (N'WoW', N'Mc64', N'19103')
+INSERT INTO [dbo].[components] ([Program], [Platform], [Build]) VALUES (N'WoW', N'Mc64', N'19116')
 GO
 GO
-INSERT INTO [dbo].[components] ([Program], [Platform], [Build]) VALUES (N'WoW', N'plPL', N'19103')
+INSERT INTO [dbo].[components] ([Program], [Platform], [Build]) VALUES (N'WoW', N'plPL', N'19116')
 GO
 GO
-INSERT INTO [dbo].[components] ([Program], [Platform], [Build]) VALUES (N'WoW', N'ptBR', N'19103')
+INSERT INTO [dbo].[components] ([Program], [Platform], [Build]) VALUES (N'WoW', N'ptBR', N'19116')
 GO
 GO
-INSERT INTO [dbo].[components] ([Program], [Platform], [Build]) VALUES (N'WoW', N'ruRU', N'19103')
+INSERT INTO [dbo].[components] ([Program], [Platform], [Build]) VALUES (N'WoW', N'ruRU', N'19116')
 GO
 GO
-INSERT INTO [dbo].[components] ([Program], [Platform], [Build]) VALUES (N'WoW', N'Win', N'19103')
+INSERT INTO [dbo].[components] ([Program], [Platform], [Build]) VALUES (N'WoW', N'Win', N'19116')
 GO
 GO
-INSERT INTO [dbo].[components] ([Program], [Platform], [Build]) VALUES (N'WoW', N'Wn64', N'19103')
+INSERT INTO [dbo].[components] ([Program], [Platform], [Build]) VALUES (N'WoW', N'Wn64', N'19116')
 GO
 GO
-INSERT INTO [dbo].[components] ([Program], [Platform], [Build]) VALUES (N'WoW', N'zhCN', N'19103')
+INSERT INTO [dbo].[components] ([Program], [Platform], [Build]) VALUES (N'WoW', N'zhCN', N'19116')
 GO
 GO
-INSERT INTO [dbo].[components] ([Program], [Platform], [Build]) VALUES (N'WoW', N'zhTW', N'19103')
-GO
-GO
-INSERT INTO [dbo].[components] ([Program], [Platform], [Build]) VALUES (N'WoWB', N'Mc64', N'19103')
-GO
-GO
-INSERT INTO [dbo].[components] ([Program], [Platform], [Build]) VALUES (N'WoWB', N'Win', N'19103')
-GO
-GO
-INSERT INTO [dbo].[components] ([Program], [Platform], [Build]) VALUES (N'WoWB', N'Wn64', N'19103')
-GO
-GO
-INSERT INTO [dbo].[components] ([Program], [Platform], [Build]) VALUES (N'WoWT', N'Mc64', N'19103')
-GO
-GO
-INSERT INTO [dbo].[components] ([Program], [Platform], [Build]) VALUES (N'WoWT', N'Win', N'19103')
-GO
-GO
-INSERT INTO [dbo].[components] ([Program], [Platform], [Build]) VALUES (N'WoWT', N'Wn64', N'19103')
+INSERT INTO [dbo].[components] ([Program], [Platform], [Build]) VALUES (N'WoW', N'zhTW', N'19116')
 GO
 GO
 
 -- ----------------------------
 -- Table structure for gameaccountcharactertemplates
 -- ----------------------------
+DROP TABLE [dbo].[gameaccountcharactertemplates]
+GO
 CREATE TABLE [dbo].[gameaccountcharactertemplates] (
 [GameAccountId] bigint NOT NULL ,
 [SetId] bigint NOT NULL 
@@ -154,6 +141,8 @@ GO
 -- ----------------------------
 -- Table structure for gameaccountclasses
 -- ----------------------------
+DROP TABLE [dbo].[gameaccountclasses]
+GO
 CREATE TABLE [dbo].[gameaccountclasses] (
 [GameAccountId] bigint NOT NULL ,
 [Class] tinyint NOT NULL ,
@@ -170,6 +159,8 @@ GO
 -- ----------------------------
 -- Table structure for gameaccountraces
 -- ----------------------------
+DROP TABLE [dbo].[gameaccountraces]
+GO
 CREATE TABLE [dbo].[gameaccountraces] (
 [GameAccountId] bigint NOT NULL ,
 [Race] tinyint NOT NULL ,
@@ -186,6 +177,8 @@ GO
 -- ----------------------------
 -- Table structure for gameaccountredirects
 -- ----------------------------
+DROP TABLE [dbo].[gameaccountredirects]
+GO
 CREATE TABLE [dbo].[gameaccountredirects] (
 [Serial] bigint NOT NULL ,
 [GameAccountId] bigint NOT NULL 
@@ -201,14 +194,16 @@ GO
 -- ----------------------------
 -- Table structure for gameaccounts
 -- ----------------------------
+DROP TABLE [dbo].[gameaccounts]
+GO
 CREATE TABLE [dbo].[gameaccounts] (
 [Id] bigint NOT NULL IDENTITY(1,1) ,
 [AccountId] bigint NOT NULL ,
 [Game] nvarchar(10) NULL DEFAULT NULL ,
 [Index] tinyint NOT NULL DEFAULT ((0)) ,
-[Region] smallint NOT NULL ,
+[Region] tinyint NOT NULL ,
 [Flags] bigint NOT NULL ,
-[BoxLevel] smallint NOT NULL ,
+[BoxLevel] tinyint NOT NULL ,
 [OS] nvarchar(4) NULL DEFAULT NULL ,
 [SessionKey] nvarchar(80) NULL DEFAULT NULL ,
 [IsOnline] smallint NOT NULL DEFAULT ((0)) 
@@ -228,12 +223,14 @@ GO
 -- ----------------------------
 -- Table structure for modules
 -- ----------------------------
+DROP TABLE [dbo].[modules]
+GO
 CREATE TABLE [dbo].[modules] (
 [Hash] nvarchar(64) NOT NULL ,
 [Type] nvarchar(8) NOT NULL ,
 [Name] nvarchar(255) NOT NULL ,
 [System] nvarchar(8) NOT NULL ,
-[Size] bigint NOT NULL ,
+[Size] int NOT NULL ,
 [Data] nvarchar(MAX) NULL 
 )
 
@@ -283,6 +280,8 @@ GO
 -- ----------------------------
 -- Table structure for realmcharactertemplates
 -- ----------------------------
+DROP TABLE [dbo].[realmcharactertemplates]
+GO
 CREATE TABLE [dbo].[realmcharactertemplates] (
 [RealmId] bigint NOT NULL ,
 [SetId] bigint NOT NULL DEFAULT ((0)) 
@@ -298,8 +297,10 @@ GO
 -- ----------------------------
 -- Table structure for realmclasses
 -- ----------------------------
+DROP TABLE [dbo].[realmclasses]
+GO
 CREATE TABLE [dbo].[realmclasses] (
-[RealmId] bigint NOT NULL ,
+[RealmId] int NOT NULL ,
 [Class] tinyint NOT NULL ,
 [Expansion] tinyint NOT NULL 
 )
@@ -347,8 +348,10 @@ GO
 -- ----------------------------
 -- Table structure for realmraces
 -- ----------------------------
+DROP TABLE [dbo].[realmraces]
+GO
 CREATE TABLE [dbo].[realmraces] (
-[RealmId] bigint NOT NULL ,
+[RealmId] int NOT NULL ,
 [Race] tinyint NOT NULL ,
 [Expansion] tinyint NOT NULL 
 )
@@ -408,17 +411,22 @@ GO
 -- ----------------------------
 -- Table structure for realms
 -- ----------------------------
+DROP TABLE [dbo].[realms]
+GO
 CREATE TABLE [dbo].[realms] (
-[Id] bigint NOT NULL IDENTITY(2,1) ,
+[Id] int NOT NULL IDENTITY(2,1) ,
 [Name] nvarchar(255) NULL DEFAULT NULL ,
 [IP] nvarchar(15) NULL DEFAULT NULL ,
 [Port] int NOT NULL DEFAULT ((8100)) ,
+[Category] tinyint NOT NULL DEFAULT ((1)) ,
 [Type] tinyint NOT NULL ,
-[Status] tinyint NOT NULL ,
+[State] tinyint NOT NULL ,
 [Flags] tinyint NOT NULL 
 )
 
 
+GO
+DBCC CHECKIDENT(N'[dbo].[realms]', RESEED, 1)
 GO
 
 -- ----------------------------
@@ -426,10 +434,31 @@ GO
 -- ----------------------------
 SET IDENTITY_INSERT [dbo].[realms] ON
 GO
-INSERT INTO [dbo].[realms] ([Id], [Name], [IP], [Port], [Type], [Status], [Flags]) VALUES (N'1', N'Arctium WoW', N'127.0.0.1', N'3724', N'1', N'0', N'0')
+INSERT INTO [dbo].[realms] ([Id], [Name], [IP], [Port], [Category], [Type], [State], [Flags]) VALUES (N'1', N'Arctium WoW', N'127.0.0.1', N'3724', N'1', N'1', N'0', N'0')
 GO
 GO
 SET IDENTITY_INSERT [dbo].[realms] OFF
+GO
+
+-- ----------------------------
+-- Table structure for worldservers
+-- ----------------------------
+DROP TABLE [dbo].[worldservers]
+GO
+CREATE TABLE [dbo].[worldservers] (
+[MapId] int NOT NULL DEFAULT ((-1)) ,
+[Address] nvarchar(15) NULL DEFAULT (N'') ,
+[Port] int NOT NULL DEFAULT ((8100)) 
+)
+
+
+GO
+
+-- ----------------------------
+-- Records of worldservers
+-- ----------------------------
+INSERT INTO [dbo].[worldservers] ([MapId], [Address], [Port]) VALUES (N'-1', N'127.0.0.1', N'8100')
+GO
 GO
 
 -- ----------------------------
@@ -449,7 +478,7 @@ GO
 -- ----------------------------
 -- Primary Key structure for table characterredirects
 -- ----------------------------
-ALTER TABLE [dbo].[characterredirects] ADD PRIMARY KEY ([Serial])
+ALTER TABLE [dbo].[characterredirects] ADD PRIMARY KEY ([Key])
 GO
 
 -- ----------------------------
@@ -563,6 +592,16 @@ GO
 -- Primary Key structure for table realms
 -- ----------------------------
 ALTER TABLE [dbo].[realms] ADD PRIMARY KEY ([Id])
+GO
+
+-- ----------------------------
+-- Indexes structure for table worldservers
+-- ----------------------------
+
+-- ----------------------------
+-- Primary Key structure for table worldservers
+-- ----------------------------
+ALTER TABLE [dbo].[worldservers] ADD PRIMARY KEY ([MapId])
 GO
 
 -- ----------------------------

@@ -1,6 +1,8 @@
 -- ----------------------------
 -- Table structure for characteractions
 -- ----------------------------
+DROP TABLE [dbo].[characteractions]
+GO
 CREATE TABLE [dbo].[characteractions] (
 [CharacterGuid] bigint NOT NULL ,
 [Action] tinyint NOT NULL DEFAULT ((0)) ,
@@ -17,6 +19,8 @@ GO
 -- ----------------------------
 -- Table structure for charactercreationactions
 -- ----------------------------
+DROP TABLE [dbo].[charactercreationactions]
+GO
 CREATE TABLE [dbo].[charactercreationactions] (
 [Race] tinyint NOT NULL ,
 [Class] tinyint NOT NULL ,
@@ -34,6 +38,8 @@ GO
 -- ----------------------------
 -- Table structure for charactercreationdata
 -- ----------------------------
+DROP TABLE [dbo].[charactercreationdata]
+GO
 CREATE TABLE [dbo].[charactercreationdata] (
 [Race] tinyint NOT NULL ,
 [Class] tinyint NOT NULL ,
@@ -55,6 +61,8 @@ GO
 -- ----------------------------
 -- Table structure for charactercreationskills
 -- ----------------------------
+DROP TABLE [dbo].[charactercreationskills]
+GO
 CREATE TABLE [dbo].[charactercreationskills] (
 [Race] tinyint NOT NULL ,
 [Class] tinyint NOT NULL ,
@@ -71,6 +79,8 @@ GO
 -- ----------------------------
 -- Table structure for charactercreationspells
 -- ----------------------------
+DROP TABLE [dbo].[charactercreationspells]
+GO
 CREATE TABLE [dbo].[charactercreationspells] (
 [Race] tinyint NOT NULL ,
 [Class] tinyint NOT NULL ,
@@ -87,6 +97,8 @@ GO
 -- ----------------------------
 -- Table structure for characteritems
 -- ----------------------------
+DROP TABLE [dbo].[characteritems]
+GO
 CREATE TABLE [dbo].[characteritems] (
 [CharacterGuid] bigint NOT NULL ,
 [ItemId] bigint NOT NULL DEFAULT ((0)) ,
@@ -105,6 +117,8 @@ GO
 -- ----------------------------
 -- Table structure for characters
 -- ----------------------------
+DROP TABLE [dbo].[characters]
+GO
 CREATE TABLE [dbo].[characters] (
 [Guid] bigint NOT NULL IDENTITY(1,1) ,
 [GameAccountId] bigint NOT NULL DEFAULT ((0)) ,
@@ -130,7 +144,7 @@ CREATE TABLE [dbo].[characters] (
 [CharacterFlags] bigint NOT NULL DEFAULT ((0)) ,
 [CustomizeFlags] bigint NOT NULL DEFAULT ((0)) ,
 [Flags3] bigint NOT NULL DEFAULT ((0)) ,
-[FirstLogin] binary(1) NOT NULL DEFAULT (0x01) ,
+[FirstLogin] tinyint NOT NULL DEFAULT ((1)) ,
 [PetCreatureDisplayId] bigint NOT NULL DEFAULT ((0)) ,
 [PetLevel] bigint NOT NULL DEFAULT ((0)) ,
 [PetCreatureFamily] bigint NOT NULL DEFAULT ((0)) 
@@ -150,6 +164,8 @@ GO
 -- ----------------------------
 -- Table structure for characterskills
 -- ----------------------------
+DROP TABLE [dbo].[characterskills]
+GO
 CREATE TABLE [dbo].[characterskills] (
 [CharacterGuid] bigint NOT NULL ,
 [SkillId] bigint NOT NULL DEFAULT ((0)) ,
@@ -166,6 +182,8 @@ GO
 -- ----------------------------
 -- Table structure for characterspells
 -- ----------------------------
+DROP TABLE [dbo].[characterspells]
+GO
 CREATE TABLE [dbo].[characterspells] (
 [CharacterGuid] bigint NOT NULL ,
 [SpellId] bigint NOT NULL DEFAULT ((0)) 
@@ -181,6 +199,8 @@ GO
 -- ----------------------------
 -- Table structure for charactertemplateactions
 -- ----------------------------
+DROP TABLE [dbo].[charactertemplateactions]
+GO
 CREATE TABLE [dbo].[charactertemplateactions] (
 [ClassId] bigint NOT NULL ,
 [Action] bigint NOT NULL ,
@@ -197,6 +217,8 @@ GO
 -- ----------------------------
 -- Table structure for charactertemplateclasses
 -- ----------------------------
+DROP TABLE [dbo].[charactertemplateclasses]
+GO
 CREATE TABLE [dbo].[charactertemplateclasses] (
 [ClassId] bigint NOT NULL IDENTITY(1,1) ,
 [SetId] bigint NOT NULL ,
@@ -217,6 +239,8 @@ GO
 -- ----------------------------
 -- Table structure for charactertemplatedata
 -- ----------------------------
+DROP TABLE [dbo].[charactertemplatedata]
+GO
 CREATE TABLE [dbo].[charactertemplatedata] (
 [ClassId] bigint NOT NULL ,
 [Map] smallint NOT NULL ,
@@ -237,6 +261,8 @@ GO
 -- ----------------------------
 -- Table structure for charactertemplateitems
 -- ----------------------------
+DROP TABLE [dbo].[charactertemplateitems]
+GO
 CREATE TABLE [dbo].[charactertemplateitems] (
 [ItemId] bigint NOT NULL DEFAULT ((0)) ,
 [ClassId] bigint NOT NULL ,
@@ -253,6 +279,8 @@ GO
 -- ----------------------------
 -- Table structure for charactertemplatesets
 -- ----------------------------
+DROP TABLE [dbo].[charactertemplatesets]
+GO
 CREATE TABLE [dbo].[charactertemplatesets] (
 [Id] bigint NOT NULL IDENTITY(1,1) ,
 [Name] nvarchar(255) NULL DEFAULT (N'') ,
@@ -273,6 +301,8 @@ GO
 -- ----------------------------
 -- Table structure for charactertemplateskills
 -- ----------------------------
+DROP TABLE [dbo].[charactertemplateskills]
+GO
 CREATE TABLE [dbo].[charactertemplateskills] (
 [SkillId] bigint NOT NULL ,
 [ClassId] bigint NOT NULL 
@@ -288,6 +318,8 @@ GO
 -- ----------------------------
 -- Table structure for charactertemplatespells
 -- ----------------------------
+DROP TABLE [dbo].[charactertemplatespells]
+GO
 CREATE TABLE [dbo].[charactertemplatespells] (
 [SpellId] bigint NOT NULL ,
 [ClassId] bigint NOT NULL 
