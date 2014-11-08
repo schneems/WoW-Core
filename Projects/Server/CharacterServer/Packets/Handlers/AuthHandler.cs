@@ -46,10 +46,10 @@ namespace CharacterServer.Packets.Handlers
                 var accountId = int.Parse(accountParts[0]);
                 var gameIndex = byte.Parse(accountParts[1]);
 
-                var account = DB.Auth.Single<Account>(a => a.Id == accountId);
+                session.Account = DB.Auth.Single<Account>(a => a.Id == accountId);
 
-                if (account != null)
-                    session.GameAccount = account.GameAccounts.SingleOrDefault(ga => ga.Index == gameIndex);
+                if (session.Account != null)
+                    session.GameAccount = session.Account.GameAccounts.SingleOrDefault(ga => ga.Index == gameIndex);
 
                 if (session.GameAccount != null)
                     session.Crypt = new WoWCrypt(session.GameAccount.SessionKey.ToByteArray());
@@ -73,9 +73,7 @@ namespace CharacterServer.Packets.Handlers
                 sha1.Finish(session.GameAccount.SessionKey.ToByteArray(), 40);
 
                 // Check the password digest.
-                if (sha1.Digest.Compare(authSession.Digest))
-                    session.GameAccount = session.GameAccount;
-                else
+                if (!sha1.Digest.Compare(authSession.Digest))
                     authResult = AuthResult.Failed;
             }
 

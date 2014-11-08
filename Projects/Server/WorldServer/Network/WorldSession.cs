@@ -40,14 +40,13 @@ namespace WorldServer.Network
 
         public override void OnConnection(object sender, SocketAsyncEventArgs e)
         {
+            var recievedBytes = e.BytesTransferred;
+
             if (!isTransferInitiated[1])
             {
-                var clientToServer = "WORLD OF WARCRAFT CONNECTION - CLIENT TO SERVER";
-                var data = new byte[0x32];
+                var clientToServer = "WORLD OF WARCRAFT CONNECTION - CLIENT TO SERVER\0";
 
-                Buffer.BlockCopy(dataBuffer, 0, data, 0, data.Length);
-
-                var transferInit = new ClientPacket.TransferInitiate { Packet = new Packet(data, false) } as ClientPacket.TransferInitiate;
+                var transferInit = new ClientPacket.TransferInitiate { Packet = new Packet(dataBuffer, 2) } as ClientPacket.TransferInitiate;
 
                 transferInit.Read();
 

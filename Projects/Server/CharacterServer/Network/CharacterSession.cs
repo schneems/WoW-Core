@@ -38,14 +38,12 @@ namespace CharacterServer.Network
 
         public override void OnConnection(object sender, SocketAsyncEventArgs e)
         {
-            if (!isTransferInitiated[1])
+            var recievedBytes = e.BytesTransferred;
+
+            if (recievedBytes == 0x32 && !isTransferInitiated[1])
             {
-                var clientToServer = "WORLD OF WARCRAFT CONNECTION - CLIENT TO SERVER";
-                var data = new byte[0x32];
-
-                Buffer.BlockCopy(dataBuffer, 0, data, 0, data.Length);
-
-                var transferInit = new ClientPacket.TransferInitiate { Packet = new Packet(data, false) } as ClientPacket.TransferInitiate;
+                var clientToServer = "WORLD OF WARCRAFT CONNECTION - CLIENT TO SERVER\0";
+                var transferInit = new ClientPacket.TransferInitiate { Packet = new Packet(dataBuffer, 2) } as ClientPacket.TransferInitiate;
 
                 transferInit.Read();
 

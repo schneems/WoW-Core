@@ -34,6 +34,7 @@ namespace Framework.Network
     public abstract class SessionBase : IDisposable
     {
         public Realm Realm { get; set; }
+        public Account Account { get; set; }
         public GameAccount GameAccount { get; set; }
         public Player Player { get; set; }
         public WoWCrypt Crypt { get; set; }
@@ -70,41 +71,7 @@ namespace Framework.Network
             }
         }
 
-        public virtual void OnConnection(object sender, SocketAsyncEventArgs e)
-        {
-            if (!isTransferInitiated[1])
-            {
-                var clientToServer = "WORLD OF WARCRAFT CONNECTION - CLIENT TO SERVER";
-                var data = new byte[0x32];
-
-                Buffer.BlockCopy(dataBuffer, 0, data, 0, data.Length);
-
-                var transferInitiate = new Packet(data, false);
-
-                var length = transferInitiate.Read<ushort>();
-                var msg = transferInitiate.Read<string>(0, true);
-
-                if (msg == clientToServer)
-                {
-                    isTransferInitiated[1] = true;
-
-                    e.Completed -= OnConnection;
-                    e.Completed += Process;
-
-                    Log.Message(LogType.Debug, "Initial packet transfer for Client '{0}' successfully initialized.", GetClientIP());
-
-                    client.ReceiveAsync(e);
-                }
-                else
-                {
-                    Log.Message(LogType.Debug, "Wrong initial packet transfer data for Client '{0}'.", GetClientIP());
-
-                    Dispose();
-                }
-            }
-            else
-                Dispose();
-        }
+        public abstract void OnConnection(object sender, SocketAsyncEventArgs e);
 
         public void Process(object sender, SocketAsyncEventArgs e)
         {
@@ -126,7 +93,7 @@ namespace Framework.Network
 
                             Buffer.BlockCopy(dataBuffer, 0, packetData, 0, length);
 
-                            var packet = new Packet(packetData, true);
+                            var packet = new Packet(dataBuffer, 4);
 
                             if (length > recievedBytes)
                                 packetQueue.Enqueue(packet);
@@ -150,6 +117,8 @@ namespace Framework.Network
             }
             catch (Exception ex)
             {
+                Dispose();
+
                 ExceptionLog.Write(ex);
 
                 Log.Message(LogType.Error, "{0}", ex.Message);

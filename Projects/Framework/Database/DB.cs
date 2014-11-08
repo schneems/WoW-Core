@@ -45,7 +45,7 @@ namespace Framework.Database
             {
                 var pools = string.Format(";Min Pool Size={0};Max Pool Size={1}", minPoolSize, maxPoolSize);
 
-                var connectionString = "Data Source=" + host + "; Initial Catalog = " + database + "; User ID = " + user + "; Password = " + password + "Pooling=" + pooling;
+                var connectionString = "Data Source=" + host + "; Initial Catalog = " + database + "; User ID = " + user + "; Password = " + password + ";Pooling=" + pooling;
 
                 if (pooling)
                     connectionString += pools;

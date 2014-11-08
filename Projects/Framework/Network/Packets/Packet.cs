@@ -42,9 +42,9 @@ namespace Framework.Network.Packets
             writeStream = new BinaryWriter(new MemoryStream());
         }
 
-        public Packet(byte[] data, bool readHeader)
+        public Packet(byte[] data, int headerSize)
         {
-            if (readHeader)
+            if (headerSize >= 2)
             {
                 Header = new PacketHeader
                 {
@@ -53,12 +53,16 @@ namespace Framework.Network.Packets
                 };
 
                 Data = new byte[Header.Size];
-                Buffer.BlockCopy(data, 4, Data, 0, Header.Size);
+                Buffer.BlockCopy(data, headerSize, Data, 0, Header.Size);
 
                 readStream = new BinaryReader(new MemoryStream(Data));
             }
             else
-                readStream = new BinaryReader(new MemoryStream(data));
+            {
+                Data = data;
+
+                readStream = new BinaryReader(new MemoryStream(Data));
+            }
         }
 
         public Packet(byte[] data)

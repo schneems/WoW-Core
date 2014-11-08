@@ -15,6 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+using System;
 using Framework.Database;
 using Framework.Database.Auth.Entities;
 using Framework.Misc;
@@ -27,7 +28,7 @@ namespace WorldServer.Managers
         {
         }
 
-        public GameAccount GetGameAccountFromRedirect(ulong key)
+        public Tuple<Account, GameAccount> GetAccountInfo(ulong key)
         {
             var redirect = DB.Auth.Single<GameAccountRedirect>(gar => gar.Key == key);
 
@@ -36,9 +37,12 @@ namespace WorldServer.Managers
                 var gameAccount = DB.Auth.Single<GameAccount>(ga => ga.Id == redirect.GameAccountId);
 
                 if (gameAccount != null)
-                    gameAccount.Account = DB.Auth.Single<Account>(a => a.Id == gameAccount.AccountId);
+                {
+                    var account = DB.Auth.Single<Account>(a => a.Id == gameAccount.AccountId);
 
-                return gameAccount;
+                    if (account != null)
+                        return Tuple.Create(account, gameAccount);
+                }
             }
 
             return null;

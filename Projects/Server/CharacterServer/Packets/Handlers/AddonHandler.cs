@@ -85,7 +85,7 @@ namespace CharacterServer.Packets.Handlers
         public static void HandleAddonInfo(CharacterSession session, byte[] addonData)
         {
             var addonInfo = new AddonInfo();
-            var addonDataReader = new Packet(addonData, false);
+            var addonDataReader = new Packet(addonData, 0);
 
             var addons = addonDataReader.Read<uint>();
 

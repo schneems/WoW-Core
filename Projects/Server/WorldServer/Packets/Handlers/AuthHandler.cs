@@ -34,17 +34,17 @@ namespace WorldServer.Packets.Handlers
         [GlobalMessage(GlobalClientMessage.AuthContinuedSession)]
         public static void HandleAuthContinuedSession(AuthContinuedSession authContinuedSession, WorldSession session)
         {
-            var gameAccount = Manager.Redirect.GetGameAccountFromRedirect(authContinuedSession.Key);
+            var accountInfo = Manager.Redirect.GetAccountInfo(authContinuedSession.Key);
 
             // Delete redirect key
             Manager.Redirect.DeleteGameAccountRedirect(authContinuedSession.Key);
 
-            if (gameAccount != null)
+            if (accountInfo != null)
             {
                 var sha1 = new SHA1Managed();
 
-                var emailBytes = Encoding.UTF8.GetBytes(gameAccount.Account.Id + "#" + gameAccount.Index);
-                var sessionKeyBytes = gameAccount.SessionKey.ToByteArray();
+                var emailBytes = Encoding.UTF8.GetBytes(accountInfo.Item1.Id + "#" + accountInfo.Item2.Index);
+                var sessionKeyBytes = accountInfo.Item2.SessionKey.ToByteArray();
                 var challengeBytes = BitConverter.GetBytes(session.Challenge);
 
                 sha1.TransformBlock(emailBytes, 0, emailBytes.Length, emailBytes, 0);
@@ -53,8 +53,11 @@ namespace WorldServer.Packets.Handlers
 
                 if (sha1.Hash.Compare(authContinuedSession.Digest))
                 {
+                    session.Account = accountInfo.Item1;
+                    session.GameAccount = accountInfo.Item2;
+
                     session.Crypt = new Framework.Cryptography.WoW.WoWCrypt();
-                    session.Crypt.Initialize(gameAccount.SessionKey.ToByteArray(), session.ClientSeed, session.ServerSeed);
+                    session.Crypt.Initialize(accountInfo.Item2.SessionKey.ToByteArray(), session.ClientSeed, session.ServerSeed);
 
                     // Resume on the new connection
                     session.Send(new ResumeComms());
