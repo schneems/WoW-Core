@@ -55,13 +55,9 @@ namespace Framework.Database.Character.Entities
         public uint PetLevel                          { get; set; }
         public uint PetCreatureFamily                 { get; set; }
 
-        [Field(ForeignKey = "CharacterGuid")]
         public virtual IList<CharacterAction> CharacterActions { get; set; }
-        [Field(ForeignKey = "CharacterGuid")]
         public virtual IList<CharacterItem> CharacterItems     { get; set; }
-        [Field(ForeignKey = "CharacterGuid")]
         public virtual IList<CharacterSkill> CharacterSkills   { get; set; }
-        [Field(ForeignKey = "CharacterGuid")]
         public virtual IList<CharacterSpell> CharacterSpells   { get; set; }
 
         public RaceMask GetRaceMask()

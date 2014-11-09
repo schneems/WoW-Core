@@ -38,7 +38,6 @@ namespace Framework.Database.Auth.Entities
         public string IP               { get; set; }
         public byte LoginFailures      { get; set; }
 
-        [Field(ForeignKey = "Id")]
         public virtual IList<GameAccount> GameAccounts { get; set; }
     }
 }
