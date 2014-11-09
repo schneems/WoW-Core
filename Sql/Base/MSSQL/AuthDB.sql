@@ -180,7 +180,7 @@ GO
 DROP TABLE [dbo].[gameaccountredirects]
 GO
 CREATE TABLE [dbo].[gameaccountredirects] (
-[Serial] bigint NOT NULL ,
+[Key] bigint NOT NULL ,
 [GameAccountId] bigint NOT NULL 
 )
 
@@ -528,7 +528,7 @@ GO
 -- ----------------------------
 -- Primary Key structure for table gameaccountredirects
 -- ----------------------------
-ALTER TABLE [dbo].[gameaccountredirects] ADD PRIMARY KEY ([Serial])
+ALTER TABLE [dbo].[gameaccountredirects] ADD PRIMARY KEY ([Key])
 GO
 
 -- ----------------------------

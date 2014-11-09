@@ -25,7 +25,7 @@ namespace Framework.Database.Character.Entities
 {
     public class Character : Entity
     {
-        [Field(PrimaryKey = true)]
+        [Field(PrimaryKey = true, AutoIncrement = true)]
         public ulong Guid                             { get; set; }
         public uint GameAccountId                     { get; set; }
         public uint RealmId                           { get; set; }
