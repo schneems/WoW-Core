@@ -18,11 +18,13 @@
 using System.Collections.Generic;
 using Framework.Constants.Account;
 using Lappa_ORM;
+using Lappa_ORM.Attributes;
 
 namespace Framework.Database.Auth.Entities
 {
     public class GameAccount : Entity
     {
+        [Field(AutoIncrement = true)]
         public uint Id                { get; set; }
         public uint AccountId         { get; set; }
         public string Game            { get; set; }

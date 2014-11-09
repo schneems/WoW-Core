@@ -15,8 +15,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-using Framework.Attributes;
 using Lappa_ORM;
+using Lappa_ORM.Attributes;
 
 namespace Framework.Database.Character.Entities
 {

@@ -18,11 +18,13 @@
 using System.Collections.Generic;
 using Framework.Constants.Account;
 using Lappa_ORM;
+using Lappa_ORM.Attributes;
 
 namespace Framework.Database.Auth.Entities
 {
     public class Account : Entity
     {
+        [Field(AutoIncrement = true)]
         public uint Id                 { get; set; }
         public string GivenName        { get; set; }
         public string Surname          { get; set; }
@@ -36,6 +38,7 @@ namespace Framework.Database.Auth.Entities
         public string IP               { get; set; }
         public byte LoginFailures      { get; set; }
 
+        [Field(ForeignKey = "Id")]
         public virtual IList<GameAccount> GameAccounts { get; set; }
     }
 }

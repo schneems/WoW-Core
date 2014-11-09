@@ -16,8 +16,8 @@
  */
 
 using System.Collections.Generic;
-using Framework.Attributes;
 using Lappa_ORM;
+using Lappa_ORM.Attributes;
 
 namespace Framework.Database.Character.Entities
 {

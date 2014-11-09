@@ -16,10 +16,10 @@
  */
 
 using System.Collections.Generic;
-using Framework.Attributes;
 using Framework.Constants.General;
 using Framework.Constants.Object;
 using Lappa_ORM;
+using Lappa_ORM.Attributes;
 
 namespace Framework.Database.Character.Entities
 {
