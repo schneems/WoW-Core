@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-using System.Collections.Generic;
+using System.Collections.Concurrent;
 using System.Linq;
 using System.Threading.Tasks;
 using CharacterServer.ObjectStores;
@@ -41,8 +41,8 @@ namespace CharacterServer.Managers
                 var startAbilities = ClientDB.SkillLineAbilities.Where(a => a.AcquireMethod == 2 && a.SupercedesSpell == 0 &&
                                                                        a.CheckRaceClassConditions(character.GetRaceMask(), character.GetClassMask()));
 
-                var spellList = new List<CharacterSpell>();
-                var skillList = new List<CharacterSkill>();
+                var spells = new ConcurrentDictionary<uint, CharacterSpell>();
+                var skills = new ConcurrentDictionary<uint, CharacterSkill>();
 
                 Parallel.ForEach(startAbilities, ability =>
                 {
@@ -64,13 +64,13 @@ namespace CharacterServer.Managers
                         }
                     }
 
-                    spellList.Add(new CharacterSpell
+                    spells.TryAdd(ability.Spell, new CharacterSpell
                     {
                         CharacterGuid = guid,
                         SpellId       = ability.Spell
                     });
 
-                    skillList.Add(new CharacterSkill
+                    skills.TryAdd(ability.SkillLine, new CharacterSkill
                     {
                         CharacterGuid = guid,
                         SkillId       = ability.SkillLine,
@@ -78,8 +78,8 @@ namespace CharacterServer.Managers
                     });
                 });
 
-                DB.Character.Add(spellList.AsEnumerable());
-                DB.Character.Add(skillList.AsEnumerable());
+                DB.Character.Add(spells.Values.AsEnumerable());
+                DB.Character.Add(skills.Values.AsEnumerable());
             }
         }
 
