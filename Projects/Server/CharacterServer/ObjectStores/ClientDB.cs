@@ -27,7 +27,7 @@ namespace CharacterServer.ObjectStores
         public static List<ChrClass> ChrClasses                 { get; set; }
         public static List<ChrRace> ChrRaces                    { get; set; }
         public static List<NameGen> NameGens                    { get; set; }
-        public static List<SkillLine> SkillLines                { get; set; }
+        public static Dictionary<uint, SkillLine> SkillLines    { get; set; }
         public static List<SkillLineAbility> SkillLineAbilities { get; set; }
     }
 }

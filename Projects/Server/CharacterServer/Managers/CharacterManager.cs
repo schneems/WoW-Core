@@ -46,11 +46,10 @@ namespace CharacterServer.Managers
 
                 Parallel.ForEach(startAbilities, ability =>
                 {
-                    var skillLine = ClientDB.SkillLines.SingleOrDefault(s => s.ID == ability.SkillLine);
-                    var skillLevel = 1u;
-
-                    if (skillLine != null)
+                    if (ClientDB.SkillLines.TryGetValue(ability.SkillLine, out var skillLine))
                     {
+                        var skillLevel = 1u;
+
                         // Set skill level based on category.
                         // Only languages handled for now.
                         // ToDo: Add an enum for that and handle the other categories.
@@ -62,20 +61,20 @@ namespace CharacterServer.Managers
                             default:
                                 break;
                         }
+
+                        spells.TryAdd(ability.Spell, new CharacterSpell
+                        {
+                            CharacterGuid = guid,
+                            SpellId       = ability.Spell
+                        });
+
+                        skills.TryAdd(ability.SkillLine, new CharacterSkill
+                        {
+                            CharacterGuid = guid,
+                            SkillId       = ability.SkillLine,
+                            SkillLevel    = skillLevel
+                        });
                     }
-
-                    spells.TryAdd(ability.Spell, new CharacterSpell
-                    {
-                        CharacterGuid = guid,
-                        SpellId       = ability.Spell
-                    });
-
-                    skills.TryAdd(ability.SkillLine, new CharacterSkill
-                    {
-                        CharacterGuid = guid,
-                        SkillId       = ability.SkillLine,
-                        SkillLevel    = skillLevel
-                    });
                 });
 
                 DB.Character.Add(spells.Values.AsEnumerable());

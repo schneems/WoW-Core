@@ -15,6 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+using System.Linq;
 using CharacterServer.ObjectStores;
 using Framework.Constants.Misc;
 using Framework.Database;
@@ -41,7 +42,7 @@ namespace CharacterServer.Managers
             ClientDB.ChrClasses         = DB.Data.Select<ChrClass>();
             ClientDB.ChrRaces           = DB.Data.Select<ChrRace>();
             ClientDB.NameGens           = DB.Data.Select<NameGen>();
-            ClientDB.SkillLines         = DB.Data.Select<SkillLine>();
+            ClientDB.SkillLines         = DB.Data.Select<SkillLine>().ToDictionary(sl => sl.ID);
             ClientDB.SkillLineAbilities = DB.Data.Select<SkillLineAbility>();
 
             Log.Message(LogType.Normal, "ClientDB storages successfully initialized.");
