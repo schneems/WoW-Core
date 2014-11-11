@@ -16,13 +16,15 @@
  */
 
 using System;
+using Framework.Constants.Account;
 using Framework.Constants.Net;
 
 namespace Framework.Attributes
 {
     [AttributeUsage(AttributeTargets.Method)]
-    public sealed class GlobalMessageAttribute(GlobalClientMessage message) : Attribute
+    public sealed class GlobalMessageAttribute(GlobalClientMessage message, SessionState state) : Attribute
     {
         public GlobalClientMessage Message { get; } = message;
+        public SessionState State          { get; } = state;
     }
 }

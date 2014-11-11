@@ -22,6 +22,7 @@ using CharacterServer.Network;
 using CharacterServer.Packets.Client.Authentication;
 using CharacterServer.Packets.Server.Authentication;
 using Framework.Attributes;
+using Framework.Constants.Account;
 using Framework.Constants.Misc;
 using Framework.Constants.Net;
 using Framework.Cryptography;
@@ -35,7 +36,7 @@ namespace CharacterServer.Packets.Handlers
 {
     class AuthHandler
     {
-        [GlobalMessage(GlobalClientMessage.AuthSession)]
+        [GlobalMessage(GlobalClientMessage.AuthSession, SessionState.Initiated)]
         public static void AuthSessionHandler(AuthSession authSession, CharacterSession session)
         {
             var accountParts = authSession.Account.Split(new[] { '#' });
@@ -85,6 +86,8 @@ namespace CharacterServer.Packets.Handlers
 
             if (authResponse.HasSuccessInfo)
             {
+                session.State = SessionState.Authenticated;
+
                 var addonData = AddonHandler.GetAddonInfoData(session, authSession.AddonInfo, authSession.CompressedAddonInfoSize, authSession.UncompressedAddonInfoSize);
 
                 if (addonData != null && addonData.Length != authSession.UncompressedAddonInfoSize)

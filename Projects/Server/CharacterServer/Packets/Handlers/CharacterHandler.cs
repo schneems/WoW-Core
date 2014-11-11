@@ -27,6 +27,7 @@ using CharacterServer.Packets.Client.Character;
 using CharacterServer.Packets.Server.Character;
 using CharacterServer.Packets.Structures.Character;
 using Framework.Attributes;
+using Framework.Constants.Account;
 using Framework.Constants.Character;
 using Framework.Constants.Net;
 using Framework.Constants.Object;
@@ -40,7 +41,7 @@ namespace CharacterServer.Packets.Handlers
 {
     class CharacterHandler
     {
-        [Message(ClientMessage.EnumCharacters)]
+        [Message(ClientMessage.EnumCharacters, SessionState.Authenticated)]
         public static void HandleEnumCharacters(EnumCharacters enumCharacters, CharacterSession session)
         {
             // ORM seems to have problems with session.GameAccount.Id...
@@ -82,7 +83,7 @@ namespace CharacterServer.Packets.Handlers
             session.Send(enumCharactersResult);
         }
 
-        [Message(ClientMessage.CreateCharacter)]
+        [Message(ClientMessage.CreateCharacter, SessionState.Authenticated)]
         public static void HandleCreateCharacter(CreateCharacter createCharacter, CharacterSession session)
         {
             var createChar = new CreateChar { Code = CharCreateCode.InProgress };
@@ -156,7 +157,7 @@ namespace CharacterServer.Packets.Handlers
             session.Send(createChar);
         }
 
-        [Message(ClientMessage.CharDelete)]
+        [Message(ClientMessage.CharDelete, SessionState.Authenticated)]
         public static void HandleCharDelete(CharDelete charDelete, CharacterSession session)
         {
             if (charDelete.Guid.CreationBits > 0 && charDelete.Guid.Type == GuidType.Player)
@@ -176,7 +177,7 @@ namespace CharacterServer.Packets.Handlers
                 session.Dispose();
         }
 
-        [Message(ClientMessage.GenerateRandomCharacterName)]
+        [Message(ClientMessage.GenerateRandomCharacterName, SessionState.Authenticated)]
         public static void HandleGenerateRandomCharacterName(GenerateRandomCharacterName generateRandomCharacterName, CharacterSession session)
         {
             var rand = new Random(Environment.TickCount);
@@ -195,7 +196,7 @@ namespace CharacterServer.Packets.Handlers
         }
 
         // Always send login failed here!
-        [GlobalMessage(GlobalClientMessage.PlayerLogin)]
+        [GlobalMessage(GlobalClientMessage.PlayerLogin, SessionState.Authenticated | SessionState.Redirected)]
         public static void HandlePlayerLogin(PlayerLogin playerLogin, CharacterSession session)
         {
             session.Send(new CharacterLoginFailed { Code = CharLoginCode.NoWorld });

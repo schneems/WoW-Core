@@ -16,6 +16,7 @@
  */
 
 using Framework.Attributes;
+using Framework.Constants.Account;
 using Framework.Constants.Misc;
 using Framework.Constants.Net;
 using Framework.Logging;
@@ -26,7 +27,7 @@ namespace WorldServer.Packets.Handlers
 {
     class CharacterHandler
     {
-        [GlobalMessage(GlobalClientMessage.PlayerLogin)]
+        [GlobalMessage(GlobalClientMessage.PlayerLogin, SessionState.Authenticated)]
         public static void HandlePlayerLogin(PlayerLogin playerLogin, WorldSession session)
         {
             Log.Message(LogType.Debug, "Character with GUID '{0}' tried to login...", playerLogin.PlayerGUID.CreationBits);

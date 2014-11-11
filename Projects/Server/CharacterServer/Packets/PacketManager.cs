@@ -23,6 +23,7 @@ using CharacterServer.Attributes;
 using CharacterServer.Constants.Net;
 using CharacterServer.Network;
 using Framework.Attributes;
+using Framework.Constants.Account;
 using Framework.Constants.Misc;
 using Framework.Constants.Net;
 using Framework.Logging;
@@ -32,7 +33,7 @@ namespace CharacterServer.Packets
 {
     class PacketManager
     {
-        static ConcurrentDictionary<ushort, Tuple<MethodInfo, Type>> MessageHandlers = new ConcurrentDictionary<ushort, Tuple<MethodInfo, Type>>();
+        static ConcurrentDictionary<ushort, Tuple<MethodInfo, Type, SessionState>> MessageHandlers = new ConcurrentDictionary<ushort, Tuple<MethodInfo, Type, SessionState>>();
 
         public static void DefineMessageHandler()
         {
@@ -45,7 +46,7 @@ namespace CharacterServer.Packets
                     foreach (dynamic msgAttr in methodInfo.GetCustomAttributes())
                     {
                         if (msgAttr is GlobalMessageAttribute || msgAttr is MessageAttribute)
-                            MessageHandlers.TryAdd((ushort)msgAttr.Message, Tuple.Create(methodInfo, methodInfo.GetParameters()[0].ParameterType));
+                            MessageHandlers.TryAdd((ushort)msgAttr.Message, Tuple.Create(methodInfo, methodInfo.GetParameters()[0].ParameterType, msgAttr.State));
                     }
                 }
             }
@@ -57,6 +58,18 @@ namespace CharacterServer.Packets
 
             if (MessageHandlers.TryGetValue(message, out var data))
             {
+                if ((session.State & data.Item3) == SessionState.None)
+                {
+                    var clientInfo = session.GetClientInfo();
+
+                    Log.Message(LogType.Debug, "Client '{0}': Received not allowed packet for state '{1}'.", clientInfo, session.State);
+                    Log.Message(LogType.Debug, "Disconnecting '{0}'.", clientInfo);
+
+                    session.Dispose();
+
+                    return;
+                }
+
                 var handlerObj = Activator.CreateInstance(data.Item2) as IClientPacket;
 
                 handlerObj.Packet = reader;

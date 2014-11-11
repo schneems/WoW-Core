@@ -73,7 +73,7 @@ namespace CharacterServer.Packets.Handlers
             }
             else
             {
-                Log.Message(LogType.Error, "Wrong AddonInfo for Client '{0}'.", session.GetClientIP());
+                Log.Message(LogType.Error, "Wrong AddonInfo for Client '{0}'.", session.GetClientInfo());
 
                 session.Dispose();
             }

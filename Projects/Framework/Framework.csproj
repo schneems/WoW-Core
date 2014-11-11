@@ -71,6 +71,7 @@
     <Compile Include="Constants\Account\AccountFlags.cs" />
     <Compile Include="Constants\Account\GameAccountFlags.cs" />
     <Compile Include="Constants\Account\Regions.cs" />
+    <Compile Include="Constants\Account\SessionState.cs" />
     <Compile Include="Constants\Character\CharLoginCode.cs" />
     <Compile Include="Constants\General\Class.cs" />
     <Compile Include="Constants\General\ClassMask.cs" />

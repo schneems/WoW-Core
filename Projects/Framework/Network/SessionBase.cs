@@ -20,6 +20,7 @@ using System.Collections.Generic;
 using System.Net;
 using System.Net.Sockets;
 using System.Threading.Tasks;
+using Framework.Constants.Account;
 using Framework.Constants.Misc;
 using Framework.Cryptography.WoW;
 using Framework.Database.Auth.Entities;
@@ -38,6 +39,7 @@ namespace Framework.Network
         public GameAccount GameAccount { get; set; }
         public Player Player { get; set; }
         public WoWCrypt Crypt { get; set; }
+        public SessionState State { get; set; }
 
         public Socket client;
         public Queue<Packet> packetQueue;
@@ -158,11 +160,11 @@ namespace Framework.Network
             data[3] = (byte)(0xFF & (message >> 8));
         }
 
-        public string GetClientIP()
+        public string GetClientInfo()
         {
             var ipEndPoint = client.RemoteEndPoint as IPEndPoint;
 
-            return ipEndPoint != null ? ipEndPoint.Address.ToString() : "";
+            return ipEndPoint != null ? ipEndPoint.Address + ":" + ipEndPoint.Port : "";
         }
 
         #region IDisposable Support

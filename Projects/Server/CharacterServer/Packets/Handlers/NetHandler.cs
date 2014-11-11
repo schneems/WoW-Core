@@ -22,6 +22,7 @@ using CharacterServer.Managers;
 using CharacterServer.Network;
 using CharacterServer.Packets.Server.Net;
 using Framework.Attributes;
+using Framework.Constants.Account;
 using Framework.Constants.Misc;
 using Framework.Constants.Net;
 using Framework.Logging;
@@ -103,10 +104,10 @@ namespace CharacterServer.Packets.Handlers
             session.Send(connectTo);
         }
 
-        [GlobalMessage(GlobalClientMessage.LogDisconnect)]
+        [GlobalMessage(GlobalClientMessage.LogDisconnect, SessionState.All)]
         public static void HandleLogDisconnect(LogDisconnect logDisconnect, CharacterSession session)
         {
-            Log.Message(LogType.Debug, "{0} disconnected (Reason: {1}).", session.GetClientIP(), logDisconnect.Reason);
+            Log.Message(LogType.Debug, "{0} disconnected (Reason: {1}).", session.GetClientInfo(), logDisconnect.Reason);
         }
 
         static byte[] payloadOrder = { 0x89, 0x5A, 0x24, 0xD8, 0xB1, 0x48, 0x9F, 0x7F, 0x75, 0xD9, 0x6F, 0xC4, 0x3F, 0xEA, 0x07, 0xED,

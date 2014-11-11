@@ -19,6 +19,7 @@ using System;
 using System.Security.Cryptography;
 using System.Text;
 using Framework.Attributes;
+using Framework.Constants.Account;
 using Framework.Constants.Net;
 using Framework.Misc;
 using Framework.Packets.Client.Authentication;
@@ -31,7 +32,7 @@ namespace WorldServer.Packets.Handlers
     class AuthHandler
     {
         // Only GameAccount redirects supported for now.
-        [GlobalMessage(GlobalClientMessage.AuthContinuedSession)]
+        [GlobalMessage(GlobalClientMessage.AuthContinuedSession, SessionState.Initiated)]
         public static void HandleAuthContinuedSession(AuthContinuedSession authContinuedSession, WorldSession session)
         {
             var accountInfo = Manager.Redirect.GetAccountInfo(authContinuedSession.Key);
@@ -53,6 +54,8 @@ namespace WorldServer.Packets.Handlers
 
                 if (sha1.Hash.Compare(authContinuedSession.Digest))
                 {
+                    session.State = SessionState.Authenticated;
+
                     session.Account = accountInfo.Item1;
                     session.GameAccount = accountInfo.Item2;
 

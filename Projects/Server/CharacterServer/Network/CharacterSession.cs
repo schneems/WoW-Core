@@ -20,6 +20,7 @@ using System.Net.Sockets;
 using System.Threading.Tasks;
 using CharacterServer.Constants.Net;
 using CharacterServer.Packets;
+using Framework.Constants.Account;
 using Framework.Constants.Misc;
 using Framework.Logging;
 using Framework.Misc;
@@ -49,12 +50,14 @@ namespace CharacterServer.Network
 
                 if (transferInit.Msg == clientToServer)
                 {
+                    State = SessionState.Initiated;
+
                     isTransferInitiated[1] = true;
 
                     e.Completed -= OnConnection;
                     e.Completed += Process;
 
-                    Log.Message(LogType.Debug, "Initial packet transfer for Client '{0}' successfully initialized.", GetClientIP());
+                    Log.Message(LogType.Debug, "Initial packet transfer for Client '{0}' successfully initialized.", GetClientInfo());
 
                     client.ReceiveAsync(e);
 
@@ -65,7 +68,7 @@ namespace CharacterServer.Network
                 }
                 else
                 {
-                    Log.Message(LogType.Debug, "Wrong initial packet transfer data for Client '{0}'.", GetClientIP());
+                    Log.Message(LogType.Debug, "Wrong initial packet transfer data for Client '{0}'.", GetClientInfo());
 
                     Dispose();
                 }

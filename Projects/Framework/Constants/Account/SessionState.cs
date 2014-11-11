@@ -1,6 +1,6 @@
 ﻿/*
  * Copyright (C) 2012-2014 Arctium Emulation <http://arctium.org>
- * 
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -16,15 +16,17 @@
  */
 
 using System;
-using CharacterServer.Constants.Net;
-using Framework.Constants.Account;
 
-namespace CharacterServer.Attributes
+namespace Framework.Constants.Account
 {
-    [AttributeUsage(AttributeTargets.Method)]
-    public sealed class MessageAttribute(ClientMessage message, SessionState state) : Attribute
+    [Flags]
+    public enum SessionState
     {
-        public ClientMessage Message { get; } = message;
-        public SessionState State    { get; } = state;
+        None          = 0,
+        Initiated     = 1,
+        Authenticated = 2,
+        Redirected    = 4,
+        InWorld       = 8,
+        All           = Initiated | Authenticated | Redirected | InWorld,
     }
 }

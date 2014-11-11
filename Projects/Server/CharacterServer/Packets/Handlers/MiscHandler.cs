@@ -20,6 +20,7 @@ using CharacterServer.Constants.Net;
 using CharacterServer.Managers;
 using CharacterServer.Network;
 using CharacterServer.Packets.Client.Misc;
+using Framework.Constants.Account;
 using Framework.Constants.Misc;
 using Framework.Logging;
 using Framework.Packets.Server.Net;
@@ -28,7 +29,7 @@ namespace CharacterServer.Packets.Handlers
 {
     class MiscHandler
     {
-        [Message(ClientMessage.LoadingScreenNotify)]
+        [Message(ClientMessage.LoadingScreenNotify, SessionState.Authenticated)]
         public static void HandleLoadingScreenNotify(LoadingScreenNotify loadingScreenNotify, CharacterSession session)
         {
             Log.Message(LogType.Debug, "Loading screen for map '{0}' {1}.", loadingScreenNotify.MapID, loadingScreenNotify.Showing ? "enabled" : "disabled");
