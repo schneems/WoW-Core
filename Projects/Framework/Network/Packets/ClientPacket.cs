@@ -17,20 +17,11 @@
 
 namespace Framework.Network.Packets
 {
-    public abstract class IServerPacket
+    public abstract class ClientPacket
     {
-        public Packet Packet { get; private set; }
+        public Packet Packet { protected get; set; }
+        public bool IsReadComplete { get { return Packet.IsReadComplete; } }
 
-        protected IServerPacket()
-        {
-            Packet = new Packet();
-        }
-
-        protected IServerPacket(object netMessage, bool authHeader = false)
-        {
-            Packet = new Packet(netMessage, authHeader);
-        }
-
-        public abstract void Write();
+        public abstract void Read();
     }
 }
