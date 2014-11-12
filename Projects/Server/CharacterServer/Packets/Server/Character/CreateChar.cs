@@ -21,9 +21,11 @@ using Framework.Network.Packets;
 
 namespace CharacterServer.Packets.Server.Character
 {
-    class CreateChar() : IServerPacket(ServerMessage.CreateChar)
+    class CreateChar : ServerPacket
     {
         public CharCreateCode Code { get; set; }
+
+        public CreateChar() : base(ServerMessage.CreateChar) { }
 
         public override void Write()
         {

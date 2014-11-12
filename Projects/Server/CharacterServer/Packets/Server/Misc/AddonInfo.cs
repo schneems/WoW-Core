@@ -22,10 +22,12 @@ using Framework.Network.Packets;
 
 namespace CharacterServer.Packets.Server.Misc
 {
-    class AddonInfo() : IServerPacket(ServerMessage.AddonInfo)
+    class AddonInfo : ServerPacket
     {
         public List<AddonInfoData> Addons         { get; set; } = new List<AddonInfoData>();
         public List<BannedAddonInfo> BannedAddons { get; set; } = new List<BannedAddonInfo>();
+
+        public AddonInfo() : base(ServerMessage.AddonInfo) { }
 
         public override void Write()
         {

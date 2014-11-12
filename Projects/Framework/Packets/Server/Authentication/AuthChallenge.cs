@@ -20,11 +20,13 @@ using Framework.Network.Packets;
 
 namespace Framework.Packets.Server.Authentication
 {
-    public class AuthChallenge() : IServerPacket(GlobalServerMessage.AuthChallenge, true)
+    public class AuthChallenge : ServerPacket
     {
         public uint Challenge      { get; set; }
         public byte[] DosChallenge { get; set; } = new byte[32];
         public byte DosZeroBits    { get; set; } = 1;
+
+        public AuthChallenge() : base(GlobalServerMessage.AuthChallenge, true) { }
 
         public override void Write()
         {

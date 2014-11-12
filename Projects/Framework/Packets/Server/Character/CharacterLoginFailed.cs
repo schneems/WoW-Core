@@ -21,9 +21,11 @@ using Framework.Network.Packets;
 
 namespace Framework.Packets.Server.Character
 {
-    public class CharacterLoginFailed() : IServerPacket(GlobalServerMessage.CharacterLoginFailed)
+    public class CharacterLoginFailed : ServerPacket
     {
         public CharLoginCode Code { get; set; }
+
+        public CharacterLoginFailed() : base(GlobalServerMessage.CharacterLoginFailed) { }
 
         public override void Write()
         {

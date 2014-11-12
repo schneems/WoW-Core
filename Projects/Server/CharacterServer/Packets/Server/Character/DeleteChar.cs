@@ -21,9 +21,11 @@ using Framework.Network.Packets;
 
 namespace CharacterServer.Packets.Server.Character
 {
-    class DeleteChar() : IServerPacket(ServerMessage.DeleteChar)
+    class DeleteChar : ServerPacket
     {
         public CharDeleteCode Code { get; set; }
+
+        public DeleteChar() : base(ServerMessage.DeleteChar) { }
 
         public override void Write()
         {

@@ -29,7 +29,9 @@ namespace Framework.Objects
 
         public SmartGuid(IWorldObject obj)
         {
-            if ((var player = obj as Player) != null)
+            var player = obj as Player;
+
+            if (player != null)
             {
                 Type         = GuidType.Player;
                 MapId        = (ushort)player.Data.Map;

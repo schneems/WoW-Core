@@ -22,13 +22,15 @@ using Framework.Network.Packets;
 
 namespace CharacterServer.Packets.Server.Authentication
 {
-    public class AuthResponse() : IServerPacket(ServerMessage.AuthResponse)
+    public class AuthResponse : ServerPacket
     {
         public AuthResult Result           { get; set; }
         public bool HasSuccessInfo         { get; set; }
         public bool HasWaitInfo            { get; set; }
         public AuthSuccessInfo SuccessInfo { get; set; } = new AuthSuccessInfo();
         public AuthWaitInfo WaitInfo       { get; set; } = new AuthWaitInfo();
+
+        public AuthResponse() : base(ServerMessage.AuthResponse) { }
 
         public override void Write()
         {

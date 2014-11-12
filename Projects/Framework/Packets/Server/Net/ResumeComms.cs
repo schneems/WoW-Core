@@ -20,8 +20,10 @@ using Framework.Network.Packets;
 
 namespace Framework.Packets.Server.Net
 {
-    public class ResumeComms() : IServerPacket(GlobalServerMessage.ResumeComms)
+    public class ResumeComms : ServerPacket
     {
+        public ResumeComms() : base(GlobalServerMessage.ResumeComms) { }
+
         public override void Write()
         {
         }

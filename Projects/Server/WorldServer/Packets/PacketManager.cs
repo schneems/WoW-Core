@@ -56,7 +56,9 @@ namespace WorldServer.Packets
         {
             var message = reader.Header.Message;
 
-            if (MessageHandlers.TryGetValue(message, out var data))
+            Tuple<MethodInfo, Type, SessionState> data;
+
+            if (MessageHandlers.TryGetValue(message, out data))
             {
                 if ((session.State & data.Item3) == SessionState.None)
                 {
@@ -70,7 +72,7 @@ namespace WorldServer.Packets
                     return;
                 }
 
-                var handlerObj = Activator.CreateInstance(data.Item2) as IClientPacket;
+                var handlerObj = Activator.CreateInstance(data.Item2) as ClientPacket;
 
                 handlerObj.Packet = reader;
 

@@ -19,7 +19,7 @@ using Framework.Network.Packets;
 
 namespace Framework.Packets.Client.Net
 {
-    public class SuspendCommsAck : IClientPacket
+    public class SuspendCommsAck : ClientPacket
     {
         public uint Serial    { get; set; }
         public uint Timestamp { get; set; }

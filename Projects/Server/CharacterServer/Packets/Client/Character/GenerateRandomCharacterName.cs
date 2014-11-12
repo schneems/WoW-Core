@@ -20,7 +20,7 @@ using Framework.Network.Packets;
 
 namespace CharacterServer.Packets.Client.Character
 {
-    class GenerateRandomCharacterName : IClientPacket
+    class GenerateRandomCharacterName : ClientPacket
     {
         public Race Race { get; set; }
         public byte Sex  { get; set; }

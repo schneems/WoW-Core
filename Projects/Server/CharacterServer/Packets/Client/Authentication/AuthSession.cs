@@ -19,7 +19,7 @@ using Framework.Network.Packets;
 
 namespace CharacterServer.Packets.Client.Authentication
 {
-    public class AuthSession : IClientPacket
+    public class AuthSession : ClientPacket
     {
         public int LoginServerID             { get; private set; }
         public ushort Build                  { get; private set; }

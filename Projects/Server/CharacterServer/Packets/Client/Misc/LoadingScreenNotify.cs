@@ -19,7 +19,7 @@ using Framework.Network.Packets;
 
 namespace CharacterServer.Packets.Client.Misc
 {
-    class LoadingScreenNotify : IClientPacket
+    class LoadingScreenNotify : ClientPacket
     {
         public int MapID    { get; set; }
         public bool Showing { get; set; }

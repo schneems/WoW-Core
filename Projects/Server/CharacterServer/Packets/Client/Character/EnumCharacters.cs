@@ -19,7 +19,7 @@ using Framework.Network.Packets;
 
 namespace CharacterServer.Packets.Client.Character
 {
-    class EnumCharacters : IClientPacket
+    class EnumCharacters : ClientPacket
     {
         public override void Read()
         {

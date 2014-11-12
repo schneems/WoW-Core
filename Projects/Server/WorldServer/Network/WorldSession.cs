@@ -96,7 +96,7 @@ namespace WorldServer.Network
             await PacketManager.InvokeHandler<ClientMessage>(packet, this);
         }
 
-        public override void Send(IServerPacket packet)
+        public override void Send(Framework.Network.Packets.ServerPacket packet)
         {
             try
             {

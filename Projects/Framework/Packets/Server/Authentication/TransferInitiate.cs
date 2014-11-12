@@ -19,7 +19,7 @@ using Framework.Network.Packets;
 
 namespace Framework.Packets.Server.Authentication
 {
-    public class TransferInitiate() : IServerPacket
+    public class TransferInitiate : ServerPacket
     {
         public override void Write()
         {

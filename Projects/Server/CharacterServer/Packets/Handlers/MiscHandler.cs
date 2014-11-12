@@ -36,7 +36,9 @@ namespace CharacterServer.Packets.Handlers
 
             if (loadingScreenNotify.Showing)
             {
-                if ((var worldServer = Manager.Redirect.GetWorldServer(loadingScreenNotify.MapID)) != null)
+                var worldServer = Manager.Redirect.GetWorldServer(loadingScreenNotify.MapID);
+
+                if (worldServer != null)
                 {
                     NetHandler.SendConnectTo(session, worldServer.Address, worldServer.Port);
 

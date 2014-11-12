@@ -21,7 +21,7 @@ using Framework.Network.Packets;
 
 namespace CharacterServer.Packets.Client.Character
 {
-    class CreateCharacter : IClientPacket
+    class CreateCharacter : ClientPacket
     {
         public Race RaceID            { get; set; }
         public Class ClassID          { get; set; }

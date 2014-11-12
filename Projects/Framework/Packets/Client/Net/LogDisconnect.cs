@@ -19,7 +19,7 @@ using Framework.Network.Packets;
 
 namespace Framework.Packets.Client.Net
 {
-    public class LogDisconnect : IClientPacket
+    public class LogDisconnect : ClientPacket
     {
         public uint Reason { get; set; }
 

@@ -23,12 +23,14 @@ using Framework.Network.Packets;
 
 namespace CharacterServer.Packets.Server.Character
 {
-    class EnumCharactersResult() : IServerPacket(ServerMessage.EnumCharactersResult)
+    class EnumCharactersResult : ServerPacket
     {
         public bool Success             { get; set; } = true;
         public bool IsDeletedCharacters { get; set; } = false;
         public List<CharacterListEntry> Characters { get; set; } = new List<CharacterListEntry>();
         public List<RestrictedFactionChangeRule> FactionChangeRestrictions { get; set; } = new List<RestrictedFactionChangeRule>();
+
+        public EnumCharactersResult() : base(ServerMessage.EnumCharactersResult) { }
 
         public override void Write()
         {

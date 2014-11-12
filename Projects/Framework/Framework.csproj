@@ -37,7 +37,7 @@
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <PlatformTarget>x86</PlatformTarget>
     <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
-    <LangVersion>experimental</LangVersion>
+    <LangVersion>default</LangVersion>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
@@ -139,9 +139,9 @@
     <Compile Include="Misc\Extensions.cs" />
     <Compile Include="Misc\Helpers.cs" />
     <Compile Include="Misc\Singleton.cs" />
-    <Compile Include="Network\Packets\IClientPacket.cs" />
+    <Compile Include="Network\Packets\ClientPacket.cs" />
     <Compile Include="Network\Packets\IServerStruct.cs" />
-    <Compile Include="Network\Packets\IServerPacket.cs" />
+    <Compile Include="Network\Packets\ServerPacket.cs" />
     <Compile Include="Network\Packets\Packet.cs" />
     <Compile Include="Network\Packets\PacketHeader.cs" />
     <Compile Include="Network\SessionBase.cs" />

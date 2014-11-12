@@ -21,8 +21,13 @@ using WorldServer.Constants.Net;
 namespace WorldServer.Attributes
 {
     [AttributeUsage(AttributeTargets.Method)]
-    public sealed class MessageAttribute(ClientMessage message) : Attribute
+    public sealed class MessageAttribute : Attribute
     {
-        public ClientMessage Message { get; } = message;
+        public ClientMessage Message { get; }
+
+        public MessageAttribute(ClientMessage message)
+        {
+            Message = message;
+        }
     }
 }

@@ -20,12 +20,12 @@ using Framework.Network.Packets;
 
 namespace CharacterServer.Packets.Structures.Character
 {
-    public struct AvailableCharacterTemplateSet : IServerStruct
+    public class AvailableCharacterTemplateSet : IServerStruct
     {
         public uint TemplateSetID { get; set; }
         public string Name        { get; set; }
         public string Description { get; set; }
-        public List<AvailableCharacterTemplateClass> Classes { get; set; } = new List<AvailableCharacterTemplateClass>();
+        public List<AvailableCharacterTemplateClass> Classes { get; } = new List<AvailableCharacterTemplateClass>();
 
         public void Write(Packet packet)
         {

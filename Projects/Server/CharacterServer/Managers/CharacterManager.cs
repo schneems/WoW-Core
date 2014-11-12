@@ -21,6 +21,7 @@ using System.Threading.Tasks;
 using CharacterServer.ObjectStores;
 using Framework.Database;
 using Framework.Database.Character.Entities;
+using Framework.Database.Data.Entities;
 using Framework.Misc;
 
 namespace CharacterServer.Managers
@@ -44,9 +45,11 @@ namespace CharacterServer.Managers
                 var spells = new ConcurrentDictionary<uint, CharacterSpell>();
                 var skills = new ConcurrentDictionary<uint, CharacterSkill>();
 
+                SkillLine skillLine;
+
                 Parallel.ForEach(startAbilities, ability =>
                 {
-                    if (ClientDB.SkillLines.TryGetValue(ability.SkillLine, out var skillLine))
+                    if (ClientDB.SkillLines.TryGetValue(ability.SkillLine, out skillLine))
                     {
                         var skillLevel = 1u;
 

@@ -20,9 +20,11 @@ using Framework.Network.Packets;
 
 namespace Framework.Packets.Server.Net
 {
-    public class SuspendComms() : IServerPacket(GlobalServerMessage.SuspendComms)
+    public class SuspendComms : ServerPacket
     {
         public uint Serial { get; set; }
+
+        public SuspendComms() : base(GlobalServerMessage.SuspendComms) { }
 
         public override void Write()
         {

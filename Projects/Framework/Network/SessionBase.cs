@@ -128,7 +128,7 @@ namespace Framework.Network
         }
 
         public abstract Task ProcessPacket(Packet packet);
-        public abstract void Send(IServerPacket packet);
+        public abstract void Send(ServerPacket packet);
 
         public void Encrypt(Packet packet)
         {

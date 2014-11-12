@@ -22,9 +22,15 @@ using Framework.Constants.Net;
 namespace Framework.Attributes
 {
     [AttributeUsage(AttributeTargets.Method)]
-    public sealed class GlobalMessageAttribute(GlobalClientMessage message, SessionState state) : Attribute
+    public sealed class GlobalMessageAttribute : Attribute
     {
-        public GlobalClientMessage Message { get; } = message;
-        public SessionState State          { get; } = state;
+        public GlobalClientMessage Message { get; }
+        public SessionState State          { get; }
+
+        public GlobalMessageAttribute(GlobalClientMessage message, SessionState state)
+        {
+            Message = message;
+            State = state;
+        }
     }
 }

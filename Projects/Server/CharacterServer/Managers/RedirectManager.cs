@@ -63,8 +63,10 @@ namespace CharacterServer.Managers
 
         public WorldServer GetWorldServer(int mapId)
         {
+            WorldServer worldServer;
+
             // Try to get available world servers for the specific map or for all maps (-1).
-            if (WorldServers.TryGetValue(mapId, out var worldServer) || WorldServers.TryGetValue(-1, out worldServer))
+            if (WorldServers.TryGetValue(mapId, out worldServer) || WorldServers.TryGetValue(-1, out worldServer))
                 if (Helpers.CheckConnection(worldServer.Address, worldServer.Port))
                     return worldServer;
 

@@ -20,12 +20,14 @@ using Framework.Network.Packets;
 
 namespace CharacterServer.Packets.Server.Net
 {
-    class ConnectTo() : IServerPacket(GlobalServerMessage.ConnectTo)
+    class ConnectTo : ServerPacket
     {
         public ulong Key    { get; set; }
         public uint Serial  { get; set; }
         public byte[] Where { get; set; } = new byte[256];
         public byte Con     { get; set; }
+
+        public ConnectTo() : base(GlobalServerMessage.ConnectTo) { }
 
         public override void Write()
         {

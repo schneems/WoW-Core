@@ -19,7 +19,7 @@ using Framework.Network.Packets;
 
 namespace Framework.Packets.Client.Authentication
 {
-    public class AuthContinuedSession : IClientPacket
+    public class AuthContinuedSession : ClientPacket
     {
         public ulong DosResponse { get; set; }
         public ulong Key         { get; set; }

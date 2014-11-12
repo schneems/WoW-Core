@@ -20,7 +20,7 @@ using Framework.Objects;
 
 namespace CharacterServer.Packets.Client.Character
 {
-    class CharDelete : IClientPacket
+    class CharDelete : ClientPacket
     {
         public SmartGuid Guid { get; set; }
 

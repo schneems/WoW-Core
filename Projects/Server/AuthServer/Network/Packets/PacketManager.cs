@@ -48,7 +48,9 @@ namespace AuthServer.Network.Packets
 
             Log.Message(LogType.Packet, "Received Opcode: {0} (0x{0:X}), Length: {1}", message, reader.Data.Length);
 
-            if (MessageHandlers.TryGetValue(Tuple.Create(message, reader.Header.Channel), out HandlePacket packet))
+            HandlePacket packet;
+
+            if (MessageHandlers.TryGetValue(Tuple.Create(message, reader.Header.Channel), out packet))
             {
                 packet.Invoke(reader, client);
 

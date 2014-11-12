@@ -20,7 +20,7 @@ using Framework.Objects;
 
 namespace Framework.Packets.Client.Character
 {
-    public class PlayerLogin : IClientPacket
+    public class PlayerLogin : ClientPacket
     {
         public SmartGuid PlayerGUID { get; set; }
         public float FarClip        { get; set; }

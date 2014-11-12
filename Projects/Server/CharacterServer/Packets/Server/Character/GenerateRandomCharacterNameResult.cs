@@ -20,10 +20,12 @@ using Framework.Network.Packets;
 
 namespace CharacterServer.Packets.Server.Character
 {
-    class GenerateRandomCharacterNameResult() : IServerPacket(ServerMessage.GenerateRandomCharacterNameResult)
+    class GenerateRandomCharacterNameResult : ServerPacket
     {
         public bool Success { get; set; }
         public string Name  { get; set; }
+
+        public GenerateRandomCharacterNameResult() : base(ServerMessage.GenerateRandomCharacterNameResult) { }
 
         public override void Write()
         {

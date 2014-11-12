@@ -19,7 +19,7 @@ using Framework.Network.Packets;
 
 namespace Framework.Packets.Client.Authentication
 {
-    public class TransferInitiate() : IClientPacket
+    public class TransferInitiate : ClientPacket
     {
         public string Msg { get; private set; }
 

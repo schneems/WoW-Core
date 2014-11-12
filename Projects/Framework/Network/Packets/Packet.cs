@@ -248,8 +248,10 @@ namespace Framework.Network.Packets
 
         public void Write(SmartGuid guid)
         {
-            var loGuid = GetPackedGuid(guid.Low, out byte loLength, out byte wLoLength);
-            var hiGuid = GetPackedGuid(guid.High, out byte hiLength, out byte wHiLength);
+            byte loLength, hiLength, wLoLength, wHiLength;
+
+            var loGuid = GetPackedGuid(guid.Low, out loLength, out wLoLength);
+            var hiGuid = GetPackedGuid(guid.High, out hiLength, out wHiLength);
 
             if (guid.Low == 0 || guid.High == 0)
             {

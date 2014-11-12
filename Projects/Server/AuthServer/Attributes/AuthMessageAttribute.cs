@@ -21,9 +21,15 @@ using AuthServer.Constants.Net;
 namespace AuthServer.Attributes
 {
     [AttributeUsage(AttributeTargets.Method)]
-    public sealed class AuthMessageAttribute(AuthClientMessage message, AuthChannel channel) : Attribute
+    public sealed class AuthMessageAttribute : Attribute
     {
-        public AuthClientMessage Message { get; } = message;
-        public AuthChannel Channel { get; } = channel;
+        public AuthClientMessage Message { get; }
+        public AuthChannel Channel { get; }
+
+        public AuthMessageAttribute(AuthClientMessage message, AuthChannel channel)
+        {
+            Message = message;
+            Channel = channel;
+        }
     }
 }
