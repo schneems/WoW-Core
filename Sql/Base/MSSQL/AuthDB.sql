@@ -75,6 +75,9 @@ GO
 INSERT INTO [dbo].[components] ([Program], [Platform], [Build]) VALUES (N'WoW', N'deDE', N'19116')
 GO
 GO
+INSERT INTO [dbo].[components] ([Program], [Platform], [Build]) VALUES (N'WoW', N'enAU', N'19116')
+GO
+GO
 INSERT INTO [dbo].[components] ([Program], [Platform], [Build]) VALUES (N'WoW', N'enGB', N'19116')
 GO
 GO

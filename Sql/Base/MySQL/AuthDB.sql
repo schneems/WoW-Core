@@ -57,6 +57,7 @@ INSERT INTO `Components` VALUES ('Bnet', 'Win', '37165');
 INSERT INTO `Components` VALUES ('Bnet', 'Wn64', '37165');
 INSERT INTO `Components` VALUES ('WoW', 'base', '19057');
 INSERT INTO `Components` VALUES ('WoW', 'deDE', '19116');
+INSERT INTO `Components` VALUES ('WoW', 'enAU', '19116');
 INSERT INTO `Components` VALUES ('WoW', 'enGB', '19116');
 INSERT INTO `Components` VALUES ('WoW', 'enUS', '19116');
 INSERT INTO `Components` VALUES ('WoW', 'esES', '19116');

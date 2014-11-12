@@ -114,7 +114,6 @@ namespace AuthServer.Network.Packets.Handlers
             // Write ListComplete data to ListSubscribeResponse end
             listSubscribeResponse.Write(listComplete.Data);
 
-
             client.SendPacket(listSubscribeResponse);
         }
     }
