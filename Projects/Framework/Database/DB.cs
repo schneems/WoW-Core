@@ -30,25 +30,21 @@ namespace Framework.Database
         {
             if (connType == ConnectionType.MYSQL)
             {
-                var pools = string.Format(";Min Pool Size={0};Max Pool Size={1}", minPoolSize, maxPoolSize);
-
                 var connectionString = "Server=" + host + ";User Id=" + user + ";Port=" + port + ";" +
                                        "Password=" + password + ";Database=" + database + ";Allow Zero Datetime=True;" +
                                        "Pooling=" + pooling + ";CharSet=utf8";
 
                 if (pooling)
-                    connectionString += pools;
+                    connectionString += ";Min Pool Size=\{minPoolSize};Max Pool Size=\{maxPoolSize}";
 
                 return connectionString;
             }
             else if (connType == ConnectionType.MSSQL)
             {
-                var pools = string.Format(";Min Pool Size={0};Max Pool Size={1}", minPoolSize, maxPoolSize);
-
                 var connectionString = "Data Source=" + host + "; Initial Catalog = " + database + "; User ID = " + user + "; Password = " + password + ";Pooling=" + pooling;
 
                 if (pooling)
-                    connectionString += pools;
+                    connectionString += ";Min Pool Size=\{minPoolSize};Max Pool Size=\{maxPoolSize}";
 
                 return connectionString;
             }

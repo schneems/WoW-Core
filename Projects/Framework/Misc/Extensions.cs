@@ -141,7 +141,7 @@ namespace Framework.Misc
             var hex = "";
 
             foreach (var b in data)
-                hex += string.Format("{0:X2}", b);
+                hex += "\{b:X2}";
 
             return hex.ToUpper();
         }
