@@ -17,7 +17,7 @@
 
 namespace Framework.Constants.Account
 {
-    public enum Regions : byte
+    public enum Region : byte
     {
         US = 1,
         EU = 2,

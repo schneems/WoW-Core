@@ -67,7 +67,7 @@ namespace AuthServer.Managers
         public void WriteModuleHeader(Client client, AuthPacket packet, Module module, int size = 0)
         {
             packet.WriteFourCC(module.Type);
-            packet.WriteFourCC("\0\0" + Enum.GetName(typeof(Regions), client.Session.Account.Region));
+            packet.WriteFourCC("\0\0" + Enum.GetName(typeof(Region), client.Session.Account.Region));
             packet.Write(module.Hash.ToByteArray());
             packet.Write(size == 0 ? module.Size : (uint)size, 10);
         }

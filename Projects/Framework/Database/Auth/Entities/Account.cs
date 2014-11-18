@@ -30,7 +30,7 @@ namespace Framework.Database.Auth.Entities
         public string Surname          { get; set; }
         public string Email            { get; set; }
         public string Tag              { get; set; }
-        public Regions Region          { get; set; }
+        public Region Region          { get; set; }
         public string Language         { get; set; }
         public AccountFlags Flags      { get; set; }
         public string PasswordVerifier { get; set; }

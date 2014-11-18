@@ -29,7 +29,7 @@ namespace Framework.Database.Auth.Entities
         public uint AccountId         { get; set; }
         public string Game            { get; set; }
         public byte Index             { get; set; }
-        public Regions Region         { get; set; }
+        public Region Region         { get; set; }
         public GameAccountFlags Flags { get; set; }
         public byte BoxLevel          { get; set; }
         public string OS              { get; set; }

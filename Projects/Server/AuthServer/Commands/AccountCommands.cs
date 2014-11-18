@@ -51,7 +51,7 @@ namespace AuthServer.Commands
                         Email            = email,
                         PasswordVerifier = srp.V.ToHexString(),
                         Salt             = salt,
-                        Region           = Regions.XX,
+                        Region           = Region.XX,
                     };
 
                     if (DB.Auth.Add(account))
@@ -84,7 +84,7 @@ namespace AuthServer.Commands
                             AccountId = account.Id,
                             Game      = game,
                             Index     = index,
-                            Region    = Regions.XX,
+                            Region    = Region.XX,
                             Flags     = GameAccountFlags.None,
                             BoxLevel  = 5
                         };

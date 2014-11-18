@@ -88,7 +88,7 @@ namespace AuthServer.Network.Packets.Handlers
                         {
                             if (session.GameAccounts.Count > 1)
                             {
-                                var region = packet.Read<Regions>(8);
+                                var region = packet.Read<Region>(8);
                                 var gameLength = packet.Read<byte>(8);
                                 var game = packet.ReadString(gameLength);
 
