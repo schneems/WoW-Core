@@ -1,6 +1,6 @@
 ﻿/*
  * Copyright (C) 2012-2014 Arctium Emulation <http://arctium.org>
- * 
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -15,26 +15,35 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-using Framework.Constants.Net;
-using Framework.Network.Packets;
+using System.Collections.Concurrent;
+using Framework.Misc;
+using Framework.Network.Remoting;
+using WorldNode.Network;
 
-namespace CharacterServer.Packets.Server.Net
+namespace WorldNode.Managers
 {
-    class ConnectTo : ServerPacket
+    class SessionManager : Singleton<SessionManager>
     {
-        public ulong Key    { get; set; }
-        public uint Serial  { get; set; }
-        public byte[] Where { get; set; } = new byte[256];
-        public byte Con     { get; set; }
+        public long LastSessionId { get; set; }
+        public ConcurrentDictionary<long, NodeSession> Sessions;
 
-        public ConnectTo() : base(GlobalServerMessage.ConnectTo) { }
+        public RemoteObject Remote { get; set; }
 
-        public override void Write()
+        SessionManager()
         {
-            Packet.Write(Key);
-            Packet.Write(Serial);
-            Packet.Write(Where);
-            Packet.Write(Con);
+            Sessions = new ConcurrentDictionary<long, NodeSession>();
+        }
+
+        public bool Add(long id, NodeSession session)
+        {
+            return Sessions.TryAdd(id, session);
+        }
+
+        public bool Remove(long id)
+        {
+            NodeSession session;
+
+            return Sessions.TryRemove(id, out session);
         }
     }
 }

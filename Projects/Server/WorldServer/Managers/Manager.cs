@@ -20,10 +20,12 @@ namespace WorldServer.Managers
     class Manager
     {
         public static RedirectManager Redirect;
+        public static SessionManager Session;
 
         public static void Initialize()
         {
             Redirect = RedirectManager.GetInstance();
+            Session  = SessionManager.GetInstance();
         }
     }
 }

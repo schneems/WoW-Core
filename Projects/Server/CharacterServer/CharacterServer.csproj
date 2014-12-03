@@ -100,7 +100,7 @@
     <Compile Include="Packets\Server\Character\EnumCharactersResult.cs" />
     <Compile Include="Packets\Server\Character\GenerateRandomCharacterNameResult.cs" />
     <Compile Include="Packets\Server\Misc\AddonInfo.cs" />
-    <Compile Include="Packets\Server\Net\ConnectTo.cs" />
+    <Compile Include="Packets\Server\Misc\TutorialFlags.cs" />
     <Compile Include="Packets\Structures\Authentication\AuthSuccessInfo.cs" />
     <Compile Include="Packets\Structures\Authentication\AuthWaitInfo.cs" />
     <Compile Include="Packets\Structures\Character\AvailableCharacterTemplateClass.cs" />

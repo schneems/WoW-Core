@@ -26,14 +26,14 @@ using Framework.Misc;
 using Framework.Network;
 using Framework.Network.Packets;
 using Framework.Objects.WorldEntities;
-using WorldServer.Constants.Net;
-using WorldServer.Packets;
+using WorldNode.Constants.Net;
+using WorldNode.Packets;
 using ClientPacket = Framework.Packets.Client.Authentication;
 using ServerPacket = Framework.Packets.Server.Authentication;
 
-namespace WorldServer.Network
+namespace WorldNode.Network
 {
-    public class WorldSession : SessionBase
+    public class NodeSession : SessionBase
     {
         public Realm Realm { get; set; }
         public Account Account { get; set; }
@@ -43,7 +43,7 @@ namespace WorldServer.Network
         public byte[] ClientSeed { get; private set; }
         public byte[] ServerSeed { get; private set; }
 
-        public WorldSession(Socket clientSocket) : base(clientSocket) { }
+        public NodeSession(Socket clientSocket) : base(clientSocket) { }
 
         public override void OnConnection(object sender, SocketAsyncEventArgs e)
         {

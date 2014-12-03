@@ -15,15 +15,18 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-using Lappa_ORM;
-using Lappa_ORM.Attributes;
+using Framework.Network.Packets;
+using WorldServer.Constants.Net;
 
-namespace Framework.Database.Auth.Entities
+namespace WorldServer.Packets.Server.Object
 {
-    public class CharacterRedirect : Entity
+    class ObjectUpdate : ServerPacket
     {
-        [Field(PrimaryKey = true)]
-        public ulong Key           { get; set; }
-        public ulong CharacterGuid { get; set; }
+        public ObjectUpdate() : base(ServerMessage.ObjectUpdate) { }
+
+        public override void Write()
+        {
+            // Data...
+        }
     }
 }

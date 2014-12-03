@@ -16,14 +16,13 @@
  */
 
 using Lappa_ORM;
-using Lappa_ORM.Attributes;
 
 namespace Framework.Database.Auth.Entities
 {
-    public class CharacterRedirect : Entity
+    public class WorldNode : Entity
     {
-        [Field(PrimaryKey = true)]
-        public ulong Key           { get; set; }
-        public ulong CharacterGuid { get; set; }
+        public int MapId      { get; set; }
+        public string Address { get; set; }
+        public ushort Port    { get; set; }
     }
 }

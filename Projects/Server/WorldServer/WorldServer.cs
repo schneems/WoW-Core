@@ -16,11 +16,14 @@
  */
 
 using System;
+using System.Runtime.Remoting.Channels;
+using System.Runtime.Remoting.Channels.Ipc;
 using System.Threading;
 using Framework.Constants.Misc;
 using Framework.Database;
 using Framework.Logging;
 using Framework.Misc;
+using Framework.Network.Remoting;
 using WorldServer.Configuration;
 using WorldServer.Managers;
 using WorldServer.Network;
@@ -70,6 +73,13 @@ namespace WorldServer
 
                 Log.Message(LogType.Normal, "WorldServer successfully started");
                 Log.Message(LogType.Normal, "Total Memory: {0} Kilobytes", GC.GetTotalMemory(false) / 1024);
+
+                // Not used for now.
+                /*var channel = new IpcChannel();
+
+                ChannelServices.RegisterChannel(channel, false);
+
+                Manager.Session.Remote = Activator.GetObject(typeof(RemoteObject), "ipc://127.0.0.1:9000/WorldObject.rem") as RemoteObject;*/
 
                 // No need of console commands.
                 while (true)

@@ -458,9 +458,30 @@ CREATE TABLE [dbo].[worldservers] (
 GO
 
 -- ----------------------------
--- Records of worldservers
+-- Records of worldnodes
 -- ----------------------------
 INSERT INTO [dbo].[worldservers] ([MapId], [Address], [Port]) VALUES (N'-1', N'127.0.0.1', N'8100')
+GO
+GO
+
+-- ----------------------------
+-- Table structure for worldnodes
+-- ----------------------------
+DROP TABLE [dbo].[worldnodes]
+GO
+CREATE TABLE [dbo].[worldnodes] (
+[MapId] int NOT NULL DEFAULT ((-1)) ,
+[Address] nvarchar(15) NULL DEFAULT (N'') ,
+[Port] int NOT NULL DEFAULT ((9100)) 
+)
+
+
+GO
+
+-- ----------------------------
+-- Records of worldnodes
+-- ----------------------------
+INSERT INTO [dbo].[worldnodes] ([MapId], [Address], [Port]) VALUES (N'-1', N'127.0.0.1', N'9100')
 GO
 GO
 

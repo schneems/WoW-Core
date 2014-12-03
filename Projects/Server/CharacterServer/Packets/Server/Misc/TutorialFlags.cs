@@ -15,15 +15,20 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-using Lappa_ORM;
-using Lappa_ORM.Attributes;
+using CharacterServer.Constants.Net;
+using Framework.Network.Packets;
 
-namespace Framework.Database.Auth.Entities
+namespace CharacterServer.Packets.Server.Misc
 {
-    public class CharacterRedirect : Entity
+    class TutorialFlags : ServerPacket
     {
-        [Field(PrimaryKey = true)]
-        public ulong Key           { get; set; }
-        public ulong CharacterGuid { get; set; }
+        public TutorialFlags() : base(ServerMessage.TutorialFlags) { }
+
+        public override void Write()
+        {
+            // ToDo: Use correct data.
+            for (var i = 0; i < 32; i++)
+                Packet.Write((byte)0);
+        }
     }
 }

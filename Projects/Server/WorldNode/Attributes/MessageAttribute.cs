@@ -1,6 +1,6 @@
 ﻿/*
  * Copyright (C) 2012-2014 Arctium Emulation <http://arctium.org>
- *
+ * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -15,15 +15,19 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-using Lappa_ORM;
-using Lappa_ORM.Attributes;
+using System;
+using WorldNode.Constants.Net;
 
-namespace Framework.Database.Auth.Entities
+namespace WorldNode.Attributes
 {
-    public class CharacterRedirect : Entity
+    [AttributeUsage(AttributeTargets.Method)]
+    public sealed class MessageAttribute : Attribute
     {
-        [Field(PrimaryKey = true)]
-        public ulong Key           { get; set; }
-        public ulong CharacterGuid { get; set; }
+        public ClientMessage Message { get; }
+
+        public MessageAttribute(ClientMessage message)
+        {
+            Message = message;
+        }
     }
 }

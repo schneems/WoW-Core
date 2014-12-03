@@ -23,6 +23,7 @@ using System.Threading.Tasks;
 using Framework.Constants.Misc;
 using Framework.Logging;
 using Framework.Logging.IO;
+using WorldServer.Managers;
 
 namespace WorldServer.Network
 {
@@ -74,7 +75,10 @@ namespace WorldServer.Network
                     {
                         var worker = new WorldSession(clientSocket);
 
-                        await Task.Factory.StartNew(worker.Accept);
+                        worker.Id = ++Manager.Session.LastSessionId;
+
+                        if (Manager.Session.Add(worker.Id, worker))
+                            await Task.Factory.StartNew(Manager.Session.Sessions[worker.Id].Accept);
                     }
                 }
             }

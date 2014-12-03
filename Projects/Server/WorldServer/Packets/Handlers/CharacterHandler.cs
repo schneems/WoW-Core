@@ -19,9 +19,14 @@ using Framework.Attributes;
 using Framework.Constants.Account;
 using Framework.Constants.Misc;
 using Framework.Constants.Net;
+using Framework.Database;
+using Framework.Database.Character.Entities;
 using Framework.Logging;
 using Framework.Packets.Client.Character;
+using Framework.Packets.Server.Net;
+using WorldServer.Managers;
 using WorldServer.Network;
+using WorldServer.Packets.Server.Object;
 
 namespace WorldServer.Packets.Handlers
 {
@@ -31,6 +36,27 @@ namespace WorldServer.Packets.Handlers
         public static void HandlePlayerLogin(PlayerLogin playerLogin, WorldSession session)
         {
             Log.Message(LogType.Debug, "Character with GUID '{0}' tried to login...", playerLogin.PlayerGUID.CreationBits);
+
+            var creationBits = playerLogin.PlayerGUID.CreationBits;
+            var character = DB.Character.Single<Character>(c => c.Guid == creationBits);
+
+            if (character != null)
+            {
+                var worldNode = Manager.Redirect.GetWorldNode((int)character.Map);
+
+                if (worldNode != null)
+                {
+                    NetHandler.SendConnectTo(session, worldNode.Address, worldNode.Port, 1);
+
+                    // Send world login stuff...
+                    //session.Send(new ObjectUpdate());
+
+                    // Suspend the current connection
+                    session.Send(new SuspendComms { Serial = 0x14 });
+                }
+            }
+            else
+                session.Dispose();
         }
     }
 }

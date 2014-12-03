@@ -23,10 +23,10 @@ using Framework.Logging.IO;
 using Framework.Misc;
 using Lappa_ORM;
 
-namespace WorldServer.Configuration
+namespace WorldNode.Configuration
 {
 
-    class WorldConfig
+    class NodeConfig
     {
         public static bool IsInitialized = false;
         static Config config;
@@ -83,7 +83,7 @@ namespace WorldServer.Configuration
             if (!Directory.Exists("Crashes"))
                 Directory.CreateDirectory("Crashes");
 
-            var el = new LogWriter("Crashes", "WorldServer.log");
+            var el = new LogWriter("Crashes", "WorldNode.log");
 
             ExceptionLog.Initialize(el);
 
@@ -109,7 +109,7 @@ namespace WorldServer.Configuration
                 IsInitialized = true;
 
                 LogLevel       = (LogType)config.Read("Log.Level", 0x7, true);
-                LogDirectory   = config.Read("Log.Directory", "Logs/World");
+                LogDirectory   = config.Read("Log.Directory", "Logs/Node");
                 LogConsoleFile = config.Read("Log.Console.File", "");
                 LogPacketFile  = config.Read("Log.Packet.File", "");
 
@@ -135,7 +135,7 @@ namespace WorldServer.Configuration
         static void ReadConfig()
         {
             if (!IsInitialized)
-                throw new InvalidOperationException("WorldServer config not initialized.");
+                throw new InvalidOperationException("WorldNode config not initialized.");
 
             AuthDBType             = config.Read("AuthDB.Type", ConnectionType.MYSQL);
             AuthDBHost             = config.Read("AuthDB.Host", "127.0.0.1");
@@ -171,7 +171,7 @@ namespace WorldServer.Configuration
             DataDBMaxPoolSize      = config.Read("DataDB.MaxPoolSize", 1);
 
             BindIP                 = config.Read("Bind.IP", "0.0.0.0");
-            BindPort               = config.Read("Bind.Port", 8100);
+            BindPort               = config.Read("Bind.Port", 9100);
         }
     }
 }

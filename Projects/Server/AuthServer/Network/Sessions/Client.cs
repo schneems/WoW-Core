@@ -24,7 +24,7 @@ namespace AuthServer.Network.Sessions
 {
     class Client : IDisposable
     {
-        public int Id { get; set; }
+        public long Id { get; set; }
         public AuthSession Session { get; set; }
         public IEnumerable<Module> Modules { get; set; }
         public string ConnectionInfo { get { return Session.GetClientInfo(); } }

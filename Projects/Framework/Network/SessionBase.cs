@@ -34,10 +34,7 @@ namespace Framework.Network
 {
     public abstract class SessionBase : IDisposable
     {
-        public Realm Realm { get; set; }
-        public Account Account { get; set; }
-        public GameAccount GameAccount { get; set; }
-        public Player Player { get; set; }
+        public long Id { get; set; }
         public WoWCrypt Crypt { get; set; }
         public SessionState State { get; set; }
 
@@ -74,58 +71,7 @@ namespace Framework.Network
         }
 
         public abstract void OnConnection(object sender, SocketAsyncEventArgs e);
-
-        public void Process(object sender, SocketAsyncEventArgs e)
-        {
-            try
-            {
-                var socket = e.UserToken as Socket;
-                var recievedBytes = e.BytesTransferred;
-
-                if (recievedBytes != 0)
-                {
-                    if (Crypt != null && Crypt.IsInitialized)
-                    {
-                        while (recievedBytes > 0)
-                        {
-                            Decrypt(dataBuffer);
-
-                            var length = BitConverter.ToUInt16(dataBuffer, 0) + 4;
-                            var packetData = new byte[length];
-
-                            Buffer.BlockCopy(dataBuffer, 0, packetData, 0, length);
-
-                            var packet = new Packet(dataBuffer, 4);
-
-                            if (length > recievedBytes)
-                                packetQueue.Enqueue(packet);
-
-                            ProcessPacket(packet);
-
-                            recievedBytes -= length;
-
-                            Buffer.BlockCopy(dataBuffer, length, dataBuffer, 0, recievedBytes);
-                        }
-                    }
-                    else
-                    {
-                        var packet = new Packet(dataBuffer);
-
-                        ProcessPacket(packet);
-                    }
-
-                    client.ReceiveAsync(e);
-                }
-            }
-            catch (Exception ex)
-            {
-                Dispose();
-
-                ExceptionLog.Write(ex);
-
-                Log.Message(LogType.Error, "{0}", ex.Message);
-            }
-        }
+        public abstract void Process(object sender, SocketAsyncEventArgs e);
 
         public abstract Task ProcessPacket(Packet packet);
         public abstract void Send(ServerPacket packet);

@@ -18,22 +18,20 @@
 using System;
 using System.Net;
 using System.Text;
-using CharacterServer.Managers;
-using CharacterServer.Network;
 using Framework.Attributes;
 using Framework.Constants.Account;
-using Framework.Constants.Misc;
 using Framework.Constants.Net;
-using Framework.Logging;
 using Framework.Misc;
 using Framework.Packets.Client.Net;
 using Framework.Packets.Server.Net;
+using WorldServer.Managers;
+using WorldServer.Network;
 
-namespace CharacterServer.Packets.Handlers
+namespace WorldServer.Packets.Handlers
 {
     class NetHandler
     {
-        public static void SendConnectTo(CharacterSession session, string ip, ushort port, byte connection = 0)
+        public static void SendConnectTo(WorldSession session, string ip, ushort port, byte connection = 0)
         {
             var connectTo = new ConnectTo
             {
@@ -104,10 +102,11 @@ namespace CharacterServer.Packets.Handlers
             session.Send(connectTo);
         }
 
-        [GlobalMessage(GlobalClientMessage.LogDisconnect, SessionState.All)]
-        public static void HandleLogDisconnect(LogDisconnect logDisconnect, CharacterSession session)
+        [GlobalMessage(GlobalClientMessage.SuspendCommsAck, SessionState.All)]
+        public static void HandleSuspendCommsAck(SuspendCommsAck suspendCommsAck, WorldSession session)
         {
-            Log.Message(LogType.Debug, "{0} disconnected (Reason: {1}).", session.GetClientInfo(), logDisconnect.Reason);
+            // Resume packets on main connection
+            session.Send(new ResumeComms());
         }
     }
 }

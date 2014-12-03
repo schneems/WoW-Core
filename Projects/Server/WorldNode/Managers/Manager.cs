@@ -15,15 +15,17 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-using Lappa_ORM;
-using Lappa_ORM.Attributes;
-
-namespace Framework.Database.Auth.Entities
+namespace WorldNode.Managers
 {
-    public class CharacterRedirect : Entity
+    class Manager
     {
-        [Field(PrimaryKey = true)]
-        public ulong Key           { get; set; }
-        public ulong CharacterGuid { get; set; }
+        public static RedirectManager Redirect;
+        public static SessionManager Session;
+
+        public static void Initialize()
+        {
+            Redirect = RedirectManager.GetInstance();
+            Session  = SessionManager.GetInstance();
+        }
     }
 }

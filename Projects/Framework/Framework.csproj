@@ -107,6 +107,7 @@
     <Compile Include="Database\Auth\Entities\RealmCharacterTemplate.cs" />
     <Compile Include="Database\Auth\Entities\RealmClass.cs" />
     <Compile Include="Database\Auth\Entities\RealmRace.cs" />
+    <Compile Include="Database\Auth\Entities\WorldNodes.cs" />
     <Compile Include="Database\Auth\Entities\WorldServer.cs" />
     <Compile Include="Database\Character\Entities\Character.cs" />
     <Compile Include="Database\Character\Entities\CharacterAction.cs" />
@@ -146,7 +147,9 @@
     <Compile Include="Network\Packets\ServerPacket.cs" />
     <Compile Include="Network\Packets\Packet.cs" />
     <Compile Include="Network\Packets\PacketHeader.cs" />
+    <Compile Include="Network\Remoting\RemoteObject.cs" />
     <Compile Include="Network\SessionBase.cs" />
+    <Compile Include="Objects\CharacterData.cs" />
     <Compile Include="Objects\IWorldObject.cs" />
     <Compile Include="Objects\SmartGuid.cs" />
     <Compile Include="Objects\Vector3.cs" />
@@ -159,6 +162,7 @@
     <Compile Include="Packets\Server\Authentication\AuthChallenge.cs" />
     <Compile Include="Packets\Server\Authentication\TransferInitiate.cs" />
     <Compile Include="Packets\Server\Character\CharacterLoginFailed.cs" />
+    <Compile Include="Packets\Server\Net\ConnectTo.cs" />
     <Compile Include="Packets\Server\Net\ResumeComms.cs" />
     <Compile Include="Packets\Server\Net\SuspendComms.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -171,6 +175,12 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Configs\CharacterServer.conf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Configs\RemoteServer.conf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Configs\WorldNode.conf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Configs\WorldServer.conf">

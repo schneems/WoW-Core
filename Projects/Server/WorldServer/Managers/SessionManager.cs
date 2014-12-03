@@ -16,41 +16,34 @@
  */
 
 using System.Collections.Concurrent;
-using AuthServer.Network.Sessions;
-using Framework.Database;
-using Framework.Database.Auth.Entities;
 using Framework.Misc;
+using Framework.Network.Remoting;
+using WorldServer.Network;
 
-namespace AuthServer.Managers
+namespace WorldServer.Managers
 {
     class SessionManager : Singleton<SessionManager>
     {
         public long LastSessionId { get; set; }
-        public ConcurrentDictionary<long, Client> Clients { get; set; }
+        public ConcurrentDictionary<long, WorldSession> Sessions;
+
+        public RemoteObject Remote { get; set; }
 
         SessionManager()
         {
-            Clients = new ConcurrentDictionary<long, Client>();
-
-
-            IsInitialized = true;
+            Sessions = new ConcurrentDictionary<long, WorldSession>();
         }
 
-        public void RemoveClient(long id)
+        public bool Add(long id, WorldSession session)
         {
-            var client = Clients[id];
-            var session = client.Session;
+            return Sessions.TryAdd(id, session);
+        }
 
-            if (session.GameAccount != null)
-            {
-                session.GameAccount.IsOnline = false;
+        public bool Remove(long id)
+        {
+            WorldSession session;
 
-                DB.Auth.Update(session.GameAccount, "IsOnline");
-
-                Manager.SessionMgr.Clients.TryRemove(id, out client);
-
-                client.Dispose();
-            }
+            return Sessions.TryRemove(id, out session);
         }
     }
 }

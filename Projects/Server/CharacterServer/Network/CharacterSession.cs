@@ -22,7 +22,9 @@ using CharacterServer.Constants.Net;
 using CharacterServer.Packets;
 using Framework.Constants.Account;
 using Framework.Constants.Misc;
+using Framework.Database.Auth.Entities;
 using Framework.Logging;
+using Framework.Logging.IO;
 using Framework.Misc;
 using Framework.Network;
 using Framework.Network.Packets;
@@ -33,6 +35,9 @@ namespace CharacterServer.Network
 {
     class CharacterSession : SessionBase
     {
+        public Realm Realm { get; set; }
+        public Account Account { get; set; }
+        public GameAccount GameAccount { get; set; }
         public uint Challenge { get; private set; }
 
         public CharacterSession(Socket clientSocket) : base(clientSocket) { }
@@ -75,6 +80,58 @@ namespace CharacterServer.Network
             }
             else
                 Dispose();
+        }
+
+        public override void Process(object sender, SocketAsyncEventArgs e)
+        {
+            try
+            {
+                var socket = e.UserToken as Socket;
+                var recievedBytes = e.BytesTransferred;
+
+                if (recievedBytes != 0)
+                {
+                    if (Crypt != null && Crypt.IsInitialized)
+                    {
+                        while (recievedBytes > 0)
+                        {
+                            Decrypt(dataBuffer);
+
+                            var length = BitConverter.ToUInt16(dataBuffer, 0) + 4;
+                            var packetData = new byte[length];
+
+                            Buffer.BlockCopy(dataBuffer, 0, packetData, 0, length);
+
+                            var packet = new Packet(dataBuffer, 4);
+
+                            if (length > recievedBytes)
+                                packetQueue.Enqueue(packet);
+
+                            Task.Run(() => ProcessPacket(packet));
+
+                            recievedBytes -= length;
+
+                            Buffer.BlockCopy(dataBuffer, length, dataBuffer, 0, recievedBytes);
+                        }
+                    }
+                    else
+                    {
+                        var packet = new Packet(dataBuffer);
+
+                        Task.Run(() => ProcessPacket(packet));
+                    }
+
+                    client.ReceiveAsync(e);
+                }
+            }
+            catch (Exception ex)
+            {
+                Dispose();
+
+                ExceptionLog.Write(ex);
+
+                Log.Message(LogType.Error, "{0}", ex.Message);
+            }
         }
 
         public override async Task ProcessPacket(Packet packet)

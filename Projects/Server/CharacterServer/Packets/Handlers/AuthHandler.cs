@@ -21,6 +21,7 @@ using CharacterServer.Managers;
 using CharacterServer.Network;
 using CharacterServer.Packets.Client.Authentication;
 using CharacterServer.Packets.Server.Authentication;
+using CharacterServer.Packets.Server.Misc;
 using Framework.Attributes;
 using Framework.Constants.Account;
 using Framework.Constants.Misc;
@@ -108,6 +109,8 @@ namespace CharacterServer.Packets.Handlers
                 session.Send(authResponse);
 
                 AddonHandler.HandleAddonInfo(session, addonData);
+
+                session.Send(new TutorialFlags());
             }
             else
                 session.Send(authResponse);

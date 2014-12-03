@@ -71,6 +71,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Remoting" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -84,11 +85,14 @@
     <Compile Include="Constants\Net\ServerMessage.cs" />
     <Compile Include="Managers\Manager.cs" />
     <Compile Include="Managers\RedirectManager.cs" />
+    <Compile Include="Managers\SessionManager.cs" />
     <Compile Include="Network\WorldSession.cs" />
     <Compile Include="Network\Server.cs" />
     <Compile Include="Packets\Handlers\AuthHandler.cs" />
     <Compile Include="Packets\Handlers\CharacterHandler.cs" />
+    <Compile Include="Packets\Handlers\NetHandler.cs" />
     <Compile Include="Packets\PacketManager.cs" />
+    <Compile Include="Packets\Server\Object\ObjectUpdate.cs" />
     <Compile Include="WorldServer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

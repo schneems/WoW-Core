@@ -16,16 +16,72 @@
  */
 
 using System;
+using System.Collections.Concurrent;
+using Framework.Constants.Misc;
+using Framework.Cryptography.WoW;
 using Framework.Database;
 using Framework.Database.Auth.Entities;
+using Framework.Logging;
 using Framework.Misc;
 
 namespace WorldServer.Managers
 {
     class RedirectManager : Singleton<RedirectManager>
     {
+        public ConcurrentDictionary<int, WorldNode> WorldNodes { get; set; }
+        public RsaCrypt Crypt { get; set; }
+
         RedirectManager()
         {
+            WorldNodes = new ConcurrentDictionary<int, WorldNode>();
+
+            // Initialize RSA crypt
+            Crypt = new RsaCrypt();
+
+            Crypt.InitializeEncryption(RsaStore.D, RsaStore.P, RsaStore.Q, RsaStore.DP, RsaStore.DQ, RsaStore.InverseQ);
+            Crypt.InitializeDecryption(RsaStore.Exponent, RsaStore.Modulus);
+
+            LoadAvailableWorldNodes();
+
+        }
+
+        void LoadAvailableWorldNodes()
+        {
+            var worldNodes = DB.Auth.Select<WorldNode>();
+
+            if (worldNodes.Count == 0)
+                Log.Message(LogType.Error, "No WorldNodes available.");
+
+            worldNodes.ForEach(ws =>
+            {
+                if (WorldNodes.TryAdd(ws.MapId, ws))
+                    Log.Message(LogType.Normal, "Added new WorldNode for Map '{0}' at '{1}:{2}'.", ws.MapId, ws.Address, ws.Port);
+            });
+
+            Log.Message(LogType.Normal, "Loaded {0} WorldNodes.", WorldNodes.Count);
+            Log.Message();
+        }
+
+        public WorldNode GetWorldNode(int mapId)
+        {
+            WorldNode worldNode;
+
+            // Try to get available world servers for the specific map or for all maps (-1).
+            if (WorldNodes.TryGetValue(mapId, out worldNode) || WorldNodes.TryGetValue(-1, out worldNode))
+                if (Helpers.CheckConnection(worldNode.Address, worldNode.Port))
+                    return worldNode;
+
+            return null;
+        }
+
+        public ulong CreateRedirectKey(ulong characterGuid)
+        {
+            var key = BitConverter.ToUInt64(new byte[0].GenerateRandomKey(8), 0);
+
+            if (DB.Auth.Add(new CharacterRedirect { Key = key, CharacterGuid = characterGuid }))
+                return key;
+
+            return 0;
         }
 
         public Tuple<Account, GameAccount> GetAccountInfo(ulong key)

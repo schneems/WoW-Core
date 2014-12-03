@@ -16,21 +16,17 @@
  */
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Framework.Database.Character.Entities;
 
 namespace Framework.Objects.WorldEntities
 {
+    [Serializable]
     public sealed class Player : IWorldObject
     {
-        public Character Data { get; set; }
+        public CharacterData Data { get; set; }
 
         public Player()
         {
-            
+            Data = new CharacterData();
         }
 
         public void InitializeDescriptors()

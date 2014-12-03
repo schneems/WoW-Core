@@ -1,6 +1,6 @@
 ﻿/*
  * Copyright (C) 2012-2014 Arctium Emulation <http://arctium.org>
- *
+ * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -20,13 +20,12 @@ using System.Net;
 using System.Net.Sockets;
 using System.Threading;
 using System.Threading.Tasks;
-using AuthServer.Managers;
-using AuthServer.Network.Sessions;
 using Framework.Constants.Misc;
 using Framework.Logging;
 using Framework.Logging.IO;
+using WorldNode.Managers;
 
-namespace AuthServer.Network
+namespace WorldNode.Network
 {
     class Server : IDisposable
     {
@@ -39,7 +38,7 @@ namespace AuthServer.Network
 
             if (!IPAddress.TryParse(ip, out bindIP))
             {
-                Log.Message(LogType.Normal, "AuthServer can't be started: Invalid IP-Address ({0})", ip);
+                Log.Message(LogType.Normal, "WorldNode can't be started: Invalid IP-Address ({0})", ip);
                 Console.ReadKey(true);
 
                 Environment.Exit(0);
@@ -70,17 +69,16 @@ namespace AuthServer.Network
 
                 if (listener.Pending())
                 {
-                    if (!Manager.GetState())
-                        continue;
-
                     var clientSocket = await listener.AcceptSocketAsync();
 
                     if (clientSocket != null)
                     {
-                        var clientId = ++Manager.SessionMgr.LastSessionId;
+                        var worker = new NodeSession(clientSocket);
 
-                        if (Manager.SessionMgr.Clients.TryAdd(clientId, new Client { Id = clientId, Session = new AuthSession(clientSocket) }))
-                            await Task.Factory.StartNew(Manager.SessionMgr.Clients[clientId].Session.Accept);
+                        worker.Id = ++Manager.Session.LastSessionId;
+
+                        if (Manager.Session.Add(worker.Id, worker))
+                            await Task.Factory.StartNew(Manager.Session.Sessions[worker.Id].Accept);
                     }
                 }
             }

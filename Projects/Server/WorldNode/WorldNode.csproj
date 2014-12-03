@@ -71,6 +71,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Remoting" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -78,10 +79,29 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Attributes\MessageAttribute.cs" />
+    <Compile Include="Configuration\NodeConfig.cs" />
     <Compile Include="Constants\Net\ClientMessage.cs" />
     <Compile Include="Constants\Net\ServerMessage.cs" />
+    <Compile Include="Managers\Manager.cs" />
+    <Compile Include="Managers\RedirectManager.cs" />
+    <Compile Include="Managers\SessionManager.cs" />
+    <Compile Include="Network\Server.cs" />
+    <Compile Include="Network\NodeSession.cs" />
+    <Compile Include="Packets\Handlers\AuthHandler.cs" />
+    <Compile Include="Packets\PacketManager.cs" />
     <Compile Include="WorldNode.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Framework\Framework.csproj">
+      <Project>{b7d0e27f-3ab2-413a-b9af-040c67750639}</Project>
+      <Name>Framework</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Packets\Client\" />
+    <Folder Include="Packets\Server\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

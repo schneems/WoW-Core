@@ -298,3 +298,19 @@ CREATE TABLE `WorldServers` (
 -- Records of WorldServers
 -- ----------------------------
 INSERT INTO `WorldServers` VALUES ('-1', '127.0.0.1', '8100');
+
+-- ----------------------------
+-- Table structure for WorldNodes
+-- ----------------------------
+DROP TABLE IF EXISTS `WorldNodes`;
+CREATE TABLE `WorldNodes` (
+  `MapId` int(10) NOT NULL DEFAULT '-1',
+  `Address` varchar(15) DEFAULT '',
+  `Port` smallint(5) unsigned NOT NULL DEFAULT '9100',
+  PRIMARY KEY (`MapId`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of WorldNodes
+-- ----------------------------
+INSERT INTO `WorldNodes` VALUES ('-1', '127.0.0.1', '9100');
