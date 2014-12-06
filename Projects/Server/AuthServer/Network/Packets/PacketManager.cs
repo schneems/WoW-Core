@@ -29,7 +29,7 @@ namespace AuthServer.Network.Packets
 {
     class PacketManager
     {
-        static ConcurrentDictionary<Tuple<AuthClientMessage, AuthChannel>, HandlePacket> MessageHandlers = new ConcurrentDictionary<Tuple<AuthClientMessage, AuthChannel>, HandlePacket>();
+        static readonly ConcurrentDictionary<Tuple<AuthClientMessage, AuthChannel>, HandlePacket> MessageHandlers = new ConcurrentDictionary<Tuple<AuthClientMessage, AuthChannel>, HandlePacket>();
         delegate void HandlePacket(AuthPacket packet, Client client);
 
         public static void DefineMessageHandler()
