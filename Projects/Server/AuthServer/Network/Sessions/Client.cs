@@ -27,14 +27,13 @@ namespace AuthServer.Network.Sessions
         public long Id { get; set; }
         public AuthSession Session { get; set; }
         public IEnumerable<Module> Modules { get; set; }
-        public string ConnectionInfo { get { return Session.GetClientInfo(); } }
+        public string ConnectionInfo => Session.GetClientInfo();
         public string Game { get; set; }
         public string OS { get; set; }
 
         public void SendPacket(AuthPacket packet)
         {
-            if (Session != null)
-                Session.Send(packet);
+            Session?.Send(packet);
         }
 
         public void Dispose()
