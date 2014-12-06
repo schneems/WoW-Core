@@ -27,7 +27,7 @@ namespace CharacterServer.Configuration
 {
     class CharacterConfig
     {
-        public static bool IsInitialized = false;
+        public static bool IsInitialized;
         static Config config;
 
         #region Config Options
