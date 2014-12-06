@@ -43,9 +43,9 @@ namespace CharacterServer.Managers
                     races.Add(new RaceClassAvailability { RaceOrClassID = gar.Race, RequiredExpansion = gar.Expansion });
                 });
             }
-            else if (realm.RealmRaces != null)
+            else
             {
-                realm.RealmRaces.ToList().ForEach(rr =>
+                realm.RealmRaces?.ToList().ForEach(rr =>
                 {
                     races.Add(new RaceClassAvailability { RaceOrClassID = rr.Race, RequiredExpansion = rr.Expansion });
                 });
@@ -65,9 +65,9 @@ namespace CharacterServer.Managers
                     classes.Add(new RaceClassAvailability { RaceOrClassID = gac.Class, RequiredExpansion = gac.Expansion });
                 });
             }
-            else if (realm.RealmClasses != null)
+            else
             {
-                realm.RealmClasses.ToList().ForEach(rc =>
+                realm.RealmClasses?.ToList().ForEach(rc =>
                 {
                     classes.Add(new RaceClassAvailability { RaceOrClassID = rc.Class, RequiredExpansion = rc.Expansion });
                 });
@@ -110,31 +110,28 @@ namespace CharacterServer.Managers
             }
             else
             {
-                if (realm.RealmCharacterTemplates != null)
+                realm.RealmCharacterTemplates?.ToList().ForEach(rt =>
                 {
-                    realm.RealmCharacterTemplates.ToList().ForEach(rt =>
+                    var set = DB.Character.Single<CharacterTemplateSet>(cts => cts.Id == rt.SetId);
+
+                    var templateSet = new AvailableCharacterTemplateSet
                     {
-                        var set = DB.Character.Single<CharacterTemplateSet>(cts => cts.Id == rt.SetId);
+                        TemplateSetID = (uint)set.Id,
+                        Name          = set.Name,
+                        Description   = set.Description,
+                    };
 
-                        var templateSet = new AvailableCharacterTemplateSet
+                    set.CharacterTemplateClasses.ToList().ForEach(ctc =>
+                    {
+                        templateSet.Classes.Add(new AvailableCharacterTemplateClass
                         {
-                            TemplateSetID = (uint)set.Id,
-                            Name          = set.Name,
-                            Description   = set.Description,
-                        };
-
-                        set.CharacterTemplateClasses.ToList().ForEach(ctc =>
-                        {
-                            templateSet.Classes.Add(new AvailableCharacterTemplateClass
-                            {
-                                ClassID      = ctc.ClassId,
-                                FactionGroup = ctc.FactionGroup
-                            });
+                            ClassID      = ctc.ClassId,
+                            FactionGroup = ctc.FactionGroup
                         });
-
-                        charTemplates.Add(templateSet);
                     });
-                }
+
+                    charTemplates.Add(templateSet);
+                });
             }
 
             return charTemplates;
