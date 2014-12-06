@@ -75,7 +75,7 @@ namespace AuthServer.Commands
 
                 if (account != null)
                 {
-                    var exists = account.GameAccounts != null ? account.GameAccounts.Any(ga => ga.Game == game && ga.Index == index) : false;
+                    var exists = account.GameAccounts?.Any(ga => ga.Game == game && ga.Index == index) ?? false;
 
                     if (!exists)
                     {
@@ -113,7 +113,7 @@ namespace AuthServer.Commands
 
                 if (account != null)
                 {
-                    if (DB.Auth.Delete<Account>(account))
+                    if (DB.Auth.Delete(account))
                         Log.Message(LogType.Normal, "Account '{0}' successfully deleted.", account.Email);
                     else
                         Log.Message(LogType.Error, "Failed to delete account '{0}'.", account.Email);
