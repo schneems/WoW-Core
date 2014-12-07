@@ -53,12 +53,12 @@ namespace Framework.Cryptography.WoW
 
         void WritePublicByteArray(ref StringBuilder sb, string name, byte[] data)
         {
-            sb.AppendFormat("    public static byte[] {0} = {{ ", name);
+            sb.Append("    public static byte[] \{name} = { ");
 
             for (int i = 0; i < data.Length; i++)
             {
                 if (i == data.Length - 1)
-                    sb.Append("0x\{data[i]:X2} }};");
+                    sb.Append("0x\{data[i]:X2} };");
                 else
                     sb.Append("0x\{data[i]:X2}, ");
             }

@@ -29,7 +29,7 @@ namespace Framework.Logging.IO
 
         public LogWriter(string directory, string file)
         {
-            LogFile = string.Format("{0}/{1}_{2}", directory, DateTime.Now.ToString("yyyy-MM-dd_hh-mm-ss"), file);
+            LogFile = "\{directory}/\{DateTime.Now.ToString("yyyy - MM - dd_hh - mm - ss")}_\{file}";
 
             logStream = new FileStream(LogFile, FileMode.Append, FileAccess.Write, FileShare.ReadWrite, 4096, true);
         }

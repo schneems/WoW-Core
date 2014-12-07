@@ -46,13 +46,13 @@ namespace Framework.Logging.IO
         {
             var sb = new StringBuilder();
 
-            sb.AppendFormat("Time: [{0}]", DateTime.Now.ToString());
+            sb.Append("Time: [\{DateTime.Now}]");
             sb.AppendLine();
 
-            sb.AppendFormat("Message: {0}", ex.Message);
+            sb.Append("Message: \{ex.Message}");
             sb.AppendLine();
 
-            sb.AppendFormat("StackTrace: {0}", ex.StackTrace);
+            sb.Append("StackTrace: \{ex.StackTrace}");
             sb.AppendLine();
             sb.AppendLine();
 
