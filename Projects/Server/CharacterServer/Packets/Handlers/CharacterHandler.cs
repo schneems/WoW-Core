@@ -44,9 +44,7 @@ namespace CharacterServer.Packets.Handlers
         [Message(ClientMessage.EnumCharacters, SessionState.Authenticated)]
         public static void HandleEnumCharacters(EnumCharacters enumCharacters, CharacterSession session)
         {
-            // ORM seems to have problems with session.GameAccount.Id...
-            var gameAccount = session.GameAccount;
-            var charList = DB.Character.Where<Character>(c => c.GameAccountId == gameAccount.Id);
+            var charList = DB.Character.Where<Character>(c => c.GameAccountId == session.GameAccount.Id);
 
             var enumCharactersResult = new EnumCharactersResult();
 

@@ -37,7 +37,8 @@ namespace Framework.Database
 
                 return connectionString;
             }
-            else if (connType == ConnectionType.MSSQL)
+
+            if (connType == ConnectionType.MSSQL)
             {
                 var connectionString = "Data Source=\{host}; Initial Catalog = \{database}; User ID = \{user}; Password = \{password};Pooling=\{pooling}";
 
