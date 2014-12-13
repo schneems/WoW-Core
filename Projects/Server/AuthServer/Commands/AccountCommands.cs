@@ -119,7 +119,7 @@ namespace AuthServer.Commands
                         Log.Message(LogType.Error, "Failed to delete account '{0}'.", account.Email);
                 }
                 else
-                    Log.Message(LogType.Error, "Account '{0}' doesn't exist.", account.Email);
+                    Log.Message(LogType.Error, "Account '{0}' doesn't exist.", email);
             }
         }
     }
