@@ -29,7 +29,7 @@ namespace Framework.Datastore
         public static List<ChrRace> ChrRaces                                           { get; set; }
         public static Lookup<int, ItemModifiedAppearance> ItemModifiedAppearances      { get; set; }
         public static Dictionary<uint, ItemAppearance> ItemAppearances                 { get; set; }
-        public static List<Item> Items                                                 { get; set; }
+        public static Dictionary<uint, Item> Items                                     { get; set; }
         public static List<NameGen> NameGens                                           { get; set; }
         public static Dictionary<uint, SkillLine> SkillLines                           { get; set; }
         public static List<SkillLineAbility> SkillLineAbilities                        { get; set; }

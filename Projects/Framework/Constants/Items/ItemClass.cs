@@ -15,23 +15,34 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-using Framework.Constants.Items;
-using Lappa_ORM;
-using Lappa_ORM.Attributes;
+using System;
 
-namespace Framework.Database.Character.Entities
+namespace Framework.Constants.Items
 {
-    public class CharacterItem : Entity
+    public enum ItemClass : byte
     {
-        [PrimaryKey]
-        public ulong CharacterGuid { get; set; }
-        public uint ItemId         { get; set; }
-        public byte Bag            { get; set; }
-        public EquipmentSlot Slot  { get; set; }
-        public ItemMode Mode       { get; set; }
-        public bool Equipped       { get; set; }
+        Consumable    = 0,
+        Container     = 1,
+        Weapon        = 2,
+        Gem           = 3,
+        Armor         = 4,
+        Reagent       = 5,
+        Projectile    = 6,
+        TradeGoods    = 7,
+        Recipe        = 9,
+        Quiver        = 11,
+        Quest         = 12,
+        Key           = 13,
+        Miscellaneous = 15,
+        Glyph         = 16,
+        BattlePets    = 17,
 
-        [ForeignKey("Guid")]
-        public virtual Character Character { get; set; }
+        // Obsolete members
+        [Obsolete("", true)]
+        Generic       = 8,
+        [Obsolete("", true)]
+        Money         = 10,
+        [Obsolete("", true)]
+        Permanent     = 14,
     }
 }

@@ -32,6 +32,7 @@ using Framework.Constants.Net;
 using Framework.Constants.Object;
 using Framework.Database;
 using Framework.Database.Character.Entities;
+using Framework.Database.Data.Entities;
 using Framework.Datastore;
 using Framework.Objects;
 using Framework.Packets.Client.Character;
@@ -50,7 +51,7 @@ namespace CharacterServer.Packets.Handlers
 
             charList.ForEach(c =>
             {
-                enumCharactersResult.Characters.Add(new CharacterListEntry
+                var character = new CharacterListEntry
                 {
                     Guid                 = new SmartGuid { Type = GuidType.Player, MapId = (ushort)c.Map, CreationBits = c.Guid },
                     Name                 = c.Name,
@@ -75,7 +76,29 @@ namespace CharacterServer.Packets.Handlers
                     PetCreatureDisplayID = c.PetCreatureDisplayId,
                     PetExperienceLevel   = c.PetLevel,
                     PetCreatureFamilyID  = c.PetCreatureFamily,
-                });
+                };
+
+                if (c.CharacterItems != null)
+                {
+                    for (var i = 0; i < character.InventoryItems.Length; i++)
+                    {
+                        foreach (var ci in c.CharacterItems)
+                        {
+                            Item item;
+
+                            if ((int)ci.Slot == i && ClientDB.Items.TryGetValue(ci.ItemId, out item) && ci.Equipped)
+                            {
+                                character.InventoryItems[i].DisplayID = (uint)item.DisplayId;
+                                character.InventoryItems[i].InvType = (byte)item.Slot;
+
+                                break;
+                            }
+
+                        }
+                    }
+                }
+
+                enumCharactersResult.Characters.Add(character);
             });
 
             session.Send(enumCharactersResult);
@@ -140,9 +163,10 @@ namespace CharacterServer.Packets.Handlers
 
                         if (DB.Character.Add(newChar))
                         {
-                            createChar.Code = CharCreateCode.Success;
-
                             Manager.Character.LearnStartAbilities(newChar);
+                            Manager.Character.AddStartItems(newChar);
+
+                            createChar.Code = CharCreateCode.Success;
                         }
                         else
                             createChar.Code = CharCreateCode.Success;

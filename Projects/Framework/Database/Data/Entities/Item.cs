@@ -16,8 +16,10 @@
  */
 
 using System.Linq;
+using Framework.Constants.Items;
 using Framework.Datastore;
 using Lappa_ORM;
+using InvType = Framework.Constants.Items.InventoryType;
 
 namespace Framework.Database.Data.Entities
 {
@@ -35,10 +37,12 @@ namespace Framework.Database.Data.Entities
 
         // Non table properties (defined with get & private set), ignored on database queries.
         public int DisplayId { get; private set; }
+        public EquipmentSlot Slot { get; private set; }
 
         public override void InitializeNonTableProperties()
         {
             DisplayId = GetDisplayId();
+            Slot = GetEquipmentSlot();
         }
 
         // Set default DisplayId for every Item using Mode = 0 & Version = 0.
@@ -52,6 +56,52 @@ namespace Framework.Database.Data.Entities
                 displayId = ClientDB.ItemAppearances[(uint)appearanceId].DisplayId;
 
             return displayId;
+        }
+
+        EquipmentSlot GetEquipmentSlot()
+        {
+            var slot = EquipmentSlot.NonEquip;
+
+            switch ((InvType)InventoryType)
+            {
+                case InvType.Usable:
+                    slot = EquipmentSlot.NonEquip;
+                    break;
+                case InvType.Finger:
+                    slot = EquipmentSlot.Finger0;
+                    break;
+                case InvType.Trinket:
+                    slot = EquipmentSlot.Trinket0;
+                    break;
+                case InvType.Weapon:
+                case InvType.TwoHandWeapon:
+                case InvType.WeaponMainHand:
+                case InvType.Thrown:
+                case InvType.RangedRight:
+                case InvType.Quiver:
+                case InvType.Relic:
+                    slot = EquipmentSlot.MainHand;
+                    break;
+                case InvType.Shield:
+                case InvType.WeaponOffHand:
+                case InvType.Holdable:
+                    slot = EquipmentSlot.SecondaryHand;
+                    break;
+                case InvType.Cloak:
+                    slot = EquipmentSlot.Back;
+                    break;
+                case InvType.Tabard:
+                    slot = EquipmentSlot.Tabard;
+                    break;
+                case InvType.Robe:
+                    slot = EquipmentSlot.Chest;
+                    break;
+                default:
+                    slot = (EquipmentSlot)(InventoryType - 1);
+                    break;
+            }
+
+            return slot;
         }
     }
 }

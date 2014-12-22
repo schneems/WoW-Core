@@ -18,6 +18,7 @@
 using System.Collections.Concurrent;
 using System.Linq;
 using System.Threading.Tasks;
+using Framework.Constants.Items;
 using Framework.Database;
 using Framework.Database.Character.Entities;
 using Framework.Database.Data.Entities;
@@ -87,7 +88,46 @@ namespace CharacterServer.Managers
 
         public void AddStartItems(Character character)
         {
+            var guid = DB.Character.Single<Character>(c => c.Name == character.Name).Guid;
 
+            if (guid != 0)
+            {
+                var startItems = ClientDB.CharStartOutfits.SingleOrDefault(cso => cso.RaceId == character.Race && cso.ClassId == character.Class &&
+                                                                           cso.SexId == character.Sex)?.ItemId;
+
+                if (startItems != null)
+                {
+                    var items = new ConcurrentDictionary<uint, CharacterItem>();
+
+                    for (var i = 0; i < startItems.Length; i++)
+                    {
+                        if (startItems[i] != 0)
+                        {
+                            var item = ClientDB.Items[startItems[i]];
+                            var charItem = new CharacterItem
+                            {
+                                CharacterGuid = guid,
+                                ItemId        = item.Id,
+                                Bag           = 0,
+                                Slot          = item.Slot,
+                                Equipped      = true
+                            };
+
+                            if (item.InventoryType == (int)InventoryType.Usable)
+                            {
+                                // Default bag & bag slot
+                                charItem.Bag = 0xFF;
+                                charItem.Slot = (EquipmentSlot.Bag4 + 1);
+                                charItem.Equipped = false;
+                            }
+
+                            items.TryAdd(item.Id, charItem);
+                        }
+                    }
+
+                    DB.Character.Add(items.Values.AsEnumerable());
+                }
+            }
         }
     }
 }

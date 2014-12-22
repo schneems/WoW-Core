@@ -43,7 +43,7 @@ namespace CharacterServer.Managers
             ClientDB.ChrRaces                = DB.Data.Select<ChrRace>();
             ClientDB.ItemModifiedAppearances = DB.Data.Select<ItemModifiedAppearance>().ToLookup(ima => ima.ItemId) as Lookup<int, ItemModifiedAppearance>;
             ClientDB.ItemAppearances         = DB.Data.Select<uint, ItemAppearance>(ia => ia.Id);
-            ClientDB.Items                   = DB.Data.Select<Item>();
+            ClientDB.Items                   = DB.Data.Select<uint, Item>(i => i.Id);
             ClientDB.NameGens                = DB.Data.Select<NameGen>();
             ClientDB.SkillLines              = DB.Data.Select<uint, SkillLine>(sl => sl.ID);
             ClientDB.SkillLineAbilities      = DB.Data.Select<SkillLineAbility>();
