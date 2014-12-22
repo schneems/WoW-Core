@@ -22,12 +22,12 @@ namespace Framework.Database.Character.Entities
 {
     public class CharacterAction : Entity
     {
-        [Field(PrimaryKey = true)]
+        [PrimaryKey]
         public ulong CharacterGuid { get; set; }
         public uint Action         { get; set; }
         public byte Slot           { get; set; }
 
-        [Field(ForeignKey = "Guid")]
+        [ForeignKey("Guid")]
         public virtual Character Character { get; set; }
     }
 }

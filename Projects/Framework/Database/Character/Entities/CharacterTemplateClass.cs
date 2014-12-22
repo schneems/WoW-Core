@@ -23,7 +23,7 @@ namespace Framework.Database.Character.Entities
 {
     public class CharacterTemplateClass : Entity
     {
-        [Field(PrimaryKey = true)]
+        [PrimaryKey]
         public byte ClassId      { get; set; }
         public int SetId         { get; set; }
         public byte FactionGroup { get; set; } // Alliance = 3, Horde = 5

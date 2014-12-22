@@ -22,7 +22,7 @@ namespace Framework.Database.Character.Entities
 {
     public class CharacterCreationSpell : Entity
     {
-        [Field(PrimaryKey = true)]
+        [PrimaryKey]
         public byte Race    { get; set; }
         public byte Class   { get; set; }
         public int SpellId  { get; set; }

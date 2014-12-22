@@ -22,11 +22,11 @@ namespace Framework.Database.Character.Entities
 {
     public class CharacterTemplateSpell : Entity
     {
-        [Field(PrimaryKey = true)]
+        [PrimaryKey]
         public int SpellId  { get; set; }
         public byte ClassId { get; set; }
 
-        [Field(ForeignKey = "ClassId")]
+        [ForeignKey("ClassId")]
         public virtual CharacterTemplateClass CharacterTemplateClass { get; set; }
     }
 }

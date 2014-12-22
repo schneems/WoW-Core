@@ -22,7 +22,7 @@ namespace Framework.Database.Auth.Entities
 {
     public class CharacterRedirect : Entity
     {
-        [Field(PrimaryKey = true)]
+        [PrimaryKey]
         public ulong Key           { get; set; }
         public ulong CharacterGuid { get; set; }
     }

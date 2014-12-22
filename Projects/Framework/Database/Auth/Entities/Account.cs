@@ -24,13 +24,13 @@ namespace Framework.Database.Auth.Entities
 {
     public class Account : Entity
     {
-        [Field(AutoIncrement = true)]
+        [AutoIncrement]
         public uint Id                 { get; set; }
         public string GivenName        { get; set; }
         public string Surname          { get; set; }
         public string Email            { get; set; }
         public string Tag              { get; set; }
-        public Region Region          { get; set; }
+        public Region Region           { get; set; }
         public string Language         { get; set; }
         public AccountFlags Flags      { get; set; }
         public string PasswordVerifier { get; set; }

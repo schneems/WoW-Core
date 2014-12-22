@@ -22,7 +22,7 @@ namespace Framework.Database.Character.Entities
 {
     public class CharacterTemplateData : Entity
     {
-        [Field(PrimaryKey = true)]
+        [PrimaryKey]
         public byte ClassId { get; set; }
         public ushort MapId { get; set; }
         public ushort Zone  { get; set; }
@@ -31,7 +31,7 @@ namespace Framework.Database.Character.Entities
         public float Z      { get; set; }
         public float O      { get; set; }
 
-        [Field(ForeignKey = "ClassId")]
+        [ForeignKey("ClassId")]
         public virtual CharacterTemplateClass CharacterTemplateClass { get; set; }
     }
 }

@@ -22,12 +22,12 @@ namespace Framework.Database.Character.Entities
 {
     public class CharacterTemplateItem : Entity
     {
-        [Field(PrimaryKey = true)]
+        [PrimaryKey]
         public int ItemId      { get; set; }
         public byte ClassId    { get; set; }
         public bool IsEquipped { get; set; }
 
-        [Field(ForeignKey = "ClassId")]
+        [ForeignKey("ClassId")]
         public virtual CharacterTemplateClass CharacterTemplateClass { get; set; }
     }
 }

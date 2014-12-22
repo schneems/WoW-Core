@@ -22,7 +22,7 @@ namespace Framework.Database.Character.Entities
 {
     public class CharacterTemplateAction : Entity
     {
-        [Field(PrimaryKey = true)]
+        [PrimaryKey]
         public byte ClassId { get; set; }
         public int Action   { get; set; }
         public byte Slot    { get; set; }

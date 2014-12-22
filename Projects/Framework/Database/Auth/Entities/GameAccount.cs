@@ -24,7 +24,7 @@ namespace Framework.Database.Auth.Entities
 {
     public class GameAccount : Entity
     {
-        [Field(AutoIncrement = true)]
+        [AutoIncrement]
         public uint Id                { get; set; }
         public uint AccountId         { get; set; }
         public string Game            { get; set; }

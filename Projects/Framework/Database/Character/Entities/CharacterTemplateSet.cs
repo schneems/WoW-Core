@@ -27,7 +27,7 @@ namespace Framework.Database.Character.Entities
         public string Name        { get; set; }
         public string Description { get; set; }
 
-        [Field(ForeignKey = "SetId")]
+        [ForeignKey("SetId")]
         public virtual IList<CharacterTemplateClass> CharacterTemplateClasses { get; set; }
     }
 }

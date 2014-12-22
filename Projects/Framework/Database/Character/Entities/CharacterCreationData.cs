@@ -23,7 +23,7 @@ namespace Framework.Database.Character.Entities
 {
     public class CharacterCreationData : Entity
     {
-        [Field(PrimaryKey = true)]
+        [PrimaryKey]
         public Race Race           { get; set; }
         public Class Class         { get; set; }
         public uint Zone           { get; set; }

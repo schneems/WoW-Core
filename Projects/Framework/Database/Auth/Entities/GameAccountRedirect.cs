@@ -22,7 +22,7 @@ namespace Framework.Database.Auth.Entities
 {
     public class GameAccountRedirect : Entity
     {
-        [Field(PrimaryKey = true)]
+        [PrimaryKey]
         public ulong Key          { get; set; }
         public uint GameAccountId { get; set; }
     }
