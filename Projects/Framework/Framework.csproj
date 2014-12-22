@@ -77,6 +77,7 @@
     <Compile Include="Constants\General\ClassMask.cs" />
     <Compile Include="Constants\General\Race.cs" />
     <Compile Include="Constants\General\RaceMask.cs" />
+    <Compile Include="Constants\Items\ItemMode.cs" />
     <Compile Include="Constants\Misc\LogType.cs" />
     <Compile Include="Constants\Net\GlobalClientMessage.cs" />
     <Compile Include="Constants\Net\GlobalServerMessage.cs" />
@@ -129,10 +130,14 @@
     <Compile Include="Database\Data\Entities\CharStartOutfit.cs" />
     <Compile Include="Database\Data\Entities\ChrClass.cs" />
     <Compile Include="Database\Data\Entities\ChrRace.cs" />
+    <Compile Include="Database\Data\Entities\Item.cs" />
+    <Compile Include="Database\Data\Entities\ItemAppearance.cs" />
+    <Compile Include="Database\Data\Entities\ItemModifiedAppearance.cs" />
     <Compile Include="Database\Data\Entities\NameGen.cs" />
     <Compile Include="Database\Data\Entities\SkillLine.cs" />
     <Compile Include="Database\Data\Entities\SkillLineAbility.cs" />
     <Compile Include="Database\DB.cs" />
+    <Compile Include="Datastore\ClientDB.cs" />
     <Compile Include="Logging\IO\ExceptionLog.cs" />
     <Compile Include="Logging\IO\LogWriter.cs" />
     <Compile Include="Logging\Log.cs" />

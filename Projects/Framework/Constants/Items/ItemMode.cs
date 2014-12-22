@@ -15,23 +15,21 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-using Framework.Constants.Items;
-using Lappa_ORM;
-using Lappa_ORM.Attributes;
-
-namespace Framework.Database.Character.Entities
+namespace Framework.Constants.Items
 {
-    public class CharacterItem : Entity
+    public enum ItemMode : byte
     {
-        [PrimaryKey]
-        public ulong CharacterGuid { get; set; }
-        public uint ItemId         { get; set; }
-        public byte Bag            { get; set; }
-        public byte Slot           { get; set; }
-        public ItemMode Mode       { get; set; }
-        public bool Equipped       { get; set; }
+        // Single modes
+        Normal     = 0,
+        Heroic     = 1,
+        Unknown    = 2,
+        Mythic     = 3,
+        RaidFinder = 4,
+        Dungeon    = 5,
 
-        [ForeignKey("Guid")]
-        public virtual Character Character { get; set; }
+        // Staged modes (Epic Stages...)
+        Stage1     = 6,
+        Stage2     = 7,
+        Stage3     = 8
     }
 }

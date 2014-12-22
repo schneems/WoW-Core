@@ -16,10 +16,10 @@
  */
 
 using System.Linq;
-using CharacterServer.ObjectStores;
 using Framework.Constants.Misc;
 using Framework.Database;
 using Framework.Database.Data.Entities;
+using Framework.Datastore;
 using Framework.Logging;
 using Framework.Misc;
 
@@ -37,13 +37,16 @@ namespace CharacterServer.Managers
             Log.Message();
             Log.Message(LogType.Normal, "Initialize ClientDB storages...");
 
-            ClientDB.CharBaseInfo       = DB.Data.Select<CharBaseInfo>();
-            ClientDB.CharStartOutfits   = DB.Data.Select<CharStartOutfit>();
-            ClientDB.ChrClasses         = DB.Data.Select<ChrClass>();
-            ClientDB.ChrRaces           = DB.Data.Select<ChrRace>();
-            ClientDB.NameGens           = DB.Data.Select<NameGen>();
-            ClientDB.SkillLines         = DB.Data.Select<SkillLine>().ToDictionary(sl => sl.ID);
-            ClientDB.SkillLineAbilities = DB.Data.Select<SkillLineAbility>();
+            ClientDB.CharBaseInfo            = DB.Data.Select<CharBaseInfo>();
+            ClientDB.CharStartOutfits        = DB.Data.Select<CharStartOutfit>();
+            ClientDB.ChrClasses              = DB.Data.Select<ChrClass>();
+            ClientDB.ChrRaces                = DB.Data.Select<ChrRace>();
+            ClientDB.ItemModifiedAppearances = DB.Data.Select<ItemModifiedAppearance>().ToLookup(ima => ima.ItemId) as Lookup<int, ItemModifiedAppearance>;
+            ClientDB.ItemAppearances         = DB.Data.Select<uint, ItemAppearance>(ia => ia.Id);
+            ClientDB.Items                   = DB.Data.Select<Item>();
+            ClientDB.NameGens                = DB.Data.Select<NameGen>();
+            ClientDB.SkillLines              = DB.Data.Select<uint, SkillLine>(sl => sl.ID);
+            ClientDB.SkillLineAbilities      = DB.Data.Select<SkillLineAbility>();
 
             Log.Message(LogType.Normal, "ClientDB storages successfully initialized.");
             Log.Message();

@@ -95,8 +95,9 @@ CREATE TABLE `CharacterItems` (
   `ItemId` int(10) unsigned NOT NULL DEFAULT '0',
   `Bag` tinyint(3) unsigned NOT NULL DEFAULT '255',
   `Slot` tinyint(3) unsigned NOT NULL,
+  `Mode` tinyint(3) unsigned NOT NULL DEFAULT '0',
   `Equipped` tinyint(1) NOT NULL DEFAULT '0',
-  PRIMARY KEY (`CharacterGuid`),
+  PRIMARY KEY (`CharacterGuid`,`ItemId`),
   FOREIGN KEY (`CharacterGuid`) REFERENCES `Characters` (`Guid`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 

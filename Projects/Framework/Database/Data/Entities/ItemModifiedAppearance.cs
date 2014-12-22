@@ -15,23 +15,17 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-using Framework.Constants.Items;
 using Lappa_ORM;
-using Lappa_ORM.Attributes;
 
-namespace Framework.Database.Character.Entities
+namespace Framework.Database.Data.Entities
 {
-    public class CharacterItem : Entity
+    public class ItemModifiedAppearance : Entity
     {
-        [PrimaryKey]
-        public ulong CharacterGuid { get; set; }
-        public uint ItemId         { get; set; }
-        public byte Bag            { get; set; }
-        public byte Slot           { get; set; }
-        public ItemMode Mode       { get; set; }
-        public bool Equipped       { get; set; }
-
-        [ForeignKey("Guid")]
-        public virtual Character Character { get; set; }
+        public uint Id          { get; set; }
+        public int ItemId       { get; set; }
+        public int Mode         { get; set; }
+        public int AppearanceId { get; set; }
+        public int FileDataId   { get; set; } // Icon
+        public int Version      { get; set; }
     }
 }

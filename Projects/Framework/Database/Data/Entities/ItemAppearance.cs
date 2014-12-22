@@ -15,20 +15,14 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-using System.Collections.Generic;
-using Framework.Database.Data.Entities;
+using Lappa_ORM;
 
-namespace CharacterServer.ObjectStores
+namespace Framework.Database.Data.Entities
 {
-    class ClientDB
+    public class ItemAppearance : Entity
     {
-        public static List<CharBaseInfo> CharBaseInfo           { get; set; }
-        public static List<CharStartOutfit> CharStartOutfits    { get; set; }
-        public static List<ChrClass> ChrClasses                 { get; set; }
-        public static List<ChrRace> ChrRaces                    { get; set; }
-        public static List<NameGen> NameGens                    { get; set; }
-        public static Dictionary<uint, SkillLine> SkillLines    { get; set; }
-        public static List<SkillLineAbility> SkillLineAbilities { get; set; }
+        public uint Id        { get; set; }
+        public int DisplayId  { get; set; }
+        public int FileDataId { get; set; } // Icon
     }
 }
-
