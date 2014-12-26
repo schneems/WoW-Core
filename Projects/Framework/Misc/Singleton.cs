@@ -22,7 +22,7 @@ namespace Framework.Misc
 {
     public abstract class Singleton<T> where T : class
     {
-        public bool IsInitialized { get; set; } = false;
+        public bool IsInitialized { get; set; }
 
         static object sync = new object();
         static T instance;
