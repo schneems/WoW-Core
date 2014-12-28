@@ -37,44 +37,46 @@ namespace CharacterServer
             var authConnString = DB.CreateConnectionString(CharacterConfig.AuthDBHost, CharacterConfig.AuthDBUser, CharacterConfig.AuthDBPassword,
                                                            CharacterConfig.AuthDBDataBase, CharacterConfig.AuthDBPort, CharacterConfig.AuthDBPooling,
                                                            CharacterConfig.AuthDBMinPoolSize, CharacterConfig.AuthDBMaxPoolSize, CharacterConfig.AuthDBType);
-            var authConnection = DB.Auth.CreateConnection(authConnString, CharacterConfig.AuthDBType);
-
             var charConnString = DB.CreateConnectionString(CharacterConfig.CharacterDBHost, CharacterConfig.CharacterDBUser, CharacterConfig.CharacterDBPassword,
                                                            CharacterConfig.CharacterDBDataBase, CharacterConfig.CharacterDBPort, CharacterConfig.CharacterDBPooling,
                                                            CharacterConfig.CharacterDBMinPoolSize, CharacterConfig.CharacterDBMaxPoolSize, CharacterConfig.CharacterDBType);
-            var charConnection = DB.Character.CreateConnection(charConnString, CharacterConfig.CharacterDBType);
-
             var dataConnString = DB.CreateConnectionString(CharacterConfig.DataDBHost, CharacterConfig.DataDBUser, CharacterConfig.DataDBPassword,
                                                            CharacterConfig.DataDBDataBase, CharacterConfig.DataDBPort, CharacterConfig.DataDBPooling,
                                                            CharacterConfig.DataDBMinPoolSize, CharacterConfig.DataDBMaxPoolSize, CharacterConfig.DataDBType);
-            var dataCConnection = DB.Data.CreateConnection(dataConnString, CharacterConfig.DataDBType);
 
-            Log.Message(LogType.Init, "_____________World of Warcraft_____________");
-            Log.Message(LogType.Init, "    __                                     ");
-            Log.Message(LogType.Init, "    / |                     ,              ");
-            Log.Message(LogType.Init, "---/__|---)__----__--_/_--------------_--_-");
-            Log.Message(LogType.Init, "  /   |  /   ) /   ' /    /   /   /  / /  )");
-            Log.Message(LogType.Init, "_/____|_/_____(___ _(_ __/___(___(__/_/__/_");
-            Log.Message(LogType.Init, "______________CharacterServer______________");
-            Log.Message();
-
-            Helpers.PrintORMInfo();
-
-            Log.Message(LogType.Normal, "Starting Arctium WoW CharacterServer...");
-
-            using (var server = new Server(CharacterConfig.BindIP, CharacterConfig.BindPort))
+            if (DB.Auth.CreateConnection(authConnString, CharacterConfig.AuthDBType) &&
+                DB.Character.CreateConnection(charConnString, CharacterConfig.CharacterDBType) &&
+                DB.Data.CreateConnection(dataConnString, CharacterConfig.DataDBType))
             {
-                PacketManager.DefineMessageHandler();
+                Log.Message(LogType.Init, "_____________World of Warcraft_____________");
+                Log.Message(LogType.Init, "    __                                     ");
+                Log.Message(LogType.Init, "    / |                     ,              ");
+                Log.Message(LogType.Init, "---/__|---)__----__--_/_--------------_--_-");
+                Log.Message(LogType.Init, "  /   |  /   ) /   ' /    /   /   /  / /  )");
+                Log.Message(LogType.Init, "_/____|_/_____(___ _(_ __/___(___(__/_/__/_");
+                Log.Message(LogType.Init, "______________CharacterServer______________");
+                Log.Message();
 
-                Manager.Initialize();
+                Helpers.PrintORMInfo();
 
-                Log.Message(LogType.Normal, "CharacterServer successfully started");
-                Log.Message(LogType.Normal, "Total Memory: {0} Kilobytes", GC.GetTotalMemory(false) / 1024);
+                Log.Message(LogType.Normal, "Starting Arctium WoW CharacterServer...");
 
-                // No need of console commands.
-                while (true)
-                    Thread.Sleep(1);
+                using (var server = new Server(CharacterConfig.BindIP, CharacterConfig.BindPort))
+                {
+                    PacketManager.DefineMessageHandler();
+
+                    Manager.Initialize();
+
+                    Log.Message(LogType.Normal, "CharacterServer successfully started");
+                    Log.Message(LogType.Normal, "Total Memory: {0} Kilobytes", GC.GetTotalMemory(false) / 1024);
+
+                    // No need of console commands.
+                    while (true)
+                        Thread.Sleep(1);
+                }
             }
+            else
+                Log.Message(LogType.Error, "Not all database connections successfully opened.");
         }
 
         static void ReadArguments(string[] args)

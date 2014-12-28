@@ -16,14 +16,11 @@
  */
 
 using System;
-using System.Runtime.Remoting.Channels;
-using System.Runtime.Remoting.Channels.Ipc;
 using System.Threading;
 using Framework.Constants.Misc;
 using Framework.Database;
 using Framework.Logging;
 using Framework.Misc;
-using Framework.Network.Remoting;
 using WorldServer.Configuration;
 using WorldServer.Managers;
 using WorldServer.Network;
@@ -40,51 +37,53 @@ namespace WorldServer
             var authConnString = DB.CreateConnectionString(WorldConfig.AuthDBHost, WorldConfig.AuthDBUser, WorldConfig.AuthDBPassword,
                                                            WorldConfig.AuthDBDataBase, WorldConfig.AuthDBPort, WorldConfig.AuthDBPooling,
                                                            WorldConfig.AuthDBMinPoolSize, WorldConfig.AuthDBMaxPoolSize, WorldConfig.AuthDBType);
-            var authConnection = DB.Auth.CreateConnection(authConnString, WorldConfig.AuthDBType);
-
             var charConnString = DB.CreateConnectionString(WorldConfig.CharacterDBHost, WorldConfig.CharacterDBUser, WorldConfig.CharacterDBPassword,
                                                            WorldConfig.CharacterDBDataBase, WorldConfig.CharacterDBPort, WorldConfig.CharacterDBPooling,
                                                            WorldConfig.CharacterDBMinPoolSize, WorldConfig.CharacterDBMaxPoolSize, WorldConfig.CharacterDBType);
-            var charConnection = DB.Character.CreateConnection(charConnString, WorldConfig.CharacterDBType);
-
             var dataConnString = DB.CreateConnectionString(WorldConfig.DataDBHost, WorldConfig.DataDBUser, WorldConfig.DataDBPassword,
                                                            WorldConfig.DataDBDataBase, WorldConfig.DataDBPort, WorldConfig.DataDBPooling,
                                                            WorldConfig.DataDBMinPoolSize, WorldConfig.DataDBMaxPoolSize, WorldConfig.DataDBType);
-            var dataCConnection = DB.Data.CreateConnection(dataConnString, WorldConfig.DataDBType);
 
-            Log.Message(LogType.Init, "_____________World of Warcraft_____________");
-            Log.Message(LogType.Init, "    __                                     ");
-            Log.Message(LogType.Init, "    / |                     ,              ");
-            Log.Message(LogType.Init, "---/__|---)__----__--_/_--------------_--_-");
-            Log.Message(LogType.Init, "  /   |  /   ) /   ' /    /   /   /  / /  )");
-            Log.Message(LogType.Init, "_/____|_/_____(___ _(_ __/___(___(__/_/__/_");
-            Log.Message(LogType.Init, "________________WorldServer________________");
-            Log.Message();
-
-            Helpers.PrintORMInfo();
-
-            Log.Message(LogType.Normal, "Starting Arctium WoW WorldServer...");
-
-            using (var server = new Server(WorldConfig.BindIP, WorldConfig.BindPort))
+            if (DB.Auth.CreateConnection(authConnString, WorldConfig.AuthDBType) &&
+                DB.Character.CreateConnection(charConnString, WorldConfig.CharacterDBType) &&
+                DB.Data.CreateConnection(dataConnString, WorldConfig.DataDBType))
             {
-                PacketManager.DefineMessageHandler();
+                Log.Message(LogType.Init, "_____________World of Warcraft_____________");
+                Log.Message(LogType.Init, "    __                                     ");
+                Log.Message(LogType.Init, "    / |                     ,              ");
+                Log.Message(LogType.Init, "---/__|---)__----__--_/_--------------_--_-");
+                Log.Message(LogType.Init, "  /   |  /   ) /   ' /    /   /   /  / /  )");
+                Log.Message(LogType.Init, "_/____|_/_____(___ _(_ __/___(___(__/_/__/_");
+                Log.Message(LogType.Init, "________________WorldServer________________");
+                Log.Message();
 
-                Manager.Initialize();
+                Helpers.PrintORMInfo();
 
-                Log.Message(LogType.Normal, "WorldServer successfully started");
-                Log.Message(LogType.Normal, "Total Memory: {0} Kilobytes", GC.GetTotalMemory(false) / 1024);
+                Log.Message(LogType.Normal, "Starting Arctium WoW WorldServer...");
 
-                // Not used for now.
-                /*var channel = new IpcChannel();
+                using (var server = new Server(WorldConfig.BindIP, WorldConfig.BindPort))
+                {
+                    PacketManager.DefineMessageHandler();
 
-                ChannelServices.RegisterChannel(channel, false);
+                    Manager.Initialize();
 
-                Manager.Session.Remote = Activator.GetObject(typeof(RemoteObject), "ipc://127.0.0.1:9000/WorldObject.rem") as RemoteObject;*/
+                    Log.Message(LogType.Normal, "WorldServer successfully started");
+                    Log.Message(LogType.Normal, "Total Memory: {0} Kilobytes", GC.GetTotalMemory(false) / 1024);
 
-                // No need of console commands.
-                while (true)
-                    Thread.Sleep(1);
+                    // Not used for now.
+                    /*var channel = new IpcChannel();
+
+                    ChannelServices.RegisterChannel(channel, false);
+
+                    Manager.Session.Remote = Activator.GetObject(typeof(RemoteObject), "ipc://127.0.0.1:9000/WorldObject.rem") as RemoteObject;*/
+
+                    // No need of console commands.
+                    while (true)
+                        Thread.Sleep(1);
+                }
             }
+            else
+                Log.Message(LogType.Error, "Not all database connections successfully opened.");
         }
 
         static void ReadArguments(string[] args)

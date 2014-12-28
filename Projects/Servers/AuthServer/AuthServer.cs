@@ -37,35 +37,38 @@ namespace AuthServer
                                                        AuthConfig.AuthDBDataBase, AuthConfig.AuthDBPort, AuthConfig.AuthDBPooling,
                                                        AuthConfig.AuthDBMinPoolSize, AuthConfig.AuthDBMaxPoolSize, AuthConfig.AuthDBType);
 
-            DB.Auth.CreateConnection(connString, AuthConfig.AuthDBType);
-
-            Log.Message(LogType.Init, "_____________World of Warcraft_____________");
-            Log.Message(LogType.Init, "    __                                     ");
-            Log.Message(LogType.Init, "    / |                     ,              ");
-            Log.Message(LogType.Init, "---/__|---)__----__--_/_--------------_--_-");
-            Log.Message(LogType.Init, "  /   |  /   ) /   ' /    /   /   /  / /  )");
-            Log.Message(LogType.Init, "_/____|_/_____(___ _(_ __/___(___(__/_/__/_");
-            Log.Message(LogType.Init, "________________AuthServer_________________");
-            Log.Message();
-
-            Helpers.PrintORMInfo();
-
-            Log.Message(LogType.Normal, "Starting Arctium WoW AuthServer...");
-
-            using (var server = new Server(AuthConfig.BindIP, AuthConfig.BindPort))
+            if (DB.Auth.CreateConnection(connString, AuthConfig.AuthDBType))
             {
-                PacketManager.DefineMessageHandler();
+                Log.Message(LogType.Init, "_____________World of Warcraft_____________");
+                Log.Message(LogType.Init, "    __                                     ");
+                Log.Message(LogType.Init, "    / |                     ,              ");
+                Log.Message(LogType.Init, "---/__|---)__----__--_/_--------------_--_-");
+                Log.Message(LogType.Init, "  /   |  /   ) /   ' /    /   /   /  / /  )");
+                Log.Message(LogType.Init, "_/____|_/_____(___ _(_ __/___(___(__/_/__/_");
+                Log.Message(LogType.Init, "________________AuthServer_________________");
+                Log.Message();
 
-                // Set all game accounts offline
-                /*foreach (var ga in DB.Auth.GameAccounts)
-                    ga.IsOnline = false;
+                Helpers.PrintORMInfo();
 
-                DB.Auth.Update();*/
+                Log.Message(LogType.Normal, "Starting Arctium WoW AuthServer...");
 
-                Manager.Initialize();
+                using (var server = new Server(AuthConfig.BindIP, AuthConfig.BindPort))
+                {
+                    PacketManager.DefineMessageHandler();
 
-                ConsoleCommandManager.InitCommands();
+                    // Set all game accounts offline
+                    /*foreach (var ga in DB.Auth.GameAccounts)
+                        ga.IsOnline = false;
+
+                    DB.Auth.Update();*/
+
+                    Manager.Initialize();
+
+                    ConsoleCommandManager.InitCommands();
+                }
             }
+            else
+                Log.Message(LogType.Error, "Not all database connections successfully opened.");
         }
 
         static void ReadArguments(string[] args)
