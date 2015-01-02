@@ -135,12 +135,7 @@ namespace CharacterServer.Packets.Handlers
                 }
                 else
                 {
-                    CharacterCreationData creationData;
-
-                    if (createCharacter.ClassID == Class.Deathknight)
-                        creationData = DB.Character.Single<CharacterCreationData>(d => d.Class == createCharacter.ClassID);
-                    else
-                        creationData = DB.Character.Single<CharacterCreationData>(d => d.Race == createCharacter.RaceID);
+                    var creationData = DB.Character.Single<CharacterCreationData>(d => d.Race == createCharacter.RaceID && d.Class == createCharacter.ClassID);
 
                     if (creationData != null)
                     {
