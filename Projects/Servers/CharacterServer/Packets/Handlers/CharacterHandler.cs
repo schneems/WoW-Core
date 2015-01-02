@@ -28,6 +28,7 @@ using CharacterServer.Packets.Structures.Character;
 using Framework.Attributes;
 using Framework.Constants.Account;
 using Framework.Constants.Character;
+using Framework.Constants.General;
 using Framework.Constants.Net;
 using Framework.Constants.Object;
 using Framework.Database;
@@ -134,7 +135,12 @@ namespace CharacterServer.Packets.Handlers
                 }
                 else
                 {
-                    var creationData = DB.Character.Single<CharacterCreationData>(d => d.Race == createCharacter.RaceID && d.Class == createCharacter.ClassID);
+                    CharacterCreationData creationData;
+
+                    if (createCharacter.ClassID == Class.Deathknight)
+                        creationData = DB.Character.Single<CharacterCreationData>(d => d.Class == createCharacter.ClassID);
+                    else
+                        creationData = DB.Character.Single<CharacterCreationData>(d => d.Race == createCharacter.RaceID);
 
                     if (creationData != null)
                     {

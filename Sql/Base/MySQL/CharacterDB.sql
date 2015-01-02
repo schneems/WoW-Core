@@ -55,6 +55,20 @@ CREATE TABLE `CharacterCreationData` (
 -- ----------------------------
 -- Records of CharacterCreationData
 -- ----------------------------
+INSERT INTO `CharacterCreationData` VALUES ('0', '6', '4298', '609', '2355.84', '-5664.77', '426.028', '3.65997');
+INSERT INTO `CharacterCreationData` VALUES ('1', '0', '6170', '0', '-8914.57', '-133.909', '80.5378', '5.10444');
+INSERT INTO `CharacterCreationData` VALUES ('2', '0', '6451', '1', '-618.518', '-4251.67', '38.718', '0');
+INSERT INTO `CharacterCreationData` VALUES ('3', '0', '6176', '0', '-6230.42', '330.232', '383.105', '0.501087');
+INSERT INTO `CharacterCreationData` VALUES ('4', '0', '6450', '1', '10311.3', '831.463', '1326.57', '5.48033');
+INSERT INTO `CharacterCreationData` VALUES ('5', '0', '6454', '0', '1699.85', '1706.56', '135.928', '4.88839');
+INSERT INTO `CharacterCreationData` VALUES ('6', '0', '6452', '1', '-2915.55', '-257.347', '59.2693', '0.302378');
+INSERT INTO `CharacterCreationData` VALUES ('7', '0', '1', '0', '-4983.42', '877.7', '274.31', '3.06393');
+INSERT INTO `CharacterCreationData` VALUES ('8', '0', '6453', '1', '-1171.45', '-5263.65', '0.847728', '5.78945');
+INSERT INTO `CharacterCreationData` VALUES ('9', '0', '4737', '648', '-8423.81', '1361.3', '104.671', '1.55428');
+INSERT INTO `CharacterCreationData` VALUES ('10', '0', '6455', '530', '10349.6', '-6357.29', '33.4026', '5.31605');
+INSERT INTO `CharacterCreationData` VALUES ('11', '0', '6456', '530', '-3961.64', '-13931.2', '100.615', '2.08364');
+INSERT INTO `CharacterCreationData` VALUES ('22', '0', '4755', '654', '-1451.53', '1403.35', '35.5561', '0.333847');
+INSERT INTO `CharacterCreationData` VALUES ('24', '0', '5736', '860', '1466.09', '3465.98', '181.86', '2.87962');
 
 -- ----------------------------
 -- Table structure for CharacterCreationSkills
