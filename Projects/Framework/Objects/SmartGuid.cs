@@ -71,7 +71,7 @@ namespace Framework.Objects
 
         public uint Id
         {
-            get { return (uint)(High & 0xFFFFFF) >> 6; }
+            get { return (uint)(High & 0x7FFFFF) >> 6; }
             set { High |= (ulong)value << 6; }
         }
 
