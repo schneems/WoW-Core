@@ -72,55 +72,55 @@ GO
 INSERT INTO [dbo].[components] ([Program], [Platform], [Build]) VALUES (N'WoW', N'base', N'19057')
 GO
 GO
-INSERT INTO [dbo].[components] ([Program], [Platform], [Build]) VALUES (N'WoW', N'deDE', N'19243')
+INSERT INTO [dbo].[components] ([Program], [Platform], [Build]) VALUES (N'WoW', N'deDE', N'19342')
 GO
 GO
-INSERT INTO [dbo].[components] ([Program], [Platform], [Build]) VALUES (N'WoW', N'enAU', N'19243')
+INSERT INTO [dbo].[components] ([Program], [Platform], [Build]) VALUES (N'WoW', N'enAU', N'19342')
 GO
 GO
-INSERT INTO [dbo].[components] ([Program], [Platform], [Build]) VALUES (N'WoW', N'enGB', N'19243')
+INSERT INTO [dbo].[components] ([Program], [Platform], [Build]) VALUES (N'WoW', N'enGB', N'19342')
 GO
 GO
-INSERT INTO [dbo].[components] ([Program], [Platform], [Build]) VALUES (N'WoW', N'enUS', N'19243')
+INSERT INTO [dbo].[components] ([Program], [Platform], [Build]) VALUES (N'WoW', N'enUS', N'19342')
 GO
 GO
-INSERT INTO [dbo].[components] ([Program], [Platform], [Build]) VALUES (N'WoW', N'esES', N'19243')
+INSERT INTO [dbo].[components] ([Program], [Platform], [Build]) VALUES (N'WoW', N'esES', N'19342')
 GO
 GO
-INSERT INTO [dbo].[components] ([Program], [Platform], [Build]) VALUES (N'WoW', N'esMX', N'19243')
+INSERT INTO [dbo].[components] ([Program], [Platform], [Build]) VALUES (N'WoW', N'esMX', N'19342')
 GO
 GO
-INSERT INTO [dbo].[components] ([Program], [Platform], [Build]) VALUES (N'WoW', N'frFR', N'19243')
+INSERT INTO [dbo].[components] ([Program], [Platform], [Build]) VALUES (N'WoW', N'frFR', N'19342')
 GO
 GO
-INSERT INTO [dbo].[components] ([Program], [Platform], [Build]) VALUES (N'WoW', N'itIT', N'19243')
+INSERT INTO [dbo].[components] ([Program], [Platform], [Build]) VALUES (N'WoW', N'itIT', N'19342')
 GO
 GO
-INSERT INTO [dbo].[components] ([Program], [Platform], [Build]) VALUES (N'WoW', N'koKR', N'19243')
+INSERT INTO [dbo].[components] ([Program], [Platform], [Build]) VALUES (N'WoW', N'koKR', N'19342')
 GO
 GO
-INSERT INTO [dbo].[components] ([Program], [Platform], [Build]) VALUES (N'WoW', N'Mc64', N'19243')
+INSERT INTO [dbo].[components] ([Program], [Platform], [Build]) VALUES (N'WoW', N'Mc64', N'19342')
 GO
 GO
-INSERT INTO [dbo].[components] ([Program], [Platform], [Build]) VALUES (N'WoW', N'plPL', N'19243')
+INSERT INTO [dbo].[components] ([Program], [Platform], [Build]) VALUES (N'WoW', N'plPL', N'19342')
 GO
 GO
-INSERT INTO [dbo].[components] ([Program], [Platform], [Build]) VALUES (N'WoW', N'ptBR', N'19243')
+INSERT INTO [dbo].[components] ([Program], [Platform], [Build]) VALUES (N'WoW', N'ptBR', N'19342')
 GO
 GO
-INSERT INTO [dbo].[components] ([Program], [Platform], [Build]) VALUES (N'WoW', N'ruRU', N'19243')
+INSERT INTO [dbo].[components] ([Program], [Platform], [Build]) VALUES (N'WoW', N'ruRU', N'19342')
 GO
 GO
-INSERT INTO [dbo].[components] ([Program], [Platform], [Build]) VALUES (N'WoW', N'Win', N'19243')
+INSERT INTO [dbo].[components] ([Program], [Platform], [Build]) VALUES (N'WoW', N'Win', N'19342')
 GO
 GO
-INSERT INTO [dbo].[components] ([Program], [Platform], [Build]) VALUES (N'WoW', N'Wn64', N'19243')
+INSERT INTO [dbo].[components] ([Program], [Platform], [Build]) VALUES (N'WoW', N'Wn64', N'19342')
 GO
 GO
-INSERT INTO [dbo].[components] ([Program], [Platform], [Build]) VALUES (N'WoW', N'zhCN', N'19243')
+INSERT INTO [dbo].[components] ([Program], [Platform], [Build]) VALUES (N'WoW', N'zhCN', N'19342')
 GO
 GO
-INSERT INTO [dbo].[components] ([Program], [Platform], [Build]) VALUES (N'WoW', N'zhTW', N'19243')
+INSERT INTO [dbo].[components] ([Program], [Platform], [Build]) VALUES (N'WoW', N'zhTW', N'19342')
 GO
 GO
 
