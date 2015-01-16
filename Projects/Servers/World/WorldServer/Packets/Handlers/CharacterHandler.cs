@@ -26,7 +26,6 @@ using Framework.Packets.Server.Net;
 using WorldServer.Managers;
 using WorldServer.Network;
 using WorldServer.Packets.Client.Character;
-using WorldServer.Packets.Server.Object;
 
 namespace WorldServer.Packets.Handlers
 {

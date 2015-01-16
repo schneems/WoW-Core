@@ -25,9 +25,10 @@ namespace Framework.Network.Packets
 {
     public class Packet
     {
-        public PacketHeader Header { get; private set; }
         public byte[] Data { get; set; }
-        public bool IsReadComplete { get { return readStream.BaseStream.Position >= Data.Length; } }
+        public PacketHeader Header { get; }
+
+        public bool IsReadComplete => readStream.BaseStream.Position >= Data.Length;
 
         BinaryReader readStream;
         BinaryWriter writeStream;
@@ -97,15 +98,9 @@ namespace Framework.Network.Packets
         }
 
         #region Reader
-        public T Read<T>()
-        {
-            return readStream.Read<T>();
-        }
+        public T Read<T>() => readStream.Read<T>();
 
-        public byte[] ReadBytes(int count)
-        {
-            return readStream.ReadBytes(count);
-        }
+        public byte[] ReadBytes(int count) => readStream.ReadBytes(count);
 
         public string ReadString()
         {
@@ -173,17 +168,11 @@ namespace Framework.Network.Packets
         }
 
 
-        public void Skip(int count)
-        {
-            readStream.BaseStream.Position += count;
-        }
+        public void Skip(int count) => readStream.BaseStream.Position += count;
         #endregion
 
         #region Writer
-        public void Write<T>(T value)
-        {
-            writeStream.Write(value);
-        }
+        public void Write<T>(T value) => writeStream.Write(value);
 
         public void Write(byte[] value, int count = 0)
         {
