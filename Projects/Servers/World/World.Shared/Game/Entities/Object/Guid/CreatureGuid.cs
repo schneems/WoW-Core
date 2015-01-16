@@ -15,32 +15,40 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-using System.Collections.Concurrent;
-using Framework.Misc;
-using WorldNode.Network;
+using Framework.Objects;
 
-namespace WorldNode.Managers
+namespace World.Shared.Game.Entities.Object.Guid
 {
-    class SessionManager : Singleton<SessionManager>
+    class CreatureGuid : SmartGuid
     {
-        public long LastSessionId { get; set; }
-        public ConcurrentDictionary<long, NodeSession> Sessions;
-
-        SessionManager()
+        public ushort RealmId
         {
-            Sessions = new ConcurrentDictionary<long, NodeSession>();
+            get { return (ushort)((High >> 42) & 0x1FFF); }
+            set { High |= (ulong)value << 42; }
         }
 
-        public bool Add(long id, NodeSession session)
+        public ushort MapId
         {
-            return Sessions.TryAdd(id, session);
+            get { return (ushort)((High >> 29) & 0x1FFF); }
+            set { High |= (ulong)value << 29; }
         }
 
-        public bool Remove(long id)
+        public ushort ServerId
         {
-            NodeSession session;
+            get { return (ushort)((Low >> 40) & 0xFFFF); }
+            set { Low |= (ulong)value << 40; }
+        }
 
-            return Sessions.TryRemove(id, out session);
+        public uint Id
+        {
+            get { return (uint)(High & 0x7FFFFF) >> 6; }
+            set { High |= (ulong)value << 6; }
+        }
+
+        public ulong CreationBits
+        {
+            get { return Low & 0xFFFFFFFFFF; }
+            set { Low |= value; }
         }
     }
 }

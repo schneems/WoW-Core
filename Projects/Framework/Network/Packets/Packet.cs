@@ -19,6 +19,7 @@ using System;
 using System.IO;
 using System.Text;
 using Framework.Misc;
+using Framework.Objects;
 
 namespace Framework.Network.Packets
 {
@@ -145,6 +146,32 @@ namespace Framework.Network.Packets
 
             return data;
         }
+
+        public T ReadGuid<T>() where T : SmartGuid, new()
+        {
+            var smartGuid = new T();
+            var loLength = readStream.ReadByte();
+            var hiLength = readStream.ReadByte();
+
+            var guid = 0ul;
+
+            for (var i = 0; i < 8; i++)
+                if ((1 << i & loLength) != 0)
+                    guid |= (ulong)readStream.ReadByte() << (i * 8);
+
+            smartGuid.Low = guid;
+
+            guid = 0;
+
+            for (var i = 0; i < 8; i++)
+                if ((1 << i & hiLength) != 0)
+                    guid |= (ulong)readStream.ReadByte() << (i * 8);
+
+            smartGuid.High = guid;
+
+            return smartGuid;
+        }
+
 
         public void Skip(int count)
         {

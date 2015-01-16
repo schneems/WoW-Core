@@ -22,13 +22,13 @@ using CharacterServer.Constants.Character;
 using CharacterServer.Constants.Net;
 using CharacterServer.Managers;
 using CharacterServer.Network;
+using CharacterServer.Objects;
 using CharacterServer.Packets.Client.Character;
 using CharacterServer.Packets.Server.Character;
 using CharacterServer.Packets.Structures.Character;
 using Framework.Attributes;
 using Framework.Constants.Account;
 using Framework.Constants.Character;
-using Framework.Constants.General;
 using Framework.Constants.Net;
 using Framework.Constants.Object;
 using Framework.Database;
@@ -54,7 +54,7 @@ namespace CharacterServer.Packets.Handlers
             {
                 var character = new CharacterListEntry
                 {
-                    Guid                 = new SmartGuid { Type = GuidType.Player, MapId = (ushort)c.Map, CreationBits = c.Guid },
+                    Guid                 = new CharacterGuid { CreationBits = c.Guid },
                     Name                 = c.Name,
                     ListPosition         = c.ListPosition,
                     RaceID               = c.Race,
@@ -69,7 +69,7 @@ namespace CharacterServer.Packets.Handlers
                     ZoneID               = (int)c.Zone,
                     MapID                = (int)c.Map,
                     PreloadPos           = new Vector3 { X = c.X, Y = c.Y, Z = c.Z },
-                    GuildGUID            = new SmartGuid { Type = GuidType.Guild, CreationBits = c.GuildGuid },
+                    GuildGUID            = new GuildGuid { CreationBits = c.GuildGuid },
                     Flags                = c.CharacterFlags,
                     Flags2               = c.CustomizeFlags,
                     Flags3               = c.Flags3,

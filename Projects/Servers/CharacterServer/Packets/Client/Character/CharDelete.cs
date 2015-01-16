@@ -15,18 +15,18 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+using CharacterServer.Objects;
 using Framework.Network.Packets;
-using Framework.Objects;
 
 namespace CharacterServer.Packets.Client.Character
 {
     class CharDelete : ClientPacket
     {
-        public SmartGuid Guid { get; set; }
+        public CharacterGuid Guid { get; set; }
 
         public override void Read()
         {
-            Guid = Packet.Read<SmartGuid>();
+            Guid = Packet.ReadGuid<CharacterGuid>();
         }
     }
 }

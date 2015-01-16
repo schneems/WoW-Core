@@ -15,28 +15,28 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-using System;
+using Framework.Constants.Object;
+using Framework.Objects;
 
-namespace Framework.Objects.WorldEntities
+namespace CharacterServer.Objects
 {
-    [Serializable]
-    public sealed class Player : IWorldObject
+    class CharacterGuid : SmartGuid
     {
-        public CharacterData Data { get; set; }
-
-        public Player()
+        public CharacterGuid()
         {
-            Data = new CharacterData();
+            High = (ulong)GuidType.Player << 58;
         }
 
-        public void InitializeDescriptors()
+        public ushort RealmId
         {
-            throw new NotImplementedException();
+            get { return (ushort)((High >> 42) & 0x1FFF); }
+            set { High |= (ulong)value << 42; }
         }
 
-        public void InitializeDynamicDescriptors()
+        public ulong CreationBits
         {
-            throw new NotImplementedException();
+            get { return Low & 0xFFFFFFFFFFFFFFFF; }
+            set { Low |= value; }
         }
     }
 }

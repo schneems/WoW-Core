@@ -16,18 +16,34 @@
  */
 
 using Framework.Constants.Object;
+using Framework.Objects;
 
-namespace Framework.Objects
+namespace World.Shared.Game.Entities.Object.Guid
 {
-    public class SmartGuid
+    class ItemGuid : SmartGuid
     {
-        public ulong Low  { get; set; }
-        public ulong High { get; set; }
-
-        public virtual GuidType Type
+        public ItemGuid()
         {
-            get { return (GuidType)(High >> 58); }
-            set { High |= (ulong)value << 58; }
+            High = (ulong)GuidType.Item << 58;
         }
+
+        public ushort RealmId
+        {
+            get { return (ushort)((High >> 42) & 0x1FFF); }
+            set { High |= (ulong)value << 42; }
+        }
+
+        public uint Id
+        {
+            get { return (uint)(High & 0xFFFFFF) >> 18; }
+            set { High |= (ulong)value << 18; }
+        }
+
+        public ulong CreationBits
+        {
+            get { return Low & 0xFFFFFFFFFFFFFFFF; }
+            set { Low |= value; }
+        }
+
     }
 }

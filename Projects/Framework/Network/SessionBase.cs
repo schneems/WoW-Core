@@ -27,7 +27,6 @@ using Framework.Database.Auth.Entities;
 using Framework.Logging;
 using Framework.Logging.IO;
 using Framework.Network.Packets;
-using Framework.Objects.WorldEntities;
 using Framework.Packets.Server.Authentication;
 
 namespace Framework.Network

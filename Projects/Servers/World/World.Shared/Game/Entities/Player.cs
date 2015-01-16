@@ -15,19 +15,26 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-using Framework.Constants.Object;
+using System;
+using World.Shared.Game.Objects.Entities;
 
-namespace Framework.Objects
+namespace World.Shared.Game.Entities
 {
-    public class SmartGuid
+    sealed class Player : IWorldObject
     {
-        public ulong Low  { get; set; }
-        public ulong High { get; set; }
-
-        public virtual GuidType Type
+        public Player()
         {
-            get { return (GuidType)(High >> 58); }
-            set { High |= (ulong)value << 58; }
+            throw new NotImplementedException();
+        }
+
+        public void InitializeDescriptors()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void InitializeDynamicDescriptors()
+        {
+            throw new NotImplementedException();
         }
     }
 }

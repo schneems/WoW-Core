@@ -88,8 +88,6 @@
     <Compile Include="Constants\Object\CharacterFlags.cs" />
     <Compile Include="Constants\Object\GuidSubType.cs" />
     <Compile Include="Constants\Object\GuidType.cs" />
-    <Compile Include="Constants\Spells\SpellSchool.cs" />
-    <Compile Include="Constants\Spells\SpellSchools.cs" />
     <Compile Include="Cryptography\BNet\BNetCrypt.cs" />
     <Compile Include="Cryptography\BNet\SRP6a.cs" />
     <Compile Include="Cryptography\SARC4.cs" />
@@ -157,13 +155,10 @@
     <Compile Include="Network\Packets\ServerPacket.cs" />
     <Compile Include="Network\Packets\Packet.cs" />
     <Compile Include="Network\Packets\PacketHeader.cs" />
-    <Compile Include="Network\Remoting\RemoteObject.cs" />
     <Compile Include="Network\SessionBase.cs" />
     <Compile Include="Objects\CharacterData.cs" />
-    <Compile Include="Objects\IWorldObject.cs" />
     <Compile Include="Objects\SmartGuid.cs" />
     <Compile Include="Objects\Vector3.cs" />
-    <Compile Include="Objects\WorldEntities\Player.cs" />
     <Compile Include="Packets\Client\Authentication\AuthContinuedSession.cs" />
     <Compile Include="Packets\Client\Authentication\TransferInitiate.cs" />
     <Compile Include="Packets\Client\Character\PlayerLogin.cs" />

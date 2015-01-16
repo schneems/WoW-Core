@@ -37,7 +37,7 @@ namespace CharacterServer.Packets.Client.Character
 
         public override void Read()
         {
-            var nameLength     = Packet.GetBits<int>(6);
+            var nameLength     = Packet.GetBits<byte>(6);
             var useTemplateSet = Packet.GetBit();
                                     
             RaceID            = Packet.Read<Race>();
@@ -50,7 +50,7 @@ namespace CharacterServer.Packets.Client.Character
             FacialHairStyleID = Packet.Read<byte>();
             OutfitID          = Packet.Read<byte>();
 
-            Name = Packet.ReadString(nameLength).ToLowerEnd();
+            Name = Packet.ReadDynamicString(nameLength).ToLowerEnd();
 
             if (useTemplateSet)
                 TemplateSetID = Packet.Read<int>();

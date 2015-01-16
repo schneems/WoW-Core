@@ -17,7 +17,7 @@
 
 using System;
 
-namespace Framework.Constants.Spells
+namespace World.Shared.Constants.Spells
 {
     [Flags]
     public enum SpellSchools : sbyte

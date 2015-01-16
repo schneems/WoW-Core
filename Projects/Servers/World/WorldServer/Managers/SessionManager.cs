@@ -17,7 +17,6 @@
 
 using System.Collections.Concurrent;
 using Framework.Misc;
-using Framework.Network.Remoting;
 using WorldServer.Network;
 
 namespace WorldServer.Managers
@@ -26,8 +25,6 @@ namespace WorldServer.Managers
     {
         public long LastSessionId { get; set; }
         public ConcurrentDictionary<long, WorldSession> Sessions;
-
-        public RemoteObject Remote { get; set; }
 
         SessionManager()
         {

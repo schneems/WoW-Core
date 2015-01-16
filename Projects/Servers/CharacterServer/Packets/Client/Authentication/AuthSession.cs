@@ -49,7 +49,7 @@ namespace CharacterServer.Packets.Client.Authentication
             LocalChallenge  = Packet.Read<uint>();
             DosResponse     = Packet.Read<ulong>();
             Digest          = Packet.ReadBytes(20);
-            Account         = Packet.ReadString(11);
+            Account         = Packet.ReadDynamicString(11);
             UseIPv6         = Packet.GetBit();
 
             CompressedAddonInfoSize   = Packet.Read<int>();

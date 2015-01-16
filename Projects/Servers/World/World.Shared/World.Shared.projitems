@@ -9,5 +9,14 @@
     <Import_RootNamespace>World.Shared</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Constants\Spells\SpellSchool.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Constants\Spells\SpellSchools.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Game\Entities\Creature.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Game\Entities\Item.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Game\Entities\Object\Guid\ItemGuid.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Game\Entities\Object\Guid\PlayerGuid.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Game\Entities\Object\Guid\CreatureGuid.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Game\Entities\Object\IWorldObject.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Game\Entities\Player.cs" />
   </ItemGroup>
 </Project>

@@ -1,4 +1,5 @@
-﻿/*
+﻿using System;
+/*
  * Copyright (C) 2012-2015 Arctium Emulation <http://arctium.org>
  *
  * This program is free software: you can redistribute it and/or modify
@@ -16,18 +17,27 @@
  */
 
 using Framework.Constants.Object;
+using Framework.Objects;
 
-namespace Framework.Objects
+namespace CharacterServer.Objects
 {
-    public class SmartGuid
+    class GuildGuid : SmartGuid
     {
-        public ulong Low  { get; set; }
-        public ulong High { get; set; }
-
-        public virtual GuidType Type
+        public GuildGuid()
         {
-            get { return (GuidType)(High >> 58); }
-            set { High |= (ulong)value << 58; }
+            High = (ulong)GuidType.Guild << 58;
+        }
+
+        public ushort RealmId
+        {
+            get { return (ushort)((High >> 42) & 0x1FFF); }
+            set { High |= (ulong)value << 42; }
+        }
+
+        public ulong CreationBits
+        {
+            get { return Low & 0xFFFFFFFFFFFFFFFF; }
+            set { Low |= value; }
         }
     }
 }

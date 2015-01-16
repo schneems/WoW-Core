@@ -24,9 +24,9 @@ using Framework.Database.Character.Entities;
 using Framework.Logging;
 using Framework.Packets.Client.Character;
 using Framework.Packets.Server.Net;
+using World.Shared.Game.Entities.Object.Guid;
 using WorldServer.Managers;
 using WorldServer.Network;
-using WorldServer.Packets.Server.Object;
 
 namespace WorldServer.Packets.Handlers
 {
@@ -35,9 +35,11 @@ namespace WorldServer.Packets.Handlers
         [GlobalMessage(GlobalClientMessage.PlayerLogin, SessionState.Authenticated)]
         public static void HandlePlayerLogin(PlayerLogin playerLogin, WorldSession session)
         {
-            Log.Message(LogType.Debug, "Character with GUID '\{playerLogin.PlayerGUID.CreationBits}' tried to login...");
+            var guid = playerLogin.PlayerGUID as PlayerGuid;
 
-            var creationBits = playerLogin.PlayerGUID.CreationBits;
+            Log.Message(LogType.Debug, "Character with GUID '\{guid.CreationBits}' tried to login...");
+
+            var creationBits = guid.CreationBits;
             var character = DB.Character.Single<Character>(c => c.Guid == creationBits);
 
             if (character != null)

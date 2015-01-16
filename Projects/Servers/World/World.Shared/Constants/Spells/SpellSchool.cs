@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace Framework.Constants.Spells
+namespace World.Shared.Constants.Spells
 {
     public enum SpellSchool : sbyte
     {

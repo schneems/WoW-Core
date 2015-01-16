@@ -15,19 +15,11 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-using Framework.Constants.Object;
-
-namespace Framework.Objects
+namespace World.Shared.Game.Objects.Entities
 {
-    public class SmartGuid
+    public interface IWorldObject
     {
-        public ulong Low  { get; set; }
-        public ulong High { get; set; }
-
-        public virtual GuidType Type
-        {
-            get { return (GuidType)(High >> 58); }
-            set { High |= (ulong)value << 58; }
-        }
+        void InitializeDescriptors();
+        void InitializeDynamicDescriptors();
     }
 }

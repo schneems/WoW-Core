@@ -38,7 +38,6 @@ namespace Framework.Network.Packets
             { typeof(long),      br => br.ReadInt64()   },
             { typeof(ulong),     br => br.ReadUInt64()  },
             { typeof(double),    br => br.ReadDouble()  },
-            { typeof(SmartGuid), br => ReadSmartGuid(br) }
         };
 
         public static T Read<T>(this BinaryReader br)
@@ -47,31 +46,6 @@ namespace Framework.Network.Packets
             var finalType = type.IsEnum ? type.GetEnumUnderlyingType() : type;
 
             return (T)ReadValue[finalType](br);
-        }
-
-        static SmartGuid ReadSmartGuid(BinaryReader br)
-        {
-            var smartGuid = new SmartGuid();
-            var loLength = br.ReadByte();
-            var hiLength = br.ReadByte();
-
-            var guid = 0ul;
-
-            for (var i = 0; i < 8; i++)
-                if ((1 << i & loLength) != 0)
-                    guid |= (ulong)br.ReadByte() << (i * 8);
-
-            smartGuid.Low = guid;
-
-            guid = 0;
-
-            for (var i = 0; i < 8; i++)
-                if ((1 << i & hiLength) != 0)
-                    guid |= (ulong)br.ReadByte() << (i * 8);
-
-            smartGuid.High = guid;
-
-            return smartGuid;
         }
     }
 }

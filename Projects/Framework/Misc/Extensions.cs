@@ -120,14 +120,6 @@ namespace Framework.Misc
             return hex.ToUpper();
         }
         #endregion
-        #region Type
-        public static IList CreateList(this Type type)
-        {
-            var genericType = typeof(List<>).MakeGenericType(type);
-
-            return Activator.CreateInstance(genericType) as IList;
-        }
-        #endregion
         #region Generic
         public static BigInteger ToBigInteger<T>(this T value, bool isBigEndian = false)
         {
