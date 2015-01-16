@@ -19,7 +19,6 @@ using System;
 using System.IO;
 using System.Text;
 using Framework.Misc;
-using Framework.Objects;
 
 namespace Framework.Network.Packets
 {
@@ -97,52 +96,46 @@ namespace Framework.Network.Packets
         }
 
         #region Reader
-        public T Read<T>(int count = 0, bool isCString = false)
+        public T Read<T>()
         {
-            if (typeof(T) == typeof(string))
-            {
-                if (isCString)
-                {
-                    var tmpString = new StringBuilder();
-                    var tmpChar = readStream.ReadChar();
-                    var tmpEndChar = Convert.ToChar(Encoding.UTF8.GetString(new byte[] { 0 }));
-
-                    while (tmpChar != tmpEndChar)
-                    {
-                        tmpString.Append(tmpChar);
-                        tmpChar = readStream.ReadChar();
-                    }
-
-                    return (T)Convert.ChangeType(tmpString.ToString(), typeof(T));
-                }
-                else
-                {
-                    var stringArray = readStream.ReadBytes(count);
-
-                    return (T)Convert.ChangeType(Encoding.UTF8.GetString(stringArray), typeof(T));
-                }
-            }
-
-            if (typeof(T) == typeof(SmartGuid))
-            {
-                var loLength = Read<byte>();
-                var hiLength = Read<byte>();
-
-                return new SmartGuid { Low = GetSmartGuid(loLength), High = GetSmartGuid(hiLength) }.ChangeType<T>();
-            }
-
-            return (T)Extensions.Read<T>(readStream);
+            return readStream.Read<T>();
         }
 
-        ulong GetSmartGuid(byte length)
+        public byte[] ReadBytes(int count)
         {
-            var guid = 0ul;
+            return readStream.ReadBytes(count);
+        }
 
-            for (var i = 0; i < 8; i++)
-                if ((1 << i & length) != 0)
-                    guid |= (ulong)Read<byte>() << (i * 8);
+        public string ReadString()
+        {
+            var tmpString = new StringBuilder();
+            var tmpChar = readStream.ReadChar();
+            var tmpEndChar = Convert.ToChar(Encoding.UTF8.GetString(new byte[] { 0 }));
 
-            return guid;
+            while (tmpChar != tmpEndChar)
+            {
+                tmpString.Append(tmpChar);
+                tmpChar = readStream.ReadChar();
+            }
+
+            return tmpString.ToString();
+        }
+
+        public string ReadString(int count)
+        {
+            var stringArray = readStream.ReadBytes(count);
+
+            return Encoding.UTF8.GetString(stringArray);
+        }
+
+        public string ReadDynamicString(byte bits)
+        {
+            var length = GetBits<int>(bits);
+
+            bitPosition = 8;
+            bitValue = 0;
+
+            return ReadString(length);
         }
 
         public T[] Read<T>(T[] data, params int[] indices)
@@ -153,80 +146,24 @@ namespace Framework.Network.Packets
             return data;
         }
 
-        public byte[] ReadBytes(int count)
-        {
-            return readStream.ReadBytes(count);
-        }
-
-        public string ReadString(byte bits)
-        {
-            var length = GetBits<int>(bits);
-
-            bitPosition = 8;
-            bitValue = 0;
-
-            return Read<string>(length);
-        }
-
         public void Skip(int count)
         {
             readStream.BaseStream.Position += count;
         }
         #endregion
+
         #region Writer
-        public void Write(bool value)
+        public void Write<T>(T value)
         {
             writeStream.Write(value);
         }
 
-        public void Write(sbyte value)
+        public void Write(byte[] value, int count = 0)
         {
-            writeStream.Write(value);
-        }
-
-        public void Write(byte value)
-        {
-            writeStream.Write(value);
-        }
-
-        public void Write(short value)
-        {
-            writeStream.Write(value);
-        }
-
-        public void Write(ushort value)
-        {
-            writeStream.Write(value);
-        }
-
-        public void Write(int value)
-        {
-            writeStream.Write(value);
-        }
-
-        public void Write(uint value)
-        {
-            writeStream.Write(value);
-        }
-
-        public void Write(float value)
-        {
-            writeStream.Write(value);
-        }
-
-        public void Write(long value)
-        {
-            writeStream.Write(value);
-        }
-
-        public void Write(ulong value)
-        {
-            writeStream.Write(value);
-        }
-
-        public void Write(byte[] value)
-        {
-            writeStream.Write(value);
+            if (count == 0)
+                writeStream.Write(value);
+            else
+                writeStream.Write(value, 0, count);
         }
 
         public void Write(string value, bool isCString = false)
@@ -236,73 +173,6 @@ namespace Framework.Network.Packets
             data = isCString ? data.Combine(new byte[1]) : data;
 
             writeStream.Write(data);
-        }
-
-        public void WriteBytes(byte[] data, int count = 0)
-        {
-            if (count == 0)
-                writeStream.Write(data);
-            else
-                writeStream.Write(data, 0, count);
-        }
-
-        public void Write(SmartGuid guid)
-        {
-            byte loLength, hiLength, wLoLength, wHiLength;
-
-            var loGuid = GetPackedGuid(guid.Low, out loLength, out wLoLength);
-            var hiGuid = GetPackedGuid(guid.High, out hiLength, out wHiLength);
-
-            if (guid.Low == 0 || guid.High == 0)
-            {
-                Write((byte)0);
-                Write((byte)0);
-            }
-            else
-            {
-                Write(loLength);
-                Write(hiLength);
-                WriteBytes(loGuid, wLoLength);
-                WriteBytes(hiGuid, wHiLength);
-            }
-        }
-
-        public void Write(Vector3 vec)
-        {
-            Write(vec.X);
-            Write(vec.Y);
-            Write(vec.Z);
-        }
-
-        public void Write(Packet pkt)
-        {
-            pkt.Finish();
-
-            Write(pkt.Data);
-        }
-
-        byte[] GetPackedGuid(ulong guid, out byte gLength, out byte written)
-        {
-            var packedGuid = new byte[8];
-            byte gLen = 0;
-            byte length = 0;
-
-            for (byte i = 0; guid != 0; i++)
-            {
-                if ((guid & 0xFF) != 0)
-                {
-                    gLen |= (byte)(1 << i);
-                    packedGuid[length] = (byte)(guid & 0xFF);
-                    ++length;
-                }
-
-                guid >>= 8;
-            }
-
-            gLength = gLen;
-            written = length;
-
-            return packedGuid;
         }
 
         public void Finish()
@@ -328,6 +198,7 @@ namespace Framework.Network.Packets
             writeStream.Dispose();
         }
         #endregion
+
         #region BitReader
         public bool GetBit()
         {
@@ -338,7 +209,7 @@ namespace Framework.Network.Packets
             }
 
             int returnValue = bitValue;
-            bitValue = (byte)(2 * returnValue);
+            bitValue = (byte)(returnValue << 1);
             ++bitPosition;
 
             return Convert.ToBoolean(returnValue >> 7);
@@ -357,6 +228,7 @@ namespace Framework.Network.Packets
             return returnValue.ChangeType<T>();
         }
         #endregion
+
         #region BitWriter
         public void PutBit<T>(T bit)
         {

@@ -91,7 +91,7 @@ namespace CharacterServer.Packets.Handlers
 
             for (var i = 0; i < addons; i++)
             {
-                var addonName         = addonDataReader.Read<string>(0, true);
+                var addonName         = addonDataReader.ReadString();
                 var addonInfoProvided = addonDataReader.Read<bool>();
                 var addonCRC          = addonDataReader.Read<uint>();
                 var urlCRC            = addonDataReader.Read<uint>();

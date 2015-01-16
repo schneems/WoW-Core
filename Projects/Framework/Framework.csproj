@@ -152,6 +152,8 @@
     <Compile Include="Misc\Singleton.cs" />
     <Compile Include="Network\Packets\ClientPacket.cs" />
     <Compile Include="Network\Packets\IServerStruct.cs" />
+    <Compile Include="Network\Packets\PacketWriterExtensions.cs" />
+    <Compile Include="Network\Packets\PacketReaderExtensions.cs" />
     <Compile Include="Network\Packets\ServerPacket.cs" />
     <Compile Include="Network\Packets\Packet.cs" />
     <Compile Include="Network\Packets\PacketHeader.cs" />

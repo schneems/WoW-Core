@@ -20,7 +20,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Data.Entity.Design.PluralizationServices;
 using System.Globalization;
-using System.IO;
 using System.Numerics;
 
 namespace Framework.Misc
@@ -30,31 +29,6 @@ namespace Framework.Misc
         // Create only one service
         static PluralizationService pluralService = PluralizationService.CreateService(new CultureInfo("en-US"));
 
-        #region BinaryReader
-        public static Dictionary<Type, Func<BinaryReader, object>> ReadValue = new Dictionary<Type, Func<BinaryReader, object>>()
-        {
-            { typeof(bool),   br => br.ReadBoolean() },
-            { typeof(sbyte),  br => br.ReadSByte()   },
-            { typeof(byte),   br => br.ReadByte()    },
-            { typeof(char),   br => br.ReadChar()    },
-            { typeof(short),  br => br.ReadInt16()   },
-            { typeof(ushort), br => br.ReadUInt16()  },
-            { typeof(int),    br => br.ReadInt32()   },
-            { typeof(uint),   br => br.ReadUInt32()  },
-            { typeof(float),  br => br.ReadSingle()  },
-            { typeof(long),   br => br.ReadInt64()   },
-            { typeof(ulong),  br => br.ReadUInt64()  },
-            { typeof(double), br => br.ReadDouble()  },
-        };
-
-        public static T Read<T>(this BinaryReader br)
-        {
-            var type = typeof(T).IsEnum ? typeof(T).GetEnumUnderlyingType() : typeof(T);
-
-            return (T)ReadValue[type](br);
-        }
-
-        #endregion
         #region UInt32
         public static uint LeftRotate(this uint value, int shiftCount)
         {
@@ -181,7 +155,7 @@ namespace Framework.Misc
 
         public static T ChangeType<T>(this object value)
         {
-            return (T)Convert.ChangeType(value, typeof(T), CultureInfo.GetCultureInfo("en-US").NumberFormat);
+            return (T)ChangeType(value, typeof(T));
         }
 
         public static object ChangeType(this object value, Type destType)

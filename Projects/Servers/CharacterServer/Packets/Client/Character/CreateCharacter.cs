@@ -50,7 +50,7 @@ namespace CharacterServer.Packets.Client.Character
             FacialHairStyleID = Packet.Read<byte>();
             OutfitID          = Packet.Read<byte>();
 
-            Name = Packet.Read<string>(nameLength).ToLowerEnd();
+            Name = Packet.ReadString(nameLength).ToLowerEnd();
 
             if (useTemplateSet)
                 TemplateSetID = Packet.Read<int>();

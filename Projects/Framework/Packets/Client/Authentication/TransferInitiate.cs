@@ -25,7 +25,7 @@ namespace Framework.Packets.Client.Authentication
 
         public override void Read()
         {
-            Msg = Packet.Read<string>(Packet.Header.Size);
+            Msg = Packet.ReadString(Packet.Header.Size);
         }
     }
 }
