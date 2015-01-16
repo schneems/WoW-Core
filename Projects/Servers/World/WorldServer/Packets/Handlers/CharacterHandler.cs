@@ -22,11 +22,11 @@ using Framework.Constants.Net;
 using Framework.Database;
 using Framework.Database.Character.Entities;
 using Framework.Logging;
-using Framework.Packets.Client.Character;
 using Framework.Packets.Server.Net;
 using World.Shared.Game.Entities.Object.Guid;
 using WorldServer.Managers;
 using WorldServer.Network;
+using WorldServer.Packets.Client.Character;
 
 namespace WorldServer.Packets.Handlers
 {

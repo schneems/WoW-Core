@@ -20,7 +20,7 @@ using Framework.Objects;
 
 namespace CharacterServer.Objects
 {
-    class CharacterGuid : SmartGuid
+    public class CharacterGuid : SmartGuid
     {
         public CharacterGuid()
         {

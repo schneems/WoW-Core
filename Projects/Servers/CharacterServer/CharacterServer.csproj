@@ -83,6 +83,7 @@
     <Compile Include="Objects\CharacterGuid.cs" />
     <Compile Include="Objects\GuildGuid.cs" />
     <Compile Include="Packets\Client\Character\GenerateRandomCharacterName.cs" />
+    <Compile Include="Packets\Client\Character\PlayerLogin.cs" />
     <Compile Include="Packets\Client\Misc\LoadingScreenNotify.cs" />
     <Compile Include="Packets\Handlers\AddonHandler.cs" />
     <Compile Include="Packets\Handlers\CharacterHandler.cs" />

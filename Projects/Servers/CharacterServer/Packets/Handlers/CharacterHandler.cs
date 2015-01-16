@@ -36,7 +36,6 @@ using Framework.Database.Character.Entities;
 using Framework.Database.Data.Entities;
 using Framework.Datastore;
 using Framework.Objects;
-using Framework.Packets.Client.Character;
 using Framework.Packets.Server.Character;
 
 namespace CharacterServer.Packets.Handlers

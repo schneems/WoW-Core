@@ -88,6 +88,7 @@
     <Compile Include="Managers\SessionManager.cs" />
     <Compile Include="Network\WorldSession.cs" />
     <Compile Include="Network\Server.cs" />
+    <Compile Include="Packets\Client\Character\PlayerLogin.cs" />
     <Compile Include="Packets\Handlers\AuthHandler.cs" />
     <Compile Include="Packets\Handlers\CharacterHandler.cs" />
     <Compile Include="Packets\Handlers\NetHandler.cs" />
@@ -96,9 +97,7 @@
     <Compile Include="WorldServer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Packets\Client\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\..\..\Framework\Framework.csproj">
       <Project>{b7d0e27f-3ab2-413a-b9af-040c67750639}</Project>

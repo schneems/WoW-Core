@@ -1,6 +1,6 @@
 ﻿/*
  * Copyright (C) 2012-2015 Arctium Emulation <http://arctium.org>
- *
+ * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -15,29 +15,20 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-using System;
+using Framework.Network.Packets;
 using World.Shared.Game.Entities.Object.Guid;
-using World.Shared.Game.Objects.Entities;
 
-namespace World.Shared.Game.Entities
+namespace WorldServer.Packets.Client.Character
 {
-    sealed class Player : IWorldObject
+    public class PlayerLogin : ClientPacket
     {
-        public PlayerGuid Guid { get; }
+        public PlayerGuid PlayerGUID { get; set; }
+        public float FarClip        { get; set; }
 
-        public Player()
+        public override void Read()
         {
-            throw new NotImplementedException();
-        }
-
-        public void InitializeDescriptors()
-        {
-            throw new NotImplementedException();
-        }
-
-        public void InitializeDynamicDescriptors()
-        {
-            throw new NotImplementedException();
+            PlayerGUID = Packet.ReadGuid<PlayerGuid>();
+            FarClip    = Packet.Read<float>();
         }
     }
 }

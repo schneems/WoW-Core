@@ -20,7 +20,7 @@ using Framework.Objects;
 
 namespace World.Shared.Game.Entities.Object.Guid
 {
-    class PlayerGuid : SmartGuid
+    public class PlayerGuid : SmartGuid
     {
         public PlayerGuid()
         {

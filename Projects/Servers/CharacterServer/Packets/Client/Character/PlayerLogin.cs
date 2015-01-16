@@ -15,19 +15,19 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+using CharacterServer.Objects;
 using Framework.Network.Packets;
-using Framework.Objects;
 
-namespace Framework.Packets.Client.Character
+namespace CharacterServer.Packets.Client.Character
 {
     public class PlayerLogin : ClientPacket
     {
-        public SmartGuid PlayerGUID { get; set; }
+        public CharacterGuid PlayerGUID { get; set; }
         public float FarClip        { get; set; }
 
         public override void Read()
         {
-            PlayerGUID = Packet.ReadGuid<SmartGuid>();
+            PlayerGUID = Packet.ReadGuid<CharacterGuid>();
             FarClip    = Packet.Read<float>();
         }
     }

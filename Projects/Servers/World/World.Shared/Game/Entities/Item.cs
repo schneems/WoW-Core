@@ -16,12 +16,15 @@
  */
 
 using System;
+using World.Shared.Game.Entities.Object.Guid;
 using World.Shared.Game.Objects.Entities;
 
 namespace World.Shared.Game.Entities
 {
-    class Item : IWorldObject
+    sealed class Item : IWorldObject
     {
+        public PlayerGuid Guid { get; }
+
         public Item()
         {
             throw new NotImplementedException();

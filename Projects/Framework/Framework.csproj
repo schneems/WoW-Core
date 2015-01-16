@@ -161,7 +161,6 @@
     <Compile Include="Objects\Vector3.cs" />
     <Compile Include="Packets\Client\Authentication\AuthContinuedSession.cs" />
     <Compile Include="Packets\Client\Authentication\TransferInitiate.cs" />
-    <Compile Include="Packets\Client\Character\PlayerLogin.cs" />
     <Compile Include="Packets\Client\Net\LogDisconnect.cs" />
     <Compile Include="Packets\Client\Net\SuspendCommsAck.cs" />
     <Compile Include="Packets\Server\Authentication\AuthChallenge.cs" />

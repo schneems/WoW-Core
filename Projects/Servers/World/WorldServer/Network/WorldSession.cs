@@ -158,6 +158,9 @@ namespace WorldServer.Network
 
                 socketEventargs.SetBuffer(packet.Packet.Data, 0, packet.Packet.Data.Length);
 
+                if (!client.Connected)
+                    return;
+
                 socketEventargs.Completed += SendCompleted;
                 socketEventargs.UserToken = packet;
                 socketEventargs.RemoteEndPoint = client.RemoteEndPoint;
