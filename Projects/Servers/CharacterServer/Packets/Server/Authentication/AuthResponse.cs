@@ -34,7 +34,7 @@ namespace CharacterServer.Packets.Server.Authentication
 
         public override void Write()
         {
-            Packet.Write((byte)Result);
+            Packet.Write(Result);
 
             Packet.PutBit(HasSuccessInfo);
             Packet.PutBit(HasWaitInfo);

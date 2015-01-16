@@ -57,8 +57,8 @@ namespace CharacterServer.Packets.Structures.Character
 
             packet.Write(Guid);
             packet.Write(ListPosition);
-            packet.Write((byte)RaceID);
-            packet.Write((byte)ClassID);
+            packet.Write(RaceID);
+            packet.Write(ClassID);
             packet.Write(SexID);
             packet.Write(SkinID);
             packet.Write(FaceID);
@@ -70,8 +70,8 @@ namespace CharacterServer.Packets.Structures.Character
             packet.Write(MapID);
             packet.Write(PreloadPos);
             packet.Write(GuildGUID);
-            packet.Write((uint)Flags);
-            packet.Write((uint)Flags2);
+            packet.Write(Flags);
+            packet.Write(Flags2);
             packet.Write(Flags3);
             packet.Write(PetCreatureDisplayID);
             packet.Write(PetExperienceLevel);

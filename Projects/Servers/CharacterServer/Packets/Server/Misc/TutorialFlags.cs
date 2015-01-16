@@ -28,7 +28,7 @@ namespace CharacterServer.Packets.Server.Misc
         {
             // ToDo: Use correct data.
             for (var i = 0; i < 32; i++)
-                Packet.Write((byte)0);
+                Packet.Write<byte>(0);
         }
     }
 }

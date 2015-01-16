@@ -29,7 +29,7 @@ namespace CharacterServer.Packets.Server.Character
 
         public override void Write()
         {
-            Packet.Write((byte)Code);
+            Packet.Write(Code);
         }
     }
 }

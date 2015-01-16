@@ -92,7 +92,7 @@ namespace Framework.Network.Packets
             Write(Header.Message);
 
             if (authHeader)
-                Write((ushort)0);
+                Write<ushort>(0);
         }
 
         #region Reader

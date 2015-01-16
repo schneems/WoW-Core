@@ -52,9 +52,10 @@ namespace Framework.Network.Packets
 
         public static void Write<T>(this BinaryWriter bw, T value)
         {
-            var type = typeof(T).IsEnum ? typeof(T).GetEnumUnderlyingType() : typeof(T);
+            var type = typeof(T);
+            var finalType = type.IsEnum ? type.GetEnumUnderlyingType() : type;
 
-            WriteValue[type](bw, value);
+            WriteValue[finalType](bw, value);
         }
 
         static void WriteSmartGuid(BinaryWriter bw, SmartGuid guid)

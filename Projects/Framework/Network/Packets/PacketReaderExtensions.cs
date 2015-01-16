@@ -43,9 +43,10 @@ namespace Framework.Network.Packets
 
         public static T Read<T>(this BinaryReader br)
         {
-            var type = typeof(T).IsEnum ? typeof(T).GetEnumUnderlyingType() : typeof(T);
+            var type = typeof(T);
+            var finalType = type.IsEnum ? type.GetEnumUnderlyingType() : type;
 
-            return (T)ReadValue[type](br);
+            return (T)ReadValue[finalType](br);
         }
 
         static SmartGuid ReadSmartGuid(BinaryReader br)
