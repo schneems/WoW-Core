@@ -18,7 +18,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Data.Entity.Design.PluralizationServices;
 using System.Globalization;
 using System.Numerics;
 
@@ -26,9 +25,6 @@ namespace Framework.Misc
 {
     public static class Extensions
     {
-        // Create only one service
-        static PluralizationService pluralService = PluralizationService.CreateService(new CultureInfo("en-US"));
-
         #region UInt32
         public static uint LeftRotate(this uint value, int shiftCount)
         {
@@ -49,19 +45,6 @@ namespace Framework.Misc
         public static string ToLowerEnd(this string s)
         {
             return s[0].ToString().ToUpper() + s.Remove(0, 1).ToLower();
-        }
-
-        public static string Pluralize(this string s)
-        {
-            var pluralized = pluralService.Pluralize(s);
-
-            // Handle some language exceptions
-            if (pluralized.EndsWith("Datas"))
-                return pluralized.Remove(pluralized.Length - 1, 1);
-            else if (pluralized.EndsWith("Infoes"))
-                return pluralized.Remove(pluralized.Length - 2, 2);
-
-            return pluralized;
         }
         #endregion
         #region ByteArray
