@@ -98,7 +98,7 @@ namespace Framework.Misc
             var hex = "";
 
             foreach (var b in data)
-                hex += "\{b:X2}";
+                hex += $"{b:X2}";
 
             return hex.ToUpper();
         }

@@ -81,7 +81,7 @@ namespace AuthServer.Network.Sessions
 
                         Buffer.BlockCopy(dataBuffer, 2, dataBuffer, 0, recievedBytes -= 2);
 
-                        Log.Message(LogType.Debug, "Encryption for account '\{Account.Id}' enabled");
+                        Log.Message(LogType.Debug, $"Encryption for account '{Account.Id}' enabled");
                     }
 
                     if (Crypt != null && Crypt.IsInitialized)
@@ -99,7 +99,7 @@ namespace AuthServer.Network.Sessions
             {
                 ExceptionLog.Write(ex);
 
-                Log.Message(LogType.Error, "\{ex}");
+                Log.Message(LogType.Error, $"{ex}");
             }
         }
 
@@ -143,7 +143,7 @@ namespace AuthServer.Network.Sessions
             }
             catch (SocketException ex)
             {
-                Log.Message(LogType.Error, "\{ex}");
+                Log.Message(LogType.Error, $"{ex}");
 
                 client.Close();
             }

@@ -50,10 +50,10 @@ namespace AuthServer.Managers
             modules.ForEach(m =>
             {
                 if (AddModule(m, Modules))
-                    Log.Message(LogType.Debug, "New auth module '\{m.Name}, \{m.System}' loaded.");
+                    Log.Message(LogType.Debug, "New auth module '{0}, {1}' loaded.", m.Name, m.System);
             });
 
-            Log.Message(LogType.Normal, "Successfully loaded \{Modules.Count} auth modules.");
+            Log.Message(LogType.Normal, $"Successfully loaded {Modules.Count} auth modules.");
 
             IsInitialized = true;
         }

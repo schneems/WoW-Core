@@ -34,7 +34,7 @@ namespace WorldServer.Packets.Handlers
         [GlobalMessage(GlobalClientMessage.PlayerLogin, SessionState.Authenticated)]
         public static void HandlePlayerLogin(PlayerLogin playerLogin, WorldSession session)
         {
-            Log.Message(LogType.Debug, "Character with GUID '\{playerLogin.PlayerGUID.CreationBits}' tried to login...");
+            Log.Message(LogType.Debug, $"Character with GUID '{playerLogin.PlayerGUID.CreationBits}' tried to login...");
 
             var character = DB.Character.Single<Character>(c => c.Guid == playerLogin.PlayerGUID.CreationBits);
 

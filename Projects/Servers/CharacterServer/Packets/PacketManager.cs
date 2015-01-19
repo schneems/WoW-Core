@@ -64,8 +64,8 @@ namespace CharacterServer.Packets
                 {
                     var clientInfo = session.GetClientInfo();
 
-                    Log.Message(LogType.Debug, "Client '\{clientInfo}': Received not allowed packet for state '\{session.State}'.");
-                    Log.Message(LogType.Debug, "Disconnecting '\{clientInfo}'.");
+                    Log.Message(LogType.Debug, $"Client '{clientInfo}': Received not allowed packet for state '{session.State}'.");
+                    Log.Message(LogType.Debug, $"Disconnecting '{clientInfo}'.");
 
                     session.Dispose();
 
@@ -81,16 +81,16 @@ namespace CharacterServer.Packets
                 if (handlerObj.IsReadComplete)
                     data.Item1.Invoke(null, new object[] { handlerObj, session });
                 else
-                    Log.Message(LogType.Error, "Packet read for '\{data.Item2.Name}' failed.");
+                    Log.Message(LogType.Error, $"Packet read for '{data.Item2.Name}' failed.");
             }
             else
             {
                 var msgName = Enum.GetName(typeof(ClientMessage), message) ?? Enum.GetName(typeof(GlobalClientMessage), message);
 
                 if (msgName == null)
-                    Log.Message(LogType.Error, "Received unknown opcode '0x\{message:X}, Length: \{reader.Data.Length}'.");
+                    Log.Message(LogType.Error, $"Received unknown opcode '0x{message:X}, Length: {reader.Data.Length}'.");
                 else
-                    Log.Message(LogType.Error, "Packet handler for '\{msgName} (0x\{message:X}), Length: \{reader.Data.Length}' not implemented.");
+                    Log.Message(LogType.Error, $"Packet handler for '{msgName} (0x{message:X}), Length: {reader.Data.Length}' not implemented.");
             }
         }
     }

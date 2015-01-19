@@ -107,7 +107,7 @@ namespace CharacterServer.Packets.Handlers
         [GlobalMessage(GlobalClientMessage.LogDisconnect, SessionState.All)]
         public static void HandleLogDisconnect(LogDisconnect logDisconnect, CharacterSession session)
         {
-            Log.Message(LogType.Debug, "\{session.GetClientInfo()} disconnected (Reason: \{logDisconnect.Reason}).");
+            Log.Message(LogType.Debug, $"{session.GetClientInfo()} disconnected (Reason: {logDisconnect.Reason}).");
         }
     }
 }

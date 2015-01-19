@@ -34,7 +34,7 @@ namespace Framework.Misc
 
             if (!File.Exists(config))
             {
-                Log.Message(LogType.Error, "\{config} doesn't exist!");
+                Log.Message(LogType.Error, $"{config} doesn't exist!");
                 Log.Wait();
 
                 Environment.Exit(0);
@@ -71,8 +71,8 @@ namespace Framework.Misc
                 {
                     nameValue = value.ToString();
 
-                    Log.Message(LogType.Error, "Can't find config option '\{name}'");
-                    Log.Message(LogType.None, "Use default value '\{value}'");
+                    Log.Message(LogType.Error, $"Can't find config option '{name}'");
+                    Log.Message(LogType.None, $"Use default value '{value}'");
                     Log.Message();
                 }
 
@@ -90,7 +90,7 @@ namespace Framework.Misc
             }
             catch
             {
-                Log.Message(LogType.Error, "Error while reading config option: '\{name}'");
+                Log.Message(LogType.Error, $"Error while reading config option: '{name}'");
             }
 
             if (typeof(T).IsEnum)

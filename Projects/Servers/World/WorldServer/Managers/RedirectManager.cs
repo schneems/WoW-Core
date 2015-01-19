@@ -55,7 +55,7 @@ namespace WorldServer.Managers
             worldNodes.ForEach(ws =>
             {
                 if (WorldNodes.TryAdd(ws.MapId, ws))
-                    Log.Message(LogType.Normal, "Added new WorldNode for Map '\{ws.MapId}' at '\{ws.Address}:\{ws.Port}'.");
+                    Log.Message(LogType.Normal, "Added new WorldNode for Map '{0}' at '{1}:{2}'.", ws.MapId, ws.Address, ws.Port);
             });
 
             Log.Message(LogType.Normal, "Loaded {0} WorldNodes.", WorldNodes.Count);

@@ -29,7 +29,7 @@ namespace Framework.Misc
             // Get ORM version info
             var ormLib = Assembly.GetAssembly(typeof(Lappa_ORM.Database));
 
-            Log.Message(LogType.Init, "Loaded Lappa ORM lib '\{ormLib.GetName().Version}'.");
+            Log.Message(LogType.Init, $"Loaded Lappa ORM lib '{ormLib.GetName().Version}'.");
             Log.Message();
         }
 

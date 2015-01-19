@@ -46,7 +46,7 @@ namespace AuthServer.Network.Packets
         {
             var message = (AuthClientMessage)reader.Header.Message;
 
-            Log.Message(LogType.Packet, "Received Opcode: \{message} (0x\{message:X}), Length: \{reader.Data.Length}");
+            Log.Message(LogType.Packet, $"Received Opcode: {message} (0x{message:X}), Length: {reader.Data.Length}");
 
             HandlePacket packet;
 

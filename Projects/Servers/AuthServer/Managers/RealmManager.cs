@@ -48,7 +48,7 @@ namespace AuthServer.Managers
                     {
                         if (!realms.Any(nR => nR.Id.Equals(r.Key)))
                             if (RealmList.TryRemove(r.Key, out realm))
-                                Log.Message(LogType.Debug, "Removed Realm (Id: \{r.Key}, Name: \{r.Value.Name})");
+                                Log.Message(LogType.Debug, "Removed Realm (Id: {0}, Name: {1})", r.Key, r.Value.Name);
                     });
 
                     foreach (var r in realms)
@@ -60,7 +60,7 @@ namespace AuthServer.Managers
                         }
 
                         if (RealmList.TryAdd(r.Id, r))
-                            Log.Message(LogType.Debug, "Added Realm (Id: \{r.Id}, Name: \{r.Name})");
+                            Log.Message(LogType.Debug, "Added Realm Id: {0}, Name: {1}", r.Id, r.Name);
                     }
 
                     IsInitialized = true;

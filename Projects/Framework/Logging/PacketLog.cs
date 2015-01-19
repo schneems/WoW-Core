@@ -40,15 +40,15 @@ namespace Framework.Logging
                 var endPoint = remote as IPEndPoint;
                 var clientInfo = endPoint.Address + ":" + endPoint.Port;
 
-                sb.AppendLine("Client: \{clientInfo}");
-                sb.AppendLine("Time: \{DateTime.Now}");
-                sb.AppendLine("Type: \{typeof(T).Name}");
+                sb.AppendLine($"Client: {clientInfo}");
+                sb.AppendLine($"Time: {DateTime.Now}");
+                sb.AppendLine($"Type: {typeof(T).Name}");
 
                 if (Enum.IsDefined(typeof(T), value))
                     sb.AppendLine(string.Format("Name: {0}", Enum.GetName(typeof(T), value)));
 
-                sb.AppendLine("Value: 0x\{value:X} (\{value})");
-                sb.AppendLine("Length: \{data.Length}");
+                sb.AppendLine($"Value: 0x{value:X} ({value})");
+                sb.AppendLine($"Length: {data.Length}");
 
                 sb.AppendLine("|----------------------------------------------------------------|");
                 sb.AppendLine("| 00  01  02  03  04  05  06  07  08  09  0A  0B  0C  0D  0E  0F |");
@@ -60,7 +60,7 @@ namespace Framework.Logging
 
                 foreach (var b in data)
                 {
-                    sb.Append(" \{b:X2} ");
+                    sb.Append($" {b:X2} ");
 
                     if (count == 0xF)
                     {

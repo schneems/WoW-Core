@@ -55,10 +55,10 @@ namespace AuthServer.Commands
                     };
 
                     if (DB.Auth.Add(account))
-                        Log.Message(LogType.Normal, "Account \{email} successfully created.");
+                        Log.Message(LogType.Normal, $"Account {email} successfully created.");
                 }
                 else
-                    Log.Message(LogType.Error, "Account \{email} already in database.");
+                    Log.Message(LogType.Error, $"Account {email} already in database.");
             }
         }
 
@@ -90,15 +90,15 @@ namespace AuthServer.Commands
                         };
 
                         if (DB.Auth.Add(gameAccount))
-                            Log.Message(LogType.Normal, "GameAccount '\{game}\{index}' for Account '\{email}' successfully created.");
+                            Log.Message(LogType.Normal, $"GameAccount '{game}{index}' for Account '{email}' successfully created.");
                         else
-                            Log.Message(LogType.Error, "GameAccount creation '\{game}\{index}' for Account '\{email}' failed.");
+                            Log.Message(LogType.Error, $"GameAccount creation '{game}{index}' for Account '{email}' failed.");
                     }
                     else
-                        Log.Message(LogType.Error, "GameAccount '\{game}\{index}' for Account '\{email}' already in database.");
+                        Log.Message(LogType.Error, $"GameAccount '{game}{index}' for Account '{email}' already in database.");
                 }
                 else
-                    Log.Message(LogType.Error, "Account '\{email}' doesn't exist.");
+                    Log.Message(LogType.Error, $"Account {email}' doesn't exist.");
             }
         }
         
@@ -114,12 +114,12 @@ namespace AuthServer.Commands
                 if (account != null)
                 {
                     if (DB.Auth.Delete(account))
-                        Log.Message(LogType.Normal, "Account '\{account.Email}' successfully deleted.");
+                        Log.Message(LogType.Normal, $"Account '{account.Email}' successfully deleted.");
                     else
-                        Log.Message(LogType.Error, "Failed to delete account '\{account.Email}'.");
+                        Log.Message(LogType.Error, $"Failed to delete account '{account.Email}'.");
                 }
                 else
-                    Log.Message(LogType.Error, "Account '\{email}' doesn't exist.");
+                    Log.Message(LogType.Error, $"Account '{email}' doesn't exist.");
             }
         }
     }

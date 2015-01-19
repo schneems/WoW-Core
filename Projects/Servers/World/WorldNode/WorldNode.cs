@@ -96,7 +96,7 @@ namespace WorldNode
                         NodeConfig.Initialize(args[i]);
                         break;
                     default:
-                        Log.Message(LogType.Error, "'\{args[i - 1]}' isn't a valid argument.");
+                        Log.Message(LogType.Error, $"'{args[i - 1]}' isn't a valid argument.");
                         break;
                 }
             }

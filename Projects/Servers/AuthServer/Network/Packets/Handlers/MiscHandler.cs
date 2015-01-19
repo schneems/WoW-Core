@@ -45,9 +45,9 @@ namespace AuthServer.Network.Packets.Handlers
             var os = packet.ReadFourCC();
             var language = packet.ReadFourCC();
 
-            Log.Message(LogType.Debug, "Program: \{game}");
-            Log.Message(LogType.Debug, "Platform: \{os}");
-            Log.Message(LogType.Debug, "Locale: \{language}");
+            Log.Message(LogType.Debug, $"Program: {game}");
+            Log.Message(LogType.Debug, $"Platform: {os}");
+            Log.Message(LogType.Debug, $"Locale: {language}");
 
             var componentCount = packet.Read<int>(6);
 
@@ -57,9 +57,9 @@ namespace AuthServer.Network.Packets.Handlers
                 var platform = packet.ReadFourCC();
                 var build = packet.Read<int>(32);
 
-                Log.Message(LogType.Debug, "Program: \{program}");
-                Log.Message(LogType.Debug, "Platform: \{platform}");
-                Log.Message(LogType.Debug, "Locale: \{build}");
+                Log.Message(LogType.Debug, $"Program: {program}");
+                Log.Message(LogType.Debug, $"Platform: {platform}");
+                Log.Message(LogType.Debug, $"Locale: {build}");
 
                 if (DB.Auth.Any<Component>(c => c.Program == program && c.Platform == platform && c.Build == build))
                     continue;
@@ -126,7 +126,7 @@ namespace AuthServer.Network.Packets.Handlers
         [AuthMessage(AuthClientMessage.Disconnect, AuthChannel.Connection)]
         public static void OnDisconnect(AuthPacket packet, Client client)
         {
-            Log.Message(LogType.Debug, "Client '\{client.ConnectionInfo}' disconnected.");
+            Log.Message(LogType.Debug, $"Client '{client.ConnectionInfo}' disconnected.");
 
             Manager.SessionMgr.RemoveClient(client.Id);
         }

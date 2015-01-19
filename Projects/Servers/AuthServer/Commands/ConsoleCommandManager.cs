@@ -77,7 +77,7 @@ namespace AuthServer.Commands
             if (CommandHandlers.ContainsKey(command.ToLower()))
                 CommandHandlers[command].Invoke(args);
             else if (command != "")
-                Log.Message(LogType.Error, "'\{command}' isn't a valid console command.");
+                Log.Message(LogType.Error, $"'{command}' isn't a valid console command.");
         }
     }
 }

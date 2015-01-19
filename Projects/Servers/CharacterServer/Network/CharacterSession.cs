@@ -62,7 +62,7 @@ namespace CharacterServer.Network
                     e.Completed -= OnConnection;
                     e.Completed += Process;
 
-                    Log.Message(LogType.Debug, "Initial packet transfer for Client '\{GetClientInfo()}' successfully initialized.");
+                    Log.Message(LogType.Debug, $"Initial packet transfer for Client '{GetClientInfo()}' successfully initialized.");
 
                     client.ReceiveAsync(e);
 
@@ -73,7 +73,7 @@ namespace CharacterServer.Network
                 }
                 else
                 {
-                    Log.Message(LogType.Debug, "Wrong initial packet transfer data for Client '\{GetClientInfo()}'.");
+                    Log.Message(LogType.Debug, $"Wrong initial packet transfer data for Client '{GetClientInfo()}'.");
 
                     Dispose();
                 }
@@ -130,7 +130,7 @@ namespace CharacterServer.Network
 
                 ExceptionLog.Write(ex);
 
-                Log.Message(LogType.Error, "\{ex}");
+                Log.Message(LogType.Error, $"{ex}");
             }
         }
 
@@ -170,7 +170,7 @@ namespace CharacterServer.Network
             }
             catch (SocketException ex)
             {
-                Log.Message(LogType.Error, "\{ex}");
+                Log.Message(LogType.Error, $"{ex}");
 
                 client.Close();
             }

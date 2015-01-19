@@ -37,7 +37,7 @@ namespace CharacterServer.Network
 
             if (!IPAddress.TryParse(ip, out bindIP))
             {
-                Log.Message(LogType.Normal, "CharacterServer can't be started: Invalid IP-Address (\{ip})");
+                Log.Message(LogType.Normal, $"CharacterServer can't be started: Invalid IP-Address ({ip})");
                 Console.ReadKey(true);
 
                 Environment.Exit(0);
@@ -55,7 +55,7 @@ namespace CharacterServer.Network
             {
                 ExceptionLog.Write(ex);
 
-                Log.Message(LogType.Error, "\{ex}");
+                Log.Message(LogType.Error, $"{ex}");
             }
         }
 

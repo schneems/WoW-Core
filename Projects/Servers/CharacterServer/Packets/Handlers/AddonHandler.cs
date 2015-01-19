@@ -73,7 +73,7 @@ namespace CharacterServer.Packets.Handlers
             }
             else
             {
-                Log.Message(LogType.Error, "Wrong AddonInfo for Client '\{session.GetClientInfo()}'.");
+                Log.Message(LogType.Error, $"Wrong AddonInfo for Client '{session.GetClientInfo()}'.");
 
                 session.Dispose();
             }
@@ -96,7 +96,7 @@ namespace CharacterServer.Packets.Handlers
                 var addonCRC          = addonDataReader.Read<uint>();
                 var urlCRC            = addonDataReader.Read<uint>();
 
-                Log.Message(LogType.Debug, "AddonData: Name '\{addonName}', Info Provided '\{addonInfoProvided}', CRC '0x\{addonCRC:X}', URL CRC '0x\{urlCRC :X}'.");
+                Log.Message(LogType.Debug, $"AddonData: Name '{addonName}', Info Provided '{addonInfoProvided}', CRC '0x{addonCRC:X}', URL CRC '0x{urlCRC :X}'.");
 
                 addonInfo.Addons.Add(new AddonInfoData
                 {

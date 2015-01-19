@@ -54,10 +54,10 @@ namespace CharacterServer.Managers
             worldServers.ForEach(ws =>
             {
                 if (WorldServers.TryAdd(ws.MapId, ws))
-                    Log.Message(LogType.Normal, "Added new WorldServer for Map '\{ws.MapId}' at '\{ws.Address}:\{ws.Port}'.");
+                    Log.Message(LogType.Normal, "Added new WorldServer for Map '{0}' at '{1}:{2}'.", ws.MapId, ws.Address, ws.Port);
             });
 
-            Log.Message(LogType.Normal, "Loaded \{WorldServers.Count} WorldServers.");
+            Log.Message(LogType.Normal, $"Loaded {WorldServers.Count} WorldServers.");
             Log.Message();
         }
 

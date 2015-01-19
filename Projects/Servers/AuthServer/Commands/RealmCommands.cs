@@ -81,11 +81,11 @@ namespace AuthServer.Commands
                             });
                         }
 
-                        Log.Message(LogType.Normal, "Realm '\{realmName}' successfully created.");
+                        Log.Message(LogType.Normal, $"Realm '{realmName}' successfully created.");
                     }
                 }
                 else
-                    Log.Message(LogType.Error, "Realm '\{realmName}' already exists.");
+                    Log.Message(LogType.Error, $"Realm '{realmName}' already exists.");
             }
 
         }
