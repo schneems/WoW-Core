@@ -21,9 +21,9 @@ using Framework.Constants.Misc;
 using Framework.Database;
 using Framework.Logging;
 using Framework.Misc;
+using Framework.Network;
 using WorldServer.Configuration;
 using WorldServer.Managers;
-using WorldServer.Network;
 using WorldServer.Packets;
 
 namespace WorldServer
@@ -61,7 +61,7 @@ namespace WorldServer
 
                 Log.Message(LogType.Normal, "Starting Arctium WoW WorldServer...");
 
-                using (var server = new Server(WorldConfig.BindIP, WorldConfig.BindPort))
+                using (var server = new ServerBase(WorldConfig.BindIP, WorldConfig.BindPort))
                 {
                     PacketManager.DefineMessageHandler();
 

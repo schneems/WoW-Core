@@ -130,7 +130,7 @@ namespace CharacterServer.Network
 
                 ExceptionLog.Write(ex);
 
-                Log.Message(LogType.Error, $"{ex}");
+                Log.Message(LogType.Error, ex.Message);
             }
         }
 
