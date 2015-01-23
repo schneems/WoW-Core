@@ -26,7 +26,7 @@ namespace Framework.Packets.Server.Authentication
             var serverToClient = "WORLD OF WARCRAFT CONNECTION - SERVER TO CLIENT";
 
             Packet.Write((ushort)(serverToClient.Length + 1));
-            Packet.Write(serverToClient, true);
+            Packet.WriteString(serverToClient, true);
         }
     }
 }

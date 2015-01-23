@@ -88,7 +88,7 @@ namespace CharacterServer.Packets.Structures.Character
             packet.PutBit(BoostInProgress);
             packet.Flush();
 
-            packet.Write(Name);
+            packet.WriteString(Name);
         }
     }
 }

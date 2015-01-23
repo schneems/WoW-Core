@@ -42,7 +42,7 @@ namespace CharacterServer.Packets.Structures.Misc
                 packet.PutBits(Url.Length, 8);
                 packet.Flush();
 
-                packet.Write(Url);
+                packet.WriteString(Url);
             }
 
             packet.Flush();
@@ -54,7 +54,7 @@ namespace CharacterServer.Packets.Structures.Misc
             }
 
             if (KeyProvided)
-                packet.Write(KeyData);
+                packet.WriteBytes(KeyData);
         }
     }
 }

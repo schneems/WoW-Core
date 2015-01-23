@@ -32,8 +32,8 @@ namespace CharacterServer.Packets.Structures.Misc
             packet.PutBits(RealmNameNormalized.Length, 8);
             packet.Flush();
 
-            packet.Write(RealmNameActual);
-            packet.Write(RealmNameNormalized);
+            packet.WriteString(RealmNameActual);
+            packet.WriteString(RealmNameNormalized);
         }
     }
 }

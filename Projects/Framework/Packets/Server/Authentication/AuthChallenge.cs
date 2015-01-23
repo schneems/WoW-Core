@@ -31,7 +31,7 @@ namespace Framework.Packets.Server.Authentication
         public override void Write()
         {
             Packet.Write(Challenge);
-            Packet.Write(DosChallenge);
+            Packet.WriteBytes(DosChallenge);
             Packet.Write(DosZeroBits);
         }
     }

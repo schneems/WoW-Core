@@ -33,7 +33,7 @@ namespace CharacterServer.Packets.Server.Character
             Packet.PutBits(Name.Length, 6);
             Packet.Flush();
 
-            Packet.Write(Name);
+            Packet.WriteString(Name);
         }
     }
 }

@@ -174,7 +174,7 @@ namespace Framework.Network.Packets
         #region Writer
         public void Write<T>(T value) => writeStream.Write(value);
 
-        public void Write(byte[] value, int count = 0)
+        public void WriteBytes(byte[] value, int count = 0)
         {
             if (count == 0)
                 writeStream.Write(value);
@@ -182,7 +182,7 @@ namespace Framework.Network.Packets
                 writeStream.Write(value, 0, count);
         }
 
-        public void Write(string value, bool isCString = false)
+        public void WriteString(string value, bool isCString = false)
         {
             var data = Encoding.UTF8.GetBytes(value as string);
 

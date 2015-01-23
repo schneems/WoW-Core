@@ -38,8 +38,8 @@ namespace CharacterServer.Packets.Structures.Character
             packet.PutBits(Description.Length, 10);
             packet.Flush();
 
-            packet.Write(Name);
-            packet.Write(Description);
+            packet.WriteString(Name);
+            packet.WriteString(Description);
         }
     }
 }

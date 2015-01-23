@@ -33,7 +33,7 @@ namespace Framework.Packets.Server.Net
         {
             Packet.Write(Key);
             Packet.Write(Serial);
-            Packet.Write(Where);
+            Packet.WriteBytes(Where);
             Packet.Write(Con);
         }
 
