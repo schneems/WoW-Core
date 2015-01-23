@@ -18,7 +18,6 @@
 using System.Collections.Generic;
 using Framework.Constants.Account;
 using Lappa_ORM;
-using Lappa_ORM.Attributes;
 
 namespace Framework.Database.Auth.Entities
 {

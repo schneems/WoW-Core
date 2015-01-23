@@ -16,7 +16,6 @@
  */
 
 using Lappa_ORM;
-using Lappa_ORM.Attributes;
 
 namespace Framework.Database.Auth.Entities
 {
