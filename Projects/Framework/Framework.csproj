@@ -151,6 +151,7 @@
     <Compile Include="Network\Packets\ServerPacket.cs" />
     <Compile Include="Network\Packets\Packet.cs" />
     <Compile Include="Network\Packets\PacketHeader.cs" />
+    <Compile Include="Network\ServerBase.cs" />
     <Compile Include="Network\SessionBase.cs" />
     <Compile Include="Objects\CharacterData.cs" />
     <Compile Include="Objects\SmartGuid.cs" />

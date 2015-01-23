@@ -18,12 +18,12 @@
 using AuthServer.Commands;
 using AuthServer.Configuration;
 using AuthServer.Managers;
-using AuthServer.Network;
 using AuthServer.Network.Packets;
 using Framework.Constants.Misc;
 using Framework.Database;
 using Framework.Logging;
 using Framework.Misc;
+using Framework.Network;
 
 namespace AuthServer
 {
@@ -52,7 +52,7 @@ namespace AuthServer
 
                 Log.Message(LogType.Normal, "Starting Arctium WoW AuthServer...");
 
-                using (var server = new Server(AuthConfig.BindIP, AuthConfig.BindPort))
+                using (var server = new ServerBase(AuthConfig.BindIP, AuthConfig.BindPort))
                 {
                     PacketManager.DefineMessageHandler();
 

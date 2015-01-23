@@ -99,7 +99,7 @@ namespace AuthServer.Network.Sessions
             {
                 ExceptionLog.Write(ex);
 
-                Log.Message(LogType.Error, $"{ex}");
+                Log.Message(LogType.Error, ex.Message);
             }
         }
 
