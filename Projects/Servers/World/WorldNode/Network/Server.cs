@@ -15,23 +15,79 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+using System;
+using System.Net;
 using System.Net.Sockets;
+using System.Threading;
 using System.Threading.Tasks;
-using Framework.Network;
+using Framework.Constants.Misc;
+using Framework.Logging;
+using Framework.Logging.IO;
 using WorldNode.Managers;
 
 namespace WorldNode.Network
 {
-    class Server : ServerBase
+    class Server : IDisposable
     {
-        public override async Task DoWork(Socket client)
+        TcpListener listener;
+        bool isRunning;
+
+        public Server(string ip, int port)
         {
-            var worker = new NodeSession(client);
+            var bindIP = IPAddress.None;
 
-            worker.Id = ++Manager.Session.LastSessionId;
+            if (!IPAddress.TryParse(ip, out bindIP))
+            {
+                Log.Message(LogType.Normal, $"WorldNode can't be started: Invalid IP-Address ({ip})");
+                Console.ReadKey(true);
 
-            if (Manager.Session.Add(worker.Id, worker))
-                await Task.Factory.StartNew(Manager.Session.Sessions[worker.Id].Accept);
+                Environment.Exit(0);
+            }
+
+            try
+            {
+                listener = new TcpListener(bindIP, port);
+                listener.Start();
+
+                if (isRunning = listener.Server.IsBound)
+                    Task.Factory.StartNew(AcceptConnection);
+            }
+            catch (Exception ex)
+            {
+                ExceptionLog.Write(ex);
+
+                Log.Message(LogType.Error, $"{ex}");
+            }
+        }
+
+        async void AcceptConnection()
+        {
+            while (isRunning)
+            {
+                // Accept a new connection every 200ms.
+                Thread.Sleep(200);
+
+                if (listener.Pending())
+                {
+                    var clientSocket = await listener.AcceptSocketAsync();
+
+                    if (clientSocket != null)
+                    {
+                        var worker = new NodeSession(clientSocket);
+
+                        worker.Id = ++Manager.Session.LastSessionId;
+
+                        if (Manager.Session.Add(worker.Id, worker))
+                            await Task.Factory.StartNew(Manager.Session.Sessions[worker.Id].Accept);
+                    }
+                }
+            }
+        }
+
+        public void Dispose()
+        {
+            listener = null;
+            isRunning = false;
         }
     }
 }

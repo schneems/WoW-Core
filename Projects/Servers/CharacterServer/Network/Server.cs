@@ -15,19 +15,75 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+using System;
+using System.Net;
 using System.Net.Sockets;
+using System.Threading;
 using System.Threading.Tasks;
-using Framework.Network;
+using Framework.Constants.Misc;
+using Framework.Logging;
+using Framework.Logging.IO;
 
 namespace CharacterServer.Network
 {
-    class Server : ServerBase
+    class Server : IDisposable
     {
-        public override async Task DoWork(Socket client)
-        {
-            var worker = new CharacterSession(client);
+        TcpListener listener;
+        bool isRunning;
 
-            await Task.Factory.StartNew(worker.Accept);
+        public Server(string ip, int port)
+        {
+            var bindIP = IPAddress.None;
+
+            if (!IPAddress.TryParse(ip, out bindIP))
+            {
+                Log.Message(LogType.Normal, $"CharacterServer can't be started: Invalid IP-Address ({ip})");
+                Console.ReadKey(true);
+
+                Environment.Exit(0);
+            }
+
+            try
+            {
+                listener = new TcpListener(bindIP, port);
+                listener.Start();
+
+                if (isRunning = listener.Server.IsBound)
+                    Task.Factory.StartNew(AcceptConnection);
+            }
+            catch (Exception ex)
+            {
+                ExceptionLog.Write(ex);
+
+                Log.Message(LogType.Error, $"{ex}");
+            }
+        }
+
+        async void AcceptConnection()
+        {
+            while (isRunning)
+            {
+                // Accept a new connection every 200ms.
+                Thread.Sleep(200);
+
+                if (listener.Pending())
+                {
+                    var clientSocket = await listener.AcceptSocketAsync();
+
+                    if (clientSocket != null)
+                    {
+                        var worker = new CharacterSession(clientSocket);
+
+                        await Task.Factory.StartNew(worker.Accept);
+                    }
+                }
+            }
+        }
+
+        public void Dispose()
+        {
+            listener = null;
+            isRunning = false;
         }
     }
 }
