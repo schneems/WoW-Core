@@ -48,8 +48,6 @@ namespace AuthServer
                 Log.Message(LogType.Init, "________________AuthServer_________________");
                 Log.Message();
 
-                Helpers.PrintORMInfo();
-
                 Log.Message(LogType.Normal, "Starting Arctium WoW AuthServer...");
 
                 using (var server = new Server(AuthConfig.BindIP, AuthConfig.BindPort))

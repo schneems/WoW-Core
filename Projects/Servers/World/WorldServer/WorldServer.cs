@@ -57,8 +57,6 @@ namespace WorldServer
                 Log.Message(LogType.Init, "________________WorldServer________________");
                 Log.Message();
 
-                Helpers.PrintORMInfo();
-
                 Log.Message(LogType.Normal, "Starting Arctium WoW WorldServer...");
 
                 using (var server = new Server(WorldConfig.BindIP, WorldConfig.BindPort))

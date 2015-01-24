@@ -57,8 +57,6 @@ namespace WorldNode
                 Log.Message(LogType.Init, "_________________WorldNode_________________");
                 Log.Message();
 
-                Helpers.PrintORMInfo();
-
                 Log.Message(LogType.Normal, "Starting Arctium WoW WorldNode...");
 
                 using (var server = new Server(NodeConfig.BindIP, NodeConfig.BindPort))

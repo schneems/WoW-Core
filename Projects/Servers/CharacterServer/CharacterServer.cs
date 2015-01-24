@@ -57,8 +57,6 @@ namespace CharacterServer
                 Log.Message(LogType.Init, "______________CharacterServer______________");
                 Log.Message();
 
-                Helpers.PrintORMInfo();
-
                 Log.Message(LogType.Normal, "Starting Arctium WoW CharacterServer...");
 
                 using (var server = new Server(CharacterConfig.BindIP, CharacterConfig.BindPort))

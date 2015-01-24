@@ -24,15 +24,6 @@ namespace Framework.Misc
 {
     public class Helpers
     {
-        public static void PrintORMInfo()
-        {
-            // Get ORM version info
-            var ormLib = Assembly.GetAssembly(typeof(Lappa_ORM.Database));
-
-            Log.Message(LogType.Init, $"Loaded Lappa ORM lib '{ormLib.GetName().Version}'.");
-            Log.Message();
-        }
-
         public static bool CheckConnection(string ip, int port)
         {
             var canConnect = false;
