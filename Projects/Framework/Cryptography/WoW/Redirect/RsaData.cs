@@ -58,7 +58,7 @@ namespace Framework.Cryptography.WoW
             for (int i = 0; i < data.Length; i++)
             {
                 if (i == data.Length - 1)
-                    sb.Append($"0x{data[i]:X2} };");
+                    sb.Append($"0x{data[i] :X2} }};");
                 else
                     sb.Append($"0x{data[i]:X2}, ");
             }
