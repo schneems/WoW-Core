@@ -25,10 +25,7 @@ namespace Framework.Cryptography
     {
         public byte[] Digest { get; private set; }
 
-        public Sha1()
-        {
-            Initialize();
-        }
+        public Sha1() { }
 
         public void Process(byte[] data, int length)
         {

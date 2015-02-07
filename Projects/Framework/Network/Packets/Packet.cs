@@ -246,7 +246,7 @@ namespace Framework.Network.Packets
         #endregion
 
         #region BitWriter
-        public void PutBit<T>(T bit)
+        public void PutBit(object bit)
         {
             --bitPosition;
 
@@ -262,12 +262,12 @@ namespace Framework.Network.Packets
             }
         }
 
-        public void PutBits<T>(T bit, int count)
+        public void PutBits(object bit, int count)
         {
             checked
             {
                 for (int i = count - 1; i >= 0; --i)
-                    PutBit((T)Convert.ChangeType(((Convert.ToInt32(bit) >> i) & 1), typeof(T)));
+                    PutBit((Convert.ToInt32(bit) >> i) & 1);
             }
         }
 

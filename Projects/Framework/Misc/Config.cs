@@ -26,12 +26,9 @@ namespace Framework.Misc
     public class Config
     {
         string[] configContent;
-        string ConfigFile { get; set; }
 
         public Config(string config)
         {
-            ConfigFile = config;
-
             if (!File.Exists(config))
             {
                 Log.Message(LogType.Error, $"{config} doesn't exist!");

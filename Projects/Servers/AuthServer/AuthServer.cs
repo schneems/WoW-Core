@@ -23,7 +23,6 @@ using AuthServer.Network.Packets;
 using Framework.Constants.Misc;
 using Framework.Database;
 using Framework.Logging;
-using Framework.Misc;
 
 namespace AuthServer
 {
@@ -53,12 +52,6 @@ namespace AuthServer
                 using (var server = new Server(AuthConfig.BindIP, AuthConfig.BindPort))
                 {
                     PacketManager.DefineMessageHandler();
-
-                    // Set all game accounts offline
-                    /*foreach (var ga in DB.Auth.GameAccounts)
-                        ga.IsOnline = false;
-
-                    DB.Auth.Update();*/
 
                     Manager.Initialize();
 

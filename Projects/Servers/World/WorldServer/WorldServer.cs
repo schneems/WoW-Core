@@ -20,7 +20,6 @@ using System.Threading;
 using Framework.Constants.Misc;
 using Framework.Database;
 using Framework.Logging;
-using Framework.Misc;
 using WorldServer.Configuration;
 using WorldServer.Managers;
 using WorldServer.Network;

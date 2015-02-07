@@ -150,56 +150,6 @@ namespace Framework.Network.Packets
         #endregion
 
         #region Writer
-        public void Write(bool value)
-        {
-            writeStream.Write(value);
-        }
-
-        public void Write(sbyte value)
-        {
-            writeStream.Write(value);
-        }
-
-        public void Write(byte value)
-        {
-            writeStream.Write(value);
-        }
-
-        public void Write(short value)
-        {
-            writeStream.Write(value);
-        }
-
-        public void Write(ushort value)
-        {
-            writeStream.Write(value);
-        }
-
-        public void Write(int value)
-        {
-            writeStream.Write(value);
-        }
-
-        public void Write(uint value)
-        {
-            writeStream.Write(value);
-        }
-
-        public void Write(float value)
-        {
-            writeStream.Write(value);
-        }
-
-        public void Write(long value)
-        {
-            writeStream.Write(value);
-        }
-
-        public void Write(ulong value)
-        {
-            writeStream.Write(value);
-        }
-
         public void Write(byte[] value)
         {
             Flush();
@@ -235,7 +185,7 @@ namespace Framework.Network.Packets
                 if (shiftedBits != 0)
                     preByte = 0;
 
-                Write(packedByte);
+                writeStream.Write(packedByte);
             }
 
             preByte = packedByte;
@@ -259,7 +209,7 @@ namespace Framework.Network.Packets
             Write(bytes);
 
             if (isCString)
-                Write((byte)0);
+                writeStream.Write((byte)0);
 
             Flush();
         }
