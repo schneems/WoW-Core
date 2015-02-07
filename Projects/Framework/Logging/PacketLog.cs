@@ -58,20 +58,29 @@ namespace Framework.Logging
                 var count = 0;
                 var ctr = 0;
 
-                foreach (var b in data)
+                for (var i = 0; i < data.Length; i++)
                 {
-                    sb.Append($" {b:X2} ");
+                    sb.Append($" {data[i] :X2} ");
 
                     if (count == 0xF)
                     {
                         sb.Append("|");
-                        sb.Append("  " + Encoding.UTF8.GetString(data, ctr * 0x10, 0x10));
+                        sb.Append("  " + Encoding.UTF8.GetString(data, ctr * 0x10, 0x10).Replace("\n", "\\n").Replace("\r", "\\r"));
                         sb.AppendLine();
                         sb.Append("|");
 
                         count = 0;
 
                         ++ctr;
+                    }
+                    else if (i == data.Length - 1)
+                    {
+                        for (var j = 0; j != (60 - (count * 4)); j++)
+                            sb.Append(" ");
+
+                        sb.Append("|");
+
+                        sb.Append("  " + Encoding.UTF8.GetString(data, ctr * 0x10, count + 1).Replace("\n", "\\n").Replace("\r", "\\r"));
                     }
                     else
                         count++;
