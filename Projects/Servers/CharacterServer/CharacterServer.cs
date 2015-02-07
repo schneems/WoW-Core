@@ -24,11 +24,14 @@ using CharacterServer.Packets;
 using Framework.Constants.Misc;
 using Framework.Database;
 using Framework.Logging;
+using Framework.Misc;
 
 namespace CharacterServer
 {
     class CharacterServer
     {
+        static string serverName = nameof(CharacterServer);
+
         static void Main(string[] args)
         {
             ReadArguments(args);
@@ -47,16 +50,7 @@ namespace CharacterServer
                 DB.Character.CreateConnection(charConnString, CharacterConfig.CharacterDBType) &&
                 DB.Data.CreateConnection(dataConnString, CharacterConfig.DataDBType))
             {
-                Log.Message(LogType.Init, "_____________World of Warcraft_____________");
-                Log.Message(LogType.Init, "    __                                     ");
-                Log.Message(LogType.Init, "    / |                     ,              ");
-                Log.Message(LogType.Init, "---/__|---)__----__--_/_--------------_--_-");
-                Log.Message(LogType.Init, "  /   |  /   ) /   ' /    /   /   /  / /  )");
-                Log.Message(LogType.Init, "_/____|_/_____(___ _(_ __/___(___(__/_/__/_");
-                Log.Message(LogType.Init, "______________CharacterServer______________");
-                Log.Message();
-
-                Log.Message(LogType.Normal, "Starting Arctium WoW CharacterServer...");
+                Helper.PrintHeader(serverName);
 
                 using (var server = new Server(CharacterConfig.BindIP, CharacterConfig.BindPort))
                 {
@@ -64,7 +58,7 @@ namespace CharacterServer
 
                     Manager.Initialize();
 
-                    Log.Message(LogType.Normal, "CharacterServer successfully started");
+                    Log.Message(LogType.Normal, $"{serverName} successfully started");
                     Log.Message(LogType.Normal, "Total Memory: {0} Kilobytes", GC.GetTotalMemory(false) / 1024);
 
                     // No need of console commands.
@@ -92,7 +86,7 @@ namespace CharacterServer
             }
 
             if (!CharacterConfig.IsInitialized)
-                CharacterConfig.Initialize("./Configs/CharacterServer.conf");
+                CharacterConfig.Initialize($"./Configs/{serverName}.conf");
         }
     }
 }

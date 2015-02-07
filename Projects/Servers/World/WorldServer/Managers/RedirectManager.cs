@@ -68,7 +68,7 @@ namespace WorldServer.Managers
 
             // Try to get available world servers for the specific map or for all maps (-1).
             if (WorldNodes.TryGetValue(mapId, out worldNode) || WorldNodes.TryGetValue(-1, out worldNode))
-                if (Helpers.CheckConnection(worldNode.Address, worldNode.Port))
+                if (Helper.CheckConnection(worldNode.Address, worldNode.Port))
                     return worldNode;
 
             return null;

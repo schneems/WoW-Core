@@ -16,10 +16,13 @@
  */
 
 using System.Net.Sockets;
+using System.Text;
+using Framework.Constants.Misc;
+using Framework.Logging;
 
 namespace Framework.Misc
 {
-    public class Helpers
+    public class Helper
     {
         public static bool CheckConnection(string ip, int port)
         {
@@ -39,6 +42,29 @@ namespace Framework.Misc
             }
 
             return canConnect;
+        }
+
+        public static void PrintHeader(string serverName)
+        {
+            Log.Message(LogType.Init, "_____________World of Warcraft_____________");
+            Log.Message(LogType.Init, "    __                                     ");
+            Log.Message(LogType.Init, "    / |                     ,              ");
+            Log.Message(LogType.Init, "---/__|---)__----__--_/_--------------_--_-");
+            Log.Message(LogType.Init, "  /   |  /   ) /   ' /    /   /   /  / /  )");
+            Log.Message(LogType.Init, "_/____|_/_____(___ _(_ __/___(___(__/_/__/_");
+
+            var sb = new StringBuilder();
+
+            sb.Append("___________________________________________");
+
+            var nameStart = (43 - serverName.Length) / 2;
+
+            sb.Insert(nameStart, serverName);
+            sb.Remove(nameStart + serverName.Length, serverName.Length);
+
+            Log.Message(LogType.Init, sb.ToString());
+            Log.Message();
+            Log.Message(LogType.Normal, $"Starting Arctium WoW {serverName}...");
         }
     }
 }

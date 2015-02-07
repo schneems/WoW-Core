@@ -23,11 +23,14 @@ using AuthServer.Network.Packets;
 using Framework.Constants.Misc;
 using Framework.Database;
 using Framework.Logging;
+using Framework.Misc;
 
 namespace AuthServer
 {
     class AuthServer
     {
+        static string serverName = nameof(AuthServer);
+
         static void Main(string[] args)
         {
             ReadArguments(args);
@@ -38,16 +41,7 @@ namespace AuthServer
 
             if (DB.Auth.CreateConnection(connString, AuthConfig.AuthDBType))
             {
-                Log.Message(LogType.Init, "_____________World of Warcraft_____________");
-                Log.Message(LogType.Init, "    __                                     ");
-                Log.Message(LogType.Init, "    / |                     ,              ");
-                Log.Message(LogType.Init, "---/__|---)__----__--_/_--------------_--_-");
-                Log.Message(LogType.Init, "  /   |  /   ) /   ' /    /   /   /  / /  )");
-                Log.Message(LogType.Init, "_/____|_/_____(___ _(_ __/___(___(__/_/__/_");
-                Log.Message(LogType.Init, "________________AuthServer_________________");
-                Log.Message();
-
-                Log.Message(LogType.Normal, "Starting Arctium WoW AuthServer...");
+                Helper.PrintHeader(serverName);
 
                 using (var server = new Server(AuthConfig.BindIP, AuthConfig.BindPort))
                 {
@@ -78,7 +72,7 @@ namespace AuthServer
             }
 
             if (!AuthConfig.IsInitialized)
-                AuthConfig.Initialize("./Configs/AuthServer.conf");
+                AuthConfig.Initialize($"./Configs/{serverName}.conf");
         }
     }
 }

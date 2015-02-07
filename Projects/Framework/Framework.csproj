@@ -142,7 +142,7 @@
     <Compile Include="Misc\Command.cs" />
     <Compile Include="Misc\Config.cs" />
     <Compile Include="Misc\Extensions.cs" />
-    <Compile Include="Misc\Helpers.cs" />
+    <Compile Include="Misc\Helper.cs" />
     <Compile Include="Misc\Singleton.cs" />
     <Compile Include="Network\Packets\ClientPacket.cs" />
     <Compile Include="Network\Packets\IServerStruct.cs" />

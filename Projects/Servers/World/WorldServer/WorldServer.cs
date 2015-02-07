@@ -20,6 +20,7 @@ using System.Threading;
 using Framework.Constants.Misc;
 using Framework.Database;
 using Framework.Logging;
+using Framework.Misc;
 using WorldServer.Configuration;
 using WorldServer.Managers;
 using WorldServer.Network;
@@ -29,6 +30,8 @@ namespace WorldServer
 {
     class WorldServer
     {
+        static string serverName = nameof(WorldServer);
+
         static void Main(string[] args)
         {
             ReadArguments(args);
@@ -47,16 +50,7 @@ namespace WorldServer
                 DB.Character.CreateConnection(charConnString, WorldConfig.CharacterDBType) &&
                 DB.Data.CreateConnection(dataConnString, WorldConfig.DataDBType))
             {
-                Log.Message(LogType.Init, "_____________World of Warcraft_____________");
-                Log.Message(LogType.Init, "    __                                     ");
-                Log.Message(LogType.Init, "    / |                     ,              ");
-                Log.Message(LogType.Init, "---/__|---)__----__--_/_--------------_--_-");
-                Log.Message(LogType.Init, "  /   |  /   ) /   ' /    /   /   /  / /  )");
-                Log.Message(LogType.Init, "_/____|_/_____(___ _(_ __/___(___(__/_/__/_");
-                Log.Message(LogType.Init, "________________WorldServer________________");
-                Log.Message();
-
-                Log.Message(LogType.Normal, "Starting Arctium WoW WorldServer...");
+                Helper.PrintHeader(serverName);
 
                 using (var server = new Server(WorldConfig.BindIP, WorldConfig.BindPort))
                 {
@@ -64,15 +58,8 @@ namespace WorldServer
 
                     Manager.Initialize();
 
-                    Log.Message(LogType.Normal, "WorldServer successfully started");
+                    Log.Message(LogType.Normal, $"{serverName} successfully started");
                     Log.Message(LogType.Normal, "Total Memory: {0} Kilobytes", GC.GetTotalMemory(false) / 1024);
-
-                    // Not used for now.
-                    /*var channel = new IpcChannel();
-
-                    ChannelServices.RegisterChannel(channel, false);
-
-                    Manager.Session.Remote = Activator.GetObject(typeof(RemoteObject), "ipc://127.0.0.1:9000/WorldObject.rem") as RemoteObject;*/
 
                     // No need of console commands.
                     while (true)
@@ -99,7 +86,7 @@ namespace WorldServer
             }
 
             if (!WorldConfig.IsInitialized)
-                WorldConfig.Initialize("./Configs/WorldServer.conf");
+                WorldConfig.Initialize($"./Configs/{serverName}.conf");
         }
     }
 }
