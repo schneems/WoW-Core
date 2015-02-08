@@ -24,14 +24,11 @@ namespace Framework.Logging.IO
 {
     public class LogWriter : IDisposable
     {
-        public string LogFile { get; set; }
         FileStream logStream;
 
         public LogWriter(string directory, string file)
         {
-            LogFile = $"{directory}/{DateTime.Now:yyyy-MM-dd_hh-mm-ss}_{file}";
-
-            logStream = new FileStream(LogFile, FileMode.Append, FileAccess.Write, FileShare.ReadWrite, 4096, true);
+            logStream = new FileStream($"{directory}/{DateTime.Now :yyyy-MM-dd_hh-mm-ss}_{file}", FileMode.Append, FileAccess.Write, FileShare.ReadWrite, 4096, true);
         }
 
         public async Task Write(string logMessage)
@@ -51,7 +48,6 @@ namespace Framework.Logging.IO
             {
                 if (disposing)
                 {
-                    LogFile = "";
                     logStream.Dispose();
                 }
 
