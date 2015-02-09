@@ -57,6 +57,330 @@ GO
 -- ----------------------------
 -- Records of charactercreationdata
 -- ----------------------------
+INSERT INTO [dbo].[charactercreationdata] ([Race], [Class], [Zone], [Map], [X], [Y], [Z], [O]) VALUES (N'1', N'1', N'6170', N'0', N'-8914.57', N'-133.909', N'80.5378', N'5.10444')
+GO
+GO
+INSERT INTO [dbo].[charactercreationdata] ([Race], [Class], [Zone], [Map], [X], [Y], [Z], [O]) VALUES (N'1', N'2', N'6170', N'0', N'-8914.57', N'-133.909', N'80.5378', N'5.10444')
+GO
+GO
+INSERT INTO [dbo].[charactercreationdata] ([Race], [Class], [Zone], [Map], [X], [Y], [Z], [O]) VALUES (N'1', N'3', N'6170', N'0', N'-8914.57', N'-133.909', N'80.5378', N'5.10444')
+GO
+GO
+INSERT INTO [dbo].[charactercreationdata] ([Race], [Class], [Zone], [Map], [X], [Y], [Z], [O]) VALUES (N'1', N'4', N'6170', N'0', N'-8914.57', N'-133.909', N'80.5378', N'5.10444')
+GO
+GO
+INSERT INTO [dbo].[charactercreationdata] ([Race], [Class], [Zone], [Map], [X], [Y], [Z], [O]) VALUES (N'1', N'5', N'6170', N'0', N'-8914.57', N'-133.909', N'80.5378', N'5.10444')
+GO
+GO
+INSERT INTO [dbo].[charactercreationdata] ([Race], [Class], [Zone], [Map], [X], [Y], [Z], [O]) VALUES (N'1', N'6', N'4298', N'609', N'2355.84', N'-5664.77', N'426.028', N'3.65997')
+GO
+GO
+INSERT INTO [dbo].[charactercreationdata] ([Race], [Class], [Zone], [Map], [X], [Y], [Z], [O]) VALUES (N'1', N'8', N'6170', N'0', N'-8914.57', N'-133.909', N'80.5378', N'5.10444')
+GO
+GO
+INSERT INTO [dbo].[charactercreationdata] ([Race], [Class], [Zone], [Map], [X], [Y], [Z], [O]) VALUES (N'1', N'9', N'6170', N'0', N'-8914.57', N'-133.909', N'80.5378', N'5.10444')
+GO
+GO
+INSERT INTO [dbo].[charactercreationdata] ([Race], [Class], [Zone], [Map], [X], [Y], [Z], [O]) VALUES (N'1', N'10', N'6170', N'0', N'-8914.57', N'-133.909', N'80.5378', N'5.10444')
+GO
+GO
+INSERT INTO [dbo].[charactercreationdata] ([Race], [Class], [Zone], [Map], [X], [Y], [Z], [O]) VALUES (N'2', N'1', N'6451', N'1', N'-618.518', N'-4251.67', N'38.718', N'0')
+GO
+GO
+INSERT INTO [dbo].[charactercreationdata] ([Race], [Class], [Zone], [Map], [X], [Y], [Z], [O]) VALUES (N'2', N'3', N'6451', N'1', N'-618.518', N'-4251.67', N'38.718', N'0')
+GO
+GO
+INSERT INTO [dbo].[charactercreationdata] ([Race], [Class], [Zone], [Map], [X], [Y], [Z], [O]) VALUES (N'2', N'4', N'6451', N'1', N'-618.518', N'-4251.67', N'38.718', N'0')
+GO
+GO
+INSERT INTO [dbo].[charactercreationdata] ([Race], [Class], [Zone], [Map], [X], [Y], [Z], [O]) VALUES (N'2', N'6', N'4298', N'609', N'2355.84', N'-5664.77', N'426.028', N'3.65997')
+GO
+GO
+INSERT INTO [dbo].[charactercreationdata] ([Race], [Class], [Zone], [Map], [X], [Y], [Z], [O]) VALUES (N'2', N'7', N'6451', N'1', N'-618.518', N'-4251.67', N'38.718', N'0')
+GO
+GO
+INSERT INTO [dbo].[charactercreationdata] ([Race], [Class], [Zone], [Map], [X], [Y], [Z], [O]) VALUES (N'2', N'8', N'6451', N'1', N'-618.518', N'-4251.67', N'38.718', N'0')
+GO
+GO
+INSERT INTO [dbo].[charactercreationdata] ([Race], [Class], [Zone], [Map], [X], [Y], [Z], [O]) VALUES (N'2', N'9', N'6451', N'1', N'-618.518', N'-4251.67', N'38.718', N'0')
+GO
+GO
+INSERT INTO [dbo].[charactercreationdata] ([Race], [Class], [Zone], [Map], [X], [Y], [Z], [O]) VALUES (N'2', N'10', N'6451', N'1', N'-618.518', N'-4251.67', N'38.718', N'0')
+GO
+GO
+INSERT INTO [dbo].[charactercreationdata] ([Race], [Class], [Zone], [Map], [X], [Y], [Z], [O]) VALUES (N'3', N'1', N'6176', N'0', N'-6230.42', N'330.232', N'383.105', N'0.501087')
+GO
+GO
+INSERT INTO [dbo].[charactercreationdata] ([Race], [Class], [Zone], [Map], [X], [Y], [Z], [O]) VALUES (N'3', N'2', N'6176', N'0', N'-6230.42', N'330.232', N'383.105', N'0.501087')
+GO
+GO
+INSERT INTO [dbo].[charactercreationdata] ([Race], [Class], [Zone], [Map], [X], [Y], [Z], [O]) VALUES (N'3', N'3', N'6176', N'0', N'-6230.42', N'330.232', N'383.105', N'0.501087')
+GO
+GO
+INSERT INTO [dbo].[charactercreationdata] ([Race], [Class], [Zone], [Map], [X], [Y], [Z], [O]) VALUES (N'3', N'4', N'6176', N'0', N'-6230.42', N'330.232', N'383.105', N'0.501087')
+GO
+GO
+INSERT INTO [dbo].[charactercreationdata] ([Race], [Class], [Zone], [Map], [X], [Y], [Z], [O]) VALUES (N'3', N'5', N'6176', N'0', N'-6230.42', N'330.232', N'383.105', N'0.501087')
+GO
+GO
+INSERT INTO [dbo].[charactercreationdata] ([Race], [Class], [Zone], [Map], [X], [Y], [Z], [O]) VALUES (N'3', N'6', N'4298', N'609', N'2355.84', N'-5664.77', N'426.028', N'3.65997')
+GO
+GO
+INSERT INTO [dbo].[charactercreationdata] ([Race], [Class], [Zone], [Map], [X], [Y], [Z], [O]) VALUES (N'3', N'7', N'6176', N'0', N'-6230.42', N'330.232', N'383.105', N'0.501087')
+GO
+GO
+INSERT INTO [dbo].[charactercreationdata] ([Race], [Class], [Zone], [Map], [X], [Y], [Z], [O]) VALUES (N'3', N'8', N'6176', N'0', N'-6230.42', N'330.232', N'383.105', N'0.501087')
+GO
+GO
+INSERT INTO [dbo].[charactercreationdata] ([Race], [Class], [Zone], [Map], [X], [Y], [Z], [O]) VALUES (N'3', N'9', N'6176', N'0', N'-6230.42', N'330.232', N'383.105', N'0.501087')
+GO
+GO
+INSERT INTO [dbo].[charactercreationdata] ([Race], [Class], [Zone], [Map], [X], [Y], [Z], [O]) VALUES (N'3', N'10', N'6176', N'0', N'-6230.42', N'330.232', N'383.105', N'0.501087')
+GO
+GO
+INSERT INTO [dbo].[charactercreationdata] ([Race], [Class], [Zone], [Map], [X], [Y], [Z], [O]) VALUES (N'4', N'1', N'6450', N'1', N'10311.3', N'831.463', N'1326.57', N'5.48033')
+GO
+GO
+INSERT INTO [dbo].[charactercreationdata] ([Race], [Class], [Zone], [Map], [X], [Y], [Z], [O]) VALUES (N'4', N'3', N'6450', N'1', N'10311.3', N'831.463', N'1326.57', N'5.48033')
+GO
+GO
+INSERT INTO [dbo].[charactercreationdata] ([Race], [Class], [Zone], [Map], [X], [Y], [Z], [O]) VALUES (N'4', N'4', N'6450', N'1', N'10311.3', N'831.463', N'1326.57', N'5.48033')
+GO
+GO
+INSERT INTO [dbo].[charactercreationdata] ([Race], [Class], [Zone], [Map], [X], [Y], [Z], [O]) VALUES (N'4', N'5', N'6450', N'1', N'10311.3', N'831.463', N'1326.57', N'5.48033')
+GO
+GO
+INSERT INTO [dbo].[charactercreationdata] ([Race], [Class], [Zone], [Map], [X], [Y], [Z], [O]) VALUES (N'4', N'6', N'4298', N'609', N'2355.84', N'-5664.77', N'426.028', N'3.65997')
+GO
+GO
+INSERT INTO [dbo].[charactercreationdata] ([Race], [Class], [Zone], [Map], [X], [Y], [Z], [O]) VALUES (N'4', N'8', N'6450', N'1', N'10311.3', N'831.463', N'1326.57', N'5.48033')
+GO
+GO
+INSERT INTO [dbo].[charactercreationdata] ([Race], [Class], [Zone], [Map], [X], [Y], [Z], [O]) VALUES (N'4', N'10', N'6450', N'1', N'10311.3', N'831.463', N'1326.57', N'5.48033')
+GO
+GO
+INSERT INTO [dbo].[charactercreationdata] ([Race], [Class], [Zone], [Map], [X], [Y], [Z], [O]) VALUES (N'4', N'11', N'6450', N'1', N'10311.3', N'831.463', N'1326.57', N'5.48033')
+GO
+GO
+INSERT INTO [dbo].[charactercreationdata] ([Race], [Class], [Zone], [Map], [X], [Y], [Z], [O]) VALUES (N'5', N'1', N'6454', N'0', N'1699.85', N'1706.56', N'135.928', N'4.88839')
+GO
+GO
+INSERT INTO [dbo].[charactercreationdata] ([Race], [Class], [Zone], [Map], [X], [Y], [Z], [O]) VALUES (N'5', N'3', N'6454', N'0', N'1699.85', N'1706.56', N'135.928', N'4.88839')
+GO
+GO
+INSERT INTO [dbo].[charactercreationdata] ([Race], [Class], [Zone], [Map], [X], [Y], [Z], [O]) VALUES (N'5', N'4', N'6454', N'0', N'1699.85', N'1706.56', N'135.928', N'4.88839')
+GO
+GO
+INSERT INTO [dbo].[charactercreationdata] ([Race], [Class], [Zone], [Map], [X], [Y], [Z], [O]) VALUES (N'5', N'5', N'6454', N'0', N'1699.85', N'1706.56', N'135.928', N'4.88839')
+GO
+GO
+INSERT INTO [dbo].[charactercreationdata] ([Race], [Class], [Zone], [Map], [X], [Y], [Z], [O]) VALUES (N'5', N'6', N'4298', N'609', N'2355.84', N'-5664.77', N'426.028', N'3.65997')
+GO
+GO
+INSERT INTO [dbo].[charactercreationdata] ([Race], [Class], [Zone], [Map], [X], [Y], [Z], [O]) VALUES (N'5', N'8', N'6454', N'0', N'1699.85', N'1706.56', N'135.928', N'4.88839')
+GO
+GO
+INSERT INTO [dbo].[charactercreationdata] ([Race], [Class], [Zone], [Map], [X], [Y], [Z], [O]) VALUES (N'5', N'9', N'6454', N'0', N'1699.85', N'1706.56', N'135.928', N'4.88839')
+GO
+GO
+INSERT INTO [dbo].[charactercreationdata] ([Race], [Class], [Zone], [Map], [X], [Y], [Z], [O]) VALUES (N'5', N'10', N'6454', N'0', N'1699.85', N'1706.56', N'135.928', N'4.88839')
+GO
+GO
+INSERT INTO [dbo].[charactercreationdata] ([Race], [Class], [Zone], [Map], [X], [Y], [Z], [O]) VALUES (N'6', N'1', N'6452', N'1', N'-2915.55', N'-257.347', N'59.2693', N'0.302378')
+GO
+GO
+INSERT INTO [dbo].[charactercreationdata] ([Race], [Class], [Zone], [Map], [X], [Y], [Z], [O]) VALUES (N'6', N'2', N'6452', N'1', N'-2915.55', N'-257.347', N'59.2693', N'0.302378')
+GO
+GO
+INSERT INTO [dbo].[charactercreationdata] ([Race], [Class], [Zone], [Map], [X], [Y], [Z], [O]) VALUES (N'6', N'3', N'6452', N'1', N'-2915.55', N'-257.347', N'59.2693', N'0.302378')
+GO
+GO
+INSERT INTO [dbo].[charactercreationdata] ([Race], [Class], [Zone], [Map], [X], [Y], [Z], [O]) VALUES (N'6', N'5', N'6452', N'1', N'-2915.55', N'-257.347', N'59.2693', N'0.302378')
+GO
+GO
+INSERT INTO [dbo].[charactercreationdata] ([Race], [Class], [Zone], [Map], [X], [Y], [Z], [O]) VALUES (N'6', N'6', N'4298', N'609', N'2355.84', N'-5664.77', N'426.028', N'3.65997')
+GO
+GO
+INSERT INTO [dbo].[charactercreationdata] ([Race], [Class], [Zone], [Map], [X], [Y], [Z], [O]) VALUES (N'6', N'7', N'6452', N'1', N'-2915.55', N'-257.347', N'59.2693', N'0.302378')
+GO
+GO
+INSERT INTO [dbo].[charactercreationdata] ([Race], [Class], [Zone], [Map], [X], [Y], [Z], [O]) VALUES (N'6', N'10', N'6452', N'1', N'-2915.55', N'-257.347', N'59.2693', N'0.302378')
+GO
+GO
+INSERT INTO [dbo].[charactercreationdata] ([Race], [Class], [Zone], [Map], [X], [Y], [Z], [O]) VALUES (N'6', N'11', N'6452', N'1', N'-2915.55', N'-257.347', N'59.2693', N'0.302378')
+GO
+GO
+INSERT INTO [dbo].[charactercreationdata] ([Race], [Class], [Zone], [Map], [X], [Y], [Z], [O]) VALUES (N'7', N'1', N'1', N'0', N'-4983.42', N'877.7', N'274.31', N'3.06393')
+GO
+GO
+INSERT INTO [dbo].[charactercreationdata] ([Race], [Class], [Zone], [Map], [X], [Y], [Z], [O]) VALUES (N'7', N'4', N'1', N'0', N'-4983.42', N'877.7', N'274.31', N'3.06393')
+GO
+GO
+INSERT INTO [dbo].[charactercreationdata] ([Race], [Class], [Zone], [Map], [X], [Y], [Z], [O]) VALUES (N'7', N'5', N'1', N'0', N'-4983.42', N'877.7', N'274.31', N'3.06393')
+GO
+GO
+INSERT INTO [dbo].[charactercreationdata] ([Race], [Class], [Zone], [Map], [X], [Y], [Z], [O]) VALUES (N'7', N'6', N'4298', N'609', N'2355.84', N'-5664.77', N'426.028', N'3.65997')
+GO
+GO
+INSERT INTO [dbo].[charactercreationdata] ([Race], [Class], [Zone], [Map], [X], [Y], [Z], [O]) VALUES (N'7', N'8', N'1', N'0', N'-4983.42', N'877.7', N'274.31', N'3.06393')
+GO
+GO
+INSERT INTO [dbo].[charactercreationdata] ([Race], [Class], [Zone], [Map], [X], [Y], [Z], [O]) VALUES (N'7', N'9', N'1', N'0', N'-4983.42', N'877.7', N'274.31', N'3.06393')
+GO
+GO
+INSERT INTO [dbo].[charactercreationdata] ([Race], [Class], [Zone], [Map], [X], [Y], [Z], [O]) VALUES (N'7', N'10', N'1', N'0', N'-4983.42', N'877.7', N'274.31', N'3.06393')
+GO
+GO
+INSERT INTO [dbo].[charactercreationdata] ([Race], [Class], [Zone], [Map], [X], [Y], [Z], [O]) VALUES (N'8', N'1', N'6453', N'1', N'-1171.45', N'-5263.65', N'0.847728', N'5.78945')
+GO
+GO
+INSERT INTO [dbo].[charactercreationdata] ([Race], [Class], [Zone], [Map], [X], [Y], [Z], [O]) VALUES (N'8', N'3', N'6453', N'1', N'-1171.45', N'-5263.65', N'0.847728', N'5.78945')
+GO
+GO
+INSERT INTO [dbo].[charactercreationdata] ([Race], [Class], [Zone], [Map], [X], [Y], [Z], [O]) VALUES (N'8', N'4', N'6453', N'1', N'-1171.45', N'-5263.65', N'0.847728', N'5.78945')
+GO
+GO
+INSERT INTO [dbo].[charactercreationdata] ([Race], [Class], [Zone], [Map], [X], [Y], [Z], [O]) VALUES (N'8', N'5', N'6453', N'1', N'-1171.45', N'-5263.65', N'0.847728', N'5.78945')
+GO
+GO
+INSERT INTO [dbo].[charactercreationdata] ([Race], [Class], [Zone], [Map], [X], [Y], [Z], [O]) VALUES (N'8', N'6', N'4298', N'609', N'2355.84', N'-5664.77', N'426.028', N'3.65997')
+GO
+GO
+INSERT INTO [dbo].[charactercreationdata] ([Race], [Class], [Zone], [Map], [X], [Y], [Z], [O]) VALUES (N'8', N'7', N'6453', N'1', N'-1171.45', N'-5263.65', N'0.847728', N'5.78945')
+GO
+GO
+INSERT INTO [dbo].[charactercreationdata] ([Race], [Class], [Zone], [Map], [X], [Y], [Z], [O]) VALUES (N'8', N'8', N'6453', N'1', N'-1171.45', N'-5263.65', N'0.847728', N'5.78945')
+GO
+GO
+INSERT INTO [dbo].[charactercreationdata] ([Race], [Class], [Zone], [Map], [X], [Y], [Z], [O]) VALUES (N'8', N'9', N'6453', N'1', N'-1171.45', N'-5263.65', N'0.847728', N'5.78945')
+GO
+GO
+INSERT INTO [dbo].[charactercreationdata] ([Race], [Class], [Zone], [Map], [X], [Y], [Z], [O]) VALUES (N'8', N'10', N'6453', N'1', N'-1171.45', N'-5263.65', N'0.847728', N'5.78945')
+GO
+GO
+INSERT INTO [dbo].[charactercreationdata] ([Race], [Class], [Zone], [Map], [X], [Y], [Z], [O]) VALUES (N'8', N'11', N'6453', N'1', N'-1171.45', N'-5263.65', N'0.847728', N'5.78945')
+GO
+GO
+INSERT INTO [dbo].[charactercreationdata] ([Race], [Class], [Zone], [Map], [X], [Y], [Z], [O]) VALUES (N'9', N'1', N'4737', N'648', N'-8423.81', N'1361.3', N'104.671', N'1.55428')
+GO
+GO
+INSERT INTO [dbo].[charactercreationdata] ([Race], [Class], [Zone], [Map], [X], [Y], [Z], [O]) VALUES (N'9', N'3', N'4737', N'648', N'-8423.81', N'1361.3', N'104.671', N'1.55428')
+GO
+GO
+INSERT INTO [dbo].[charactercreationdata] ([Race], [Class], [Zone], [Map], [X], [Y], [Z], [O]) VALUES (N'9', N'4', N'4737', N'648', N'-8423.81', N'1361.3', N'104.671', N'1.55428')
+GO
+GO
+INSERT INTO [dbo].[charactercreationdata] ([Race], [Class], [Zone], [Map], [X], [Y], [Z], [O]) VALUES (N'9', N'5', N'4737', N'648', N'-8423.81', N'1361.3', N'104.671', N'1.55428')
+GO
+GO
+INSERT INTO [dbo].[charactercreationdata] ([Race], [Class], [Zone], [Map], [X], [Y], [Z], [O]) VALUES (N'9', N'6', N'4298', N'609', N'2355.84', N'-5664.77', N'426.028', N'3.65997')
+GO
+GO
+INSERT INTO [dbo].[charactercreationdata] ([Race], [Class], [Zone], [Map], [X], [Y], [Z], [O]) VALUES (N'9', N'7', N'4737', N'648', N'-8423.81', N'1361.3', N'104.671', N'1.55428')
+GO
+GO
+INSERT INTO [dbo].[charactercreationdata] ([Race], [Class], [Zone], [Map], [X], [Y], [Z], [O]) VALUES (N'9', N'8', N'4737', N'648', N'-8423.81', N'1361.3', N'104.671', N'1.55428')
+GO
+GO
+INSERT INTO [dbo].[charactercreationdata] ([Race], [Class], [Zone], [Map], [X], [Y], [Z], [O]) VALUES (N'9', N'9', N'4737', N'648', N'-8423.81', N'1361.3', N'104.671', N'1.55428')
+GO
+GO
+INSERT INTO [dbo].[charactercreationdata] ([Race], [Class], [Zone], [Map], [X], [Y], [Z], [O]) VALUES (N'10', N'1', N'6455', N'530', N'10349.6', N'-6357.29', N'33.4026', N'5.31605')
+GO
+GO
+INSERT INTO [dbo].[charactercreationdata] ([Race], [Class], [Zone], [Map], [X], [Y], [Z], [O]) VALUES (N'10', N'2', N'6455', N'530', N'10349.6', N'-6357.29', N'33.4026', N'5.31605')
+GO
+GO
+INSERT INTO [dbo].[charactercreationdata] ([Race], [Class], [Zone], [Map], [X], [Y], [Z], [O]) VALUES (N'10', N'3', N'6455', N'530', N'10349.6', N'-6357.29', N'33.4026', N'5.31605')
+GO
+GO
+INSERT INTO [dbo].[charactercreationdata] ([Race], [Class], [Zone], [Map], [X], [Y], [Z], [O]) VALUES (N'10', N'4', N'6455', N'530', N'10349.6', N'-6357.29', N'33.4026', N'5.31605')
+GO
+GO
+INSERT INTO [dbo].[charactercreationdata] ([Race], [Class], [Zone], [Map], [X], [Y], [Z], [O]) VALUES (N'10', N'5', N'6455', N'530', N'10349.6', N'-6357.29', N'33.4026', N'5.31605')
+GO
+GO
+INSERT INTO [dbo].[charactercreationdata] ([Race], [Class], [Zone], [Map], [X], [Y], [Z], [O]) VALUES (N'10', N'6', N'4298', N'609', N'2355.84', N'-5664.77', N'426.028', N'3.65997')
+GO
+GO
+INSERT INTO [dbo].[charactercreationdata] ([Race], [Class], [Zone], [Map], [X], [Y], [Z], [O]) VALUES (N'10', N'8', N'6455', N'530', N'10349.6', N'-6357.29', N'33.4026', N'5.31605')
+GO
+GO
+INSERT INTO [dbo].[charactercreationdata] ([Race], [Class], [Zone], [Map], [X], [Y], [Z], [O]) VALUES (N'10', N'9', N'6455', N'530', N'10349.6', N'-6357.29', N'33.4026', N'5.31605')
+GO
+GO
+INSERT INTO [dbo].[charactercreationdata] ([Race], [Class], [Zone], [Map], [X], [Y], [Z], [O]) VALUES (N'10', N'10', N'6455', N'530', N'10349.6', N'-6357.29', N'33.4026', N'5.31605')
+GO
+GO
+INSERT INTO [dbo].[charactercreationdata] ([Race], [Class], [Zone], [Map], [X], [Y], [Z], [O]) VALUES (N'11', N'1', N'6456', N'530', N'-3961.64', N'-13931.2', N'100.615', N'2.08364')
+GO
+GO
+INSERT INTO [dbo].[charactercreationdata] ([Race], [Class], [Zone], [Map], [X], [Y], [Z], [O]) VALUES (N'11', N'2', N'6456', N'530', N'-3961.64', N'-13931.2', N'100.615', N'2.08364')
+GO
+GO
+INSERT INTO [dbo].[charactercreationdata] ([Race], [Class], [Zone], [Map], [X], [Y], [Z], [O]) VALUES (N'11', N'3', N'6456', N'530', N'-3961.64', N'-13931.2', N'100.615', N'2.08364')
+GO
+GO
+INSERT INTO [dbo].[charactercreationdata] ([Race], [Class], [Zone], [Map], [X], [Y], [Z], [O]) VALUES (N'11', N'5', N'6456', N'530', N'-3961.64', N'-13931.2', N'100.615', N'2.08364')
+GO
+GO
+INSERT INTO [dbo].[charactercreationdata] ([Race], [Class], [Zone], [Map], [X], [Y], [Z], [O]) VALUES (N'11', N'6', N'4298', N'609', N'2355.84', N'-5664.77', N'426.028', N'3.65997')
+GO
+GO
+INSERT INTO [dbo].[charactercreationdata] ([Race], [Class], [Zone], [Map], [X], [Y], [Z], [O]) VALUES (N'11', N'7', N'6456', N'530', N'-3961.64', N'-13931.2', N'100.615', N'2.08364')
+GO
+GO
+INSERT INTO [dbo].[charactercreationdata] ([Race], [Class], [Zone], [Map], [X], [Y], [Z], [O]) VALUES (N'11', N'8', N'6456', N'530', N'-3961.64', N'-13931.2', N'100.615', N'2.08364')
+GO
+GO
+INSERT INTO [dbo].[charactercreationdata] ([Race], [Class], [Zone], [Map], [X], [Y], [Z], [O]) VALUES (N'11', N'10', N'6456', N'530', N'-3961.64', N'-13931.2', N'100.615', N'2.08364')
+GO
+GO
+INSERT INTO [dbo].[charactercreationdata] ([Race], [Class], [Zone], [Map], [X], [Y], [Z], [O]) VALUES (N'22', N'1', N'4755', N'654', N'-1451.53', N'1403.35', N'35.5561', N'0.333847')
+GO
+GO
+INSERT INTO [dbo].[charactercreationdata] ([Race], [Class], [Zone], [Map], [X], [Y], [Z], [O]) VALUES (N'22', N'3', N'4755', N'654', N'-1451.53', N'1403.35', N'35.5561', N'0.333847')
+GO
+GO
+INSERT INTO [dbo].[charactercreationdata] ([Race], [Class], [Zone], [Map], [X], [Y], [Z], [O]) VALUES (N'22', N'4', N'4755', N'654', N'-1451.53', N'1403.35', N'35.5561', N'0.333847')
+GO
+GO
+INSERT INTO [dbo].[charactercreationdata] ([Race], [Class], [Zone], [Map], [X], [Y], [Z], [O]) VALUES (N'22', N'5', N'4755', N'654', N'-1451.53', N'1403.35', N'35.5561', N'0.333847')
+GO
+GO
+INSERT INTO [dbo].[charactercreationdata] ([Race], [Class], [Zone], [Map], [X], [Y], [Z], [O]) VALUES (N'22', N'6', N'4298', N'609', N'2355.84', N'-5664.77', N'426.028', N'3.65997')
+GO
+GO
+INSERT INTO [dbo].[charactercreationdata] ([Race], [Class], [Zone], [Map], [X], [Y], [Z], [O]) VALUES (N'22', N'8', N'4755', N'654', N'-1451.53', N'1403.35', N'35.5561', N'0.333847')
+GO
+GO
+INSERT INTO [dbo].[charactercreationdata] ([Race], [Class], [Zone], [Map], [X], [Y], [Z], [O]) VALUES (N'22', N'9', N'4755', N'654', N'-1451.53', N'1403.35', N'35.5561', N'0.333847')
+GO
+GO
+INSERT INTO [dbo].[charactercreationdata] ([Race], [Class], [Zone], [Map], [X], [Y], [Z], [O]) VALUES (N'22', N'11', N'4755', N'654', N'-1451.53', N'1403.35', N'35.5561', N'0.333847')
+GO
+GO
+INSERT INTO [dbo].[charactercreationdata] ([Race], [Class], [Zone], [Map], [X], [Y], [Z], [O]) VALUES (N'24', N'1', N'5736', N'860', N'1466.09', N'3465.98', N'181.86', N'2.87962')
+GO
+GO
+INSERT INTO [dbo].[charactercreationdata] ([Race], [Class], [Zone], [Map], [X], [Y], [Z], [O]) VALUES (N'24', N'3', N'5736', N'860', N'1466.09', N'3465.98', N'181.86', N'2.87962')
+GO
+GO
+INSERT INTO [dbo].[charactercreationdata] ([Race], [Class], [Zone], [Map], [X], [Y], [Z], [O]) VALUES (N'24', N'4', N'5736', N'860', N'1466.09', N'3465.98', N'181.86', N'2.87962')
+GO
+GO
+INSERT INTO [dbo].[charactercreationdata] ([Race], [Class], [Zone], [Map], [X], [Y], [Z], [O]) VALUES (N'24', N'5', N'5736', N'860', N'1466.09', N'3465.98', N'181.86', N'2.87962')
+GO
+GO
+INSERT INTO [dbo].[charactercreationdata] ([Race], [Class], [Zone], [Map], [X], [Y], [Z], [O]) VALUES (N'24', N'7', N'5736', N'860', N'1466.09', N'3465.98', N'181.86', N'2.87962')
+GO
+GO
+INSERT INTO [dbo].[charactercreationdata] ([Race], [Class], [Zone], [Map], [X], [Y], [Z], [O]) VALUES (N'24', N'8', N'5736', N'860', N'1466.09', N'3465.98', N'181.86', N'2.87962')
+GO
+GO
+INSERT INTO [dbo].[charactercreationdata] ([Race], [Class], [Zone], [Map], [X], [Y], [Z], [O]) VALUES (N'24', N'10', N'5736', N'860', N'1466.09', N'3465.98', N'181.86', N'2.87962')
+GO
+GO
 
 -- ----------------------------
 -- Table structure for charactercreationskills
@@ -104,6 +428,7 @@ CREATE TABLE [dbo].[characteritems] (
 [ItemId] bigint NOT NULL DEFAULT ((0)) ,
 [Bag] tinyint NOT NULL DEFAULT ((255)) ,
 [Slot] tinyint NOT NULL ,
+[Mode] tinyint NOT NULL DEFAULT ((0)),
 [Equipped] smallint NOT NULL DEFAULT ((0)) 
 )
 
@@ -266,7 +591,7 @@ GO
 CREATE TABLE [dbo].[charactertemplateitems] (
 [ItemId] bigint NOT NULL DEFAULT ((0)) ,
 [ClassId] bigint NOT NULL ,
-[IsEquipped] smallint NOT NULL DEFAULT ((0)) 
+[IsEquipped] tinyint NOT NULL DEFAULT ((0)) 
 )
 
 
