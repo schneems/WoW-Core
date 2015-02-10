@@ -38,7 +38,7 @@ namespace CharacterServer.Packets.Server.Authentication
 
             Packet.PutBit(HasSuccessInfo);
             Packet.PutBit(HasWaitInfo);
-            Packet.Flush();
+            Packet.FlushBits();
 
             if (HasSuccessInfo)
                 SuccessInfo.Write(Packet);

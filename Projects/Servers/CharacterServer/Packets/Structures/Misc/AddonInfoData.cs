@@ -40,12 +40,12 @@ namespace CharacterServer.Packets.Structures.Misc
             if (UrlProvided)
             {
                 packet.PutBits(Url.Length, 8);
-                packet.Flush();
+                packet.FlushBits();
 
                 packet.WriteString(Url);
             }
 
-            packet.Flush();
+            packet.FlushBits();
 
             if (InfoProvided)
             {

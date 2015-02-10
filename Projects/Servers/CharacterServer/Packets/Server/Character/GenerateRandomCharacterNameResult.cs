@@ -31,7 +31,7 @@ namespace CharacterServer.Packets.Server.Character
         {
             Packet.PutBit(Success);
             Packet.PutBits(Name.Length, 6);
-            Packet.Flush();
+            Packet.FlushBits();
 
             Packet.WriteString(Name);
         }

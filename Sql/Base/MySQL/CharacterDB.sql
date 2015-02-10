@@ -1,7 +1,3 @@
-/*
-Date: 2014-08-31 02:40:34
-*/
-
 SET FOREIGN_KEY_CHECKS=0;
 
 -- ----------------------------
@@ -29,7 +25,7 @@ CREATE TABLE `CharacterCreationActions` (
   `Class` tinyint(3) unsigned NOT NULL,
   `Action` int(11) NOT NULL DEFAULT '0',
   `Slot` tinyint(3) unsigned NOT NULL DEFAULT '0',
-  PRIMARY KEY (`Race`,`Class`)
+  UNIQUE KEY `Race` (`Race`,`Class`,`Action`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -49,7 +45,7 @@ CREATE TABLE `CharacterCreationData` (
   `Y` float NOT NULL,
   `Z` float NOT NULL,
   `O` float NOT NULL,
-  PRIMARY KEY (`Race`,`Class`)
+  UNIQUE KEY `Race` (`Race`,`Class`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -172,7 +168,7 @@ CREATE TABLE `CharacterCreationSkills` (
   `Race` tinyint(3) unsigned NOT NULL,
   `Class` tinyint(3) unsigned NOT NULL,
   `SkillId` int(10) unsigned NOT NULL DEFAULT '0',
-  PRIMARY KEY (`Race`,`Class`)
+  UNIQUE KEY `Race` (`Race`,`Class`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -187,7 +183,7 @@ CREATE TABLE `CharacterCreationSpells` (
   `Race` tinyint(3) unsigned NOT NULL,
   `Class` tinyint(3) unsigned NOT NULL,
   `SpellId` int(10) unsigned NOT NULL DEFAULT '0',
-  PRIMARY KEY (`Race`,`Class`)
+  UNIQUE KEY `Race` (`Race`,`Class`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -205,7 +201,7 @@ CREATE TABLE `CharacterItems` (
   `Slot` tinyint(3) unsigned NOT NULL,
   `Mode` tinyint(3) unsigned NOT NULL DEFAULT '0',
   `Equipped` tinyint(1) NOT NULL DEFAULT '0',
-  PRIMARY KEY (`CharacterGuid`,`ItemId`),
+  UNIQUE KEY `CharacterGuid` (`CharacterGuid`,`ItemId`,`Slot`) USING BTREE,
   FOREIGN KEY (`CharacterGuid`) REFERENCES `Characters` (`Guid`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -261,7 +257,7 @@ CREATE TABLE `CharacterSkills` (
   `CharacterGuid` bigint(20) unsigned NOT NULL,
   `SkillId` int(10) unsigned NOT NULL DEFAULT '0',
   `SkillLevel` int(10) unsigned NOT NULL DEFAULT '0',
-  PRIMARY KEY (`CharacterGuid`,`SkillId`),
+  UNIQUE KEY `CharacterGuid` (`CharacterGuid`,`SkillId`) USING BTREE,
   FOREIGN KEY (`CharacterGuid`) REFERENCES `Characters` (`Guid`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -276,7 +272,7 @@ DROP TABLE IF EXISTS `CharacterSpells`;
 CREATE TABLE `CharacterSpells` (
   `CharacterGuid` bigint(20) unsigned NOT NULL,
   `SpellId` int(10) unsigned NOT NULL DEFAULT '0',
-  PRIMARY KEY (`CharacterGuid`,`SpellId`),
+  UNIQUE KEY `CharacterGuid` (`CharacterGuid`,`SpellId`) USING BTREE,
   FOREIGN KEY (`CharacterGuid`) REFERENCES `Characters` (`Guid`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -292,9 +288,8 @@ CREATE TABLE `CharacterTemplateActions` (
   `ClassId` int(11) unsigned NOT NULL,
   `Action` int(10) unsigned NOT NULL,
   `Slot` tinyint(3) unsigned NOT NULL,
-  PRIMARY KEY (`Action`,`Slot`),
-  KEY `Class` (`ClassId`),
-  FOREIGN KEY (`ClassId`) REFERENCES `CharacterTemplateclasses` (`ClassId`)
+  UNIQUE KEY `ClassId` (`ClassId`,`Action`) USING BTREE,
+  KEY `Class` (`ClassId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -309,10 +304,9 @@ CREATE TABLE `CharacterTemplateClasses` (
   `ClassId` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `SetId` int(11) unsigned NOT NULL,
   `FactionGroup` tinyint(4) NOT NULL,
-  PRIMARY KEY (`ClassId`,`SetId`),
+  UNIQUE KEY `ClassId` (`ClassId`,`SetId`,`FactionGroup`) USING BTREE,
   KEY `Id` (`ClassId`),
-  KEY `SetId` (`SetId`),
-  FOREIGN KEY (`SetId`) REFERENCES `CharacterTemplatesets` (`Id`)
+  KEY `SetId` (`SetId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -347,7 +341,7 @@ CREATE TABLE `CharacterTemplateItems` (
   `ItemId` int(10) unsigned NOT NULL DEFAULT '0',
   `ClassId` int(11) unsigned NOT NULL,
   `IsEquipped` tinyint(1) NOT NULL DEFAULT '0',
-  PRIMARY KEY (`ItemId`,`ClassId`,`IsEquipped`),
+  UNIQUE KEY `ItemId` (`ItemId`,`ClassId`) USING BTREE,
   KEY `ClassId` (`ClassId`),
   FOREIGN KEY (`ClassId`) REFERENCES `CharacterTemplateClasses` (`ClassId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -378,7 +372,7 @@ DROP TABLE IF EXISTS `CharacterTemplateSkills`;
 CREATE TABLE `CharacterTemplateSkills` (
   `SkillId` int(10) unsigned NOT NULL,
   `ClassId` int(11) unsigned NOT NULL,
-  PRIMARY KEY (`SkillId`,`ClassId`),
+  UNIQUE KEY `SkillId` (`SkillId`,`ClassId`) USING BTREE,
   KEY `ClassId` (`ClassId`),
   FOREIGN KEY (`ClassId`) REFERENCES `CharacterTemplateClasses` (`ClassId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -394,7 +388,7 @@ DROP TABLE IF EXISTS `CharacterTemplateSpells`;
 CREATE TABLE `CharacterTemplateSpells` (
   `SpellId` int(10) unsigned NOT NULL,
   `ClassId` int(11) unsigned NOT NULL,
-  PRIMARY KEY (`SpellId`,`ClassId`),
+  UNIQUE KEY `SpellId` (`SpellId`,`ClassId`) USING BTREE,
   KEY `ClassId` (`ClassId`),
   FOREIGN KEY (`ClassId`) REFERENCES `CharacterTemplateClasses` (`ClassId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;

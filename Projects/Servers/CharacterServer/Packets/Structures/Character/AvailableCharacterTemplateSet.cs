@@ -36,7 +36,7 @@ namespace CharacterServer.Packets.Structures.Character
 
             packet.PutBits(Name.Length, 7);
             packet.PutBits(Description.Length, 10);
-            packet.Flush();
+            packet.FlushBits();
 
             packet.WriteString(Name);
             packet.WriteString(Description);

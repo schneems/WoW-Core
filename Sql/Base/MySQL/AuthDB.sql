@@ -46,7 +46,7 @@ CREATE TABLE `Components` (
   `Program` varchar(4) NOT NULL,
   `Platform` varchar(4) NOT NULL,
   `Build` int(11) unsigned NOT NULL,
-  PRIMARY KEY (`Program`,`Platform`)
+  UNIQUE KEY `Program` (`Program`,`Platform`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -81,7 +81,7 @@ DROP TABLE IF EXISTS `GameAccountCharacterTemplates`;
 CREATE TABLE `GameAccountCharacterTemplates` (
   `GameAccountId` int(10) unsigned NOT NULL,
   `SetId` int(10) unsigned NOT NULL,
-  PRIMARY KEY (`GameAccountId`,`SetId`),
+  UNIQUE KEY `GameAccountId` (`GameAccountId`,`SetId`) USING BTREE,
   FOREIGN KEY (`GameAccountId`) REFERENCES `GameAccounts` (`Id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -90,14 +90,14 @@ CREATE TABLE `GameAccountCharacterTemplates` (
 -- ----------------------------
 
 -- ----------------------------
--- Table structure for GameAccountclasses
+-- Table structure for GameAccountClasses
 -- ----------------------------
 DROP TABLE IF EXISTS `GameAccountClasses`;
 CREATE TABLE `GameAccountClasses` (
   `GameAccountId` int(11) unsigned NOT NULL,
   `Class` tinyint(4) unsigned NOT NULL COMMENT 'Class Id',
   `Expansion` tinyint(4) unsigned NOT NULL COMMENT 'Expansion for class activation',
-  PRIMARY KEY (`GameAccountId`,`Class`),
+  UNIQUE KEY `GameAccountId` (`GameAccountId`,`Class`) USING BTREE,
   FOREIGN KEY (`GameAccountId`) REFERENCES `GameAccounts` (`Id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -113,7 +113,7 @@ CREATE TABLE `GameAccountRaces` (
   `GameAccountId` int(11) unsigned NOT NULL,
   `Race` tinyint(4) unsigned NOT NULL COMMENT 'Race Id',
   `Expansion` tinyint(4) unsigned NOT NULL COMMENT 'Expansion for race activation',
-  PRIMARY KEY (`GameAccountId`,`Race`),
+  UNIQUE KEY `GameAccountId` (`GameAccountId`,`Race`) USING BTREE,
   FOREIGN KEY (`GameAccountId`) REFERENCES `GameAccounts` (`Id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -196,7 +196,7 @@ DROP TABLE IF EXISTS `RealmCharacterTemplates`;
 CREATE TABLE `RealmCharacterTemplates` (
   `RealmId` int(10) unsigned NOT NULL,
   `SetId` int(10) unsigned NOT NULL DEFAULT '0',
-  PRIMARY KEY (`RealmId`,`SetId`),
+  UNIQUE KEY `RealmId` (`RealmId`,`SetId`) USING BTREE,
   FOREIGN KEY (`RealmId`) REFERENCES `Realms` (`Id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -212,7 +212,7 @@ CREATE TABLE `RealmClasses` (
   `RealmId` int(11) unsigned NOT NULL,
   `Class` tinyint(4) unsigned NOT NULL COMMENT 'Class Id',
   `Expansion` tinyint(4) unsigned NOT NULL COMMENT 'Expansion for class activation',
-  PRIMARY KEY (`RealmId`,`Class`),
+  UNIQUE KEY `RealmId` (`RealmId`,`Class`) USING BTREE,
   FOREIGN KEY (`RealmId`) REFERENCES `Realms` (`Id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -239,7 +239,7 @@ CREATE TABLE `RealmRaces` (
   `RealmId` int(11) unsigned NOT NULL,
   `Race` tinyint(4) unsigned NOT NULL COMMENT 'Race Id',
   `Expansion` tinyint(4) unsigned NOT NULL COMMENT 'Expansion for race activation',
-  PRIMARY KEY (`RealmId`,`Race`),
+  UNIQUE KEY `RealmId` (`RealmId`,`Race`) USING BTREE,
   FOREIGN KEY (`RealmId`) REFERENCES `Realms` (`Id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -284,22 +284,6 @@ CREATE TABLE `Realms` (
 INSERT INTO `Realms` VALUES ('1', 'Arctium WoW', '127.0.0.1', '3724', '1', '1', '0', '0');
 
 -- ----------------------------
--- Table structure for WorldServers
--- ----------------------------
-DROP TABLE IF EXISTS `WorldServers`;
-CREATE TABLE `WorldServers` (
-  `MapId` int(10) NOT NULL DEFAULT '-1',
-  `Address` varchar(15) DEFAULT '',
-  `Port` smallint(5) unsigned NOT NULL DEFAULT '8100',
-  PRIMARY KEY (`MapId`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of WorldServers
--- ----------------------------
-INSERT INTO `WorldServers` VALUES ('-1', '127.0.0.1', '8100');
-
--- ----------------------------
 -- Table structure for WorldNodes
 -- ----------------------------
 DROP TABLE IF EXISTS `WorldNodes`;
@@ -314,3 +298,19 @@ CREATE TABLE `WorldNodes` (
 -- Records of WorldNodes
 -- ----------------------------
 INSERT INTO `WorldNodes` VALUES ('-1', '127.0.0.1', '9100');
+
+-- ----------------------------
+-- Table structure for WorldServers
+-- ----------------------------
+DROP TABLE IF EXISTS `WorldServers`;
+CREATE TABLE `WorldServers` (
+  `MapId` int(10) NOT NULL DEFAULT '-1',
+  `Address` varchar(15) DEFAULT '',
+  `Port` smallint(5) unsigned NOT NULL DEFAULT '8100',
+  PRIMARY KEY (`MapId`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of WorldServers
+-- ----------------------------
+INSERT INTO `WorldServers` VALUES ('-1', '127.0.0.1', '8100');

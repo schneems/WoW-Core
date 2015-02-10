@@ -67,7 +67,7 @@ namespace CharacterServer.Packets.Structures.Authentication
             packet.PutBit(NumPlayersHorde);
             packet.PutBit(NumPlayersAlliance);
             packet.PutBit(IsVeteranTrial);
-            packet.Flush();
+            packet.FlushBits();
         }
     }
 }

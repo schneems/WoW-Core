@@ -28,7 +28,7 @@ namespace CharacterServer.Packets.Structures.Authentication
         {
             packet.Write(WaitCount);
             packet.PutBit(HasFCM);
-            packet.Flush();
+            packet.FlushBits();
         }
     }
 }

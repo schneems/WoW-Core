@@ -271,7 +271,7 @@ namespace Framework.Network.Packets
             }
         }
 
-        public void Flush()
+        public void FlushBits()
         {
             if (bitPosition == 8)
                 return;

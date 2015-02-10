@@ -86,7 +86,8 @@ namespace CharacterServer.Packets.Structures.Character
             packet.PutBits(Name.Length, 6);
             packet.PutBit(FirstLogin);
             packet.PutBit(BoostInProgress);
-            packet.Flush();
+            packet.PutBits(0, 5);
+            packet.FlushBits();
 
             packet.WriteString(Name);
         }

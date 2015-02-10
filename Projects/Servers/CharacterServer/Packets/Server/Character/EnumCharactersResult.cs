@@ -36,7 +36,7 @@ namespace CharacterServer.Packets.Server.Character
         {
             Packet.PutBit(Success);
             Packet.PutBit(IsDeletedCharacters);
-            Packet.Flush();
+            Packet.FlushBits();
 
             Packet.Write(Characters.Count);
             Packet.Write(FactionChangeRestrictions.Count);

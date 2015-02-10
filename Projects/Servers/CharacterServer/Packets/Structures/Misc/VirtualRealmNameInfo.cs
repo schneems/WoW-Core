@@ -30,7 +30,7 @@ namespace CharacterServer.Packets.Structures.Misc
             packet.PutBit(IsLocal);
             packet.PutBits(RealmNameActual.Length, 8);
             packet.PutBits(RealmNameNormalized.Length, 8);
-            packet.Flush();
+            packet.FlushBits();
 
             packet.WriteString(RealmNameActual);
             packet.WriteString(RealmNameNormalized);
