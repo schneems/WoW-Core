@@ -36,8 +36,8 @@ namespace AuthServer
             ReadArguments(args);
 
             var connString = DB.CreateConnectionString(AuthConfig.AuthDBHost, AuthConfig.AuthDBUser, AuthConfig.AuthDBPassword,
-                                                       AuthConfig.AuthDBDataBase, AuthConfig.AuthDBPort, AuthConfig.AuthDBPooling,
-                                                       AuthConfig.AuthDBMinPoolSize, AuthConfig.AuthDBMaxPoolSize, AuthConfig.AuthDBType);
+                                                       AuthConfig.AuthDBDataBase, AuthConfig.AuthDBPort, AuthConfig.AuthDBMinPoolSize, 
+                                                       AuthConfig.AuthDBMaxPoolSize, AuthConfig.AuthDBType);
 
             if (DB.Auth.Initialize(connString, AuthConfig.AuthDBType))
             {

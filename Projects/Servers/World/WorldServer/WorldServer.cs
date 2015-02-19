@@ -37,14 +37,14 @@ namespace WorldServer
             ReadArguments(args);
 
             var authConnString = DB.CreateConnectionString(WorldConfig.AuthDBHost, WorldConfig.AuthDBUser, WorldConfig.AuthDBPassword,
-                                                           WorldConfig.AuthDBDataBase, WorldConfig.AuthDBPort, WorldConfig.AuthDBPooling,
-                                                           WorldConfig.AuthDBMinPoolSize, WorldConfig.AuthDBMaxPoolSize, WorldConfig.AuthDBType);
+                                                           WorldConfig.AuthDBDataBase, WorldConfig.AuthDBPort, WorldConfig.AuthDBMinPoolSize, 
+                                                           WorldConfig.AuthDBMaxPoolSize, WorldConfig.AuthDBType);
             var charConnString = DB.CreateConnectionString(WorldConfig.CharacterDBHost, WorldConfig.CharacterDBUser, WorldConfig.CharacterDBPassword,
-                                                           WorldConfig.CharacterDBDataBase, WorldConfig.CharacterDBPort, WorldConfig.CharacterDBPooling,
-                                                           WorldConfig.CharacterDBMinPoolSize, WorldConfig.CharacterDBMaxPoolSize, WorldConfig.CharacterDBType);
+                                                           WorldConfig.CharacterDBDataBase, WorldConfig.CharacterDBPort, WorldConfig.CharacterDBMinPoolSize, 
+                                                           WorldConfig.CharacterDBMaxPoolSize, WorldConfig.CharacterDBType);
             var dataConnString = DB.CreateConnectionString(WorldConfig.DataDBHost, WorldConfig.DataDBUser, WorldConfig.DataDBPassword,
-                                                           WorldConfig.DataDBDataBase, WorldConfig.DataDBPort, WorldConfig.DataDBPooling,
-                                                           WorldConfig.DataDBMinPoolSize, WorldConfig.DataDBMaxPoolSize, WorldConfig.DataDBType);
+                                                           WorldConfig.DataDBDataBase, WorldConfig.DataDBPort, WorldConfig.DataDBMinPoolSize, 
+                                                           WorldConfig.DataDBMaxPoolSize, WorldConfig.DataDBType);
 
             if (DB.Auth.Initialize(authConnString, WorldConfig.AuthDBType) &&
                 DB.Character.Initialize(charConnString, WorldConfig.CharacterDBType) &&

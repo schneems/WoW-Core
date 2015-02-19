@@ -37,14 +37,14 @@ namespace CharacterServer
             ReadArguments(args);
 
             var authConnString = DB.CreateConnectionString(CharacterConfig.AuthDBHost, CharacterConfig.AuthDBUser, CharacterConfig.AuthDBPassword,
-                                                           CharacterConfig.AuthDBDataBase, CharacterConfig.AuthDBPort, CharacterConfig.AuthDBPooling,
-                                                           CharacterConfig.AuthDBMinPoolSize, CharacterConfig.AuthDBMaxPoolSize, CharacterConfig.AuthDBType);
+                                                           CharacterConfig.AuthDBDataBase, CharacterConfig.AuthDBPort, CharacterConfig.AuthDBMinPoolSize, 
+                                                           CharacterConfig.AuthDBMaxPoolSize, CharacterConfig.AuthDBType);
             var charConnString = DB.CreateConnectionString(CharacterConfig.CharacterDBHost, CharacterConfig.CharacterDBUser, CharacterConfig.CharacterDBPassword,
-                                                           CharacterConfig.CharacterDBDataBase, CharacterConfig.CharacterDBPort, CharacterConfig.CharacterDBPooling,
-                                                           CharacterConfig.CharacterDBMinPoolSize, CharacterConfig.CharacterDBMaxPoolSize, CharacterConfig.CharacterDBType);
+                                                           CharacterConfig.CharacterDBDataBase, CharacterConfig.CharacterDBPort, CharacterConfig.CharacterDBMinPoolSize, 
+                                                           CharacterConfig.CharacterDBMaxPoolSize, CharacterConfig.CharacterDBType);
             var dataConnString = DB.CreateConnectionString(CharacterConfig.DataDBHost, CharacterConfig.DataDBUser, CharacterConfig.DataDBPassword,
-                                                           CharacterConfig.DataDBDataBase, CharacterConfig.DataDBPort, CharacterConfig.DataDBPooling,
-                                                           CharacterConfig.DataDBMinPoolSize, CharacterConfig.DataDBMaxPoolSize, CharacterConfig.DataDBType);
+                                                           CharacterConfig.DataDBDataBase, CharacterConfig.DataDBPort, CharacterConfig.DataDBMinPoolSize, 
+                                                           CharacterConfig.DataDBMaxPoolSize, CharacterConfig.DataDBType);
 
             if (DB.Auth.Initialize(authConnString, CharacterConfig.AuthDBType) &&
                 DB.Character.Initialize(charConnString, CharacterConfig.CharacterDBType) &&

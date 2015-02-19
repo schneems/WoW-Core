@@ -26,27 +26,13 @@ namespace Framework.Database
         public static Lappa_ORM.Database Data = new Lappa_ORM.Database();
         public static Lappa_ORM.Database World = new Lappa_ORM.Database();
 
-        public static string CreateConnectionString(string host, string user, string password, string database, int port, bool pooling, int minPoolSize, int maxPoolSize, ConnectionType connType)
+        public static string CreateConnectionString(string host, string user, string password, string database, int port, int minPoolSize, int maxPoolSize, ConnectionType connType)
         {
             if (connType == ConnectionType.MYSQL)
-            {
-                var connectionString = $"Server={host};User Id={user};Port={port};Password={password};Database={database};Allow Zero Datetime=True;Pooling={pooling};CharSet=utf8";
-
-                if (pooling)
-                    connectionString += $";Min Pool Size={minPoolSize};Max Pool Size={maxPoolSize}";
-
-                return connectionString;
-            }
+                return $"Server={host};User Id={user};Port={port};Password={password};Database={database};Allow Zero Datetime=True;Pooling=True;Min Pool Size={minPoolSize};Max Pool Size={maxPoolSize};CharSet=utf8";
 
             if (connType == ConnectionType.MSSQL)
-            {
-                var connectionString = $"Data Source={host}; Initial Catalog = {database}; User ID = {user}; Password = {password};Pooling={pooling}";
-
-                if (pooling)
-                    connectionString += $";Min Pool Size={minPoolSize};Max Pool Size={maxPoolSize}";
-
-                return connectionString;
-            }
+                return $"Data Source={host}; Initial Catalog = {database}; User ID = {user}; Password = {password};Pooling=True;Min Pool Size={minPoolSize};Max Pool Size={maxPoolSize}";
 
             return null;
         }

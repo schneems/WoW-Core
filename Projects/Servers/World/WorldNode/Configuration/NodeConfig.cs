@@ -45,7 +45,6 @@ namespace WorldNode.Configuration
         public static string AuthDBPassword;
         public static string AuthDBDataBase;
 
-        public static bool AuthDBPooling;
         public static int AuthDBMinPoolSize;
         public static int AuthDBMaxPoolSize;
 
@@ -57,7 +56,6 @@ namespace WorldNode.Configuration
         public static string CharacterDBPassword;
         public static string CharacterDBDataBase;
 
-        public static bool CharacterDBPooling;
         public static int CharacterDBMinPoolSize;
         public static int CharacterDBMaxPoolSize;
 
@@ -69,7 +67,6 @@ namespace WorldNode.Configuration
         public static string DataDBPassword;
         public static string DataDBDataBase;
 
-        public static bool DataDBPooling;
         public static int DataDBMinPoolSize;
         public static int DataDBMaxPoolSize;
 
@@ -144,7 +141,6 @@ namespace WorldNode.Configuration
             AuthDBPassword         = config.Read("AuthDB.Password", "");
             AuthDBDataBase         = config.Read("AuthDB.Database", "AuthDB");
 
-            AuthDBPooling          = config.Read("AuthDB.Pooling", true);
             AuthDBMinPoolSize      = config.Read("AuthDB.MinPoolSize", 5);
             AuthDBMaxPoolSize      = config.Read("AuthDB.MaxPoolSize", 30);
 
@@ -155,7 +151,6 @@ namespace WorldNode.Configuration
             CharacterDBPassword    = config.Read("CharacterDB.Password", "");
             CharacterDBDataBase    = config.Read("CharacterDB.Database", "CharacterDB");
 
-            CharacterDBPooling     = config.Read("CharacterDB.Pooling", true);
             CharacterDBMinPoolSize = config.Read("CharacterDB.MinPoolSize", 5);
             CharacterDBMaxPoolSize = config.Read("CharacterDB.MaxPoolSize", 30);
 
@@ -166,7 +161,6 @@ namespace WorldNode.Configuration
             DataDBPassword         = config.Read("DataDB.Password", "");
             DataDBDataBase         = config.Read("DataDB.Database", "DataDB");
 
-            DataDBPooling          = config.Read("DataDB.Pooling", false);
             DataDBMinPoolSize      = config.Read("DataDB.MinPoolSize", 1);
             DataDBMaxPoolSize      = config.Read("DataDB.MaxPoolSize", 1);
 

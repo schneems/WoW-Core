@@ -37,14 +37,14 @@ namespace WorldNode
             ReadArguments(args);
 
             var authConnString = DB.CreateConnectionString(NodeConfig.AuthDBHost, NodeConfig.AuthDBUser, NodeConfig.AuthDBPassword,
-                                                           NodeConfig.AuthDBDataBase, NodeConfig.AuthDBPort, NodeConfig.AuthDBPooling,
-                                                           NodeConfig.AuthDBMinPoolSize, NodeConfig.AuthDBMaxPoolSize, NodeConfig.AuthDBType);
+                                                           NodeConfig.AuthDBDataBase, NodeConfig.AuthDBPort, NodeConfig.AuthDBMinPoolSize, 
+                                                           NodeConfig.AuthDBMaxPoolSize, NodeConfig.AuthDBType);
             var charConnString = DB.CreateConnectionString(NodeConfig.CharacterDBHost, NodeConfig.CharacterDBUser, NodeConfig.CharacterDBPassword,
-                                                           NodeConfig.CharacterDBDataBase, NodeConfig.CharacterDBPort, NodeConfig.CharacterDBPooling,
-                                                           NodeConfig.CharacterDBMinPoolSize, NodeConfig.CharacterDBMaxPoolSize, NodeConfig.CharacterDBType);
+                                                           NodeConfig.CharacterDBDataBase, NodeConfig.CharacterDBPort, NodeConfig.CharacterDBMinPoolSize, 
+                                                           NodeConfig.CharacterDBMaxPoolSize, NodeConfig.CharacterDBType);
             var dataConnString = DB.CreateConnectionString(NodeConfig.DataDBHost, NodeConfig.DataDBUser, NodeConfig.DataDBPassword,
-                                                           NodeConfig.DataDBDataBase, NodeConfig.DataDBPort, NodeConfig.DataDBPooling,
-                                                           NodeConfig.DataDBMinPoolSize, NodeConfig.DataDBMaxPoolSize, NodeConfig.DataDBType);
+                                                           NodeConfig.DataDBDataBase, NodeConfig.DataDBPort, NodeConfig.DataDBMinPoolSize, 
+                                                           NodeConfig.DataDBMaxPoolSize, NodeConfig.DataDBType);
 
             if (DB.Auth.Initialize(authConnString, NodeConfig.AuthDBType) &&
                 DB.Character.Initialize(charConnString, NodeConfig.CharacterDBType) &&

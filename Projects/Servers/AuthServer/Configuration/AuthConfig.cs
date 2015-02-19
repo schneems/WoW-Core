@@ -44,7 +44,6 @@ namespace AuthServer.Configuration
         public static string AuthDBPassword;
         public static string AuthDBDataBase;
 
-        public static bool AuthDBPooling;
         public static int AuthDBMinPoolSize;
         public static int AuthDBMaxPoolSize;
 
@@ -106,7 +105,6 @@ namespace AuthServer.Configuration
             AuthDBPassword      = config.Read("AuthDB.Password", "");
             AuthDBDataBase      = config.Read("AuthDB.Database", "AuthDB");
 
-            AuthDBPooling       = config.Read("AuthDB.Pooling", true);
             AuthDBMinPoolSize   = config.Read("AuthDB.MinPoolSize", 5);
             AuthDBMaxPoolSize   = config.Read("AuthDB.MaxPoolSize", 30);
 
