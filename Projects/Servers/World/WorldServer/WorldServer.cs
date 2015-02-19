@@ -46,9 +46,9 @@ namespace WorldServer
                                                            WorldConfig.DataDBDataBase, WorldConfig.DataDBPort, WorldConfig.DataDBPooling,
                                                            WorldConfig.DataDBMinPoolSize, WorldConfig.DataDBMaxPoolSize, WorldConfig.DataDBType);
 
-            if (DB.Auth.CreateConnection(authConnString, WorldConfig.AuthDBType) &&
-                DB.Character.CreateConnection(charConnString, WorldConfig.CharacterDBType) &&
-                DB.Data.CreateConnection(dataConnString, WorldConfig.DataDBType))
+            if (DB.Auth.Initialize(authConnString, WorldConfig.AuthDBType) &&
+                DB.Character.Initialize(charConnString, WorldConfig.CharacterDBType) &&
+                DB.Data.Initialize(dataConnString, WorldConfig.DataDBType))
             {
                 Helper.PrintHeader(serverName);
 

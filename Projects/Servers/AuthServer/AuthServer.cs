@@ -39,7 +39,7 @@ namespace AuthServer
                                                        AuthConfig.AuthDBDataBase, AuthConfig.AuthDBPort, AuthConfig.AuthDBPooling,
                                                        AuthConfig.AuthDBMinPoolSize, AuthConfig.AuthDBMaxPoolSize, AuthConfig.AuthDBType);
 
-            if (DB.Auth.CreateConnection(connString, AuthConfig.AuthDBType))
+            if (DB.Auth.Initialize(connString, AuthConfig.AuthDBType))
             {
                 Helper.PrintHeader(serverName);
 

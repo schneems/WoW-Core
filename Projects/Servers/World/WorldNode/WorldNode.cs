@@ -46,9 +46,9 @@ namespace WorldNode
                                                            NodeConfig.DataDBDataBase, NodeConfig.DataDBPort, NodeConfig.DataDBPooling,
                                                            NodeConfig.DataDBMinPoolSize, NodeConfig.DataDBMaxPoolSize, NodeConfig.DataDBType);
 
-            if (DB.Auth.CreateConnection(authConnString, NodeConfig.AuthDBType) &&
-                DB.Character.CreateConnection(charConnString, NodeConfig.CharacterDBType) &&
-                DB.Data.CreateConnection(dataConnString, NodeConfig.DataDBType))
+            if (DB.Auth.Initialize(authConnString, NodeConfig.AuthDBType) &&
+                DB.Character.Initialize(charConnString, NodeConfig.CharacterDBType) &&
+                DB.Data.Initialize(dataConnString, NodeConfig.DataDBType))
             {
                 Helper.PrintHeader(serverName);
 

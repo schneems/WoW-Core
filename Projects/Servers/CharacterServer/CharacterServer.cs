@@ -46,9 +46,9 @@ namespace CharacterServer
                                                            CharacterConfig.DataDBDataBase, CharacterConfig.DataDBPort, CharacterConfig.DataDBPooling,
                                                            CharacterConfig.DataDBMinPoolSize, CharacterConfig.DataDBMaxPoolSize, CharacterConfig.DataDBType);
 
-            if (DB.Auth.CreateConnection(authConnString, CharacterConfig.AuthDBType) &&
-                DB.Character.CreateConnection(charConnString, CharacterConfig.CharacterDBType) &&
-                DB.Data.CreateConnection(dataConnString, CharacterConfig.DataDBType))
+            if (DB.Auth.Initialize(authConnString, CharacterConfig.AuthDBType) &&
+                DB.Character.Initialize(charConnString, CharacterConfig.CharacterDBType) &&
+                DB.Data.Initialize(dataConnString, CharacterConfig.DataDBType))
             {
                 Helper.PrintHeader(serverName);
 
