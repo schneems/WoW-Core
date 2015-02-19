@@ -19,19 +19,19 @@ namespace Framework.Constants.Character
 {
     public enum CharLoginCode : byte
     {
-        InProgress                      = 0x4E,
-        Success                         = 0x4F,
-        NoWorld                         = 0x50,
-        DuplicateCharacter              = 0x51,
-        NoInstances                     = 0x52,
-        Failed                          = 0x53,
-        Disabled                        = 0x54,
-        NoCharacter                     = 0x55,
-        LockedForTransfer               = 0x56,
-        LockedByBilling                 = 0x57,
-        LockedByMobileAh                = 0x58,
-        TemporaryGmLock                 = 0x59,
-        LockedByCharacterUpgrade        = 0x5A,
-        LockedByRevokedCharacterUpgrade = 0x5B,
+        InProgress                      = 0x4F,
+        Success                         = 0x50,
+        NoWorld                         = 0x51,
+        DuplicateCharacter              = 0x52,
+        NoInstances                     = 0x53,
+        Failed                          = 0x54,
+        Disabled                        = 0x55,
+        NoCharacter                     = 0x56,
+        LockedForTransfer               = 0x57,
+        LockedByBilling                 = 0x58,
+        LockedByMobileAh                = 0x59,
+        TemporaryGmLock                 = 0x5A,
+        LockedByCharacterUpgrade        = 0x5B,
+        LockedByRevokedCharacterUpgrade = 0x5C,
     }
 }

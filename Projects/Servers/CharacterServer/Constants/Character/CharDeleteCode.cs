@@ -19,12 +19,12 @@ namespace CharacterServer.Constants.Character
 {
     public enum CharDeleteCode : byte
     {
-        InProgress              = 0x47,
-        Success                 = 0x48,
-        Failed                  = 0x49,
-        FailedLockedForTransfer = 0x4A,
-        FailedGuildLeader       = 0x4B,
-        FailedArenaCaptain      = 0x4C,
-        FailedHasHeirloomOrMail = 0x4D,
+        InProgress              = 0x48,
+        Success                 = 0x49,
+        Failed                  = 0x4A,
+        FailedLockedForTransfer = 0x4B,
+        FailedGuildLeader       = 0x4C,
+        FailedArenaCaptain      = 0x4D,
+        FailedHasHeirloomOrMail = 0x4E,
     }
 }
