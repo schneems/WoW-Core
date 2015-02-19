@@ -24,17 +24,17 @@ namespace CharacterServer.Constants.Net
         #endregion
 
         #region GlueMgr (Character)
-        GenerateRandomCharacterNameResult       = 0x0D8F,
+        GenerateRandomCharacterNameResult       = 0x195B,
         #endregion
 
         #region RealmConnection
-        AuthResponse                            = 0x0DA9,
-        EnumCharactersResult                    = 0x05AF,
-        AddonInfo                               = 0x1D9F,
-        TutorialFlags                           = 0x020F,
+        AuthResponse                            = 0x0B61,
+        EnumCharactersResult                    = 0x13F2,
+        AddonInfo                               = 0x1F5C,
+        TutorialFlags                           = 0x0A39,
         SetTimeZoneInformation                  = 0x2000,
-        CreateChar                              = 0x0107,
-        DeleteChar                              = 0x0BC4,
+        CreateChar                              = 0x13E4,
+        DeleteChar                              = 0x01C2,
         #endregion
     }
 }
