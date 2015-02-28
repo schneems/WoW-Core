@@ -15,6 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+using System.Numerics;
 using Framework.Constants.General;
 using Framework.Constants.Object;
 using Framework.Network.Packets;

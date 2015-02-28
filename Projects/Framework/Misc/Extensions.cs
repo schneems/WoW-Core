@@ -149,5 +149,15 @@ namespace Framework.Misc
             return ret;
         }
         #endregion
+        #region Vector
+        public static float Distance(this Vector3 pos1, Vector3 pos2)
+        {
+            var dx = pos1.X - pos2.X;
+            var dy = pos1.Y - pos2.Y;
+            var dz = pos1.Z - pos2.Z;
+
+            return dx * dx + dy * dy + dz * dz;
+        }
+        #endregion
     }
 }

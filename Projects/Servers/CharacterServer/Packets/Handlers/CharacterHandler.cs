@@ -17,6 +17,7 @@
 
 using System;
 using System.Linq;
+using System.Numerics;
 using CharacterServer.Attributes;
 using CharacterServer.Constants.Character;
 using CharacterServer.Constants.Net;
@@ -35,7 +36,6 @@ using Framework.Database;
 using Framework.Database.Character.Entities;
 using Framework.Database.Data.Entities;
 using Framework.Datastore;
-using Framework.Objects;
 using Framework.Packets.Server.Character;
 
 namespace CharacterServer.Packets.Handlers

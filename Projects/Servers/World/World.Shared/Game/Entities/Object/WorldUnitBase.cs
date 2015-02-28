@@ -15,35 +15,26 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-using System;
-using Framework.Database.Character.Entities;
-using World.Shared.Game.Entities.Object;
+using System.Numerics;
+using Framework.Misc;
 using World.Shared.Game.Entities.Object.Descriptors;
-using World.Shared.Game.Entities.Object.Guid;
-using World.Shared.Game.Objects.Entities;
 
-namespace World.Shared.Game.Entities
+namespace World.Shared.Game.Entities.Object
 {
-    sealed class Player : WorldUnitBase, IWorldObject
+    class WorldUnitBase : WorldObjectBase
     {
-        public PlayerData Data { get; }
+        public static readonly float InRangeDistance = 10000.0f;
 
-        public Player(Character player) : base(PlayerData.End)
+        public UnitData UnitData { get; }
+        public short Map        { get; set; } = -1;
+        public Vector3 Position { get; } = Vector3.Zero;
+        public float Facing     { get; set; } = 0;
+
+        protected WorldUnitBase(int descriptorLength) : base(descriptorLength)
         {
-            Guid = new PlayerGuid { CreationBits = player.Guid, RealmId = (ushort)player.RealmId };
-
-            Data = new PlayerData();
+            UnitData = new UnitData();
         }
 
-        public void InitializeDescriptors()
-        {
-            Set(ObjectData.Guid, Guid.Low);
-            Set(ObjectData.Guid + 2, Guid.High);
-        }
-
-        public void InitializeDynamicDescriptors()
-        {
-            throw new NotImplementedException();
-        }
+        public bool IsInRange(WorldUnitBase unit2) => (Position.Distance(unit2.Position) <= InRangeDistance);
     }
 }

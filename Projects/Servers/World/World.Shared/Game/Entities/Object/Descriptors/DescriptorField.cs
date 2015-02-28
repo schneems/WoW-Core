@@ -15,12 +15,25 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace Framework.Objects
+using World.Shared.Constants.Objects;
+
+namespace World.Shared.Game.Entities.Object.Descriptors
 {
-    public struct Vector3
+    class DescriptorField
     {
-        public float X { get; set; }
-        public float Y { get; set; }
-        public float Z { get; set; }
+        public int Index { get; set; }
+        public uint Size { get; set; }
+        public MirrorFlags Flags { get; set; }
+        public object Value { get; set; }
+
+        public static DescriptorField operator +(DescriptorField f, int add)
+        {
+            return new DescriptorField
+            {
+                Index = f.Index + add,
+                Size  = (uint)(f.Size - add),
+                Flags = f.Flags
+            };
+        }
     }
 }
