@@ -21,7 +21,7 @@ namespace World.Shared.Game.Entities.Object.Descriptors
 {
     class CorpseData : DescriptorBase
     {
-        public new int BaseEnd                   => ObjectData.End;
+        public CorpseData() : base(ObjectData.End) { }
 
         public DescriptorField Owner             => base[0x0, 0x4];
         public DescriptorField PartyGUID         => base[0x4, 0x4];

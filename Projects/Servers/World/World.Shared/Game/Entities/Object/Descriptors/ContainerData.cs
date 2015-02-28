@@ -19,7 +19,7 @@ namespace World.Shared.Game.Entities.Object.Descriptors
 {
     class ContainerData : DescriptorBase
     {
-        public new int BaseEnd => ItemData.End;
+        public ContainerData() : base(ItemData.End) { }
 
         public DescriptorField Slots    => base[0x0, 0x90];
         public DescriptorField NumSlots => base[0x90, 0x1];

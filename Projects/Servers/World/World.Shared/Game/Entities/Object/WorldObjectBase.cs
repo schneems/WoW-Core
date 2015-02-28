@@ -16,6 +16,8 @@
  */
 
 using System;
+using Framework.Misc;
+using Framework.Network.Packets;
 using Framework.Objects;
 using World.Shared.Game.Entities.Object.Descriptors;
 
@@ -34,33 +36,50 @@ namespace World.Shared.Game.Entities.Object
             ObjectData = new ObjectData();
         }
 
+        public void WriteToPacket(Packet pkt)
+        {
+            descriptors.WriteToPacket(pkt);
+        }
+
         #region Descriptors Set Functions
         public void Set(DescriptorField descriptor, sbyte value, int offset = 0)
         {
             descriptors.Mask.Set(descriptor.Index, true);
 
-            descriptors.Data[descriptor.Index] = value << (offset << 3);
+            if (descriptors.Data.ContainsKey(descriptor.Index))
+                descriptors.Data[descriptor.Index] = descriptors.Data[descriptor.Index].ChangeType<int>() | value << (offset << 3);
+            else
+                descriptors.Data[descriptor.Index] = value << (offset << 3);
         }
 
         public void Set(DescriptorField descriptor, byte value, int offset = 0)
         {
             descriptors.Mask.Set(descriptor.Index, true);
 
-            descriptors.Data[descriptor.Index] = (uint)((value) << (offset << 3));
+            if (descriptors.Data.ContainsKey(descriptor.Index))
+                descriptors.Data[descriptor.Index] = descriptors.Data[descriptor.Index].ChangeType<uint>() | (uint)((value) << (offset << 3));
+            else
+                descriptors.Data[descriptor.Index] = (uint)((value) << (offset << 3));
         }
 
         public void Set(DescriptorField descriptor, short value, int offset = 0)
         {
             descriptors.Mask.Set(descriptor.Index, true);
 
-            descriptors.Data[descriptor.Index] = value << (offset << 4);
+            if (descriptors.Data.ContainsKey(descriptor.Index))
+                descriptors.Data[descriptor.Index] = descriptors.Data[descriptor.Index].ChangeType<int>() | value << (offset << 4);
+            else
+                descriptors.Data[descriptor.Index] = value << (offset << 4);
         }
 
         public void Set(DescriptorField descriptor, ushort value, int offset = 0)
         {
             descriptors.Mask.Set(descriptor.Index, true);
 
-            descriptors.Data[descriptor.Index] = (uint)((value) << (offset << 4));
+            if (descriptors.Data.ContainsKey(descriptor.Index))
+                descriptors.Data[descriptor.Index] = descriptors.Data[descriptor.Index].ChangeType<uint>() | (uint)((value) << (offset << 4));
+            else
+                descriptors.Data[descriptor.Index] = (uint)((value) << (offset << 4));
         }
 
         public void Set(DescriptorField descriptor, int value, int offset = 0)
@@ -90,7 +109,7 @@ namespace World.Shared.Game.Entities.Object
             descriptors.Mask.Set(descriptor.Index + 1, true);
 
             descriptors.Data[descriptor.Index] = (int)(value & int.MaxValue);
-            descriptors.Data[descriptor.Index] = (int)((value >> 32) & int.MaxValue);
+            descriptors.Data[descriptor.Index + 1] = (int)((value >> 32) & int.MaxValue);
         }
 
         public void Set(DescriptorField descriptor, ulong value, int offset = 0)
@@ -99,7 +118,7 @@ namespace World.Shared.Game.Entities.Object
             descriptors.Mask.Set(descriptor.Index + 1, true);
 
             descriptors.Data[descriptor.Index] = (uint)(value & uint.MaxValue);
-            descriptors.Data[descriptor.Index] = (uint)((value >> 32) & uint.MaxValue);
+            descriptors.Data[descriptor.Index + 1] = (uint)((value >> 32) & uint.MaxValue);
         }
         #endregion
 

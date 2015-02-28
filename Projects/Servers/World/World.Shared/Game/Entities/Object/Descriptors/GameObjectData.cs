@@ -21,7 +21,7 @@ namespace World.Shared.Game.Entities.Object.Descriptors
 {
     class GameObjectData : DescriptorBase
     {
-        public new int BaseEnd => ObjectData.End;
+        public GameObjectData() : base(ObjectData.End) { }
 
         public DescriptorField CreatedBy          => base[0x0, 0x4];
         public DescriptorField DisplayID          => base[0x4, 0x1, MirrorFlags.Urgent | MirrorFlags.ViewerDependet];

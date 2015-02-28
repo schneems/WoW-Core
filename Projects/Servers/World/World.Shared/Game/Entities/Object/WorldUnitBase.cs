@@ -21,13 +21,13 @@ using World.Shared.Game.Entities.Object.Descriptors;
 
 namespace World.Shared.Game.Entities.Object
 {
-    class WorldUnitBase : WorldObjectBase
+    abstract class WorldUnitBase : WorldObjectBase
     {
         public static readonly float InRangeDistance = 10000.0f;
 
         public UnitData UnitData { get; }
         public short Map        { get; set; } = -1;
-        public Vector3 Position { get; } = Vector3.Zero;
+        public Vector3 Position { get; set; } = Vector3.Zero;
         public float Facing     { get; set; } = 0;
 
         protected WorldUnitBase(int descriptorLength) : base(descriptorLength)

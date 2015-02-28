@@ -19,11 +19,13 @@ namespace WorldServer.Managers
 {
     class Manager
     {
+        public static ClientDBManager ClientDB;
         public static RedirectManager Redirect;
         public static SessionManager Session;
 
         public static void Initialize()
         {
+            ClientDB = ClientDBManager.GetInstance();
             Redirect = RedirectManager.GetInstance();
             Session  = SessionManager.GetInstance();
         }

@@ -21,7 +21,7 @@ namespace World.Shared.Game.Entities.Object.Descriptors
 {
     class AreaTriggerData : DescriptorBase
     {
-        public new int BaseEnd => ObjectData.End;
+        public AreaTriggerData() : base(ObjectData.End) { }
 
         public DescriptorField Caster        => base[0x0, 0x4];
         public DescriptorField Duration      => base[0x4, 0x1];

@@ -21,7 +21,7 @@ namespace World.Shared.Game.Entities.Object.Descriptors
 {
     class PlayerData : DescriptorBase
     {
-        public new int BaseEnd => UnitData.End;
+        public PlayerData() : base(UnitData.End) { }
 
         public DescriptorField DuelArbiter                   => base[0x0, 0x4];
         public DescriptorField WowAccount                    => base[0x4, 0x4];

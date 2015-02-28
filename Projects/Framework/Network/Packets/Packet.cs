@@ -29,6 +29,7 @@ namespace Framework.Network.Packets
         public PacketHeader Header { get; }
 
         public bool IsReadComplete => readStream.BaseStream.Position >= Data.Length;
+        public uint Written => (uint)writeStream.BaseStream.Length;
 
         BinaryReader readStream;
         BinaryWriter writeStream;
@@ -189,6 +190,15 @@ namespace Framework.Network.Packets
             data = isCString ? data.Combine(new byte[1]) : data;
 
             writeStream.Write(data);
+        }
+
+        public void Write<T>(T value, int pos)
+        {
+            writeStream.Seek(pos, SeekOrigin.Begin);
+
+            Write(value);
+
+            writeStream.Seek((int)writeStream.BaseStream.Length - 1, SeekOrigin.Begin);
         }
 
         public void Finish()

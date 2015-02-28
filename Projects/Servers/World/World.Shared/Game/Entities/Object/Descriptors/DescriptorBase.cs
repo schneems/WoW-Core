@@ -21,7 +21,14 @@ namespace World.Shared.Game.Entities.Object.Descriptors
 {
     class DescriptorBase
     {
-        public static int BaseEnd { get; set; }
+        public int BaseEnd { get; set; }
+
+        public DescriptorBase() { }
+
+        protected DescriptorBase(int baseEnd)
+        {
+            BaseEnd = baseEnd;
+        }
 
         public DescriptorField this[int index, uint size, MirrorFlags flags = MirrorFlags.All] => new DescriptorField { Index = index + BaseEnd, Size = size, Flags = flags };
         public DescriptorField this[int index] => new DescriptorField { Index = index + BaseEnd };

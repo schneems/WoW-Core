@@ -21,7 +21,7 @@ namespace World.Shared.Game.Entities.Object.Descriptors
 {
     class ItemData : DescriptorBase
     {
-        public new int BaseEnd => ObjectData.End;
+        public ItemData() : base(ObjectData.End) { }
 
         public DescriptorField Owner              => base[0x0, 0x4];
         public DescriptorField ContainedIn        => base[0x4, 0x4];

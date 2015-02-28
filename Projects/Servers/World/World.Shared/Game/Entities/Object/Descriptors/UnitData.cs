@@ -21,7 +21,7 @@ namespace World.Shared.Game.Entities.Object.Descriptors
 {
     class UnitData : DescriptorBase
     {
-        public new int BaseEnd => ObjectData.End;
+        public UnitData() : base(ObjectData.End) { }
 
         public DescriptorField Charm                             => base[0x0, 0x4];
         public DescriptorField Summon                            => base[0x4, 0x4];

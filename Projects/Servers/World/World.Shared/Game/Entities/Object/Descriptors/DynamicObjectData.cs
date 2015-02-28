@@ -21,7 +21,7 @@ namespace World.Shared.Game.Entities.Object.Descriptors
 {
     class DynamicObjectData : DescriptorBase
     {
-        public new int BaseEnd => ObjectData.End;
+        public DynamicObjectData() : base(ObjectData.End) { }
 
         public DescriptorField Caster          => base[0x0, 0x4];
         public DescriptorField TypeAndVisualID => base[0x4, 0x1, MirrorFlags.ViewerDependet];

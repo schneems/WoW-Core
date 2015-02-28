@@ -19,7 +19,7 @@ namespace World.Shared.Game.Entities.Object.Descriptors
 {
     class SceneObjectData : DescriptorBase
     {
-        public new int BaseEnd => ObjectData.End;
+        public SceneObjectData() : base(ObjectData.End) { }
 
         public DescriptorField ScriptPackageID => base[0x0, 0x1];
         public DescriptorField RndSeedVal      => base[0x1, 0x1];

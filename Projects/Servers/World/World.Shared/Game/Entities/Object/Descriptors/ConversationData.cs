@@ -21,7 +21,7 @@ namespace World.Shared.Game.Entities.Object.Descriptors
 {
     class ConversationData : DescriptorBase
     {
-        public new int BaseEnd => ObjectData.End;
+        public ConversationData() : base(ObjectData.End) { }
 
         public DescriptorField Dummy => base[0x0, 0x1, MirrorFlags.Self];
 
