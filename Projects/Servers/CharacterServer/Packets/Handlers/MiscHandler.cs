@@ -32,7 +32,7 @@ namespace CharacterServer.Packets.Handlers
         [Message(ClientMessage.LoadingScreenNotify, SessionState.Authenticated)]
         public static void HandleLoadingScreenNotify(LoadingScreenNotify loadingScreenNotify, CharacterSession session)
         {
-            Log.Message(LogType.Debug, "Loading screen for map '{0}' {1}.", loadingScreenNotify.MapID, loadingScreenNotify.Showing ? "enabled" : "disabled");
+            Log.Debug("Loading screen for map '{0}' {1}.", loadingScreenNotify.MapID, loadingScreenNotify.Showing ? "enabled" : "disabled");
 
             if (loadingScreenNotify.Showing)
             {

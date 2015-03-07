@@ -93,7 +93,7 @@ namespace CharacterServer.Packets.Handlers
 
                 if (addonData != null && addonData.Length != authSession.UncompressedAddonInfoSize)
                 {
-                    Log.Message(LogType.Error, "Addon Info data size mismatch.");
+                    Log.Error("Addon Info data size mismatch.");
 
                     session.Dispose();
 

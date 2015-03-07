@@ -23,9 +23,11 @@ using Framework.Database;
 using Framework.Database.Character.Entities;
 using Framework.Logging;
 using Framework.Packets.Server.Net;
+using World.Shared.Game.Entities;
 using WorldServer.Managers;
 using WorldServer.Network;
 using WorldServer.Packets.Client.Character;
+using WorldServer.Packets.Server.Object;
 
 namespace WorldServer.Packets.Handlers
 {
@@ -34,7 +36,7 @@ namespace WorldServer.Packets.Handlers
         [GlobalMessage(GlobalClientMessage.PlayerLogin, SessionState.Authenticated)]
         public static void HandlePlayerLogin(PlayerLogin playerLogin, WorldSession session)
         {
-            Log.Message(LogType.Debug, $"Character with GUID '{playerLogin.PlayerGUID.CreationBits}' tried to login...");
+            Log.Debug($"Character with GUID '{playerLogin.PlayerGUID.CreationBits}' tried to login...");
 
             var character = DB.Character.Single<Character>(c => c.Guid == playerLogin.PlayerGUID.CreationBits);
 
@@ -46,11 +48,27 @@ namespace WorldServer.Packets.Handlers
                 {
                     NetHandler.SendConnectTo(session, worldNode.Address, worldNode.Port, 1);
 
-                    // Send world login stuff...
-                    //session.Send(new ObjectUpdate());
-
                     // Suspend the current connection
                     session.Send(new SuspendComms { Serial = 0x14 });
+
+                    // Send UpdateObject
+                    var player = new Player(character);
+
+                    player.InitializeDescriptors();
+                    //player.InitializeDynamicDescriptors();
+
+                    var objupdata = new ObjectUpdate();
+
+                    objupdata.Player         = player;
+                    objupdata.MapId          = (ushort)player.Map;
+                    objupdata.NumObjUpdates  = 1;
+
+                    // ObjCreate
+                    objupdata.Data.Facing    = player.Facing;
+                    objupdata.Data.MoverGUID = player.Guid;
+                    objupdata.Data.Position  = player.Position;
+
+                    session.Send(objupdata);
                 }
             }
             else

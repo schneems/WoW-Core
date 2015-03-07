@@ -16,7 +16,10 @@
  */
 
 using System;
+using System.Linq;
+using System.Numerics;
 using Framework.Database.Character.Entities;
+using Framework.Datastore;
 using World.Shared.Game.Entities.Object;
 using World.Shared.Game.Entities.Object.Descriptors;
 using World.Shared.Game.Entities.Object.Guid;
@@ -26,19 +29,78 @@ namespace World.Shared.Game.Entities
 {
     sealed class Player : WorldUnitBase, IWorldObject
     {
-        public PlayerData Data { get; }
+        public PlayerData PlayerData;
+
+        Character data;
 
         public Player(Character player) : base(PlayerData.End)
         {
+            data = player;
+
             Guid = new PlayerGuid { CreationBits = player.Guid, RealmId = (ushort)player.RealmId };
 
-            Data = new PlayerData();
+            PlayerData = new PlayerData();
+
+            Position = new Vector3(player.X, player.Y, player.Z);
+            Facing   = player.O;
+            Map      = (short)player.Map;
+
+            InitializeDescriptors();
         }
 
         public void InitializeDescriptors()
         {
             Set(ObjectData.Guid, Guid.Low);
             Set(ObjectData.Guid + 2, Guid.High);
+            Set(ObjectData.Type, 0x19);
+            Set(ObjectData.Scale, 1f);
+
+            Set(UnitData.Health, 1337);
+            Set(UnitData.MaxHealth, 1337);
+            Set(UnitData.Level, (int)data.Level);
+
+            var race = ClientDB.ChrRaces.Single(r => r.Id == data.Race);
+
+            Set(UnitData.FactionTemplate, race.FactionId);
+
+            Set(UnitData.Sex, (byte)data.Race, 0);
+            Set(UnitData.Sex, (byte)data.Class, 1);
+            Set(UnitData.Sex, (byte)0, 2);
+            Set(UnitData.Sex, data.Sex, 3);
+
+            Set(UnitData.DisplayPower, 1);
+
+            var displayId = data.Sex == 1 ? race.FemaleDisplayId : race.MaleDisplayId;
+
+            Set(UnitData.DisplayID, displayId);
+            Set(UnitData.NativeDisplayID, displayId);
+
+            Set(UnitData.Flags, 0x8u);
+
+            Set(UnitData.BoundingRadius, 0.389f);
+            Set(UnitData.CombatReach, 1.5f);
+            Set(UnitData.ModCastingSpeed, 1f);
+            Set(UnitData.MaxHealthModifier, 1f);
+
+            Set(PlayerData.HairColorID, data.Skin, 0);
+            Set(PlayerData.HairColorID, data.Face, 1);
+            Set(PlayerData.HairColorID, data.HairStyle, 2);
+            Set(PlayerData.HairColorID, data.HairColor, 3);
+
+            Set(PlayerData.RestState, data.FacialHairStyle, 0);
+            Set(PlayerData.RestState, 0, 1);
+            Set(PlayerData.RestState, 0, 2);
+            Set(PlayerData.RestState, 2, 3);
+
+            Set(PlayerData.ArenaFaction, data.Sex, 0);
+            Set(PlayerData.ArenaFaction, 0, 1);
+            Set(PlayerData.ArenaFaction, 0, 2);
+            Set(PlayerData.ArenaFaction, 0, 3);
+
+            Set(PlayerData.WatchedFactionIndex, -1);
+            Set(PlayerData.XP, 0);
+            Set(PlayerData.NextLevelXP, 400);
+            Set(PlayerData.VirtualPlayerRealm, data.RealmId);
         }
 
         public void InitializeDynamicDescriptors()

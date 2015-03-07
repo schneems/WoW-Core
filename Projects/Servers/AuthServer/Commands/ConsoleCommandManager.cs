@@ -49,14 +49,14 @@ namespace AuthServer.Commands
         {
             DefineCommands();
 
-            Log.Message(LogType.Normal, "AuthServer successfully started");
-            Log.Message(LogType.Normal, "Total Memory: {0} Kilobytes", GC.GetTotalMemory(false) / 1024);
+            Log.Normal("AuthServer successfully started");
+            Log.Normal("Total Memory: {0} Kilobytes", GC.GetTotalMemory(false) / 1024);
 
             while (true)
             {
                 Thread.Sleep(1);
 
-                Log.Message(LogType.Normal, "AuthServer >> ");
+                Log.Normal("AuthServer >> ");
                  
                 var line = Console.ReadLine().Split(new string[] { " " }, StringSplitOptions.None);
 
@@ -77,7 +77,7 @@ namespace AuthServer.Commands
             if (CommandHandlers.ContainsKey(command.ToLower()))
                 CommandHandlers[command].Invoke(args);
             else if (command != "")
-                Log.Message(LogType.Error, $"'{command}' isn't a valid console command.");
+                Log.Error($"'{command}' isn't a valid console command.");
         }
     }
 }

@@ -50,15 +50,15 @@ namespace WorldServer.Managers
             var worldNodes = DB.Auth.Select<WorldNode>();
 
             if (worldNodes.Count == 0)
-                Log.Message(LogType.Error, "No WorldNodes available.");
+                Log.Error("No WorldNodes available.");
 
             worldNodes.ForEach(ws =>
             {
                 if (WorldNodes.TryAdd(ws.MapId, ws))
-                    Log.Message(LogType.Normal, "Added new WorldNode for Map '{0}' at '{1}:{2}'.", ws.MapId, ws.Address, ws.Port);
+                    Log.Normal("Added new WorldNode for Map '{0}' at '{1}:{2}'.", ws.MapId, ws.Address, ws.Port);
             });
 
-            Log.Message(LogType.Normal, "Loaded {0} WorldNodes.", WorldNodes.Count);
+            Log.Normal("Loaded {0} WorldNodes.", WorldNodes.Count);
             Log.Message();
         }
 

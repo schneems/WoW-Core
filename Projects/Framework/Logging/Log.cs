@@ -62,9 +62,39 @@ namespace Framework.Logging
             SetLogger(LogType.None, "");
         }
 
-        public static void Message(LogType type, string text, params object[] args)
+        public static void Message(string text, params object[] args)
         {
-            SetLogger(type, text, args);
+            SetLogger(LogType.None, text, args);
+        }
+
+        public static void Init(string text, params object[] args)
+        {
+            SetLogger(LogType.Init, text, args);
+        }
+
+        public static void Normal(string text, params object[] args)
+        {
+            SetLogger(LogType.Normal, text, args);
+        }
+
+        public static void Error(string text, params object[] args)
+        {
+            SetLogger(LogType.Error, text, args);
+        }
+
+        public static void Debug(string text, params object[] args)
+        {
+            SetLogger(LogType.Debug, text, args);
+        }
+
+        public static void Packet(string text, params object[] args)
+        {
+            SetLogger(LogType.Packet, text, args);
+        }
+
+        public static void Database(string text, params object[] args)
+        {
+            SetLogger(LogType.Database, text, args);
         }
 
         public static void Wait()
@@ -74,7 +104,8 @@ namespace Framework.Logging
 
         static void SetLogger(LogType type, string text, params object[] args)
         {
-            Console.OutputEncoding = UTF8Encoding.UTF8;
+            Console.OutputEncoding = Encoding.UTF8;
+
             ConsoleColor foreGround;
 
             switch (type)

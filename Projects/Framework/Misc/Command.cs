@@ -30,7 +30,7 @@ namespace Framework.Misc
             }
             catch
             {
-                Log.Message(LogType.Error, "Wrong arguments for the current command.");
+                Log.Error("Wrong arguments for the current command.");
             }
 
             return default(T);

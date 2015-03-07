@@ -46,12 +46,12 @@ namespace Framework.Misc
 
         public static void PrintHeader(string serverName)
         {
-            Log.Message(LogType.Init, "_____________World of Warcraft_____________");
-            Log.Message(LogType.Init, "    __                                     ");
-            Log.Message(LogType.Init, "    / |                     ,              ");
-            Log.Message(LogType.Init, "---/__|---)__----__--_/_--------------_--_-");
-            Log.Message(LogType.Init, "  /   |  /   ) /   ' /    /   /   /  / /  )");
-            Log.Message(LogType.Init, "_/____|_/_____(___ _(_ __/___(___(__/_/__/_");
+            Log.Init("_____________World of Warcraft_____________");
+            Log.Init("    __                                     ");
+            Log.Init("    / |                     ,              ");
+            Log.Init("---/__|---)__----__--_/_--------------_--_-");
+            Log.Init("  /   |  /   ) /   ' /    /   /   /  / /  )");
+            Log.Init("_/____|_/_____(___ _(_ __/___(___(__/_/__/_");
 
             var sb = new StringBuilder();
 
@@ -62,9 +62,9 @@ namespace Framework.Misc
             sb.Insert(nameStart, serverName);
             sb.Remove(nameStart + serverName.Length, serverName.Length);
 
-            Log.Message(LogType.Init, sb.ToString());
+            Log.Init(sb.ToString());
             Log.Message();
-            Log.Message(LogType.Normal, $"Starting Arctium WoW {serverName}...");
+            Log.Normal($"Starting Arctium WoW {serverName}...");
         }
     }
 }

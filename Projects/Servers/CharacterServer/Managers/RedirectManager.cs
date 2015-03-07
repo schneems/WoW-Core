@@ -49,15 +49,15 @@ namespace CharacterServer.Managers
             var worldServers = DB.Auth.Select<WorldServer>();
 
             if (worldServers.Count == 0)
-                Log.Message(LogType.Error, "No WorldServers available.");
+                Log.Error("No WorldServers available.");
 
             worldServers.ForEach(ws =>
             {
                 if (WorldServers.TryAdd(ws.MapId, ws))
-                    Log.Message(LogType.Normal, "Added new WorldServer for Map '{0}' at '{1}:{2}'.", ws.MapId, ws.Address, ws.Port);
+                    Log.Normal("Added new WorldServer for Map '{0}' at '{1}:{2}'.", ws.MapId, ws.Address, ws.Port);
             });
 
-            Log.Message(LogType.Normal, $"Loaded {WorldServers.Count} WorldServers.");
+            Log.Normal($"Loaded {WorldServers.Count} WorldServers.");
             Log.Message();
         }
 

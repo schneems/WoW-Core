@@ -71,7 +71,7 @@ namespace AuthServer.Network.Packets.Handlers
         [AuthMessage(AuthClientMessage.ListSubscribeRequest, AuthChannel.WoWRealm)]
         public static void OnListSubscribeRequest(AuthPacket packet, Client client)
         {
-            Log.Message(LogType.Debug, "Received ListSubscribeRequest.");
+            Log.Debug("Received ListSubscribeRequest.");
 
             // Battlenet::Client::WoWRealm::ListSubscribeResponse
             var listSubscribeResponse = new AuthPacket(AuthServerMessage.ListSubscribeResponse, AuthChannel.WoWRealm);

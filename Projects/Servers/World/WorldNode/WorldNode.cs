@@ -58,8 +58,8 @@ namespace WorldNode
 
                     Manager.Initialize();
 
-                    Log.Message(LogType.Normal, $"{serverName} successfully started");
-                    Log.Message(LogType.Normal, "Total Memory: {0} Kilobytes", GC.GetTotalMemory(false) / 1024);
+                    Log.Normal($"{serverName} successfully started");
+                    Log.Normal("Total Memory: {0} Kilobytes", GC.GetTotalMemory(false) / 1024);
 
                     // No need of console commands.
                     while (true)
@@ -67,7 +67,7 @@ namespace WorldNode
                 }
             }
             else
-                Log.Message(LogType.Error, "Not all database connections successfully opened.");
+                Log.Error("Not all database connections successfully opened.");
         }
 
         static void ReadArguments(string[] args)
@@ -80,7 +80,7 @@ namespace WorldNode
                         NodeConfig.Initialize(args[i]);
                         break;
                     default:
-                        Log.Message(LogType.Error, $"'{args[i - 1]}' isn't a valid argument.");
+                        Log.Error($"'{args[i - 1]}' isn't a valid argument.");
                         break;
                 }
             }

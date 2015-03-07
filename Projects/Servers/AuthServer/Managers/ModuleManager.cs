@@ -43,17 +43,17 @@ namespace AuthServer.Managers
 
         public void UpdateModules()
         {
-            Log.Message(LogType.Normal, "Loading auth modules...");
+            Log.Normal("Loading auth modules...");
 
             var modules = DB.Auth.Select<Module>();
 
             modules.ForEach(m =>
             {
                 if (AddModule(m, Modules))
-                    Log.Message(LogType.Debug, "New auth module '{0}, {1}' loaded.", m.Name, m.System);
+                    Log.Debug("New auth module '{0}, {1}' loaded.", m.Name, m.System);
             });
 
-            Log.Message(LogType.Normal, $"Successfully loaded {Modules.Count} auth modules.");
+            Log.Normal($"Successfully loaded {Modules.Count} auth modules.");
 
             IsInitialized = true;
         }

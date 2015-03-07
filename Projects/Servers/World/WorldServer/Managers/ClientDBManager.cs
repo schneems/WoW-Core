@@ -35,7 +35,7 @@ namespace WorldServer.Managers
         void InitializeStorage()
         {
             Log.Message();
-            Log.Message(LogType.Normal, "Initialize ClientDB storages...");
+            Log.Normal("Initialize ClientDB storages...");
 
             ClientDB.ChrClasses              = DB.Data.Select<ChrClass>();
             ClientDB.ChrRaces                = DB.Data.Select<ChrRace>();
@@ -45,7 +45,7 @@ namespace WorldServer.Managers
             ClientDB.SkillLines              = DB.Data.Select<uint, SkillLine>(sl => sl.ID);
             ClientDB.SkillLineAbilities      = DB.Data.Select<SkillLineAbility>();
 
-            Log.Message(LogType.Normal, "ClientDB storages successfully initialized.");
+            Log.Normal("ClientDB storages successfully initialized.");
             Log.Message();
         }
     }

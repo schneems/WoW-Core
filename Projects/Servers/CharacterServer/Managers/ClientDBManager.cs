@@ -35,7 +35,7 @@ namespace CharacterServer.Managers
         void InitializeStorage()
         {
             Log.Message();
-            Log.Message(LogType.Normal, "Initialize ClientDB storages...");
+            Log.Normal("Initialize ClientDB storages...");
 
             ClientDB.CharBaseInfo            = DB.Data.Select<CharBaseInfo>();
             ClientDB.CharStartOutfits        = DB.Data.Select<CharStartOutfit>();
@@ -48,7 +48,7 @@ namespace CharacterServer.Managers
             ClientDB.SkillLines              = DB.Data.Select<uint, SkillLine>(sl => sl.ID);
             ClientDB.SkillLineAbilities      = DB.Data.Select<SkillLineAbility>();
 
-            Log.Message(LogType.Normal, "ClientDB storages successfully initialized.");
+            Log.Normal("ClientDB storages successfully initialized.");
             Log.Message();
         }
     }

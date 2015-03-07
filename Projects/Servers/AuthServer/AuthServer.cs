@@ -53,7 +53,7 @@ namespace AuthServer
                 }
             }
             else
-                Log.Message(LogType.Error, "Not all database connections successfully opened.");
+                Log.Error("Not all database connections successfully opened.");
         }
 
         static void ReadArguments(string[] args)
@@ -66,7 +66,7 @@ namespace AuthServer
                         AuthConfig.Initialize(args[i]);
                         break;
                     default:
-                        Log.Message(LogType.Error, $"'{args[i - 1]}' isn't a valid argument.");
+                        Log.Error($"'{args[i - 1]}' isn't a valid argument.");
                         break;
                 }
             }

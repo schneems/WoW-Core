@@ -21,7 +21,6 @@ using System.Reflection;
 using AuthServer.Attributes;
 using AuthServer.Constants.Net;
 using AuthServer.Network.Sessions;
-using Framework.Constants.Misc;
 using Framework.Logging;
 using Framework.Network.Packets;
 
@@ -46,7 +45,7 @@ namespace AuthServer.Network.Packets
         {
             var message = (AuthClientMessage)reader.Header.Message;
 
-            Log.Message(LogType.Packet, $"Received Opcode: {message} (0x{message:X}), Length: {reader.Data.Length}");
+            Log.Packet($"Received Opcode: {message} (0x{message:X}), Length: {reader.Data.Length}");
 
             HandlePacket packet;
 

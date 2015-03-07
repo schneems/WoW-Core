@@ -64,7 +64,7 @@ namespace WorldServer.Network
                     e.Completed -= OnConnection;
                     e.Completed += Process;
 
-                    Log.Message(LogType.Debug, $"Initial packet transfer for Client '{GetClientInfo()}' successfully initialized.");
+                    Log.Debug($"Initial packet transfer for Client '{GetClientInfo()}' successfully initialized.");
 
                     client.ReceiveAsync(e);
 
@@ -81,7 +81,7 @@ namespace WorldServer.Network
                 }
                 else
                 {
-                    Log.Message(LogType.Debug, $"Wrong initial packet transfer data for Client '{GetClientInfo()}'.");
+                    Log.Debug($"Wrong initial packet transfer data for Client '{GetClientInfo()}'.");
 
                     Dispose();
                 }
@@ -170,7 +170,7 @@ namespace WorldServer.Network
             }
             catch (SocketException ex)
             {
-                Log.Message(LogType.Error, $"{ex}");
+                Log.Error($"{ex}");
 
                 client.Close();
             }

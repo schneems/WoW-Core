@@ -37,7 +37,7 @@ namespace Framework.Network
 
             if (!IPAddress.TryParse(ip, out bindIP))
             {
-                Log.Message(LogType.Normal, $"Server can't be started: Invalid IP-Address ({ip})");
+                Log.Normal($"Server can't be started: Invalid IP-Address ({ip})");
                 Console.ReadKey(true);
 
                 Environment.Exit(0);
@@ -55,7 +55,7 @@ namespace Framework.Network
             {
                 ExceptionLog.Write(ex);
 
-                Log.Message(LogType.Error, ex.Message);
+                Log.Error(ex.Message);
             }
         }
 
