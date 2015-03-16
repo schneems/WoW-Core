@@ -71,8 +71,10 @@
     <Compile Include="Constants\Net\AuthServerMessage.cs" />
     <Compile Include="Managers\Manager.cs" />
     <Compile Include="Managers\ModuleManager.cs" />
+    <Compile Include="Managers\PatchManager.cs" />
     <Compile Include="Managers\RealmManager.cs" />
     <Compile Include="Managers\SessionManager.cs" />
+    <Compile Include="Network\Packets\Handlers\WebHandler.cs" />
     <Compile Include="Network\Sessions\AuthSession.cs" />
     <Compile Include="Network\Packets\AuthPacket.cs" />
     <Compile Include="Network\Packets\AuthPacketHeader.cs" />
@@ -93,6 +95,14 @@
       <Project>{b7d0e27f-3ab2-413a-b9af-040c67750639}</Project>
       <Name>Framework</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="PatchFiles\wow\cdns">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="PatchFiles\wow\versions">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -20,12 +20,14 @@ namespace AuthServer.Managers
     class Manager
     {
         public static ModuleManager ModuleMgr;
+        public static PatchManager PatchMgr;
         public static RealmManager RealmMgr;
         public static SessionManager SessionMgr;
 
         public static void Initialize()
         {
             ModuleMgr  = ModuleManager.GetInstance();
+            PatchMgr   = PatchManager.GetInstance();
             RealmMgr   = RealmManager.GetInstance();
             SessionMgr = SessionManager.GetInstance();
         }

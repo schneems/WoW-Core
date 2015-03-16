@@ -1,0 +1,12 @@
+HTTP/1.1 200 OK
+Server: Protocol HTTP
+Content-Length: 154
+Connection: close
+Content-Type: application/octet-stream
+
+Name!STRING:0|Path!STRING:0|Hosts!STRING:0
+us|tpr/wow|localhost
+eu|tpr/wow|localhost
+kr|tpr/wow|localhost
+tw|tpr/wow|localhost
+cn|tpr/wow|localhost

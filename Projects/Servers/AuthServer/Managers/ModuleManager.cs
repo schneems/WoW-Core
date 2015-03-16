@@ -54,6 +54,7 @@ namespace AuthServer.Managers
             });
 
             Log.Normal($"Successfully loaded {Modules.Count} auth modules.");
+            Log.Message();
 
             IsInitialized = true;
         }

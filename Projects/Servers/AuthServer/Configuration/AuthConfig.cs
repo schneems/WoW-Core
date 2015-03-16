@@ -51,6 +51,8 @@ namespace AuthServer.Configuration
         public static int BindPort;
 
         public static int RealmListUpdateTime;
+
+        public static string PatchFileDirectory;
         #endregion
 
         public static void Initialize(string file)
@@ -112,6 +114,8 @@ namespace AuthServer.Configuration
             BindPort            = config.Read("Bind.Port", 1119);
 
             RealmListUpdateTime = config.Read("RealmList.UpdateTime", 5) * 60000;
+
+            PatchFileDirectory  = config.Read("Patch.File.Directory", "PatchFiles");
         }
     }
 }

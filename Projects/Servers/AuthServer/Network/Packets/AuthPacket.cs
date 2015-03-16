@@ -107,6 +107,21 @@ namespace Framework.Network.Packets
             return Encoding.UTF8.GetString(Read(count));
         }
 
+        public string ReadString()
+        {
+            var tmpString = new StringBuilder();
+            var tmpChar = readStream.ReadChar();
+            var tmpEndChar = Convert.ToChar(Encoding.UTF8.GetString(new byte[] { 0x20 }));
+
+            while (tmpChar != tmpEndChar)
+            {
+                tmpString.Append(tmpChar);
+                tmpChar = readStream.ReadChar();
+            }
+
+            return tmpString.ToString();
+        }
+
         public T Read<T>(int bits)
         {
             ulong value = 0;

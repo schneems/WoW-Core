@@ -1,6 +1,6 @@
 ﻿/*
  * Copyright (C) 2012-2015 Arctium Emulation <http://arctium.org>
- *
+ * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -15,24 +15,24 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace AuthServer.Constants.Net
+using AuthServer.Attributes;
+using AuthServer.Constants.Net;
+using AuthServer.Managers;
+using AuthServer.Network.Sessions;
+using Framework.Network.Packets;
+
+namespace AuthServer.Network.Packets.Handlers
 {
-    public enum AuthClientMessage : ushort
+    class WebHandler
     {
-        #region Authentication
-        ProofResponse        = (0x02 + 0x3F) << AuthChannel.Authentication,
-        InformationRequest   = (0x09 + 0x3F) << AuthChannel.Authentication,
-        #endregion
-        #region Connection
-        Ping                 = (0x00 + 0x3F) << AuthChannel.Connection,
-        Disconnect           = (0x06 + 0x3F) << AuthChannel.Connection,
-        #endregion
-        #region WoWRealm
-        ListSubscribeRequest = (0x00 + 0x3F) << AuthChannel.WoWRealm,
-        JoinRequest          = (0x08 + 0x3F) << AuthChannel.WoWRealm,
-        #endregion
-        #region HTTP
-        Receive              = 0x8C0,
-        #endregion
+        [AuthMessage(AuthClientMessage.Receive, (AuthChannel)5)]
+        public static void OnHTTPReceive(AuthPacket packet, Client client)
+        {
+            packet.ReadString();
+
+            var path = packet.ReadString();
+
+            Manager.PatchMgr.Send(path, client);
+        }
     }
 }
