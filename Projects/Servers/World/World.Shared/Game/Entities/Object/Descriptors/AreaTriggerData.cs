@@ -23,11 +23,11 @@ namespace World.Shared.Game.Entities.Object.Descriptors
     {
         public AreaTriggerData() : base(ObjectData.End) { }
 
-        public DescriptorField Caster        => base[0x0, 0x4];
-        public DescriptorField Duration      => base[0x4, 0x1];
-        public DescriptorField SpellID       => base[0x5, 0x1];
+        public DescriptorField Caster        => base[0x0, 0x4, MirrorFlags.All];
+        public DescriptorField Duration      => base[0x4, 0x1, MirrorFlags.All];
+        public DescriptorField SpellID       => base[0x5, 0x1, MirrorFlags.All];
         public DescriptorField SpellVisualID => base[0x6, 0x1, MirrorFlags.ViewerDependet];
-        public DescriptorField ExplicitScale => base[0x7, 0x1, MirrorFlags.Urgent | MirrorFlags.All];
+        public DescriptorField ExplicitScale => base[0x7, 0x1, MirrorFlags.All | MirrorFlags.Urgent];
 
         public static new int End => ObjectData.End + 0x8;
     }

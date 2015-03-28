@@ -15,14 +15,16 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+using World.Shared.Constants.Objects;
+
 namespace World.Shared.Game.Entities.Object.Descriptors
 {
     class ContainerData : DescriptorBase
     {
         public ContainerData() : base(ItemData.End) { }
 
-        public DescriptorField Slots    => base[0x0, 0x90];
-        public DescriptorField NumSlots => base[0x90, 0x1];
+        public DescriptorField Slots    => base[0x0, 0x90, MirrorFlags.All];
+        public DescriptorField NumSlots => base[0x90, 0x1, MirrorFlags.All];
 
         public static new int End => ItemData.End + 0x91;
     }
