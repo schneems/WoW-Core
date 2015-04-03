@@ -15,26 +15,46 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+using System;
 using System.Numerics;
-using Framework.Misc;
+using World.Shared.Game.Entities.Object;
 using World.Shared.Game.Entities.Object.Descriptors;
+using World.Shared.Game.Entities.Object.Guid;
+using World.Shared.Game.Objects.Entities;
 
-namespace World.Shared.Game.Entities.Object
+namespace World.Shared.Game.Entities
 {
-    public abstract class WorldUnitBase : WorldObjectBase
+    sealed class GameObject : WorldObjectBase, IWorldObject
     {
-        public static readonly float InRangeDistance = 10000.0f;
-
-        public UnitData UnitData { get; }
         public short Map        { get; set; } = -1;
         public Vector3 Position { get; set; } = Vector3.Zero;
         public float Facing     { get; set; } = 0;
-
-        protected WorldUnitBase(int descriptorLength) : base(descriptorLength)
+        public long Rotation
         {
-            UnitData = new UnitData();
+            get
+            {
+                var z = (float)Math.Sin(Facing / 1.9999945);
+                var com = (long)(z / Math.Atan(Math.Pow(2, -20)));
+
+                return Facing < Math.PI ? com : ((0x100000 - com) << 1) + com;
+            }
         }
 
-        public bool IsInRange(WorldUnitBase unit2) => (Position.Distance(unit2.Position) <= InRangeDistance);
+        public GameObject() : base(GameObjectData.End)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void InitializeDescriptors()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void InitializeDynamicDescriptors()
+        {
+            throw new NotImplementedException();
+        }
+
+        
     }
 }

@@ -27,6 +27,7 @@ namespace Framework.Datastore
         public static List<CharStartOutfit> CharStartOutfits                           { get; set; }
         public static List<ChrClass> ChrClasses                                        { get; set; }
         public static List<ChrRace> ChrRaces                                           { get; set; }
+        public static List<GtOCTLevelExperience> GtOCTLevelExperience                  { get; set; }
         public static Lookup<int, ItemModifiedAppearance> ItemModifiedAppearances      { get; set; }
         public static Dictionary<uint, ItemAppearance> ItemAppearances                 { get; set; }
         public static Dictionary<uint, Item> Items                                     { get; set; }

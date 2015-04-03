@@ -17,7 +17,6 @@
 
 using Framework.Attributes;
 using Framework.Constants.Account;
-using Framework.Constants.Misc;
 using Framework.Constants.Net;
 using Framework.Database;
 using Framework.Database.Character.Entities;
@@ -27,7 +26,6 @@ using World.Shared.Game.Entities;
 using WorldServer.Managers;
 using WorldServer.Network;
 using WorldServer.Packets.Client.Character;
-using WorldServer.Packets.Server.Object;
 
 namespace WorldServer.Packets.Handlers
 {
@@ -46,29 +44,18 @@ namespace WorldServer.Packets.Handlers
 
                 if (worldNode != null)
                 {
+                    // Create new player.
+                    session.Player = new Player(character);
+
                     NetHandler.SendConnectTo(session, worldNode.Address, worldNode.Port, 1);
 
                     // Suspend the current connection
                     session.Send(new SuspendComms { Serial = 0x14 });
 
-                    // Send UpdateObject
-                    var player = new Player(character);
+                    Manager.Player.EnterWorld(session);
 
-                    player.InitializeDescriptors();
-                    //player.InitializeDynamicDescriptors();
-
-                    var objupdata = new ObjectUpdate();
-
-                    objupdata.Player         = player;
-                    objupdata.MapId          = (ushort)player.Map;
-                    objupdata.NumObjUpdates  = 1;
-
-                    // ObjCreate
-                    objupdata.Data.Facing    = player.Facing;
-                    objupdata.Data.MoverGUID = player.Guid;
-                    objupdata.Data.Position  = player.Position;
-
-                    session.Send(objupdata);
+                    // Enter world.
+                    ObjectHandler.ObjectUpdateHandler(session);
                 }
             }
             else

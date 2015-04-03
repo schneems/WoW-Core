@@ -23,7 +23,7 @@ using World.Shared.Game.Entities.Object.Descriptors;
 
 namespace World.Shared.Game.Entities.Object
 {
-    abstract class WorldObjectBase
+    public abstract class WorldObjectBase
     {
         public SmartGuid Guid { get; set; }
         public ObjectData ObjectData { get; }
@@ -50,6 +50,8 @@ namespace World.Shared.Game.Entities.Object
                 descriptors.Data[descriptor.Index] = descriptors.Data[descriptor.Index].ChangeType<int>() | value << (offset << 3);
             else
                 descriptors.Data[descriptor.Index] = value << (offset << 3);
+
+            descriptor.Value = descriptors.Data[descriptor.Index];
         }
 
         public void Set(DescriptorField descriptor, byte value, int offset = 0)
@@ -60,6 +62,8 @@ namespace World.Shared.Game.Entities.Object
                 descriptors.Data[descriptor.Index] = descriptors.Data[descriptor.Index].ChangeType<uint>() | (uint)((value) << (offset << 3));
             else
                 descriptors.Data[descriptor.Index] = (uint)((value) << (offset << 3));
+
+            descriptor.Value = descriptors.Data[descriptor.Index];
         }
 
         public void Set(DescriptorField descriptor, short value, int offset = 0)
@@ -70,6 +74,8 @@ namespace World.Shared.Game.Entities.Object
                 descriptors.Data[descriptor.Index] = descriptors.Data[descriptor.Index].ChangeType<int>() | value << (offset << 4);
             else
                 descriptors.Data[descriptor.Index] = value << (offset << 4);
+
+            descriptor.Value = descriptors.Data[descriptor.Index];
         }
 
         public void Set(DescriptorField descriptor, ushort value, int offset = 0)
@@ -80,6 +86,8 @@ namespace World.Shared.Game.Entities.Object
                 descriptors.Data[descriptor.Index] = descriptors.Data[descriptor.Index].ChangeType<uint>() | (uint)((value) << (offset << 4));
             else
                 descriptors.Data[descriptor.Index] = (uint)((value) << (offset << 4));
+
+            descriptor.Value = descriptors.Data[descriptor.Index];
         }
 
         public void Set(DescriptorField descriptor, int value, int offset = 0)
@@ -87,6 +95,8 @@ namespace World.Shared.Game.Entities.Object
             descriptors.Mask.Set(descriptor.Index, true);
 
             descriptors.Data[descriptor.Index] = value;
+
+            descriptor.Value = value;
         }
 
         public void Set(DescriptorField descriptor, uint value, int offset = 0)
@@ -94,6 +104,8 @@ namespace World.Shared.Game.Entities.Object
             descriptors.Mask.Set(descriptor.Index, true);
 
             descriptors.Data[descriptor.Index] = value;
+
+            descriptor.Value = value;
         }
 
         public void Set(DescriptorField descriptor, float value, int offset = 0)
@@ -101,6 +113,8 @@ namespace World.Shared.Game.Entities.Object
             descriptors.Mask.Set(descriptor.Index, true);
 
             descriptors.Data[descriptor.Index] = value;
+
+            descriptor.Value = value;
         }
 
         public void Set(DescriptorField descriptor, long value, int offset = 0)
@@ -110,6 +124,8 @@ namespace World.Shared.Game.Entities.Object
 
             descriptors.Data[descriptor.Index] = (int)(value & int.MaxValue);
             descriptors.Data[descriptor.Index + 1] = (int)((value >> 32) & int.MaxValue);
+
+            descriptor.Value = value;
         }
 
         public void Set(DescriptorField descriptor, ulong value, int offset = 0)
@@ -119,6 +135,8 @@ namespace World.Shared.Game.Entities.Object
 
             descriptors.Data[descriptor.Index] = (uint)(value & uint.MaxValue);
             descriptors.Data[descriptor.Index + 1] = (uint)((value >> 32) & uint.MaxValue);
+
+            descriptor.Value = value;
         }
         #endregion
 

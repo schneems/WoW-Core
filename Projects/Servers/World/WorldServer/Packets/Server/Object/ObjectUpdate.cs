@@ -18,6 +18,7 @@
 using Framework.Network.Packets;
 using Framework.Objects;
 using World.Shared.Game.Entities;
+using World.Shared.Game.Entities.Object;
 using WorldServer.Constants.Net;
 using WorldServer.Packets.Structures.Object;
 
@@ -25,10 +26,12 @@ namespace WorldServer.Packets.Server.Object
 {
     class ObjectUpdate : ServerPacket
     {
-        public Player Player      { get; set; }
-        public uint NumObjUpdates { get; set; }
-        public ushort MapId       { get; set; }
-        public ObjCreate Data     { get; set; } = new ObjCreate();
+        public WorldObjectBase Obj      { get; set; }
+        public uint NumObjUpdates       { get; set; }
+        public ushort MapId             { get; set; }
+        public bool DestroyOrOutOfRange { get; set; }
+        public ObjCreate CreateData   { get; } = new ObjCreate();
+        public ObjDestroy DestroyData { get; } = new ObjDestroy();
 
         public ObjectUpdate() : base(ServerMessage.ObjectUpdate) { }
 
@@ -37,19 +40,29 @@ namespace WorldServer.Packets.Server.Object
             Packet.Write(NumObjUpdates);
             Packet.Write(MapId);
 
-            Packet.PutBit(0);
+            Packet.PutBit(DestroyOrOutOfRange);
             Packet.FlushBits();
 
+            if (DestroyOrOutOfRange)
+                DestroyData.Write(Packet);
+
             Packet.Write(0);
-            Packet.Write<byte>(1);
-            Packet.Write(Player.Guid);
-            Packet.Write<byte>(4);
 
-            Data.Write(Packet);
+            if (NumObjUpdates > 0)
+            {
+                // UpdateType 1 (CreateObject)
+                Packet.Write<byte>(1);
+                Packet.Write(Obj.Guid);
+                Packet.Write<byte>(4);
 
-            Player.WriteToPacket(Packet);
+                CreateData.Write(Packet);
 
-            Packet.Write(Packet.Written - 15, 11);
+                // Descriptors.
+                Obj.WriteToPacket(Packet);
+
+                // Write data length to packet.
+                Packet.Write(Packet.Written - 15, 11);
+            }
         }
     }
 }

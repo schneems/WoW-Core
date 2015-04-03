@@ -15,85 +15,52 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Numerics;
-using System.Text;
-using System.Threading.Tasks;
 using Framework.Network.Packets;
-using Framework.Objects;
+using WorldServer.Packets.Structures.Movement;
 
 namespace WorldServer.Packets.Structures.Object
 {
     class ObjCreate : IServerStruct
     {
-        public SmartGuid MoverGUID { get; set; }
-        public Vector3 Position    { get; set; }
-        public float Facing        { get; set; }
+        public bool NoBirthAnim    { get; set; }
+        public MovementUpdate Move { get; set; }
+        public Position Stationary { get; set; }
+        public bool HasRotation    { get; set; }
+        public long Rotation       { get; set; }
+        public bool ThisIsYou      { get; set; }
 
         public void Write(Packet packet)
         {
-            packet.PutBit(0);
-            packet.PutBit(1);
-            packet.PutBit(0);
-            packet.PutBit(0);
-            packet.PutBit(1);
-            packet.PutBit(0);
-            packet.PutBit(0);
-            packet.PutBit(0);
-            packet.PutBit(0);
-            packet.PutBit(0);
-            packet.PutBit(0);
-            packet.PutBit(0);
-            packet.PutBit(0);
-            packet.PutBit(0);
-            packet.PutBit(1);
-            packet.PutBit(0);
-            packet.PutBit(0);
-            packet.PutBit(0);                          
-
+            packet.PutBit(NoBirthAnim);
+            packet.PutBit(false);
+            packet.PutBit(false);
+            packet.PutBit(false);
+            packet.PutBit(Move != null);
+            packet.PutBit(false);
+            packet.PutBit(Stationary != null);
+            packet.PutBit(false);
+            packet.PutBit(false);
+            packet.PutBit(false);
+            packet.PutBit(false);
+            packet.PutBit(HasRotation);
+            packet.PutBit(false);
+            packet.PutBit(false);
+            packet.PutBit(ThisIsYou);
+            packet.PutBit(false);
+            packet.PutBit(false);
+            packet.PutBit(false);
             packet.FlushBits();
 
             packet.Write(0);
 
-            if (true)
-            {
-                packet.Write(MoverGUID);
-                packet.Write(0);
-                packet.Write(Position);
-                packet.Write(Facing);
-                packet.Write<float>(0);
-                packet.Write<float>(0);
-                packet.Write(0);
-                packet.Write(0);
+            if (Move != null)
+                Move.Write(packet);
 
-                packet.PutBits(0, 30);
-                packet.PutBits(0, 15);
+            if (Stationary != null)
+                Stationary.Write(packet);
 
-                packet.PutBit(0);
-                packet.PutBit(0);
-                packet.PutBit(0);
-                packet.PutBit(0);
-                packet.PutBit(0);
-
-                packet.FlushBits();
-
-                packet.Write(2.5f);
-                packet.Write(7f);
-                packet.Write(2.5f);
-                packet.Write(4.72222f);
-                packet.Write(4.5f);
-                packet.Write(7f);
-                packet.Write(4.5f);
-                packet.Write((float)Math.PI);
-                packet.Write((float)Math.PI);
-
-                packet.Write(0);
-
-                packet.PutBit(0);
-                packet.FlushBits();
-            }
+            if (HasRotation)
+                packet.Write(Rotation);
         }
     }
 }

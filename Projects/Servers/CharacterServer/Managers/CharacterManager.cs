@@ -41,7 +41,7 @@ namespace CharacterServer.Managers
             if (guid != 0)
             {
                 var startAbilities = ClientDB.SkillLineAbilities.Where(a => a.AcquireMethod == 2 && a.SupercedesSpell == 0 &&
-                                                                       a.CheckRaceClassConditions(character.GetRaceMask(), character.GetClassMask()));
+                                                                       a.CheckRaceClassConditions(character.RaceMask, character.ClassMask));
 
                 var spells = new ConcurrentDictionary<uint, CharacterSpell>();
                 var skills = new ConcurrentDictionary<uint, CharacterSkill>();

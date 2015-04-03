@@ -45,6 +45,9 @@ namespace WorldServer.Managers
             ClientDB.SkillLines              = DB.Data.Select<uint, SkillLine>(sl => sl.ID);
             ClientDB.SkillLineAbilities      = DB.Data.Select<SkillLineAbility>();
 
+            // Load player experience levels (first 100 entries) from game table.
+            ClientDB.GtOCTLevelExperience = DB.Data.Where<GtOCTLevelExperience>(gt => gt.Index < 100);
+
             Log.Normal("ClientDB storages successfully initialized.");
             Log.Message();
         }

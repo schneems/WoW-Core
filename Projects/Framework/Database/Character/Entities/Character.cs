@@ -38,7 +38,7 @@ namespace Framework.Database.Character.Entities
         public byte HairStyle                         { get; set; }
         public byte HairColor                         { get; set; }
         public byte FacialHairStyle                   { get; set; }
-        public byte Level                             { get; set; }
+        public uint Experience                        { get; set; }
         public uint Zone                              { get; set; }
         public uint Map                               { get; set; }
         public float X                                { get; set; }
@@ -59,14 +59,7 @@ namespace Framework.Database.Character.Entities
         public virtual IList<CharacterSkill> CharacterSkills   { get; set; }
         public virtual IList<CharacterSpell> CharacterSpells   { get; set; }
 
-        public RaceMask GetRaceMask()
-        {
-            return (RaceMask)(1 << ((byte)Race - 1));
-        }
-
-        public ClassMask GetClassMask()
-        {
-            return (ClassMask)(1 << ((byte)Class - 1));
-        }
+        public RaceMask RaceMask => (RaceMask)(1 << ((byte)Race - 1));
+        public ClassMask ClassMask => (ClassMask)(1 << ((byte)Class - 1));
     }
 }

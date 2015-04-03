@@ -125,6 +125,7 @@
     <Compile Include="Database\Data\Entities\CharStartOutfit.cs" />
     <Compile Include="Database\Data\Entities\ChrClass.cs" />
     <Compile Include="Database\Data\Entities\ChrRace.cs" />
+    <Compile Include="Database\Data\Entities\GtOCTLevelExperience.cs" />
     <Compile Include="Database\Data\Entities\Item.cs" />
     <Compile Include="Database\Data\Entities\ItemAppearance.cs" />
     <Compile Include="Database\Data\Entities\ItemModifiedAppearance.cs" />

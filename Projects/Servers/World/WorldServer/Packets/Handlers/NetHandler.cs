@@ -35,7 +35,7 @@ namespace WorldServer.Packets.Handlers
         {
             var connectTo = new ConnectTo
             {
-                Key    = Manager.Redirect.CreateRedirectKey(session.GameAccount.Id),
+                Key    = Manager.Redirect.CreateRedirectKey(session.Player.Guid.Low),
                 Serial = 0xE,
                 Con    = connection
             };

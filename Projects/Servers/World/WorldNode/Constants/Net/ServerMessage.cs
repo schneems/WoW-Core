@@ -21,7 +21,6 @@ namespace WorldNode.Constants.Net
     enum ServerMessage : ushort
     {
         #region Misc
-        AccountDataTimes       = 0x16B8,
         #endregion
 
         #region RealmConnection

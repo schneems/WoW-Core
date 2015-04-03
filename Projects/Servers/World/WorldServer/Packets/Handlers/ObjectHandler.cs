@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using WorldServer.Network;
+using WorldServer.Packets.Server.Object;
 
 namespace WorldServer.Packets.Handlers
 {
@@ -11,7 +12,6 @@ namespace WorldServer.Packets.Handlers
     {
         public static void ObjectUpdateHandler(WorldSession session)
         {
-
         }
     }
 }

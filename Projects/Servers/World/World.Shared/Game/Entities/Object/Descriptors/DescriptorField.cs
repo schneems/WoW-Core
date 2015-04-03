@@ -19,7 +19,7 @@ using World.Shared.Constants.Objects;
 
 namespace World.Shared.Game.Entities.Object.Descriptors
 {
-    class DescriptorField
+    public class DescriptorField
     {
         public int Index { get; set; }
         public uint Size { get; set; }

@@ -1,6 +1,6 @@
 ﻿/*
  * Copyright (C) 2012-2015 Arctium Emulation <http://arctium.org>
- *
+ * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -15,19 +15,27 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-using World.Shared.Constants.Objects;
+using System;
+using Framework.Network.Packets;
+using Framework.Objects;
+using WorldServer.Constants.Net;
 
-namespace World.Shared.Game.Entities.Object.Descriptors
+namespace WorldServer.Packets.Server.Misc
 {
-    public class ObjectData : DescriptorBase
+    class AccountDataTimes : ServerPacket
     {
-        public DescriptorField Guid         => base[0x0, 0x4, MirrorFlags.All];
-        public DescriptorField Data         => base[0x4, 0x4, MirrorFlags.All];
-        public DescriptorField Type         => base[0x8, 0x1, MirrorFlags.All];
-        public DescriptorField EntryID      => base[0x9, 0x1, MirrorFlags.ViewerDependet];
-        public DescriptorField DynamicFlags => base[0xA, 0x1, MirrorFlags.ViewerDependet | MirrorFlags.Urgent];
-        public DescriptorField Scale        => base[0xB, 0x1, MirrorFlags.All];
+        public SmartGuid PlayerGuid { get; set; }
+        public uint[] AccountTimes { get; } = new uint[8];
 
-        public static new int End => 0xC;
+        public AccountDataTimes() : base(ServerMessage.AccountDataTimes) { }
+
+        public override void Write()
+        {
+            Packet.Write(PlayerGuid);
+            Packet.Write((uint)DateTimeOffset.Now.ToUnixTimeSeconds());
+
+            for (var i = 0; i < AccountTimes.Length; i++)
+                Packet.Write(AccountTimes[i]);
+        }
     }
 }

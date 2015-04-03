@@ -25,6 +25,7 @@ using Framework.Logging;
 using Framework.Misc;
 using Framework.Network;
 using Framework.Network.Packets;
+using World.Shared.Game.Entities;
 using WorldServer.Constants.Net;
 using WorldServer.Packets;
 using ClientPacket = Framework.Packets.Client.Authentication;
@@ -37,6 +38,8 @@ namespace WorldServer.Network
         public Realm Realm { get; set; }
         public Account Account { get; set; }
         public GameAccount GameAccount { get; set; }
+        public Player Player { get; set; }
+
         public uint Challenge    { get; private set; }
         public byte[] ClientSeed { get; private set; }
         public byte[] ServerSeed { get; private set; }

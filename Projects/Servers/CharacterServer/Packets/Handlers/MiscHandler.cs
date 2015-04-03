@@ -21,7 +21,6 @@ using CharacterServer.Managers;
 using CharacterServer.Network;
 using CharacterServer.Packets.Client.Misc;
 using Framework.Constants.Account;
-using Framework.Constants.Misc;
 using Framework.Logging;
 using Framework.Packets.Server.Net;
 

@@ -22,12 +22,14 @@ namespace WorldServer.Managers
         public static ClientDBManager ClientDB;
         public static RedirectManager Redirect;
         public static SessionManager Session;
+        public static PlayerManager Player;
 
         public static void Initialize()
         {
             ClientDB = ClientDBManager.GetInstance();
             Redirect = RedirectManager.GetInstance();
             Session  = SessionManager.GetInstance();
+            Player   = PlayerManager.GetInstance();
         }
     }
 }

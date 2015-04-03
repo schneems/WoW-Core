@@ -13,6 +13,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Constants\Spells\SpellSchool.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Constants\Spells\SpellSchools.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Game\Entities\Creature.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Game\Entities\GameObject.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Game\Entities\Item.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Game\Entities\Object\Descriptors\AreaTriggerData.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Game\Entities\Object\Descriptors\ContainerData.cs" />

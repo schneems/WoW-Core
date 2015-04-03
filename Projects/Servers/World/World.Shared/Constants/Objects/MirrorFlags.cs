@@ -20,7 +20,7 @@ using System;
 namespace World.Shared.Constants.Objects
 {
     [Flags]
-    enum MirrorFlags : uint
+    public enum MirrorFlags : uint
     {
         None           = 0x0,
         All            = 0x1,

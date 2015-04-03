@@ -27,7 +27,7 @@ using World.Shared.Game.Objects.Entities;
 
 namespace World.Shared.Game.Entities
 {
-    sealed class Player : WorldUnitBase, IWorldObject
+    public sealed class Player : WorldUnitBase, IWorldObject
     {
         public PlayerData PlayerData;
 
@@ -37,7 +37,11 @@ namespace World.Shared.Game.Entities
         {
             data = player;
 
-            Guid = new PlayerGuid { CreationBits = player.Guid, RealmId = (ushort)player.RealmId };
+            Guid = new PlayerGuid
+            {
+                CreationBits = player.Guid,
+                RealmId = (ushort)player.RealmId
+            };
 
             PlayerData = new PlayerData();
 
@@ -57,18 +61,26 @@ namespace World.Shared.Game.Entities
 
             Set(UnitData.Health, 1337);
             Set(UnitData.MaxHealth, 1337);
-            Set(UnitData.Level, (int)data.Level);
+
+            var gtLevelExperience = ClientDB.GtOCTLevelExperience.First(gt => gt.Data > data.Experience);
+
+            // Current experience level.
+            Set(UnitData.Level, gtLevelExperience.Index + 1);
+
+            // Current experience points & needed experience points for next level.
+            Set(PlayerData.XP, data.Experience);
+            Set(PlayerData.NextLevelXP, (int)gtLevelExperience.Data);
 
             var race = ClientDB.ChrRaces.Single(r => r.Id == data.Race);
+            var chrClass = ClientDB.ChrClasses.Single(r => r.Id == data.Class);
 
+            Set(UnitData.DisplayPower, chrClass.DisplayPower);
             Set(UnitData.FactionTemplate, race.FactionId);
 
             Set(UnitData.Sex, (byte)data.Race, 0);
             Set(UnitData.Sex, (byte)data.Class, 1);
             Set(UnitData.Sex, (byte)0, 2);
             Set(UnitData.Sex, data.Sex, 3);
-
-            Set(UnitData.DisplayPower, 1);
 
             var displayId = data.Sex == 1 ? race.FemaleDisplayId : race.MaleDisplayId;
 
@@ -98,8 +110,6 @@ namespace World.Shared.Game.Entities
             Set(PlayerData.ArenaFaction, 0, 3);
 
             Set(PlayerData.WatchedFactionIndex, -1);
-            Set(PlayerData.XP, 0);
-            Set(PlayerData.NextLevelXP, 400);
             Set(PlayerData.VirtualPlayerRealm, data.RealmId);
         }
 
