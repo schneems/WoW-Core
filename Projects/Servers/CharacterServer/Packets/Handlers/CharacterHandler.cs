@@ -39,7 +39,7 @@ namespace CharacterServer.Packets.Handlers
             {
                 var character = new CharacterListEntry
                 {
-                    Guid                 = new CharacterGuid { CreationBits = c.Guid },
+                    Guid                 = new CharacterGuid { CreationBits = c.Guid, RealmId = (ushort)c.RealmId },
                     Name                 = c.Name,
                     ListPosition         = c.ListPosition,
                     RaceID               = c.Race,

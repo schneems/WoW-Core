@@ -12,6 +12,7 @@ using World.Shared.Game.Entities;
 using WorldServer.Managers;
 using WorldServer.Network;
 using WorldServer.Packets.Client.Character;
+using WorldServer.Packets.Server.Misc;
 
 namespace WorldServer.Packets.Handlers
 {
@@ -38,10 +39,11 @@ namespace WorldServer.Packets.Handlers
                     // Suspend the current connection
                     session.Send(new SuspendComms { Serial = 0x14 });
 
-                    Manager.Player.EnterWorld(session);
+                    // Enable key bindings, etc.
+                    session.Send(new AccountDataTimes { PlayerGuid = session.Player.Guid });
 
                     // Enter world.
-                    ObjectHandler.ObjectUpdateHandler(session);
+                    Manager.Player.EnterWorld(session);
                 }
             }
             else
