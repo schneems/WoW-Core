@@ -227,7 +227,7 @@ CREATE TABLE `Characters` (
   `HairStyle` tinyint(3) unsigned NOT NULL DEFAULT '0',
   `HairColor` tinyint(3) unsigned NOT NULL DEFAULT '0',
   `FacialHairStyle` tinyint(3) unsigned NOT NULL DEFAULT '0',
-  `Level` tinyint(3) unsigned NOT NULL DEFAULT '0',
+  `Experience` int(10) unsigned NOT NULL DEFAULT '0',
   `Zone` int(10) unsigned NOT NULL DEFAULT '0',
   `Map` int(10) unsigned NOT NULL DEFAULT '0',
   `X` float NOT NULL DEFAULT '0',

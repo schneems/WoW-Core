@@ -493,7 +493,7 @@ CREATE TABLE [dbo].[Characters] (
 [HairStyle] tinyint NOT NULL DEFAULT ((0)) ,
 [HairColor] tinyint NOT NULL DEFAULT ((0)) ,
 [FacialHairStyle] tinyint NOT NULL DEFAULT ((0)) ,
-[Level] tinyint NOT NULL DEFAULT ((0)) ,
+[Experience] int NOT NULL DEFAULT ((0)) ,
 [Zone] int NOT NULL DEFAULT ((0)) ,
 [Map] int NOT NULL DEFAULT ((0)) ,
 [X] real NOT NULL DEFAULT ((0)) ,
