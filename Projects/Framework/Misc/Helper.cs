@@ -1,9 +1,9 @@
 ﻿// Copyright (c) Arctium Emulation.
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
+using System;
 using System.Net.Sockets;
 using System.Text;
-using Framework.Constants.Misc;
 using Framework.Logging;
 
 namespace Framework.Misc
@@ -51,6 +51,15 @@ namespace Framework.Misc
             Log.Init(sb.ToString());
             Log.Message();
             Log.Normal($"Starting Arctium WoW {serverName}...");
+        }
+
+        public static uint GetUnixTime()
+        {
+            var baseDate = new DateTime(1970, 1, 1);
+            var currentDate = DateTime.Now;
+            var ts = currentDate - baseDate;
+
+            return (uint)ts.TotalSeconds;
         }
     }
 }

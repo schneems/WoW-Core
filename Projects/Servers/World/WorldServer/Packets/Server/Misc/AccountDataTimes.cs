@@ -2,6 +2,7 @@
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
 using System;
+using Framework.Misc;
 using Framework.Network.Packets;
 using Framework.Objects;
 using WorldServer.Constants.Net;
@@ -18,7 +19,7 @@ namespace WorldServer.Packets.Server.Misc
         public override void Write()
         {
             Packet.Write(PlayerGuid);
-            Packet.Write((uint)DateTimeOffset.Now.ToUnixTimeSeconds());
+            Packet.Write(Helper.GetUnixTime());
 
             for (var i = 0; i < AccountTimes.Length; i++)
                 Packet.Write(AccountTimes[i]);
