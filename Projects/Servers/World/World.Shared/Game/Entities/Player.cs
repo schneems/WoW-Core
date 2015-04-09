@@ -3,9 +3,9 @@
 
 using System;
 using System.Linq;
-using System.Numerics;
 using Framework.Database.Character.Entities;
 using Framework.Datastore;
+using Framework.Objects;
 using World.Shared.Game.Entities.Object;
 using World.Shared.Game.Entities.Object.Descriptors;
 using World.Shared.Game.Entities.Object.Guid;
@@ -31,7 +31,13 @@ namespace World.Shared.Game.Entities
 
             PlayerData = new PlayerData();
 
-            Position = new Vector3(player.X, player.Y, player.Z);
+            Position = new Vector3
+            {
+                X = player.X,
+                Y = player.Y,
+                Z = player.Z
+            };
+
             Facing   = player.O;
             Map      = (short)player.Map;
 

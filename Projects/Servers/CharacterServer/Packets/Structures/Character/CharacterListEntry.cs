@@ -1,7 +1,6 @@
 ﻿// Copyright (c) Arctium Emulation.
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
-using System.Numerics;
 using Framework.Constants.General;
 using Framework.Constants.Object;
 using Framework.Network.Packets;

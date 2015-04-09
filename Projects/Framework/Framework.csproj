@@ -56,7 +56,6 @@
     <Reference Include="System.Numerics" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
-    <Reference Include="System.Numerics.Vectors" />
     <Reference Include="System.XML" />
   </ItemGroup>
   <ItemGroup>
@@ -154,6 +153,7 @@
     <Compile Include="Network\SessionBase.cs" />
     <Compile Include="Objects\CharacterData.cs" />
     <Compile Include="Objects\SmartGuid.cs" />
+    <Compile Include="Objects\Vector3.cs" />
     <Compile Include="Packets\Client\Authentication\AuthContinuedSession.cs" />
     <Compile Include="Packets\Client\Authentication\TransferInitiate.cs" />
     <Compile Include="Packets\Client\Net\LogDisconnect.cs" />

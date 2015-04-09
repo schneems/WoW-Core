@@ -1,8 +1,8 @@
 ﻿// Copyright (c) Arctium Emulation.
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
-using System.Numerics;
 using Framework.Misc;
+using Framework.Objects;
 using World.Shared.Game.Entities.Object.Descriptors;
 
 namespace World.Shared.Game.Entities.Object
@@ -13,7 +13,7 @@ namespace World.Shared.Game.Entities.Object
 
         public UnitData UnitData { get; }
         public short Map        { get; set; } = -1;
-        public Vector3 Position { get; set; } = Vector3.Zero;
+        public Vector3 Position { get; set; }
         public float Facing     { get; set; } = 0;
 
         protected WorldUnitBase(int descriptorLength) : base(descriptorLength)
