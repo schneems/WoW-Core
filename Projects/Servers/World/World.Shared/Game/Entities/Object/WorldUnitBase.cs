@@ -18,7 +18,8 @@ namespace World.Shared.Game.Entities.Object
 
         protected WorldUnitBase(int descriptorLength) : base(descriptorLength)
         {
-            UnitData = new UnitData();
+            // Use 'this' for mono compatibility.
+            this.UnitData = new UnitData();
         }
 
         public bool IsInRange(WorldUnitBase unit2) => (Position.Distance(unit2.Position) <= InRangeDistance);

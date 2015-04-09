@@ -19,7 +19,9 @@ namespace World.Shared.Game.Entities.Object
         public WorldObjectBase(int descriptorLength)
         {
             descriptors = new DescriptorData(descriptorLength);
-            ObjectData = new ObjectData();
+
+            // Use 'this' for mono compatibility.
+            this.ObjectData = new ObjectData();
         }
 
         public void WriteToPacket(Packet pkt)
