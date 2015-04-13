@@ -4,6 +4,7 @@
 using System;
 using System.Net;
 using System.Text;
+using System.Threading.Tasks;
 using Framework.Attributes;
 using Framework.Constants.Account;
 using Framework.Constants.Net;
@@ -17,7 +18,7 @@ namespace WorldServer.Packets.Handlers
 {
     class NetHandler
     {
-        public static async void SendConnectTo(WorldSession session, string ip, ushort port, byte connection = 0)
+        public static async Task SendConnectTo(WorldSession session, string ip, ushort port, byte connection = 0)
         {
             var connectTo = new ConnectTo
             {

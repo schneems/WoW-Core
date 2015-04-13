@@ -34,10 +34,9 @@ namespace WorldServer.Packets.Handlers
                     // Create new player.
                     session.Player = new Player(character);
 
-                    NetHandler.SendConnectTo(session, worldNode.Address, worldNode.Port, 1);
-
-                    // Suspend the current connection
+                    // Suspend the current connection & redirect
                     await session.Send(new SuspendComms { Serial = 0x14 });
+                    await NetHandler.SendConnectTo(session, worldNode.Address, worldNode.Port, 1);
 
                     // Enable key bindings, etc.
                     await session.Send(new AccountDataTimes { PlayerGuid = session.Player.Guid });
