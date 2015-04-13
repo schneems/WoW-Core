@@ -7,13 +7,11 @@ using System.Net;
 using System.Net.Sockets;
 using System.Threading.Tasks;
 using Framework.Constants.Account;
-using Framework.Constants.Misc;
 using Framework.Cryptography.WoW;
-using Framework.Database.Auth.Entities;
-using Framework.Logging;
-using Framework.Logging.IO;
 using Framework.Network.Packets;
+using Framework.Packets.Handlers;
 using Framework.Packets.Server.Authentication;
+using Framework.Packets.Server.Net;
 
 namespace Framework.Network
 {
@@ -59,7 +57,7 @@ namespace Framework.Network
         public abstract void Process(object sender, SocketAsyncEventArgs e);
 
         public abstract Task ProcessPacket(Packet packet);
-        public abstract void Send(ServerPacket packet);
+        public abstract Task Send(ServerPacket packet);
 
         public void Encrypt(Packet packet)
         {
@@ -96,6 +94,18 @@ namespace Framework.Network
             var ipEndPoint = client.RemoteEndPoint as IPEndPoint;
 
             return ipEndPoint != null ? ipEndPoint.Address + ":" + ipEndPoint.Port : "";
+        }
+
+        public async Task<ServerPacket> Compress(ServerPacket packet)
+        {
+            await Send(new ResetCompressionContext());
+
+            packet = NetHandler.CompressPacket(packet.Packet);
+
+            packet.Write();
+            packet.Packet.Finish();
+
+            return packet;
         }
 
         #region IDisposable Support

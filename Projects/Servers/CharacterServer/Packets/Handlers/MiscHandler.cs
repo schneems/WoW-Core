@@ -15,7 +15,7 @@ namespace CharacterServer.Packets.Handlers
     class MiscHandler
     {
         [Message(ClientMessage.LoadingScreenNotify, SessionState.Authenticated)]
-        public static void HandleLoadingScreenNotify(LoadingScreenNotify loadingScreenNotify, CharacterSession session)
+        public static async void HandleLoadingScreenNotify(LoadingScreenNotify loadingScreenNotify, CharacterSession session)
         {
             Log.Debug("Loading screen for map '{0}' {1}.", loadingScreenNotify.MapID, loadingScreenNotify.Showing ? "enabled" : "disabled");
 
@@ -28,7 +28,7 @@ namespace CharacterServer.Packets.Handlers
                     NetHandler.SendConnectTo(session, worldServer.Address, worldServer.Port);
 
                     // Suspend the current connection
-                    session.Send(new SuspendComms { Serial = 0x14 });
+                    await session.Send(new SuspendComms { Serial = 0x14 });
                 }
             }
         }

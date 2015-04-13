@@ -17,13 +17,13 @@ namespace WorldServer.Packets.Handlers
 {
     class NetHandler
     {
-        public static void SendConnectTo(WorldSession session, string ip, ushort port, byte connection = 0)
+        public static async void SendConnectTo(WorldSession session, string ip, ushort port, byte connection = 0)
         {
             var connectTo = new ConnectTo
             {
-                Key    = Manager.Redirect.CreateRedirectKey(session.Player.Guid.Low),
+                Key = Manager.Redirect.CreateRedirectKey(session.Player.Guid.Low),
                 Serial = 0xE,
-                Con    = connection
+                Con = connection
             };
 
             // Fail
@@ -85,14 +85,14 @@ namespace WorldServer.Packets.Handlers
 
             Array.Copy(encrypted, connectTo.Where, 0x100);
 
-            session.Send(connectTo);
+            await session.Send(connectTo);
         }
 
         [GlobalMessage(GlobalClientMessage.SuspendCommsAck, SessionState.All)]
-        public static void HandleSuspendCommsAck(SuspendCommsAck suspendCommsAck, WorldSession session)
+        public static async void HandleSuspendCommsAck(SuspendCommsAck suspendCommsAck, WorldSession session)
         {
             // Resume packets on main connection
-            session.Send(new ResumeComms());
+            await session.Send(new ResumeComms());
         }
     }
 }

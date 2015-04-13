@@ -24,7 +24,7 @@ namespace CharacterServer.Packets.Handlers
     class AuthHandler
     {
         [GlobalMessage(GlobalClientMessage.AuthSession, SessionState.Initiated)]
-        public static void AuthSessionHandler(AuthSession authSession, CharacterSession session)
+        public static async void AuthSessionHandler(AuthSession authSession, CharacterSession session)
         {
             var accountParts = authSession.Account.Split(new[] { '#' });
             var authResult = AuthResult.Ok;
@@ -86,20 +86,20 @@ namespace CharacterServer.Packets.Handlers
                     return;
                 }
 
-                authResponse.SuccessInfo.ActiveExpansionLevel  = session.GameAccount.BoxLevel;
+                authResponse.SuccessInfo.ActiveExpansionLevel = session.GameAccount.BoxLevel;
                 authResponse.SuccessInfo.AccountExpansionLevel = session.GameAccount.BoxLevel;
-                authResponse.SuccessInfo.AvailableRaces        = Manager.GameAccount.GetAvailableRaces(session.GameAccount, session.Realm);
-                authResponse.SuccessInfo.AvailableClasses      = Manager.GameAccount.GetAvailableClasses(session.GameAccount, session.Realm);
-                authResponse.SuccessInfo.Templates             = Manager.GameAccount.GetAvailableCharacterTemplates(session.GameAccount, session.Realm);
+                authResponse.SuccessInfo.AvailableRaces = Manager.GameAccount.GetAvailableRaces(session.GameAccount, session.Realm);
+                authResponse.SuccessInfo.AvailableClasses = Manager.GameAccount.GetAvailableClasses(session.GameAccount, session.Realm);
+                authResponse.SuccessInfo.Templates = Manager.GameAccount.GetAvailableCharacterTemplates(session.GameAccount, session.Realm);
 
-                session.Send(authResponse);
+                await session.Send(authResponse);
 
                 AddonHandler.HandleAddonInfo(session, addonData);
 
-                session.Send(new TutorialFlags());
+                await session.Send(new TutorialFlags());
             }
             else
-                session.Send(authResponse);
+                await session.Send(authResponse);
         }
     }
 }

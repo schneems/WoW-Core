@@ -187,7 +187,7 @@ namespace Framework.Network.Packets
             writeStream.Seek((int)writeStream.BaseStream.Length - 1, SeekOrigin.Begin);
         }
 
-        public void Finish()
+        public void Finish(bool skipHeader = false)
         {
             Data = new byte[writeStream.BaseStream.Length];
 
@@ -196,7 +196,7 @@ namespace Framework.Network.Packets
             for (int i = 0; i < Data.Length; i++)
                 Data[i] = (byte)writeStream.BaseStream.ReadByte();
 
-            if (Header != null)
+            if (Header != null && !skipHeader)
             {
                 Header.Size = (ushort)(Data.Length - 2);
 
@@ -206,8 +206,6 @@ namespace Framework.Network.Packets
                 if (Header.Size > 0x7FFF)
                     Data[0] = (byte)(0x80 | (0xFF & (Header.Size >> 16)));
             }
-
-            writeStream.Dispose();
         }
         #endregion
 

@@ -19,13 +19,13 @@ namespace CharacterServer.Packets.Handlers
 {
     class NetHandler
     {
-        public static void SendConnectTo(CharacterSession session, string ip, ushort port, byte connection = 0)
+        public static async void SendConnectTo(CharacterSession session, string ip, ushort port, byte connection = 0)
         {
             var connectTo = new ConnectTo
             {
-                Key    = Manager.Redirect.CreateRedirectKey(session.GameAccount.Id),
+                Key = Manager.Redirect.CreateRedirectKey(session.GameAccount.Id),
                 Serial = 0xE,
-                Con    = connection
+                Con = connection
             };
 
             // Fail
@@ -87,7 +87,7 @@ namespace CharacterServer.Packets.Handlers
 
             Array.Copy(encrypted, connectTo.Where, 0x100);
 
-            session.Send(connectTo);
+            await session.Send(connectTo);
         }
 
         [GlobalMessage(GlobalClientMessage.LogDisconnect, SessionState.All)]

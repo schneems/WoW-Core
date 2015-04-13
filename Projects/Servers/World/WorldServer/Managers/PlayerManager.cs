@@ -15,7 +15,7 @@ namespace WorldServer.Managers
 
         }
 
-        public void EnterWorld(WorldSession session)
+        public async void EnterWorld(WorldSession session)
         {
             var objectUpdate = new ObjectUpdate
             {
@@ -31,7 +31,7 @@ namespace WorldServer.Managers
             objectUpdate.CreateData.Move.Status.Position = session.Player.Position;
             objectUpdate.CreateData.Move.Status.Facing = session.Player.Facing;
 
-            session.Send(objectUpdate);
+            await session.Send(objectUpdate);
         }
     }
 }

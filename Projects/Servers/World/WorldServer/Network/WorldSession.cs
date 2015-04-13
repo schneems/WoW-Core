@@ -5,7 +5,6 @@ using System;
 using System.Net.Sockets;
 using System.Threading.Tasks;
 using Framework.Constants.Account;
-using Framework.Constants.Misc;
 using Framework.Database.Auth.Entities;
 using Framework.Logging;
 using Framework.Misc;
@@ -32,7 +31,7 @@ namespace WorldServer.Network
 
         public WorldSession(Socket clientSocket) : base(clientSocket) { }
 
-        public override void OnConnection(object sender, SocketAsyncEventArgs e)
+        public override async void OnConnection(object sender, SocketAsyncEventArgs e)
         {
             var recievedBytes = e.BytesTransferred;
 
@@ -58,13 +57,13 @@ namespace WorldServer.Network
                     client.ReceiveAsync(e);
 
                     // Assign server challenge for auth digest calculations
-                    Challenge  = BitConverter.ToUInt32(new byte[0].GenerateRandomKey(4), 0);
+                    Challenge = BitConverter.ToUInt32(new byte[0].GenerateRandomKey(4), 0);
                     ClientSeed = new byte[16].GenerateRandomKey(16);
                     ServerSeed = new byte[16].GenerateRandomKey(16);
 
-                    Send(new ServerPacket.AuthChallenge
+                    await Send(new ServerPacket.AuthChallenge
                     {
-                        Challenge    = Challenge,
+                        Challenge = Challenge,
                         DosChallenge = ClientSeed.Combine(ServerSeed)
                     });
                 }
@@ -130,7 +129,7 @@ namespace WorldServer.Network
             await PacketManager.InvokeHandler<ClientMessage>(packet, this);
         }
 
-        public override void Send(Framework.Network.Packets.ServerPacket packet)
+        public override async Task Send(Framework.Network.Packets.ServerPacket packet)
         {
             try
             {
@@ -138,7 +137,12 @@ namespace WorldServer.Network
                 packet.Packet.Finish();
 
                 if (packet.Packet.Header != null)
+                {
+                    if (packet.Packet.Header.Size > 0x100)
+                        packet = await Compress(packet);
+
                     PacketLog.Write<ServerMessage>(packet.Packet.Header.Message, packet.Packet.Data, client.RemoteEndPoint);
+                }
 
                 if (Crypt != null && Crypt.IsInitialized)
                     Encrypt(packet.Packet);

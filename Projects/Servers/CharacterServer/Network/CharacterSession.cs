@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 using CharacterServer.Constants.Net;
 using CharacterServer.Packets;
 using Framework.Constants.Account;
-using Framework.Constants.Misc;
 using Framework.Database.Auth.Entities;
 using Framework.Logging;
 using Framework.Logging.IO;
@@ -28,7 +27,7 @@ namespace CharacterServer.Network
 
         public CharacterSession(Socket clientSocket) : base(clientSocket) { }
 
-        public override void OnConnection(object sender, SocketAsyncEventArgs e)
+        public override async void OnConnection(object sender, SocketAsyncEventArgs e)
         {
             var recievedBytes = e.BytesTransferred;
 
@@ -54,8 +53,7 @@ namespace CharacterServer.Network
 
                     // Assign server challenge for auth digest calculations
                     Challenge = BitConverter.ToUInt32(new byte[0].GenerateRandomKey(4), 0);
-
-                    Send(new ServerPacket.AuthChallenge { Challenge = Challenge });
+                    await Send(new ServerPacket.AuthChallenge { Challenge = Challenge });
                 }
                 else
                 {
@@ -130,7 +128,7 @@ namespace CharacterServer.Network
             await PacketManager.InvokeHandler<ClientMessage>(packet, this);
         }
 
-        public override void Send(Framework.Network.Packets.ServerPacket packet)
+        public override async Task Send(Framework.Network.Packets.ServerPacket packet)
         {
             try
             {
@@ -138,7 +136,12 @@ namespace CharacterServer.Network
                 packet.Packet.Finish();
 
                 if (packet.Packet.Header != null)
+                {
+                    if (packet.Packet.Header.Size > 0x100)
+                        packet = await Compress(packet);
+
                     PacketLog.Write<ServerMessage>(packet.Packet.Header.Message, packet.Packet.Data, client.RemoteEndPoint);
+                }
 
                 if (Crypt != null && Crypt.IsInitialized)
                     Encrypt(packet.Packet);

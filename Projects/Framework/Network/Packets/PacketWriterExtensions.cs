@@ -24,6 +24,7 @@ namespace Framework.Network.Packets
             { typeof(long),      (bw, val) => bw.Write((long)val)   },
             { typeof(ulong),     (bw, val) => bw.Write((ulong)val)  },
             { typeof(double),    (bw, val) => bw.Write((double)val) },
+            { typeof(byte[]),    (bw, val) => bw.Write((byte[])val) },
             { typeof(Packet),    (bw, val) => bw.Write(((Packet)val).Data) },
             { typeof(SmartGuid), (bw, val) => WriteSmartGuid(bw, (SmartGuid)val) },
             { typeof(Vector3),   (bw, val) =>

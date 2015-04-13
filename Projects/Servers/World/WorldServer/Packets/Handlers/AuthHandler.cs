@@ -19,7 +19,7 @@ namespace WorldServer.Packets.Handlers
     {
         // Only GameAccount redirects supported for now.
         [GlobalMessage(GlobalClientMessage.AuthContinuedSession, SessionState.Initiated)]
-        public static void HandleAuthContinuedSession(AuthContinuedSession authContinuedSession, WorldSession session)
+        public static async void HandleAuthContinuedSession(AuthContinuedSession authContinuedSession, WorldSession session)
         {
             var accountInfo = Manager.Redirect.GetAccountInfo(authContinuedSession.Key);
 
@@ -49,7 +49,7 @@ namespace WorldServer.Packets.Handlers
                     session.Crypt.Initialize(accountInfo.Item2.SessionKey.ToByteArray(), session.ClientSeed, session.ServerSeed);
 
                     // Resume on the new connection
-                    session.Send(new ResumeComms());
+                    await session.Send(new ResumeComms());
 
                     return;
                 }

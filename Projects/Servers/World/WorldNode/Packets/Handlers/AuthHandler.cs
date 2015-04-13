@@ -20,7 +20,7 @@ namespace WorldNode.Packets.Handlers
     class AuthHandler
     {
         [GlobalMessage(GlobalClientMessage.AuthContinuedSession, SessionState.Initiated)]
-        public static void HandleAuthContinuedSession(AuthContinuedSession authContinuedSession, NodeSession session)
+        public static async void HandleAuthContinuedSession(AuthContinuedSession authContinuedSession, NodeSession session)
         {
             var accountInfo = Manager.Redirect.GetAccountInfo(authContinuedSession.Key);
 
@@ -50,7 +50,7 @@ namespace WorldNode.Packets.Handlers
                     session.Crypt.Initialize(accountInfo.Item1.SessionKey.ToByteArray(), session.ClientSeed, session.ServerSeed);
 
                     // Resume on the new connection
-                    session.Send(new ResumeComms());
+                    await session.Send(new ResumeComms());
 
                     return;
                 }

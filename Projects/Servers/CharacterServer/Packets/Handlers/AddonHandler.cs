@@ -68,7 +68,7 @@ namespace CharacterServer.Packets.Handlers
         }
 
         //! TODO Implement server side addon & banned addon handling
-        public static void HandleAddonInfo(CharacterSession session, byte[] addonData)
+        public static async void HandleAddonInfo(CharacterSession session, byte[] addonData)
         {
             var addonInfo = new AddonInfo();
             var addonDataReader = new Packet(addonData, 0);
@@ -77,22 +77,22 @@ namespace CharacterServer.Packets.Handlers
 
             for (var i = 0; i < addons; i++)
             {
-                var addonName         = addonDataReader.ReadString();
+                var addonName = addonDataReader.ReadString();
                 var addonInfoProvided = addonDataReader.Read<bool>();
-                var addonCRC          = addonDataReader.Read<uint>();
-                var urlCRC            = addonDataReader.Read<uint>();
+                var addonCRC = addonDataReader.Read<uint>();
+                var urlCRC = addonDataReader.Read<uint>();
 
-                Log.Debug($"AddonData: Name '{addonName}', Info Provided '{addonInfoProvided}', CRC '0x{addonCRC:X}', URL CRC '0x{urlCRC :X}'.");
+                Log.Debug($"AddonData: Name '{addonName}', Info Provided '{addonInfoProvided}', CRC '0x{addonCRC:X}', URL CRC '0x{urlCRC:X}'.");
 
                 addonInfo.Addons.Add(new AddonInfoData
                 {
                     InfoProvided = addonInfoProvided,
-                    KeyProvided  = true,
-                    KeyData      = addonPublicKey
+                    KeyProvided = true,
+                    KeyData = addonPublicKey
                 });
             }
 
-            session.Send(addonInfo);
+            await session.Send(addonInfo);
         }
     }
 }

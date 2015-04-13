@@ -29,7 +29,7 @@ namespace CharacterServer.Packets.Handlers
     class CharacterHandler
     {
         [Message(ClientMessage.EnumCharacters, SessionState.Authenticated)]
-        public static void HandleEnumCharacters(EnumCharacters enumCharacters, CharacterSession session)
+        public static async void HandleEnumCharacters(EnumCharacters enumCharacters, CharacterSession session)
         {
             var charList = DB.Character.Where<Character>(c => c.GameAccountId == session.GameAccount.Id);
 
@@ -87,11 +87,11 @@ namespace CharacterServer.Packets.Handlers
                 enumCharactersResult.Characters.Add(character);
             });
 
-            session.Send(enumCharactersResult);
+            await session.Send(enumCharactersResult);
         }
 
         [Message(ClientMessage.CreateCharacter, SessionState.Authenticated)]
-        public static void HandleCreateCharacter(CreateCharacter createCharacter, CharacterSession session)
+        public static async void HandleCreateCharacter(CreateCharacter createCharacter, CharacterSession session)
         {
             var createChar = new CreateChar { Code = CharCreateCode.InProgress };
 
@@ -161,11 +161,11 @@ namespace CharacterServer.Packets.Handlers
                 }
             }
 
-            session.Send(createChar);
+            await session.Send(createChar);
         }
 
         [Message(ClientMessage.CharDelete, SessionState.Authenticated)]
-        public static void HandleCharDelete(CharDelete charDelete, CharacterSession session)
+        public static async void HandleCharDelete(CharDelete charDelete, CharacterSession session)
         {
             if (charDelete.Guid.CreationBits > 0 && charDelete.Guid.Type == GuidType.Player)
             {
@@ -178,14 +178,14 @@ namespace CharacterServer.Packets.Handlers
                 else
                     deleteChar.Code = CharDeleteCode.Failed;
 
-                session.Send(deleteChar);
+                await session.Send(deleteChar);
             }
             else
                 session.Dispose();
         }
 
         [Message(ClientMessage.GenerateRandomCharacterName, SessionState.Authenticated)]
-        public static void HandleGenerateRandomCharacterName(GenerateRandomCharacterName generateRandomCharacterName, CharacterSession session)
+        public static async void HandleGenerateRandomCharacterName(GenerateRandomCharacterName generateRandomCharacterName, CharacterSession session)
         {
             var rand = new Random(Environment.TickCount);
             var generateRandomCharacterNameResult = new GenerateRandomCharacterNameResult();
@@ -199,14 +199,14 @@ namespace CharacterServer.Packets.Handlers
 
             generateRandomCharacterNameResult.Success = generateRandomCharacterNameResult.Name != "";
 
-            session.Send(generateRandomCharacterNameResult);
+            await session.Send(generateRandomCharacterNameResult);
         }
 
         // Always send login failed here!
         [GlobalMessage(GlobalClientMessage.PlayerLogin, SessionState.Authenticated | SessionState.Redirected)]
-        public static void HandlePlayerLogin(PlayerLogin playerLogin, CharacterSession session)
+        public static async void HandlePlayerLogin(PlayerLogin playerLogin, CharacterSession session)
         {
-            session.Send(new CharacterLoginFailed { Code = CharLoginCode.NoWorld });
+            await session.Send(new CharacterLoginFailed { Code = CharLoginCode.NoWorld });
         }
     }
 }

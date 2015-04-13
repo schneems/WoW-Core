@@ -19,7 +19,7 @@ namespace WorldServer.Packets.Handlers
     class CharacterHandler
     {
         [GlobalMessage(GlobalClientMessage.PlayerLogin, SessionState.Authenticated)]
-        public static void HandlePlayerLogin(PlayerLogin playerLogin, WorldSession session)
+        public static async void HandlePlayerLogin(PlayerLogin playerLogin, WorldSession session)
         {
             Log.Debug($"Character with GUID '{playerLogin.PlayerGUID.CreationBits}' tried to login...");
 
@@ -37,10 +37,10 @@ namespace WorldServer.Packets.Handlers
                     NetHandler.SendConnectTo(session, worldNode.Address, worldNode.Port, 1);
 
                     // Suspend the current connection
-                    session.Send(new SuspendComms { Serial = 0x14 });
+                    await session.Send(new SuspendComms { Serial = 0x14 });
 
                     // Enable key bindings, etc.
-                    session.Send(new AccountDataTimes { PlayerGuid = session.Player.Guid });
+                    await session.Send(new AccountDataTimes { PlayerGuid = session.Player.Guid });
 
                     // Enter world.
                     Manager.Player.EnterWorld(session);
