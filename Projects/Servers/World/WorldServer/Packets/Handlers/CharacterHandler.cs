@@ -23,7 +23,7 @@ namespace WorldServer.Packets.Handlers
         {
             Log.Debug($"Character with GUID '{playerLogin.PlayerGUID.CreationBits}' tried to login...");
 
-            var character = DB.Character.Single<Character>(c => c.Guid == playerLogin.PlayerGUID.CreationBits);
+            var character = DB.Character.Single<Character>(c => c.Guid == playerLogin.PlayerGUID.CreationBits && c.GameAccountId == session.GameAccount.Id);
 
             if (character != null)
             {
