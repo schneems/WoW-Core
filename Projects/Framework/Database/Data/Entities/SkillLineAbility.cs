@@ -26,7 +26,8 @@ namespace Framework.Database.Data.Entities
         {
             return (RaceMask.HasFlag(raceMask) && ClassMask.HasFlag(classMask)) ||
                    (RaceMask.HasFlag(raceMask) && ClassMask == ClassMask.All) ||
-                   (RaceMask == RaceMask.All && ClassMask.HasFlag(classMask));
+                   (RaceMask == RaceMask.All && ClassMask.HasFlag(classMask)) ||
+                   (RaceMask == RaceMask.All && ClassMask == ClassMask.All);
         }
     }
 }

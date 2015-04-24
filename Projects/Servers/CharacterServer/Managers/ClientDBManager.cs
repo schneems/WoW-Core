@@ -2,7 +2,6 @@
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
 using System.Linq;
-using Framework.Constants.Misc;
 using Framework.Database;
 using Framework.Database.Data.Entities;
 using Framework.Datastore;
@@ -33,6 +32,8 @@ namespace CharacterServer.Managers
             ClientDB.NameGens                = DB.Data.Select<NameGen>();
             ClientDB.SkillLines              = DB.Data.Select<uint, SkillLine>(sl => sl.ID);
             ClientDB.SkillLineAbilities      = DB.Data.Select<SkillLineAbility>();
+            ClientDB.SkillRaceClassInfo      = DB.Data.Select<SkillRaceClassInfo>();
+            ClientDB.SpellLevels             = DB.Data.Select<SpellLevels>().ToLookup(sl => sl.SpellId) as Lookup<uint, SpellLevels>;
 
             // Load player experience levels (first 100 entries) from game table.
             ClientDB.GtOCTLevelExperience = DB.Data.Where<GtOCTLevelExperience>(gt => gt.Index < 100);

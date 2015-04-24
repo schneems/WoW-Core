@@ -92,6 +92,7 @@
     <Compile Include="Packets\PacketManager.cs" />
     <Compile Include="Packets\Server\Misc\AccountDataTimes.cs" />
     <Compile Include="Packets\Server\Object\ObjectUpdate.cs" />
+    <Compile Include="Packets\Server\Spell\InitialKnownSpells.cs" />
     <Compile Include="Packets\Structures\Movement\MovementStatus.cs" />
     <Compile Include="Packets\Structures\Movement\MovementUpdate.cs" />
     <Compile Include="Packets\Structures\Movement\Position.cs" />

@@ -27,43 +27,51 @@ namespace CharacterServer.Managers
             if (guid != 0)
             {
                 var startAbilities = ClientDB.SkillLineAbilities.Where(a => a.AcquireMethod == 2 && a.SupercedesSpell == 0 &&
-                                                                       a.CheckRaceClassConditions(character.RaceMask, character.ClassMask));
+                                                                       a.CheckRaceClassConditions(character.RaceMask, character.ClassMask)).ToList();
 
                 var spells = new ConcurrentDictionary<uint, CharacterSpell>();
                 var skills = new ConcurrentDictionary<uint, CharacterSkill>();
 
                 Parallel.ForEach(startAbilities, ability =>
                 {
-                    SkillLine skillLine;
+                    var spellLevels = ClientDB.SpellLevels[ability.Spell];
 
-                    if (ClientDB.SkillLines.TryGetValue(ability.SkillLine, out skillLine))
+                    if (spellLevels.Count() == 0 || (spellLevels.Any(sl => sl.BaseLevel <= ClientDB.GtOCTLevelExperience.FirstOrDefault(gt => gt.Data > character.Experience).Index + 1)))
                     {
-                        var skillLevel = 1u;
+                        SkillLine skillLine;
 
-                        // Set skill level based on category.
-                        // Only languages handled for now.
-                        // ToDo: Add an enum for that and handle the other categories.
-                        switch (skillLine.CategoryID)
+                        foreach (var srci in ClientDB.SkillRaceClassInfo.Where(srci => srci.SkillId == ability.SkillLine && srci.Availability == 1))
                         {
-                            case 10:
-                                skillLevel = 300;
-                                break;
-                            default:
-                                break;
+                            if (srci.CheckRaceClassConditions(character.RaceMask, character.ClassMask) && ClientDB.SkillLines.TryGetValue(ability.SkillLine, out skillLine))
+                            {
+                                var skillLevel = 1u;
+
+                                // Set skill level based on category.
+                                // Only languages handled for now.
+                                // ToDo: Add an enum for that and handle the other categories.
+                                switch (skillLine.CategoryID)
+                                {
+                                    case 10:
+                                        skillLevel = 300;
+                                        break;
+                                    default:
+                                        break;
+                                }
+
+                                spells.TryAdd(ability.Spell, new CharacterSpell
+                                {
+                                    CharacterGuid = guid,
+                                    SpellId = ability.Spell
+                                });
+
+                                skills.TryAdd(ability.SkillLine, new CharacterSkill
+                                {
+                                    CharacterGuid = guid,
+                                    SkillId = ability.SkillLine,
+                                    SkillLevel = skillLevel
+                                });
+                            }
                         }
-
-                        spells.TryAdd(ability.Spell, new CharacterSpell
-                        {
-                            CharacterGuid = guid,
-                            SpellId       = ability.Spell
-                        });
-
-                        skills.TryAdd(ability.SkillLine, new CharacterSkill
-                        {
-                            CharacterGuid = guid,
-                            SkillId       = ability.SkillLine,
-                            SkillLevel    = skillLevel
-                        });
                     }
                 });
 
@@ -102,8 +110,8 @@ namespace CharacterServer.Managers
                             if (item.InventoryType == (int)InventoryType.Usable)
                             {
                                 // Default bag & bag slot
-                                charItem.Bag = 0xFF;
-                                charItem.Slot = (EquipmentSlot.Bag4 + 1);
+                                charItem.Bag      = 0xFF;
+                                charItem.Slot     = (EquipmentSlot.Bag4 + 1);
                                 charItem.Equipped = false;
                             }
 

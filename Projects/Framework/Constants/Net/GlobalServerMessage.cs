@@ -6,14 +6,14 @@ namespace Framework.Constants.Net
     // Value '0x2000' means not updated/implemented
     public enum GlobalServerMessage : ushort
     {
-        AuthChallenge           = 0x007E,
-        ConnectTo               = 0x0119,
-        SuspendComms            = 0x001E,
-        ResumeComms             = 0x003A,
-        Compression             = 0x007D,
-        ResetCompressionContext = 0x0059,
-        Composite               = 0x0039,
+        AuthChallenge           = 0x1102,
+        ConnectTo               = 0x1101,
+        SuspendComms            = 0x1105,
+        ResumeComms             = 0x1302,
+        Compression             = 0x1806,
+        ResetCompressionContext = 0x1006,
+        Composite               = 0x1206,
         Pong                    = 0x2000,
-        CharacterLoginFailed    = 0x0FBD
+        CharacterLoginFailed    = 0x000C
     }
 }

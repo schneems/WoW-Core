@@ -38,8 +38,8 @@ namespace World.Shared.Game.Entities
                 Z = player.Z
             };
 
-            Facing   = player.O;
-            Map      = (short)player.Map;
+            Facing = player.O;
+            Map = (short)player.Map;
 
             InitializeDescriptors();
         }
@@ -92,17 +92,20 @@ namespace World.Shared.Game.Entities
             Set(PlayerData.HairColorID, data.HairColor, 3);
 
             Set(PlayerData.RestState, data.FacialHairStyle, 0);
-            Set(PlayerData.RestState, 0, 1);
-            Set(PlayerData.RestState, 0, 2);
-            Set(PlayerData.RestState, 2, 3);
+            Set(PlayerData.RestState, (byte)0, 1);
+            Set(PlayerData.RestState, (byte)0, 2);
+            Set(PlayerData.RestState, (byte)2, 3);
 
             Set(PlayerData.ArenaFaction, data.Sex, 0);
-            Set(PlayerData.ArenaFaction, 0, 1);
-            Set(PlayerData.ArenaFaction, 0, 2);
-            Set(PlayerData.ArenaFaction, 0, 3);
+            Set(PlayerData.ArenaFaction, (byte)0, 1);
+            Set(PlayerData.ArenaFaction, (byte)0, 2);
+            Set(PlayerData.ArenaFaction, (byte)0, 3);
 
             Set(PlayerData.WatchedFactionIndex, -1);
             Set(PlayerData.VirtualPlayerRealm, data.RealmId);
+
+            for (var i = 0; i < data.CharacterSkills.Count; i++)
+                Set(PlayerData.Skill + i, data.CharacterSkills[i].SkillId);
         }
 
         public void InitializeDynamicDescriptors()

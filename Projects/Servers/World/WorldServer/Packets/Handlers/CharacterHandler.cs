@@ -13,6 +13,7 @@ using WorldServer.Managers;
 using WorldServer.Network;
 using WorldServer.Packets.Client.Character;
 using WorldServer.Packets.Server.Misc;
+using WorldServer.Packets.Server.Spell;
 
 namespace WorldServer.Packets.Handlers
 {
@@ -35,11 +36,18 @@ namespace WorldServer.Packets.Handlers
                     session.Player = new Player(character);
 
                     // Suspend the current connection & redirect
-                    await session.Send(new SuspendComms { Serial = 0x14 });
+                    await session.Send(new SuspendComms());
                     await NetHandler.SendConnectTo(session, worldNode.Address, worldNode.Port, 1);
 
                     // Enable key bindings, etc.
                     await session.Send(new AccountDataTimes { PlayerGuid = session.Player.Guid });
+
+                    // Send known spells
+                    await session.Send(new InitialKnownSpells
+                    {
+                        InitialLogin = character.FirstLogin == 1,
+                        KnownSpells  = character.CharacterSpells
+                    });
 
                     // Enter world.
                     Manager.Player.EnterWorld(session);

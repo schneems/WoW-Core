@@ -131,6 +131,8 @@
     <Compile Include="Database\Data\Entities\NameGen.cs" />
     <Compile Include="Database\Data\Entities\SkillLine.cs" />
     <Compile Include="Database\Data\Entities\SkillLineAbility.cs" />
+    <Compile Include="Database\Data\Entities\SkillRaceClassInfo.cs" />
+    <Compile Include="Database\Data\Entities\SpellLevels.cs" />
     <Compile Include="Database\DB.cs" />
     <Compile Include="Datastore\ClientDB.cs" />
     <Compile Include="Logging\IO\ExceptionLog.cs" />

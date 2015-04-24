@@ -6,7 +6,8 @@ namespace WorldServer.Constants.Net
     // Value '0x2000' means not updated/implemented
     enum ServerMessage : ushort
     {
-        AccountDataTimes = 0x16B8,
-        ObjectUpdate     = 0x1CB2,
+        AccountDataTimes   = 0x0E32,
+        InitialKnownSpells = 0x096E,
+        ObjectUpdate       = 0x02A5,
     }
 }

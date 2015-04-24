@@ -6,7 +6,6 @@ using System.Collections.Generic;
 using System.Reflection;
 using System.Threading;
 using Framework.Attributes;
-using Framework.Constants.Misc;
 using Framework.Logging;
 
 namespace AuthServer.Commands
