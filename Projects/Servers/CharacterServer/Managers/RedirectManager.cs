@@ -3,7 +3,6 @@
 
 using System;
 using System.Collections.Concurrent;
-using Framework.Constants.Misc;
 using Framework.Cryptography.WoW;
 using Framework.Database;
 using Framework.Database.Auth.Entities;

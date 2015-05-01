@@ -10,7 +10,6 @@ using CharacterServer.Constants.Net;
 using CharacterServer.Network;
 using Framework.Attributes;
 using Framework.Constants.Account;
-using Framework.Constants.Misc;
 using Framework.Constants.Net;
 using Framework.Logging;
 using Framework.Network.Packets;

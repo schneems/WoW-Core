@@ -6,7 +6,6 @@ using AuthServer.Configuration;
 using AuthServer.Managers;
 using AuthServer.Network;
 using AuthServer.Network.Packets;
-using Framework.Constants.Misc;
 using Framework.Database;
 using Framework.Logging;
 using Framework.Misc;

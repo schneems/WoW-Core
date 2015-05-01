@@ -7,7 +7,6 @@ using CharacterServer.Configuration;
 using CharacterServer.Managers;
 using CharacterServer.Network;
 using CharacterServer.Packets;
-using Framework.Constants.Misc;
 using Framework.Database;
 using Framework.Logging;
 using Framework.Misc;

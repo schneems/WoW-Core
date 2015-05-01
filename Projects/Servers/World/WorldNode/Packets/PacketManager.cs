@@ -7,7 +7,6 @@ using System.Reflection;
 using System.Threading.Tasks;
 using Framework.Attributes;
 using Framework.Constants.Account;
-using Framework.Constants.Misc;
 using Framework.Constants.Net;
 using Framework.Logging;
 using Framework.Network.Packets;

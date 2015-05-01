@@ -2,7 +2,6 @@
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
 using Framework.Constants.General;
-using Framework.Misc;
 using Framework.Network.Packets;
 
 namespace CharacterServer.Packets.Client.Character

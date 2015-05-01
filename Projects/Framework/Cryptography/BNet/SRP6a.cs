@@ -139,7 +139,7 @@ namespace Framework.Cryptography.BNet
             var gHash = sha256.ComputeHash(g);
 
             for (int i = 0; i < NHash.Length; i++)
-                NHash[i] ^= (byte)gHash[i];
+                NHash[i] ^= gHash[i];
 
             // Concat all variables for M1 hash
             var hash = NHash.Combine(IHash, S, a, B, SessionKey);

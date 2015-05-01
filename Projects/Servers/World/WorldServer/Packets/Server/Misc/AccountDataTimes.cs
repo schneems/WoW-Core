@@ -1,7 +1,6 @@
 ﻿// Copyright (c) Arctium Emulation.
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
-using System;
 using Framework.Misc;
 using Framework.Network.Packets;
 using Framework.Objects;

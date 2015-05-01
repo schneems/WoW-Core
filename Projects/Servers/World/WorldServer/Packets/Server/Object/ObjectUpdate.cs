@@ -2,8 +2,6 @@
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
 using Framework.Network.Packets;
-using Framework.Objects;
-using World.Shared.Game.Entities;
 using World.Shared.Game.Entities.Object;
 using WorldServer.Constants.Net;
 using WorldServer.Packets.Structures.Object;

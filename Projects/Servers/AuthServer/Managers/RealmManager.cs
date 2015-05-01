@@ -5,7 +5,6 @@ using System.Collections.Concurrent;
 using System.Linq;
 using System.Threading;
 using AuthServer.Configuration;
-using Framework.Constants.Misc;
 using Framework.Database;
 using Framework.Database.Auth.Entities;
 using Framework.Logging;

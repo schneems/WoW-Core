@@ -6,11 +6,11 @@ using AuthServer.Constants.Authentication;
 using AuthServer.Constants.Net;
 using AuthServer.Managers;
 using AuthServer.Network.Sessions;
-using Framework.Constants.Misc;
 using Framework.Database;
 using Framework.Database.Auth.Entities;
 using Framework.Logging;
 using Framework.Network.Packets;
+using Lappa_ORM;
 
 namespace AuthServer.Network.Packets.Handlers
 {
@@ -20,6 +20,7 @@ namespace AuthServer.Network.Packets.Handlers
         public static void OnInformationRequest(AuthPacket packet, Client client)
         {
             var session = client.Session;
+
             if (!Manager.GetState())
             {
                 AuthHandler.SendAuthComplete(true, AuthResult.ServerBusy, client);
@@ -79,15 +80,12 @@ namespace AuthServer.Network.Packets.Handlers
                 // First account lookup on database
                 if ((session.Account = account) != null)
                 {
-                    // Global base account.
-                    session.Account.IP = session.GetClientInfo();
-                    session.Account.Language = language;
-
                     // Assign the possible game accounts based on the game.
                     //session.GameAccounts.ForEach(ga => ga.OS = os);
 
                     // Save the last changes
-                    DB.Auth.Update(session.Account, "IP", "Language");
+                    // Needs testing...
+                    // DB.Auth.Update<Account>(a => a.Id == account.Id, a => a.IP.Set(session.GetClientInfo()), a => a.Language.Set(language));
 
                     // Used for module identification.
                     client.Game = game;

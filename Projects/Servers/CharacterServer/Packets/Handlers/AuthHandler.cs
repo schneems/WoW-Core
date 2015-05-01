@@ -10,7 +10,6 @@ using CharacterServer.Packets.Server.Authentication;
 using CharacterServer.Packets.Server.Misc;
 using Framework.Attributes;
 using Framework.Constants.Account;
-using Framework.Constants.Misc;
 using Framework.Constants.Net;
 using Framework.Cryptography;
 using Framework.Cryptography.WoW;

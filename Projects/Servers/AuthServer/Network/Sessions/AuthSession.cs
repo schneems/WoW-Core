@@ -11,7 +11,6 @@ using System.Text;
 using AuthServer.Constants.Net;
 using AuthServer.Managers;
 using AuthServer.Network.Packets;
-using Framework.Constants.Misc;
 using Framework.Cryptography.BNet;
 using Framework.Database;
 using Framework.Database.Auth.Entities;

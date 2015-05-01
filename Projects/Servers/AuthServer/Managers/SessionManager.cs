@@ -4,7 +4,6 @@
 using System.Collections.Concurrent;
 using AuthServer.Network.Sessions;
 using Framework.Database;
-using Framework.Database.Auth.Entities;
 using Framework.Misc;
 
 namespace AuthServer.Managers

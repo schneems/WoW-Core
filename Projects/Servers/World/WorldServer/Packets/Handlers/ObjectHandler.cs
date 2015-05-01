@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using WorldServer.Network;
-using WorldServer.Packets.Server.Object;
+﻿using WorldServer.Network;
 
 namespace WorldServer.Packets.Handlers
 {

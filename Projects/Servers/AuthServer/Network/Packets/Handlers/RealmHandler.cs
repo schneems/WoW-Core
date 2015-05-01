@@ -7,7 +7,6 @@ using AuthServer.Attributes;
 using AuthServer.Constants.Net;
 using AuthServer.Managers;
 using AuthServer.Network.Sessions;
-using Framework.Constants.Misc;
 using Framework.Logging;
 using Framework.Misc;
 using Framework.Network.Packets;

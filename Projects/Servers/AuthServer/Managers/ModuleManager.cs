@@ -7,7 +7,6 @@ using System.Collections.Generic;
 using System.Linq;
 using AuthServer.Network.Sessions;
 using Framework.Constants.Account;
-using Framework.Constants.Misc;
 using Framework.Database;
 using Framework.Database.Auth.Entities;
 using Framework.Logging;

@@ -4,7 +4,6 @@
 using System.Linq;
 using Framework.Attributes;
 using Framework.Constants.Account;
-using Framework.Constants.Misc;
 using Framework.Cryptography.BNet;
 using Framework.Database;
 using Framework.Database.Auth.Entities;
