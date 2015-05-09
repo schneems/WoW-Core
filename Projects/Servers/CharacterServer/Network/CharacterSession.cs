@@ -53,6 +53,7 @@ namespace CharacterServer.Network
 
                     // Assign server challenge for auth digest calculations
                     Challenge = BitConverter.ToUInt32(new byte[0].GenerateRandomKey(4), 0);
+
                     await Send(new ServerPacket.AuthChallenge { Challenge = Challenge });
                 }
                 else
@@ -66,7 +67,7 @@ namespace CharacterServer.Network
                 Dispose();
         }
 
-        public override void Process(object sender, SocketAsyncEventArgs e)
+        public override async void Process(object sender, SocketAsyncEventArgs e)
         {
             try
             {
@@ -91,7 +92,7 @@ namespace CharacterServer.Network
                             if (length > recievedBytes)
                                 packetQueue.Enqueue(packet);
 
-                            Task.Run(() => ProcessPacket(packet));
+                            await ProcessPacket(packet);
 
                             recievedBytes -= length;
 
@@ -102,7 +103,7 @@ namespace CharacterServer.Network
                     {
                         var packet = new Packet(dataBuffer);
 
-                        Task.Run(() => ProcessPacket(packet));
+                        await ProcessPacket(packet);
                     }
 
                     client.ReceiveAsync(e);
@@ -121,7 +122,7 @@ namespace CharacterServer.Network
         public override async Task ProcessPacket(Packet packet)
         {
             if (packetQueue.Count > 0)
-                packet = packetQueue.Dequeue();
+                packetQueue.TryDequeue(out packet);
 
             PacketLog.Write<ClientMessage>(packet.Header.Message, packet.Data, client.RemoteEndPoint);
 
@@ -157,11 +158,13 @@ namespace CharacterServer.Network
 
                 client.SendAsync(socketEventargs);
             }
-            catch (SocketException ex)
+            catch (Exception ex)
             {
-                Log.Error($"{ex}");
+                Dispose();
 
-                client.Close();
+                ExceptionLog.Write(ex);
+
+                Log.Error(ex.Message);
             }
         }
 

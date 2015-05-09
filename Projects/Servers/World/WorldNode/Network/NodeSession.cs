@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Framework.Constants.Account;
 using Framework.Database.Auth.Entities;
 using Framework.Logging;
+using Framework.Logging.IO;
 using Framework.Misc;
 using Framework.Network;
 using Framework.Network.Packets;
@@ -75,51 +76,62 @@ namespace WorldNode.Network
                 Dispose();
         }
 
-        public override void Process(object sender, SocketAsyncEventArgs e)
+        public override async void Process(object sender, SocketAsyncEventArgs e)
         {
-            var socket = e.UserToken as Socket;
-            var recievedBytes = e.BytesTransferred;
-
-            if (recievedBytes != 0)
+            try
             {
-                if (Crypt != null && Crypt.IsInitialized)
+                var socket = e.UserToken as Socket;
+                var recievedBytes = e.BytesTransferred;
+
+                if (recievedBytes != 0)
                 {
-                    while (recievedBytes > 0)
+                    if (Crypt != null && Crypt.IsInitialized)
                     {
-                        Decrypt(dataBuffer);
+                        while (recievedBytes > 0)
+                        {
+                            Decrypt(dataBuffer);
 
-                        var length = BitConverter.ToUInt16(dataBuffer, 0) + 4;
-                        var packetData = new byte[length];
+                            var length = BitConverter.ToUInt16(dataBuffer, 0) + 4;
+                            var packetData = new byte[length];
 
-                        Buffer.BlockCopy(dataBuffer, 0, packetData, 0, length);
+                            Buffer.BlockCopy(dataBuffer, 0, packetData, 0, length);
 
-                        var packet = new Packet(dataBuffer, 4);
+                            var packet = new Packet(dataBuffer, 4);
 
-                        if (length > recievedBytes)
-                            packetQueue.Enqueue(packet);
+                            if (length > recievedBytes)
+                                packetQueue.Enqueue(packet);
 
-                        new Task(async () => await ProcessPacket(packet)).Start();
+                            await ProcessPacket(packet);
 
-                        recievedBytes -= length;
+                            recievedBytes -= length;
 
-                        Buffer.BlockCopy(dataBuffer, length, dataBuffer, 0, recievedBytes);
+                            Buffer.BlockCopy(dataBuffer, length, dataBuffer, 0, recievedBytes);
+                        }
                     }
-                }
-                else
-                {
-                    var packet = new Packet(dataBuffer);
+                    else
+                    {
+                        var packet = new Packet(dataBuffer);
 
-                    new Task(async () => await ProcessPacket(packet)).Start();
-                }
+                        await ProcessPacket(packet);
+                    }
 
-                client.ReceiveAsync(e);
+                    client.ReceiveAsync(e);
+                }
+            }
+            catch (Exception ex)
+            {
+                Dispose();
+
+                ExceptionLog.Write(ex);
+
+                Log.Error(ex.Message);
             }
         }
 
         public override async Task ProcessPacket(Packet packet)
         {
             if (packetQueue.Count > 0)
-                packet = packetQueue.Dequeue();
+                packetQueue.TryDequeue(out packet);
 
             PacketLog.Write<ClientMessage>(packet.Header.Message, packet.Data, client.RemoteEndPoint);
 
@@ -158,11 +170,13 @@ namespace WorldNode.Network
 
                 client.SendAsync(socketEventargs);
             }
-            catch (SocketException ex)
+            catch (Exception ex)
             {
-                Log.Error($"{ex}");
+                Dispose();
 
-                client.Close();
+                ExceptionLog.Write(ex);
+
+                Log.Error(ex.Message);
             }
         }
 

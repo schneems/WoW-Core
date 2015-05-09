@@ -10,7 +10,6 @@ using Framework.Database;
 using Framework.Database.Auth.Entities;
 using Framework.Logging;
 using Framework.Network.Packets;
-using Lappa_ORM;
 
 namespace AuthServer.Network.Packets.Handlers
 {

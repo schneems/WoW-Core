@@ -82,6 +82,8 @@ namespace AuthServer.Network.Sessions
             }
             catch (Exception ex)
             {
+                Dispose();
+
                 ExceptionLog.Write(ex);
 
                 Log.Error(ex.Message);
@@ -126,11 +128,13 @@ namespace AuthServer.Network.Sessions
 
                 client.Send(packet.Data);
             }
-            catch (SocketException ex)
+            catch (Exception ex)
             {
-                Log.Error($"{ex}");
+                Dispose();
 
-                client.Close();
+                ExceptionLog.Write(ex);
+
+                Log.Error(ex.Message);
             }
         }
 

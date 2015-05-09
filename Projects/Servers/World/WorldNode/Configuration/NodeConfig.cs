@@ -62,29 +62,6 @@ namespace WorldNode.Configuration
 
         public static void Initialize(string file)
         {
-            // Initialize exception logger
-            if (!Directory.Exists("Crashes"))
-                Directory.CreateDirectory("Crashes");
-
-            var el = new LogWriter("Crashes", "WorldNode.log");
-
-            ExceptionLog.Initialize(el);
-
-            // Initialize unhandled exception handler/logger
-            AppDomain.CurrentDomain.UnhandledException += (o, e) =>
-            {
-                try
-                {
-                    var ex = (Exception)e.ExceptionObject;
-
-                    ExceptionLog.Write(ex);
-                }
-                catch (Exception)
-                {
-                    throw;
-                }
-            };
-
             config = new Config(file);
 
             if (config != null)

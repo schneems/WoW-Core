@@ -3,6 +3,7 @@
 
 using System;
 using System.Collections.Concurrent;
+using System.IO;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -11,8 +12,9 @@ namespace Framework.Logging.IO
     public class ExceptionLog
     {
         static BlockingCollection<string> logQueue = new BlockingCollection<string>();
+        static bool initialized;
 
-        public static async void Initialize(LogWriter fileLogger = null)
+        static async Task Initialize(LogWriter fileLogger = null)
         {
             await Task.Delay(1).ContinueWith(async _ =>
             {
@@ -26,8 +28,21 @@ namespace Framework.Logging.IO
             });
         }
 
-        public static void Write(Exception ex)
+        public static async void Write(Exception ex)
         {
+            if (!initialized)
+            {
+                // Initialize exception logger
+                if (!Directory.Exists("Crashes"))
+                    Directory.CreateDirectory("Crashes");
+
+                var el = new LogWriter("Crashes", "Crash.log");
+
+                await Initialize(el);
+
+                initialized = true;
+            }
+
             var sb = new StringBuilder();
 
             sb.Append($"Time: [{DateTime.Now}]");

@@ -43,14 +43,6 @@ namespace AuthServer.Configuration
 
         public static void Initialize(string file)
         {
-            // Initialize exception logger
-            if (!Directory.Exists("Crashes"))
-                Directory.CreateDirectory("Crashes");
-
-            var el = new LogWriter("Crashes", "AuthServer.log");
-
-            ExceptionLog.Initialize(el);
-
             config = new Config(file);
 
             if (config != null)

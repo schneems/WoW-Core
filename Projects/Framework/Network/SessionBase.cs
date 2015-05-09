@@ -2,7 +2,7 @@
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
 using System;
-using System.Collections.Generic;
+using System.Collections.Concurrent;
 using System.Net;
 using System.Net.Sockets;
 using System.Threading.Tasks;
@@ -22,14 +22,14 @@ namespace Framework.Network
         public SessionState State { get; set; }
 
         public Socket client;
-        public Queue<Packet> packetQueue;
+        public ConcurrentQueue<Packet> packetQueue;
         public bool[] isTransferInitiated;
         public byte[] dataBuffer = new byte[0x2000];
 
         public SessionBase(Socket clientSocket)
         {
             client = clientSocket;
-            packetQueue = new Queue<Packet>();
+            packetQueue = new ConcurrentQueue<Packet>();
             isTransferInitiated = new bool[2]; // ServerInitiated, ClientInitiated
         }
 

@@ -8,6 +8,6 @@ namespace WorldServer.Constants.Net
     {
         AccountDataTimes   = 0x0E32,
         InitialKnownSpells = 0x096E,
-        ObjectUpdate       = 0x02A5,
+        ObjectUpdate       = 0x0A06,
     }
 }

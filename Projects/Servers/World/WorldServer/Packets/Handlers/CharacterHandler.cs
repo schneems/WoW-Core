@@ -36,7 +36,8 @@ namespace WorldServer.Packets.Handlers
                     session.Player = new Player(character);
 
                     // Suspend the current connection & redirect
-                    await session.Send(new SuspendComms());
+                    // Disable (causes disconnect).
+                    //await session.Send(new SuspendComms());
                     await NetHandler.SendConnectTo(session, worldNode.Address, worldNode.Port, 1);
 
                     // Enable key bindings, etc.

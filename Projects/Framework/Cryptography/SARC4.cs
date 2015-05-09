@@ -20,16 +20,14 @@ namespace Framework.Cryptography
             for (int i = 0; i < 0x100; i++)
                 s[i] = (byte)i;
 
-            var i2 = 0;
-
-            for (int i = 0; i < 0x100; i++)
+            for (int i = 0, j = 0; i < 0x100; i++)
             {
-                i2 = (byte)((i2 + s[i] + key[i % key.Length]) % 0x100);
+                j = (byte)((j + s[i] + key[i % key.Length]) % 0x100);
 
                 var tempS = s[i];
 
-                s[i] = s[i2];
-                s[i2] = tempS;
+                s[i] = s[j];
+                s[j] = tempS;
             }
         }
 

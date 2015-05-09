@@ -61,22 +61,6 @@ namespace CharacterServer.Configuration
 
         public static void Initialize(string file)
         {
-            // Initialize exception logger
-            if (!Directory.Exists("Crashes"))
-                Directory.CreateDirectory("Crashes");
-
-            var el = new LogWriter("Crashes", "CharacterServer.log");
-
-            ExceptionLog.Initialize(el);
-
-            // Initialize unhandled exception handler/logger
-            AppDomain.CurrentDomain.UnhandledException += (o, e) =>
-            {
-                var ex = (Exception)e.ExceptionObject;
-
-                ExceptionLog.Write(ex);
-            };
-
             config = new Config(file);
 
             if (config != null)
