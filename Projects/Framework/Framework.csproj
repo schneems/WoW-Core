@@ -159,6 +159,7 @@
     <Compile Include="Packets\Client\Authentication\AuthContinuedSession.cs" />
     <Compile Include="Packets\Client\Authentication\TransferInitiate.cs" />
     <Compile Include="Packets\Client\Net\LogDisconnect.cs" />
+    <Compile Include="Packets\Client\Net\Ping.cs" />
     <Compile Include="Packets\Client\Net\SuspendCommsAck.cs" />
     <Compile Include="Packets\Handlers\NetHandler.cs" />
     <Compile Include="Packets\Server\Authentication\AuthChallenge.cs" />
@@ -167,6 +168,7 @@
     <Compile Include="Packets\Server\Net\Composite.cs" />
     <Compile Include="Packets\Server\Net\Compression.cs" />
     <Compile Include="Packets\Server\Net\ConnectTo.cs" />
+    <Compile Include="Packets\Server\Net\Pong.cs" />
     <Compile Include="Packets\Server\Net\ResetCompressionContext.cs" />
     <Compile Include="Packets\Server\Net\ResumeComms.cs" />
     <Compile Include="Packets\Server\Net\SuspendComms.cs" />

@@ -35,6 +35,20 @@ namespace WorldServer.Packets
                     }
                 }
             }
+
+            var globalAsm = typeof(GlobalMessageAttribute).Assembly;
+
+            foreach (var type in globalAsm.GetTypes())
+            {
+                foreach (var methodInfo in type.GetMethods())
+                {
+                    foreach (dynamic msgAttr in methodInfo.GetCustomAttributes())
+                    {
+                        if (msgAttr is GlobalMessageAttribute)
+                            MessageHandlers.TryAdd((ushort)msgAttr.Message, Tuple.Create(methodInfo, methodInfo.GetParameters()[0].ParameterType, msgAttr.State));
+                    }
+                }
+            }
         }
 
         public static async Task InvokeHandler<T>(Packet reader, WorldSession session)

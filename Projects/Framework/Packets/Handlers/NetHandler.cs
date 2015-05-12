@@ -4,14 +4,28 @@
 using System;
 using System.IO;
 using System.IO.Compression;
+using Framework.Attributes;
+using Framework.Constants.Account;
+using Framework.Constants.Net;
+using Framework.Logging;
 using Framework.Misc;
+using Framework.Network;
 using Framework.Network.Packets;
+using Framework.Packets.Client.Net;
 using Framework.Packets.Server.Net;
 
 namespace Framework.Packets.Handlers
 {
     public class NetHandler
     {
+        [GlobalMessage(GlobalClientMessage.Ping, SessionState.All)]
+        public static async void HandlePing(Ping ping, SessionBase session)
+        {
+            Log.Debug($"Got ping with Serial: {ping.Serial}, Latency: {ping.Latency}.");
+
+            await session.Send(new Pong { Serial = ping.Serial });
+        }
+
         public static ServerPacket CompressPacket(Packet packet)
         {
             // We need the opcode as uint.

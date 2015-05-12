@@ -4,6 +4,7 @@
 using System;
 using System.Collections.Concurrent;
 using System.Reflection;
+using System.Linq;
 using System.Threading.Tasks;
 using CharacterServer.Attributes;
 using CharacterServer.Constants.Net;
@@ -31,6 +32,20 @@ namespace CharacterServer.Packets
                     foreach (dynamic msgAttr in methodInfo.GetCustomAttributes())
                     {
                         if (msgAttr is GlobalMessageAttribute || msgAttr is MessageAttribute)
+                            MessageHandlers.TryAdd((ushort)msgAttr.Message, Tuple.Create(methodInfo, methodInfo.GetParameters()[0].ParameterType, msgAttr.State));
+                    }
+                }
+            }
+
+            var globalAsm = typeof(GlobalMessageAttribute).Assembly;
+
+            foreach (var type in globalAsm.GetTypes())
+            {
+                foreach (var methodInfo in type.GetMethods())
+                {
+                    foreach (dynamic msgAttr in methodInfo.GetCustomAttributes())
+                    {
+                        if (msgAttr is GlobalMessageAttribute)
                             MessageHandlers.TryAdd((ushort)msgAttr.Message, Tuple.Create(methodInfo, methodInfo.GetParameters()[0].ParameterType, msgAttr.State));
                     }
                 }
