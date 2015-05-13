@@ -83,6 +83,11 @@ namespace Framework.Logging
             SetLogger(LogType.Database, text, args);
         }
 
+        public static void Network(string text, params object[] args)
+        {
+            SetLogger(LogType.Network, text, args);
+        }
+
         public static void Wait()
         {
             Console.ReadKey(true);
@@ -116,6 +121,9 @@ namespace Framework.Logging
                     break;
                 case LogType.Database:
                     foreGround = ConsoleColor.DarkMagenta;
+                    break;
+                case LogType.Network:
+                    foreGround = ConsoleColor.Magenta;
                     break;
                 default:
                     foreGround = ConsoleColor.White;

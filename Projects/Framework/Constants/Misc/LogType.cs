@@ -15,5 +15,6 @@ namespace Framework.Constants.Misc
         Debug    = 0x08,
         Packet   = 0x10,
         Database = 0x20,
+        Network  = 0x40,
     }
 }

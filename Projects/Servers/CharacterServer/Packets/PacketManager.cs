@@ -24,28 +24,15 @@ namespace CharacterServer.Packets
         public static void DefineMessageHandler()
         {
             var currentAsm = Assembly.GetExecutingAssembly();
+            var globalAsm = typeof(GlobalMessageAttribute).Assembly;
 
-            foreach (var type in currentAsm.GetTypes())
+            foreach (var type in currentAsm.GetTypes().Concat(globalAsm.GetTypes()))
             {
                 foreach (var methodInfo in type.GetMethods())
                 {
                     foreach (dynamic msgAttr in methodInfo.GetCustomAttributes())
                     {
                         if (msgAttr is GlobalMessageAttribute || msgAttr is MessageAttribute)
-                            MessageHandlers.TryAdd((ushort)msgAttr.Message, Tuple.Create(methodInfo, methodInfo.GetParameters()[0].ParameterType, msgAttr.State));
-                    }
-                }
-            }
-
-            var globalAsm = typeof(GlobalMessageAttribute).Assembly;
-
-            foreach (var type in globalAsm.GetTypes())
-            {
-                foreach (var methodInfo in type.GetMethods())
-                {
-                    foreach (dynamic msgAttr in methodInfo.GetCustomAttributes())
-                    {
-                        if (msgAttr is GlobalMessageAttribute)
                             MessageHandlers.TryAdd((ushort)msgAttr.Message, Tuple.Create(methodInfo, methodInfo.GetParameters()[0].ParameterType, msgAttr.State));
                     }
                 }

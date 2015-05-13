@@ -18,10 +18,10 @@ namespace Framework.Packets.Handlers
 {
     public class NetHandler
     {
-        [GlobalMessage(GlobalClientMessage.Ping, SessionState.All)]
+        [GlobalMessage(GlobalClientMessage.Ping, SessionState.Authenticated)]
         public static async void HandlePing(Ping ping, SessionBase session)
         {
-            Log.Debug($"Got ping with Serial: {ping.Serial}, Latency: {ping.Latency}.");
+            Log.Network($"Got ping with Serial: {ping.Serial}, Latency: {ping.Latency}.");
 
             await session.Send(new Pong { Serial = ping.Serial });
         }
