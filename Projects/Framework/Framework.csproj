@@ -124,6 +124,7 @@
     <Compile Include="Database\Data\Entities\CharStartOutfit.cs" />
     <Compile Include="Database\Data\Entities\ChrClass.cs" />
     <Compile Include="Database\Data\Entities\ChrRace.cs" />
+    <Compile Include="Database\Data\Entities\GameTables.cs" />
     <Compile Include="Database\Data\Entities\GtOCTLevelExperience.cs" />
     <Compile Include="Database\Data\Entities\Item.cs" />
     <Compile Include="Database\Data\Entities\ItemAppearance.cs" />
@@ -135,6 +136,7 @@
     <Compile Include="Database\Data\Entities\SpellLevels.cs" />
     <Compile Include="Database\DB.cs" />
     <Compile Include="Datastore\ClientDB.cs" />
+    <Compile Include="Datastore\ClientGameTable.cs" />
     <Compile Include="Logging\IO\ExceptionLog.cs" />
     <Compile Include="Logging\IO\LogWriter.cs" />
     <Compile Include="Logging\Log.cs" />

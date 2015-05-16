@@ -27,7 +27,6 @@ namespace WorldNode.Packets
             var globalAsm = typeof(GlobalMessageAttribute).Assembly;
 
             foreach (var type in currentAsm.GetTypes().Concat(globalAsm.GetTypes()))
-
             {
                 foreach (var methodInfo in type.GetMethods())
                 {

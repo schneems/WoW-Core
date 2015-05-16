@@ -36,7 +36,7 @@ namespace CharacterServer.Managers
                 {
                     var spellLevels = ClientDB.SpellLevels[ability.Spell];
 
-                    if (spellLevels.Count() == 0 || (spellLevels.Any(sl => sl.BaseLevel <= ClientDB.GtOCTLevelExperience.FirstOrDefault(gt => gt.Data > character.Experience).Index + 1)))
+                    if (spellLevels.Count() == 0 || (spellLevels.Any(sl => sl.BaseLevel <= character.ExperienceLevel)))
                     {
                         SkillLine skillLine;
 

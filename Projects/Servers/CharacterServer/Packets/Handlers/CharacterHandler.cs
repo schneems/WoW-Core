@@ -50,7 +50,7 @@ namespace CharacterServer.Packets.Handlers
                     HairStyle            = c.HairStyle,
                     HairColor            = c.HairColor,
                     FacialHairStyle      = c.FacialHairStyle,
-                    ExperienceLevel      = (byte)(ClientDB.GtOCTLevelExperience.FirstOrDefault(gt => gt.Data > c.Experience).Index + 1),
+                    ExperienceLevel      = c.ExperienceLevel,
                     ZoneID               = (int)c.Zone,
                     MapID                = (int)c.Map,
                     PreloadPos           = new Vector3 { X = c.X, Y = c.Y, Z = c.Z },
@@ -143,7 +143,8 @@ namespace CharacterServer.Packets.Handlers
                             Z               = creationData.Z,
                             O               = creationData.O,
                             CharacterFlags  = CharacterFlags.Decline,
-                            FirstLogin      = 1
+                            FirstLogin      = 1,
+                            ExperienceLevel = 1
                         };
 
                         if (DB.Character.Add(newChar))

@@ -82,6 +82,7 @@
     <Compile Include="Managers\PlayerManager.cs" />
     <Compile Include="Managers\RedirectManager.cs" />
     <Compile Include="Managers\SessionManager.cs" />
+    <Compile Include="Managers\SpawnManager.cs" />
     <Compile Include="Network\WorldSession.cs" />
     <Compile Include="Network\Server.cs" />
     <Compile Include="Packets\Client\Character\PlayerLogin.cs" />

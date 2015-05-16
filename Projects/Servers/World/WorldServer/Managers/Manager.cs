@@ -9,6 +9,7 @@ namespace WorldServer.Managers
         public static RedirectManager Redirect;
         public static SessionManager Session;
         public static PlayerManager Player;
+        public static SpawnManager Spawns;
 
         public static void Initialize()
         {
@@ -16,6 +17,7 @@ namespace WorldServer.Managers
             Redirect = RedirectManager.GetInstance();
             Session  = SessionManager.GetInstance();
             Player   = PlayerManager.GetInstance();
+            Spawns   = SpawnManager.GetInstance();
         }
     }
 }

@@ -13,7 +13,7 @@ namespace Framework.Datastore
         public static List<CharStartOutfit> CharStartOutfits                      { get; set; }
         public static List<ChrClass> ChrClasses                                   { get; set; }
         public static List<ChrRace> ChrRaces                                      { get; set; }
-        public static List<GtOCTLevelExperience> GtOCTLevelExperience             { get; set; }
+        public static List<GameTables> GameTables                                 { get; set; }
         public static Lookup<int, ItemModifiedAppearance> ItemModifiedAppearances { get; set; }
         public static Dictionary<uint, ItemAppearance> ItemAppearances            { get; set; }
         public static Dictionary<uint, Item> Items                                { get; set; }
@@ -22,5 +22,8 @@ namespace Framework.Datastore
         public static List<SkillLineAbility> SkillLineAbilities                   { get; set; }
         public static List<SkillRaceClassInfo> SkillRaceClassInfo                 { get; set; }
         public static Lookup<uint, SpellLevels> SpellLevels                       { get; set; }
+
+        // GameTables
+        public static ClientGameTable<GtOCTLevelExperience> GtOCTLevelExperience { get; set; }
     }
 }

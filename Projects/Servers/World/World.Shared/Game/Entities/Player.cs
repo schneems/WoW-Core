@@ -54,14 +54,12 @@ namespace World.Shared.Game.Entities
             Set(UnitData.Health, 1337);
             Set(UnitData.MaxHealth, 1337);
 
-            var gtLevelExperience = ClientDB.GtOCTLevelExperience.First(gt => gt.Data > data.Experience);
-
             // Current experience level.
-            Set(UnitData.Level, gtLevelExperience.Index + 1);
+            Set(UnitData.Level, (uint)data.ExperienceLevel);
 
             // Current experience points & needed experience points for next level.
             Set(PlayerData.XP, data.Experience);
-            Set(PlayerData.NextLevelXP, (int)gtLevelExperience.Data);
+            Set(PlayerData.NextLevelXP, (int)ClientDB.GtOCTLevelExperience[0, data.ExperienceLevel]?.Data);
 
             var race = ClientDB.ChrRaces.Single(r => r.Id == data.Race);
             var chrClass = ClientDB.ChrClasses.Single(r => r.Id == data.Class);
@@ -111,6 +109,13 @@ namespace World.Shared.Game.Entities
         public void InitializeDynamicDescriptors()
         {
             throw new NotImplementedException();
+        }
+
+        public override string ToString()
+        {
+            var guid = Guid as PlayerGuid;
+
+            return $"Name: {data.Name}, Guid: {data.Guid}, RealmId: {data.RealmId}";
         }
     }
 }

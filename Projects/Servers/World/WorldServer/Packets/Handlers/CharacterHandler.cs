@@ -7,7 +7,6 @@ using Framework.Constants.Net;
 using Framework.Database;
 using Framework.Database.Character.Entities;
 using Framework.Logging;
-using Framework.Packets.Server.Net;
 using World.Shared.Game.Entities;
 using WorldServer.Managers;
 using WorldServer.Network;

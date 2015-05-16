@@ -25,6 +25,7 @@ namespace Framework.Database.Character.Entities
         public byte HairColor                         { get; set; }
         public byte FacialHairStyle                   { get; set; }
         public uint Experience                        { get; set; }
+        public byte ExperienceLevel                   { get; set; }
         public uint Zone                              { get; set; }
         public uint Map                               { get; set; }
         public float X                                { get; set; }
