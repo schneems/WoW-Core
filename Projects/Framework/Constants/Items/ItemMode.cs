@@ -16,6 +16,7 @@ namespace Framework.Constants.Items
         // Staged modes (Epic Stages...)
         Stage1     = 6,
         Stage2     = 7,
-        Stage3     = 8
+        Stage3     = 8,
+        Stage4     = 9
     }
 }
