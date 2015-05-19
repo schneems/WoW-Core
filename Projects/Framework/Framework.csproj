@@ -125,6 +125,12 @@
     <Compile Include="Database\Data\Entities\ChrClass.cs" />
     <Compile Include="Database\Data\Entities\ChrRace.cs" />
     <Compile Include="Database\Data\Entities\GameTables.cs" />
+    <Compile Include="Database\Data\Entities\GtNpcTotalHp.cs" />
+    <Compile Include="Database\Data\Entities\GtNpcTotalHpExp1.cs" />
+    <Compile Include="Database\Data\Entities\GtNpcTotalHpExp2.cs" />
+    <Compile Include="Database\Data\Entities\GtNpcTotalHpExp3.cs" />
+    <Compile Include="Database\Data\Entities\GtNpcTotalHpExp4.cs" />
+    <Compile Include="Database\Data\Entities\GtNpcTotalHpExp5.cs" />
     <Compile Include="Database\Data\Entities\GtOCTLevelExperience.cs" />
     <Compile Include="Database\Data\Entities\Item.cs" />
     <Compile Include="Database\Data\Entities\ItemAppearance.cs" />

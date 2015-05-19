@@ -61,18 +61,37 @@ namespace CharacterServer.Managers
                                 spells.TryAdd(ability.Spell, new CharacterSpell
                                 {
                                     CharacterGuid = guid,
-                                    SpellId = ability.Spell
+                                    SpellId       = ability.Spell
                                 });
 
                                 skills.TryAdd(ability.SkillLine, new CharacterSkill
                                 {
                                     CharacterGuid = guid,
-                                    SkillId = ability.SkillLine,
-                                    SkillLevel = skillLevel
+                                    SkillId       = ability.SkillLine,
+                                    SkillLevel    = skillLevel
                                 });
                             }
                         }
                     }
+                });
+
+                DB.Character.Where<CharacterCreationSpell>(ccs => ccs.Race == character.Race && ccs.Class == character.Class).ForEach(ccs =>
+                {
+                    spells.TryAdd(ccs.SpellId, new CharacterSpell
+                    {
+                        CharacterGuid = guid,
+                        SpellId       = ccs.SpellId
+                    });
+                });
+
+                DB.Character.Where<CharacterCreationSkill>(ccs => ccs.Race == character.Race && ccs.Class == character.Class).ForEach(ccs =>
+                {
+                    skills.TryAdd(ccs.SkillId, new CharacterSkill
+                    {
+                        CharacterGuid = guid,
+                        SkillId       = ccs.SkillId,
+                        SkillLevel    = ccs.SkillLevel
+                    });
                 });
 
                 DB.Character.Add(spells.Values.AsEnumerable());

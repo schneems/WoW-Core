@@ -168,6 +168,7 @@ CREATE TABLE `CharacterCreationSkills` (
   `Race` tinyint(3) unsigned NOT NULL,
   `Class` tinyint(3) unsigned NOT NULL,
   `SkillId` int(10) unsigned NOT NULL DEFAULT '0',
+  `SkillLevel` int(10) unsigned NOT NULL DEFAULT '0',
   UNIQUE KEY `Race` (`Race`,`Class`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 

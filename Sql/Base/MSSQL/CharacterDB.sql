@@ -390,7 +390,8 @@ GO
 CREATE TABLE [dbo].[CharacterCreationSkills] (
 [Race] tinyint NOT NULL ,
 [Class] tinyint NOT NULL ,
-[SkillId] int NOT NULL DEFAULT ((0)) 
+[SkillId] int NOT NULL DEFAULT ((0)) ,
+[SkillLevel] int NOT NULL DEFAULT ((0)) 
 )
 
 

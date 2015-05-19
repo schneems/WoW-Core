@@ -32,6 +32,12 @@ namespace WorldServer.Managers
             ClientDB.SkillLineAbilities      = DB.Data.Select<SkillLineAbility>();
 
             ClientDB.GtOCTLevelExperience = new ClientGameTable<GtOCTLevelExperience>(gt => gt.Index);
+            ClientDB.GtNpcTotalHp         = new ClientGameTable<GtNpcTotalHp>(gt => gt.Index);
+            ClientDB.GtNpcTotalHpExp1     = new ClientGameTable<GtNpcTotalHpExp1>(gt => gt.Index);
+            ClientDB.GtNpcTotalHpExp2     = new ClientGameTable<GtNpcTotalHpExp2>(gt => gt.Index);
+            ClientDB.GtNpcTotalHpExp3     = new ClientGameTable<GtNpcTotalHpExp3>(gt => gt.Index);
+            ClientDB.GtNpcTotalHpExp4     = new ClientGameTable<GtNpcTotalHpExp4>(gt => gt.Index);
+            ClientDB.GtNpcTotalHpExp5     = new ClientGameTable<GtNpcTotalHpExp5>(gt => gt.Index);
 
             Log.Normal("ClientDB storages successfully initialized.");
             Log.Message();

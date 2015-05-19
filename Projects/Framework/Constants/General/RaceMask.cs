@@ -6,9 +6,9 @@ using System;
 namespace Framework.Constants.General
 {
     [Flags]
-    public enum RaceMask : uint
+    public enum RaceMask : int
     {
-        All               = 0,
+        All               = -1,
         Human             = 1 << 0,
         Orc               = 1 << 1,
         Dwarf             = 1 << 2,

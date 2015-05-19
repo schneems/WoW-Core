@@ -25,5 +25,11 @@ namespace Framework.Datastore
 
         // GameTables
         public static ClientGameTable<GtOCTLevelExperience> GtOCTLevelExperience { get; set; }
+        public static ClientGameTable<GtNpcTotalHp> GtNpcTotalHp                 { get; set; }
+        public static ClientGameTable<GtNpcTotalHpExp1> GtNpcTotalHpExp1         { get; set; }
+        public static ClientGameTable<GtNpcTotalHpExp2> GtNpcTotalHpExp2         { get; set; }
+        public static ClientGameTable<GtNpcTotalHpExp3> GtNpcTotalHpExp3         { get; set; }
+        public static ClientGameTable<GtNpcTotalHpExp4> GtNpcTotalHpExp4         { get; set; }
+        public static ClientGameTable<GtNpcTotalHpExp5> GtNpcTotalHpExp5         { get; set; }
     }
 }
