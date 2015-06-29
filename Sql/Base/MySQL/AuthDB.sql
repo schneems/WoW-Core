@@ -55,24 +55,24 @@ CREATE TABLE `Components` (
 INSERT INTO `Components` VALUES ('Bnet', 'Mc64', '37165');
 INSERT INTO `Components` VALUES ('Bnet', 'Win', '37165');
 INSERT INTO `Components` VALUES ('Bnet', 'Wn64', '37165');
-INSERT INTO `Components` VALUES ('WoW', 'base', '20008');
-INSERT INTO `Components` VALUES ('WoW', 'deDE', '20008');
-INSERT INTO `Components` VALUES ('WoW', 'enAU', '20008');
-INSERT INTO `Components` VALUES ('WoW', 'enGB', '20008');
-INSERT INTO `Components` VALUES ('WoW', 'enUS', '20008');
-INSERT INTO `Components` VALUES ('WoW', 'esES', '20008');
-INSERT INTO `Components` VALUES ('WoW', 'esMX', '20008');
-INSERT INTO `Components` VALUES ('WoW', 'frFR', '20008');
-INSERT INTO `Components` VALUES ('WoW', 'itIT', '20008');
-INSERT INTO `Components` VALUES ('WoW', 'koKR', '20008');
-INSERT INTO `Components` VALUES ('WoW', 'Mc64', '20008');
-INSERT INTO `Components` VALUES ('WoW', 'plPL', '20008');
-INSERT INTO `Components` VALUES ('WoW', 'ptBR', '20008');
-INSERT INTO `Components` VALUES ('WoW', 'ruRU', '20008');
-INSERT INTO `Components` VALUES ('WoW', 'Win', '20008');
-INSERT INTO `Components` VALUES ('WoW', 'Wn64', '20008');
-INSERT INTO `Components` VALUES ('WoW', 'zhCN', '20008');
-INSERT INTO `Components` VALUES ('WoW', 'zhTW', '20008');
+INSERT INTO `Components` VALUES ('WoW', 'base', '20182');
+INSERT INTO `Components` VALUES ('WoW', 'deDE', '20182');
+INSERT INTO `Components` VALUES ('WoW', 'enAU', '20182');
+INSERT INTO `Components` VALUES ('WoW', 'enGB', '20182');
+INSERT INTO `Components` VALUES ('WoW', 'enUS', '20182');
+INSERT INTO `Components` VALUES ('WoW', 'esES', '20182');
+INSERT INTO `Components` VALUES ('WoW', 'esMX', '20182');
+INSERT INTO `Components` VALUES ('WoW', 'frFR', '20182');
+INSERT INTO `Components` VALUES ('WoW', 'itIT', '20182');
+INSERT INTO `Components` VALUES ('WoW', 'koKR', '20182');
+INSERT INTO `Components` VALUES ('WoW', 'Mc64', '20182');
+INSERT INTO `Components` VALUES ('WoW', 'plPL', '20182');
+INSERT INTO `Components` VALUES ('WoW', 'ptBR', '20182');
+INSERT INTO `Components` VALUES ('WoW', 'ruRU', '20182');
+INSERT INTO `Components` VALUES ('WoW', 'Win', '20182');
+INSERT INTO `Components` VALUES ('WoW', 'Wn64', '20182');
+INSERT INTO `Components` VALUES ('WoW', 'zhCN', '20182');
+INSERT INTO `Components` VALUES ('WoW', 'zhTW', '20182');
 
 -- ----------------------------
 -- Table structure for GameAccountCharacterTemplates
