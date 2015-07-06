@@ -21,8 +21,6 @@ Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "World.Shared", "Projects\Se
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lappa ORM", "Libraries\LappaORM\Lappa ORM\Lappa ORM.csproj", "{C6E26FB4-A5CA-49A0-82C8-8FEF3CAA8613}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RemoteServer", "Projects\Servers\RemoteServer\RemoteServer.csproj", "{CB15C7E6-BC3E-4C11-B4AF-D3FBC3F80C82}"
-EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		Projects\Servers\World\World.Shared\World.Shared.projitems*{ec8d1289-380f-4d85-8716-5b9dd285737d}*SharedItemsImports = 13
@@ -84,14 +82,6 @@ Global
 		{C6E26FB4-A5CA-49A0-82C8-8FEF3CAA8613}.Release|x64.Build.0 = Release|Any CPU
 		{C6E26FB4-A5CA-49A0-82C8-8FEF3CAA8613}.Release|x86.ActiveCfg = Release|Any CPU
 		{C6E26FB4-A5CA-49A0-82C8-8FEF3CAA8613}.Release|x86.Build.0 = Release|Any CPU
-		{CB15C7E6-BC3E-4C11-B4AF-D3FBC3F80C82}.Debug|x64.ActiveCfg = Debug|x64
-		{CB15C7E6-BC3E-4C11-B4AF-D3FBC3F80C82}.Debug|x64.Build.0 = Debug|x64
-		{CB15C7E6-BC3E-4C11-B4AF-D3FBC3F80C82}.Debug|x86.ActiveCfg = Debug|x86
-		{CB15C7E6-BC3E-4C11-B4AF-D3FBC3F80C82}.Debug|x86.Build.0 = Debug|x86
-		{CB15C7E6-BC3E-4C11-B4AF-D3FBC3F80C82}.Release|x64.ActiveCfg = Release|x64
-		{CB15C7E6-BC3E-4C11-B4AF-D3FBC3F80C82}.Release|x64.Build.0 = Release|x64
-		{CB15C7E6-BC3E-4C11-B4AF-D3FBC3F80C82}.Release|x86.ActiveCfg = Release|x86
-		{CB15C7E6-BC3E-4C11-B4AF-D3FBC3F80C82}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -103,6 +93,5 @@ Global
 		{91F8FB24-9BB6-4C20-9B33-BB4360D01B08} = {0A76B49E-3890-4FC4-85E3-FEC05DD05A6C}
 		{0A76B49E-3890-4FC4-85E3-FEC05DD05A6C} = {2EFA33CD-BEC3-4300-94B4-B943B2D188DD}
 		{EC8D1289-380F-4D85-8716-5B9DD285737D} = {0A76B49E-3890-4FC4-85E3-FEC05DD05A6C}
-		{CB15C7E6-BC3E-4C11-B4AF-D3FBC3F80C82} = {2EFA33CD-BEC3-4300-94B4-B943B2D188DD}
 	EndGlobalSection
 EndGlobal

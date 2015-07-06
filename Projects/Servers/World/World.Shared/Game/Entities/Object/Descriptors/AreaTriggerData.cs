@@ -15,8 +15,9 @@ namespace World.Shared.Game.Entities.Object.Descriptors
         public DescriptorField TimeToTargetScale  => base[0xC, 0x1, MirrorFlags.All | MirrorFlags.Urgent];
         public DescriptorField SpellID            => base[0xD, 0x1, MirrorFlags.All];
         public DescriptorField SpellVisualID      => base[0xE, 0x1, MirrorFlags.ViewerDependet];
-        public DescriptorField ExplicitScale      => base[0xF, 0x1, MirrorFlags.All | MirrorFlags.Urgent];
+        public DescriptorField BoundsRadius2D     => base[0xF, 0x1, MirrorFlags.ViewerDependet | MirrorFlags.Urgent];
+        public DescriptorField ExplicitScale      => base[0x10, 0x1, MirrorFlags.All | MirrorFlags.Urgent];
 
-        public static new int End => ObjectData.End + 0x10;
+        public static new int End => ObjectData.End + 0x11;
     }
 }

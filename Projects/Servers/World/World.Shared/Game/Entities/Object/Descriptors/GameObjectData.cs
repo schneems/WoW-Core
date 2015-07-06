@@ -16,11 +16,12 @@ namespace World.Shared.Game.Entities.Object.Descriptors
         public DescriptorField FactionTemplate    => base[0xA, 0x1, MirrorFlags.All];
         public DescriptorField Level              => base[0xB, 0x1, MirrorFlags.All];
         public DescriptorField PercentHealth      => base[0xC, 0x1, MirrorFlags.All | MirrorFlags.Urgent];
-        public DescriptorField SpellVisualID      => base[0xD, 0x1, MirrorFlags.All | MirrorFlags.Urgent];
+        public DescriptorField SpellVisualID      => base[0xD, 0x1, MirrorFlags.All | MirrorFlags.ViewerDependet | MirrorFlags.Urgent];
         public DescriptorField StateSpellVisualID => base[0xE, 0x1, MirrorFlags.ViewerDependet | MirrorFlags.Urgent];
         public DescriptorField StateAnimID        => base[0xF, 0x1, MirrorFlags.ViewerDependet | MirrorFlags.Urgent];
         public DescriptorField StateAnimKitID     => base[0x10, 0x1, MirrorFlags.ViewerDependet | MirrorFlags.Urgent];
         public DescriptorField StateWorldEffectID => base[0x11, 0x4, MirrorFlags.ViewerDependet | MirrorFlags.Urgent];
+
 
         public static new int End => ObjectData.End + 0x15;
     }
