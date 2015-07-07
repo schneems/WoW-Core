@@ -48,15 +48,10 @@
     <DefineConstants>TRACE</DefineConstants>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Accessibility" />
     <Reference Include="System" />
-    <Reference Include="System.ComponentModel.DataAnnotations" />
-    <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Numerics" />
-    <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
-    <Reference Include="System.XML" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Attributes\ConsoleCommandAttribute.cs" />
@@ -184,6 +179,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Database\World\Entities\" />
+    <Folder Include="Remoting\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Configs\AuthServer.conf">
@@ -199,12 +195,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\Libraries\LappaORM\Lappa ORM\Lappa ORM.csproj">
-      <Project>{c6e26fb4-a5ca-49a0-82c8-8fef3caa8613}</Project>
-      <Name>Lappa ORM</Name>
-    </ProjectReference>
-  </ItemGroup>
+  <Import Project="..\..\Libraries\LappaORM\Lappa ORM\Lappa ORM.projitems" Label="Shared" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -51,11 +51,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
-    <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Attributes\AuthMessageAttribute.cs" />
@@ -87,10 +83,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Libraries\LappaORM\Lappa ORM\Lappa ORM.csproj">
-      <Project>{c6e26fb4-a5ca-49a0-82c8-8fef3caa8613}</Project>
-      <Name>Lappa ORM</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\Framework\Framework.csproj">
       <Project>{b7d0e27f-3ab2-413a-b9af-040c67750639}</Project>
       <Name>Framework</Name>
