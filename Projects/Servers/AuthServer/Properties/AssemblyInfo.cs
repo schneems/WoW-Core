@@ -5,12 +5,12 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Arctium WoW AuthServer")]
+[assembly: AssemblyTitle("Project WoW AuthServer")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Arctium Emulation")]
+[assembly: AssemblyCompany("Multi-Emu")]
 [assembly: AssemblyProduct("AuthServer")]
-[assembly: AssemblyCopyright("Copyright © 2012-2014 Arctium Emulation")]
+[assembly: AssemblyCopyright("Copyright © 2012-2014 Multi-Emu")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

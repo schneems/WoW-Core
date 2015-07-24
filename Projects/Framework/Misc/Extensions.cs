@@ -1,4 +1,4 @@
-﻿// Copyright (c) Arctium Emulation.
+﻿// Copyright (c) Multi-Emu.
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
 using System;
@@ -134,7 +134,7 @@ namespace Framework.Misc
         }
         #endregion
         #region Vector
-        public static float Distance(this Vector3 pos1, Vector3 pos2)
+        public static float Distance(this Objects.Vector3 pos1, Objects.Vector3 pos2)
         {
             var dx = pos1.X - pos2.X;
             var dy = pos1.Y - pos2.Y;

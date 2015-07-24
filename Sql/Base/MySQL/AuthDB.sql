@@ -281,7 +281,7 @@ CREATE TABLE `Realms` (
 -- ----------------------------
 -- Records of Realms
 -- ----------------------------
-INSERT INTO `Realms` VALUES ('1', 'Arctium WoW', '127.0.0.1', '3724', '1', '1', '0', '0');
+INSERT INTO `Realms` VALUES ('1', 'Project WoW', '127.0.0.1', '3724', '1', '1', '0', '0');
 
 -- ----------------------------
 -- Table structure for WorldNodes

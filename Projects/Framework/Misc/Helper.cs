@@ -1,4 +1,4 @@
-﻿// Copyright (c) Arctium Emulation.
+﻿// Copyright (c) Multi-Emu.
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
 using System;
@@ -33,11 +33,6 @@ namespace Framework.Misc
         public static void PrintHeader(string serverName)
         {
             Log.Init("_____________World of Warcraft_____________");
-            Log.Init("    __                                     ");
-            Log.Init("    / |                     ,              ");
-            Log.Init("---/__|---)__----__--_/_--------------_--_-");
-            Log.Init("  /   |  /   ) /   ' /    /   /   /  / /  )");
-            Log.Init("_/____|_/_____(___ _(_ __/___(___(__/_/__/_");
 
             var sb = new StringBuilder();
 
@@ -50,7 +45,7 @@ namespace Framework.Misc
 
             Log.Init(sb.ToString());
             Log.Message();
-            Log.Normal($"Starting Arctium WoW {serverName}...");
+            Log.Normal($"Starting Project WoW {serverName}...");
         }
 
         public static uint GetUnixTime()

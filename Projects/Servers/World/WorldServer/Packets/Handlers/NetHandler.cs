@@ -1,4 +1,4 @@
-﻿// Copyright (c) Arctium Emulation.
+﻿// Copyright (c) Multi-Emu.
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
 using System;
@@ -63,7 +63,7 @@ namespace WorldServer.Packets.Handlers
             payloadData[22] = portBytes[0];
             payloadData[23] = portBytes[1];
 
-            var msg = "Blossom opens above\nSpines rising to the air\nArctium grows stronger\n\0\0\0\0";
+            var msg = "Blossom opens above\nSpines rising to the air\nMulti-Emu grows stronger\n\0\0";
 
             // 24 - 94, Haiku
             Array.Copy(Encoding.ASCII.GetBytes(msg), 0, payloadData, 24, 71);

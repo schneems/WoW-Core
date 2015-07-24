@@ -435,7 +435,7 @@ GO
 -- ----------------------------
 SET IDENTITY_INSERT [dbo].[Realms] ON
 GO
-INSERT INTO [dbo].[Realms] ([Id], [Name], [IP], [Port], [Category], [Type], [State], [Flags]) VALUES (N'1', N'Arctium WoW', N'127.0.0.1', N'3724', N'1', N'1', N'0', N'0')
+INSERT INTO [dbo].[Realms] ([Id], [Name], [IP], [Port], [Category], [Type], [State], [Flags]) VALUES (N'1', N'Project WoW', N'127.0.0.1', N'3724', N'1', N'1', N'0', N'0')
 GO
 GO
 SET IDENTITY_INSERT [dbo].[Realms] OFF
