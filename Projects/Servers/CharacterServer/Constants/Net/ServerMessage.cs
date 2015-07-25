@@ -16,11 +16,11 @@ namespace CharacterServer.Constants.Net
         #region RealmConnection
         AuthResponse                            = 0x0403,
         EnumCharactersResult                    = 0x0290,
-        AddonInfo                               = 0x0AB6,
-        TutorialFlags                           = 0x005C,
+        AddonInfo                               = 0x0B21,
+        TutorialFlags                           = 0x0C5C,
         SetTimeZoneInformation                  = 0x2000,
-        CreateChar                              = 0x0488,
-        DeleteChar                              = 0x0856,
+        CreateChar                              = 0x0A16,
+        DeleteChar                              = 0x0E9B,
         #endregion
     }
 }

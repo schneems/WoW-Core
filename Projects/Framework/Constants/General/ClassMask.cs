@@ -8,7 +8,7 @@ namespace Framework.Constants.General
     [Flags]
     public enum ClassMask : int
     {
-        All         =-1,
+        All         = -1,
         Warrior     = 1 << 0,
         Paladin     = 1 << 1,
         Hunter      = 1 << 2,

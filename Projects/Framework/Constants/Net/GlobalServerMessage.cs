@@ -14,6 +14,6 @@ namespace Framework.Constants.Net
         ResetCompressionContext = 0x1006,
         Composite               = 0x1206,
         Pong                    = 0x1805,
-        CharacterLoginFailed    = 0x000C
+        CharacterLoginFailed    = 0x0488
     }
 }
