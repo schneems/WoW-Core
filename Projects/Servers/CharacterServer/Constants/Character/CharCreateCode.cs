@@ -30,6 +30,5 @@ namespace CharacterServer.Constants.Character
         CharacterGoldLimit   = 0x44,
         ForceLogin           = 0x45,
         Trial                = 0x46,
-        Veteran              = 0x47,
     }
 }

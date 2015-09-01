@@ -22,7 +22,6 @@ namespace World.Shared.Game.Entities.Object.Descriptors
         public DescriptorField StateAnimKitID     => base[0x10, 0x1, MirrorFlags.ViewerDependet | MirrorFlags.Urgent];
         public DescriptorField StateWorldEffectID => base[0x11, 0x4, MirrorFlags.ViewerDependet | MirrorFlags.Urgent];
 
-
         public static new int End => ObjectData.End + 0x15;
     }
 }
