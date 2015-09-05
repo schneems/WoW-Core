@@ -1,4 +1,4 @@
-﻿// Copyright (c) Multi-Emu.
+﻿// Copyright (c) Arctium Emulation.
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
 using System;
@@ -32,20 +32,32 @@ namespace Framework.Misc
 
         public static void PrintHeader(string serverName)
         {
-            Log.Init("_____________World of Warcraft_____________");
+            Log.Init(@"_____________World of Warcraft___________");
+            Log.Init(@"                   _   _                 ");
+            Log.Init(@"    /\            | | (_)                ");
+            Log.Init(@"   /  \   _ __ ___| |_ _ _   _ _ __ ___  ");
+            Log.Init(@"  / /\ \ | '__/ __| __| | | | | '_ ` _ \ ");
+            Log.Init(@" / ____ \| | | (__| |_| | |_| | | | | | |");
+            Log.Init(@"/_/    \_\_|  \___|\__|_|\__,_|_| |_| |_|");
+            Log.Init(@"           _                             ");
+            Log.Init(@"          |_._ _   | __|_ o _._          ");
+            Log.Init(@"          |_| | |_||(_||_ |(_| |         ");
+            Log.Init("");
 
             var sb = new StringBuilder();
 
-            sb.Append("___________________________________________");
+            sb.Append("_________________________________________");
 
-            var nameStart = (43 - serverName.Length) / 2;
+            var nameStart = (42 - serverName.Length) / 2;
 
             sb.Insert(nameStart, serverName);
             sb.Remove(nameStart + serverName.Length, serverName.Length);
 
             Log.Init(sb.ToString());
+            Log.Init($"{"www.arctium-emulation.com",33}");
+
             Log.Message();
-            Log.Normal($"Starting Project WoW {serverName}...");
+            Log.Normal($"Starting Project WildStar {serverName}...");
         }
 
         public static uint GetUnixTime()

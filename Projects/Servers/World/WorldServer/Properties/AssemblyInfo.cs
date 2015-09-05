@@ -8,9 +8,9 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("Project WoW WorldServer")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Multi-Emu")]
+[assembly: AssemblyCompany("Arctium Emulation")]
 [assembly: AssemblyProduct("WorldServer")]
-[assembly: AssemblyCopyright("Copyright © 2012 - 2014 Multi-Emu")]
+[assembly: AssemblyCopyright("Copyright © 2012 - 2014 Arctium Emulation")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

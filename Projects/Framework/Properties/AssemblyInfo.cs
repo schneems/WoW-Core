@@ -8,9 +8,9 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("Project WoW Framework")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Multi-Emu")]
+[assembly: AssemblyCompany("Arctium Emulation")]
 [assembly: AssemblyProduct("Framework")]
-[assembly: AssemblyCopyright("Copyright © 2012-2015 Multi-Emu")]
+[assembly: AssemblyCopyright("Copyright © 2012-2015 Arctium Emulation")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
