@@ -9,7 +9,7 @@ namespace Framework.Cryptography.WoW
 {
     public class RsaCrypt : IDisposable
     {
-        BigInteger d, e, n, p, q, dp, dq, iq;
+        BigInteger e, n, p, q, dp, dq, iq;
         bool isEncryptionInitialized;
         bool isDecryptionInitialized;
 
@@ -20,7 +20,6 @@ namespace Framework.Cryptography.WoW
 
         public void InitializeEncryption<T>(T d, T p, T q, T dp, T dq, T iq, bool isBigEndian = false)
         {
-            this.d  = d.ToBigInteger(isBigEndian);
             this.p  = p.ToBigInteger(isBigEndian);
             this.q  = q.ToBigInteger(isBigEndian);
             this.dp = dp.ToBigInteger(isBigEndian);
@@ -88,7 +87,6 @@ namespace Framework.Cryptography.WoW
                 {
                     e = 0;
                     n = 0;
-                    d = 0;
                     p = 0;
                     q = 0;
                     dp = 0;

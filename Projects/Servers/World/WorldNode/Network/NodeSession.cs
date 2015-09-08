@@ -80,7 +80,6 @@ namespace WorldNode.Network
         {
             try
             {
-                var socket = e.UserToken as Socket;
                 var recievedBytes = e.BytesTransferred;
 
                 if (recievedBytes != 0)

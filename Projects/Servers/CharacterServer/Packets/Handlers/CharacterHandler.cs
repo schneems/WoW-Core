@@ -110,8 +110,6 @@ namespace CharacterServer.Packets.Handlers
 
                     if (accTemplate || realmTemplate)
                     {
-                        var template = DB.Character.Single<CharacterTemplateSet>(s => s.Id == createCharacter.TemplateSetID);
-
                         // Not implemented = creation failed
                         createChar.Code = CharCreateCode.Failed;
                     }

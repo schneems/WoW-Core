@@ -113,8 +113,6 @@ namespace World.Shared.Game.Entities
 
         public override string ToString()
         {
-            var guid = Guid as PlayerGuid;
-
             return $"Name: {data.Name}, Guid: {data.Guid}, RealmId: {data.RealmId}";
         }
     }

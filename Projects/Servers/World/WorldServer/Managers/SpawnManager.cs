@@ -10,13 +10,13 @@ namespace WorldServer.Managers
 {
     class SpawnManager : Singleton<SpawnManager>
     {
-        ConcurrentDictionary<SmartGuid, Creature> Creatures;
-        ConcurrentDictionary<SmartGuid, GameObject> GameObjects;
+        //ConcurrentDictionary<SmartGuid, Creature> Creatures;
+        //ConcurrentDictionary<SmartGuid, GameObject> GameObjects;
 
         SpawnManager()
         {
-            Creatures = new ConcurrentDictionary<SmartGuid, Creature>();
-            GameObjects = new ConcurrentDictionary<SmartGuid, GameObject>();
+            //Creatures = new ConcurrentDictionary<SmartGuid, Creature>();
+            //GameObjects = new ConcurrentDictionary<SmartGuid, GameObject>();
         }
     }
 }
