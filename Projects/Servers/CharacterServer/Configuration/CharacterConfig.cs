@@ -57,6 +57,11 @@ namespace CharacterServer.Configuration
 
         public static string BindIP;
         public static int BindPort;
+
+        public static uint RealmId;
+
+        public static string CharacterServiceHost;
+        public static string CharacterServiceName;
         #endregion
 
         public static void Initialize(string file)
@@ -128,6 +133,11 @@ namespace CharacterServer.Configuration
 
             BindIP                 = config.Read("Bind.IP", "0.0.0.0");
             BindPort               = config.Read("Bind.Port", 3724);
+
+            RealmId = config.Read("Realm.Id", 1u);
+
+            CharacterServiceHost = config.Read("CharacterService.Host", "127.0.0.1");
+            CharacterServiceName = config.Read("CharacterService.Name", "CharacterService");
         }
     }
 }

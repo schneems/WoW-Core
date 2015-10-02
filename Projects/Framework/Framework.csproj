@@ -57,6 +57,8 @@
     <Reference Include="System.Core" />
     <Reference Include="System.Numerics" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
@@ -182,16 +184,31 @@
     <Compile Include="Packets\Server\Net\ResumeComms.cs" />
     <Compile Include="Packets\Server\Net\SuspendComms.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Remoting\Behaviors\EndpointBehavior.cs" />
+    <Compile Include="Remoting\Initializers\ChannelInitializer.cs" />
+    <Compile Include="Remoting\IPCClient.cs" />
+    <Compile Include="Remoting\IPCServer.cs" />
+    <Compile Include="Remoting\Objects\CharacterServerInfo.cs" />
+    <Compile Include="Remoting\Services\IService.cs" />
+    <Compile Include="Remoting\Services\IServiceCallback.cs" />
+    <Compile Include="Remoting\Objects\ServerInfoBase.cs" />
+    <Compile Include="Remoting\Objects\WorldNodeInfo.cs" />
+    <Compile Include="Remoting\Objects\WorldServerInfo.cs" />
+    <Compile Include="Remoting\Services\CharacterService.cs" />
+    <Compile Include="Remoting\Services\NodeService.cs" />
+    <Compile Include="Remoting\Services\WorldService.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Database\World\Entities\" />
-    <Folder Include="Remoting\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Configs\AuthServer.conf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Configs\CharacterServer.conf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Configs\RemoteServer.conf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Configs\WorldNode.conf">

@@ -57,7 +57,7 @@ namespace Framework.Misc
             Log.Init($"{"www.arctium-emulation.com",33}");
 
             Log.Message();
-            Log.Normal($"Starting Project WildStar {serverName}...");
+            Log.Normal($"Starting Project WoW {serverName}...");
         }
 
         public static uint GetUnixTime()

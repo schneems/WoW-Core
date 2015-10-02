@@ -5,10 +5,12 @@ using System.Collections.Concurrent;
 using System.Linq;
 using System.Threading;
 using AuthServer.Configuration;
+using AuthServer.Network;
 using Framework.Database;
 using Framework.Database.Auth.Entities;
 using Framework.Logging;
 using Framework.Misc;
+using Framework.Remoting.Objects;
 
 namespace AuthServer.Managers
 {
@@ -56,6 +58,13 @@ namespace AuthServer.Managers
                     Thread.Sleep(AuthConfig.RealmListUpdateTime);
                 }
             }).Start();
+        }
+
+        public ServerInfoBase GetRealm(uint realmId)
+        {
+            var realms = Server.CharacterService.Servers.Values.Where(r => r.RealmId == realmId).OrderBy(r => r.ActiveConnections);
+
+            return realms.FirstOrDefault();
         }
     }
 }

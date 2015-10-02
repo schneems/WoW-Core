@@ -8,8 +8,10 @@ using CharacterServer.Managers;
 using CharacterServer.Network;
 using CharacterServer.Packets;
 using Framework.Database;
+using Framework.Database.Auth.Entities;
 using Framework.Logging;
 using Framework.Misc;
+using Framework.Remoting.Objects;
 
 namespace CharacterServer
 {
@@ -39,6 +41,18 @@ namespace CharacterServer
 
                 using (var server = new Server(CharacterConfig.BindIP, CharacterConfig.BindPort))
                 {
+                    var realmId = CharacterConfig.RealmId;
+                    var realm = DB.Auth.Single<Realm>(r => r.Id == realmId);
+
+                    Server.ServerInfo = new CharacterServerInfo
+                    {
+                        RealmId   = realm.Id,
+                        IPAddress = realm.IP,
+                        Port      = (ushort)CharacterConfig.BindPort,
+                    };
+
+                    Server.CharacterService.Register(Server.ServerInfo);
+
                     PacketManager.DefineMessageHandler();
 
                     Manager.Initialize();
@@ -57,6 +71,9 @@ namespace CharacterServer
 
         static void ReadArguments(string[] args)
         {
+            if (!CharacterConfig.IsInitialized)
+                CharacterConfig.Initialize($"./Configs/{serverName}.conf");
+
             for (int i = 1; i < args.Length; i += 2)
             {
                 switch (args[i - 1])
@@ -64,14 +81,14 @@ namespace CharacterServer
                     case "-config":
                         CharacterConfig.Initialize(args[i]);
                         break;
+                    case "-port":
+                        CharacterConfig.BindPort = int.Parse(args[i]);
+                        break;
                     default:
                         Log.Error($"'{args[i - 1]}' isn't a valid argument.");
                         break;
                 }
             }
-
-            if (!CharacterConfig.IsInitialized)
-                CharacterConfig.Initialize($"./Configs/{serverName}.conf");
         }
     }
 }

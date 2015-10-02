@@ -270,7 +270,6 @@ CREATE TABLE `Realms` (
   `Id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `Name` varchar(255) DEFAULT NULL,
   `IP` varchar(15) DEFAULT NULL,
-  `Port` smallint(5) unsigned NOT NULL DEFAULT '8100',
   `Category` int(11) unsigned NOT NULL DEFAULT '1',
   `Type` tinyint(4) unsigned NOT NULL,
   `State` tinyint(4) unsigned NOT NULL,
@@ -281,7 +280,7 @@ CREATE TABLE `Realms` (
 -- ----------------------------
 -- Records of Realms
 -- ----------------------------
-INSERT INTO `Realms` VALUES ('1', 'Project WoW', '127.0.0.1', '3724', '1', '1', '0', '0');
+INSERT INTO `Realms` VALUES ('1', 'Project WoW', '127.0.0.1', '1', '1', '0', '0');
 
 -- ----------------------------
 -- Table structure for WorldNodes

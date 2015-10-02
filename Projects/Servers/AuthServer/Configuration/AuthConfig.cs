@@ -39,6 +39,9 @@ namespace AuthServer.Configuration
         public static int RealmListUpdateTime;
 
         public static string PatchFileDirectory;
+
+        public static string CharacterServiceHost;
+        public static string CharacterServiceName;
         #endregion
 
         public static void Initialize(string file)
@@ -94,6 +97,9 @@ namespace AuthServer.Configuration
             RealmListUpdateTime = config.Read("RealmList.UpdateTime", 5) * 60000;
 
             PatchFileDirectory  = config.Read("Patch.File.Directory", "PatchFiles");
+
+            CharacterServiceHost = config.Read("CharacterService.Host", "127.0.0.1");
+            CharacterServiceName = config.Read("CharacterService.Name", "CharacterService");
         }
     }
 }

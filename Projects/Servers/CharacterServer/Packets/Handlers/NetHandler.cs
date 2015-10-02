@@ -93,6 +93,8 @@ namespace CharacterServer.Packets.Handlers
         public static void HandleLogDisconnect(LogDisconnect logDisconnect, CharacterSession session)
         {
             Log.Debug($"{session.GetClientInfo()} disconnected (Reason: {logDisconnect.Reason}).");
+
+            session.Dispose();
         }
     }
 }

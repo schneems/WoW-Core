@@ -15,7 +15,7 @@ using Framework.Packets.Server.Net;
 
 namespace Framework.Network
 {
-    public abstract class SessionBase : IDisposable
+    public abstract class SessionBase
     {
         public long Id { get; set; }
         public WoWCrypt Crypt { get; set; }
@@ -107,29 +107,5 @@ namespace Framework.Network
 
             return packet;
         }
-
-        #region IDisposable Support
-        private bool disposedValue = false;
-
-        protected virtual void Dispose(bool disposing)
-        {
-            if (!disposedValue)
-            {
-                if (disposing)
-                {
-                    isTransferInitiated = new bool[2];
-
-                    client.Dispose();
-                }
-
-                disposedValue = true;
-            }
-        }
-
-        public void Dispose()
-        {
-            Dispose(true);
-        }
-        #endregion
     }
 }

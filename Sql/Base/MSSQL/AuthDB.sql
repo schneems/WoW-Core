@@ -420,7 +420,6 @@ CREATE TABLE [dbo].[Realms] (
 [Id] int NOT NULL IDENTITY(1,1) ,
 [Name] varchar(255) NULL DEFAULT NULL ,
 [IP] varchar(15) NULL DEFAULT NULL ,
-[Port] smallint NOT NULL DEFAULT ((8100)) ,
 [Category] int NOT NULL DEFAULT ((1)) ,
 [Type] tinyint NOT NULL ,
 [State] tinyint NOT NULL ,
@@ -435,7 +434,7 @@ GO
 -- ----------------------------
 SET IDENTITY_INSERT [dbo].[Realms] ON
 GO
-INSERT INTO [dbo].[Realms] ([Id], [Name], [IP], [Port], [Category], [Type], [State], [Flags]) VALUES (N'1', N'Project WoW', N'127.0.0.1', N'3724', N'1', N'1', N'0', N'0')
+INSERT INTO [dbo].[Realms] ([Id], [Name], [IP], [Category], [Type], [State], [Flags]) VALUES (N'1', N'Project WoW', N'127.0.0.1', N'1', N'1', N'0', N'0')
 GO
 GO
 SET IDENTITY_INSERT [dbo].[Realms] OFF

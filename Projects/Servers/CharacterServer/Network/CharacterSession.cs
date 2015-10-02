@@ -18,7 +18,7 @@ using ServerPacket = Framework.Packets.Server.Authentication;
 
 namespace CharacterServer.Network
 {
-    class CharacterSession : SessionBase
+    class CharacterSession : SessionBase, IDisposable
     {
         public Realm Realm { get; set; }
         public Account Account { get; set; }
@@ -29,6 +29,10 @@ namespace CharacterServer.Network
 
         public override async void OnConnection(object sender, SocketAsyncEventArgs e)
         {
+            ++Server.ServerInfo.ActiveConnections;
+
+            Server.CharacterService.Update(Server.ServerInfo);
+
             var recievedBytes = e.BytesTransferred;
 
             if (recievedBytes == 0x32 && !isTransferInitiated[1])
@@ -170,5 +174,32 @@ namespace CharacterServer.Network
         void SendCompleted(object sender, SocketAsyncEventArgs e)
         {
         }
+
+        #region IDisposable Support
+        private bool disposedValue = false;
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!disposedValue)
+            {
+                if (disposing)
+                {
+                    --Server.ServerInfo.ActiveConnections;
+
+                    Server.CharacterService.Update(Server.ServerInfo);
+
+                    isTransferInitiated = new bool[2];
+                }
+
+                disposedValue = true;
+            }
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+        }
+        #endregion
+
     }
 }

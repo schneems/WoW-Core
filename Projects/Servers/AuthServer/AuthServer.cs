@@ -30,6 +30,8 @@ namespace AuthServer
 
                 using (var server = new Server(AuthConfig.BindIP, AuthConfig.BindPort))
                 {
+                    Server.CharacterService.Register(null);
+
                     PacketManager.DefineMessageHandler();
 
                     Manager.Initialize();

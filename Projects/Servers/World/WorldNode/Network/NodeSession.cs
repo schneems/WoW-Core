@@ -18,7 +18,7 @@ using ServerPacket = Framework.Packets.Server.Authentication;
 
 namespace WorldNode.Network
 {
-    public class NodeSession : SessionBase
+    public class NodeSession : SessionBase, IDisposable
     {
         public Realm Realm { get; set; }
         public Account Account { get; set; }
@@ -181,6 +181,13 @@ namespace WorldNode.Network
 
         void SendCompleted(object sender, SocketAsyncEventArgs e)
         {
+        }
+
+        public void Dispose()
+        {
+            isTransferInitiated = new bool[2];
+
+            client.Dispose();
         }
     }
 }

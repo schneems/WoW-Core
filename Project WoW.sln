@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.22823.1
+VisualStudioVersion = 14.0.23107.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Framework", "Projects\Framework\Framework.csproj", "{B7D0E27F-3AB2-413A-B9AF-040C67750639}"
 EndProject
@@ -20,6 +20,8 @@ EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "World.Shared", "Projects\Servers\World\World.Shared\World.Shared.shproj", "{EC8D1289-380F-4D85-8716-5B9DD285737D}"
 EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Lappa ORM", "Libraries\LappaORM\Lappa ORM\Lappa ORM.shproj", "{D5FF446F-CAA9-4995-9957-88B43BC86FAB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RemoteServer", "Projects\Servers\RemoteServer\RemoteServer.csproj", "{22C95D5D-E055-41AE-BCC5-4D0AD1B37375}"
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
@@ -76,6 +78,14 @@ Global
 		{91F8FB24-9BB6-4C20-9B33-BB4360D01B08}.Release|x64.Build.0 = Release|x64
 		{91F8FB24-9BB6-4C20-9B33-BB4360D01B08}.Release|x86.ActiveCfg = Release|x86
 		{91F8FB24-9BB6-4C20-9B33-BB4360D01B08}.Release|x86.Build.0 = Release|x86
+		{22C95D5D-E055-41AE-BCC5-4D0AD1B37375}.Debug|x64.ActiveCfg = Debug|x64
+		{22C95D5D-E055-41AE-BCC5-4D0AD1B37375}.Debug|x64.Build.0 = Debug|x64
+		{22C95D5D-E055-41AE-BCC5-4D0AD1B37375}.Debug|x86.ActiveCfg = Debug|x86
+		{22C95D5D-E055-41AE-BCC5-4D0AD1B37375}.Debug|x86.Build.0 = Debug|x86
+		{22C95D5D-E055-41AE-BCC5-4D0AD1B37375}.Release|x64.ActiveCfg = Release|x64
+		{22C95D5D-E055-41AE-BCC5-4D0AD1B37375}.Release|x64.Build.0 = Release|x64
+		{22C95D5D-E055-41AE-BCC5-4D0AD1B37375}.Release|x86.ActiveCfg = Release|x86
+		{22C95D5D-E055-41AE-BCC5-4D0AD1B37375}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -87,5 +97,6 @@ Global
 		{91F8FB24-9BB6-4C20-9B33-BB4360D01B08} = {0A76B49E-3890-4FC4-85E3-FEC05DD05A6C}
 		{0A76B49E-3890-4FC4-85E3-FEC05DD05A6C} = {2EFA33CD-BEC3-4300-94B4-B943B2D188DD}
 		{EC8D1289-380F-4D85-8716-5B9DD285737D} = {0A76B49E-3890-4FC4-85E3-FEC05DD05A6C}
+		{22C95D5D-E055-41AE-BCC5-4D0AD1B37375} = {2EFA33CD-BEC3-4300-94B4-B943B2D188DD}
 	EndGlobalSection
 EndGlobal
