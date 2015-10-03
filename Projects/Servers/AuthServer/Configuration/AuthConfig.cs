@@ -81,7 +81,7 @@ namespace AuthServer.Configuration
             if (!IsInitialized)
                 throw new InvalidOperationException("AuthServer config not initialized.");
 
-            AuthDBType          = config.Read("AuthDB.Type", ConnectionType.MYSQL);
+            AuthDBType          = config.Read("AuthDB.Type", ConnectionType.MySql);
             AuthDBHost          = config.Read("AuthDB.Host", "127.0.0.1");
             AuthDBPort          = config.Read("AuthDB.Port", 3306);
             AuthDBUser          = config.Read("AuthDB.User", "root");

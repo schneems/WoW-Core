@@ -164,7 +164,7 @@ namespace AuthServer.Network.Sessions
             GameAccount.SessionKey = wowSessionKey.ToHexString();
 
             // Update SessionKey in database
-            DB.Auth.Update(GameAccount, "SessionKey");
+            DB.Auth.Update(GameAccount);
         }
 
         public string GetClientInfo()

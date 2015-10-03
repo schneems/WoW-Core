@@ -97,7 +97,7 @@ namespace WorldNode.Configuration
             if (!IsInitialized)
                 throw new InvalidOperationException("WorldNode config not initialized.");
 
-            AuthDBType             = config.Read("AuthDB.Type", ConnectionType.MYSQL);
+            AuthDBType             = config.Read("AuthDB.Type", ConnectionType.MySql);
             AuthDBHost             = config.Read("AuthDB.Host", "127.0.0.1");
             AuthDBPort             = config.Read("AuthDB.Port", 3306);
             AuthDBUser             = config.Read("AuthDB.User", "root");
@@ -107,7 +107,7 @@ namespace WorldNode.Configuration
             AuthDBMinPoolSize      = config.Read("AuthDB.MinPoolSize", 5);
             AuthDBMaxPoolSize      = config.Read("AuthDB.MaxPoolSize", 30);
 
-            CharacterDBType        = config.Read("CharacterDB.Type", ConnectionType.MYSQL);
+            CharacterDBType        = config.Read("CharacterDB.Type", ConnectionType.MySql);
             CharacterDBHost        = config.Read("CharacterDB.Host", "127.0.0.1");
             CharacterDBPort        = config.Read("CharacterDB.Port", 3306);
             CharacterDBUser        = config.Read("CharacterDB.User", "root");
@@ -117,7 +117,7 @@ namespace WorldNode.Configuration
             CharacterDBMinPoolSize = config.Read("CharacterDB.MinPoolSize", 5);
             CharacterDBMaxPoolSize = config.Read("CharacterDB.MaxPoolSize", 30);
 
-            DataDBType             = config.Read("DataDB.Type", ConnectionType.MYSQL);
+            DataDBType             = config.Read("DataDB.Type", ConnectionType.MySql);
             DataDBHost             = config.Read("DataDB.Host", "127.0.0.1");
             DataDBPort             = config.Read("DataDB.Port", 3306);
             DataDBUser             = config.Read("DataDB.User", "root");

@@ -41,8 +41,7 @@ namespace CharacterServer
 
                 using (var server = new Server(CharacterConfig.BindIP, CharacterConfig.BindPort))
                 {
-                    var realmId = CharacterConfig.RealmId;
-                    var realm = DB.Auth.Single<Realm>(r => r.Id == realmId);
+                    var realm = DB.Auth.Single<Realm>(r => r.Id == CharacterConfig.RealmId);
 
                     Server.ServerInfo = new CharacterServerInfo
                     {
