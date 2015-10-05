@@ -6,5 +6,11 @@ namespace Framework.Remoting.Objects
 {
     public class WorldServerInfo : ServerInfoBase
     {
+        public int Map { get; set; }
+
+        public bool Compare(WorldServerInfo info)
+        {
+            return base.Compare(info) && Map == info.Map;
+        }
     }
 }

@@ -46,17 +46,30 @@ namespace Framework.Remoting
 
         public void NotifyClients(uint sessionId, ServerInfoBase info)
         {
+            var serverName = "";
+
+            if (info is CharacterServerInfo)
+                serverName = "CharacterServer";
+            else if (info is WorldServerInfo)
+                serverName = "WorldServer";
+            else if (info is WorldNodeInfo)
+                serverName = "NodeServer";
+
             if (info == null)
             {
-                Servers.TryRemove(sessionId, out info);
-
-                Log.Debug($"CharacterServer (Realm: {info.RealmId}, Host: {info.IPAddress}, Port: {info.Port}) disconnected.");
+                if (Servers.TryRemove(sessionId, out info))
+                    Log.Debug($"{serverName} (Realm: {info.RealmId}, Host: {info.IPAddress}, Port: {info.Port}) disconnected.");
             }
             else
             {
+                var status = "connected";
+
+                if (Servers.ContainsKey(sessionId))
+                    status = "updated";
+
                 Servers.AddOrUpdate(sessionId, info, (k, v) => info);
 
-                Log.Debug($"CharacterServer (Realm: {info.RealmId}, Host: {info.IPAddress}, Port: {info.Port}) connected/updated.");
+                Log.Debug($"{serverName} (Realm: {info.RealmId}, Host: {info.IPAddress}, Port: {info.Port}) {status}.");
             }
         }
     }

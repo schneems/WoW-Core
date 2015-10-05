@@ -7,6 +7,8 @@ namespace Framework.Remoting.Objects
 {
     [DataContract]
     [KnownType(typeof(CharacterServerInfo))]
+    [KnownType(typeof(WorldServerInfo))]
+    [KnownType(typeof(WorldNodeInfo))]
     public abstract class ServerInfoBase
     {
         [DataMember]
