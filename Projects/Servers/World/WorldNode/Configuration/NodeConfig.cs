@@ -57,7 +57,14 @@ namespace WorldNode.Configuration
         public static int DataDBMaxPoolSize;
 
         public static string BindIP;
-        public static int BindPort;
+
+        public static uint ServerId;
+
+        public static string WorldServiceHost;
+        public static string WorldServiceName;
+
+        public static string NodeServiceHost;
+        public static string NodeServiceName;
         #endregion
 
         public static void Initialize(string file)
@@ -128,7 +135,14 @@ namespace WorldNode.Configuration
             DataDBMaxPoolSize      = config.Read("DataDB.MaxPoolSize", 1);
 
             BindIP                 = config.Read("Bind.IP", "0.0.0.0");
-            BindPort               = config.Read("Bind.Port", 9100);
+
+            ServerId = config.Read("Server.Id", 1u);
+
+            WorldServiceHost = config.Read("WorldService.Host", "127.0.0.1");
+            WorldServiceName = config.Read("WorldService.Name", "WorldService");
+
+            NodeServiceHost = config.Read("NodeService.Host", "127.0.0.1");
+            NodeServiceName = config.Read("NodeService.Name", "NodeService");
         }
     }
 }

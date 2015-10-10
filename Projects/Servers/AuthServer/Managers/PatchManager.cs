@@ -3,11 +3,12 @@
 
 using System.Collections.Generic;
 using System.IO;
+using System.Threading.Tasks;
 using AuthServer.Configuration;
+using AuthServer.Network.Packets;
 using AuthServer.Network.Sessions;
 using Framework.Logging;
 using Framework.Misc;
-using Framework.Network.Packets;
 
 namespace AuthServer.Managers
 {
@@ -49,12 +50,12 @@ namespace AuthServer.Managers
             IsInitialized = true;
         }
 
-        public void Send(string key, Client client)
+        public async Task Send(string key, AuthSession session)
         {
             AuthPacket pkt;
 
             if (patchPackets.TryGetValue(key, out pkt))
-                client.SendPacket(pkt);
+                await session.Send(pkt);
             else
                 Log.Error($"Patch packet for key '{key}' not found.");
 

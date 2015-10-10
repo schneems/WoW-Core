@@ -11,11 +11,11 @@ namespace AuthServer.Managers
     class SessionManager : Singleton<SessionManager>
     {
         public long LastSessionId { get; set; }
-        public ConcurrentDictionary<long, Client> Clients { get; set; }
+        public ConcurrentDictionary<long, AuthSession> Clients { get; set; }
 
         SessionManager()
         {
-            Clients = new ConcurrentDictionary<long, Client>();
+            Clients = new ConcurrentDictionary<long, AuthSession>();
 
 
             IsInitialized = true;
@@ -23,8 +23,7 @@ namespace AuthServer.Managers
 
         public void RemoveClient(long id)
         {
-            var client = Clients[id];
-            var session = client.Session;
+            var session = Clients[id];
 
             if (session.GameAccount != null)
             {
@@ -32,9 +31,9 @@ namespace AuthServer.Managers
 
                 DB.Auth.Update(session.GameAccount);
 
-                Manager.SessionMgr.Clients.TryRemove(id, out client);
+                Manager.SessionMgr.Clients.TryRemove(id, out session);
 
-                client.Dispose();
+                session.Dispose();
             }
         }
     }

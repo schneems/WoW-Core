@@ -20,9 +20,6 @@ namespace RemoteServer.Configuration
         public static string LogDirectory;
         public static string LogConsoleFile;
 
-        public static string CharacterServiceName;
-        public static string CharacterServiceBindIP;
-
         public static string WorldServiceName;
         public static string WorldServiceBindIP;
 
@@ -61,10 +58,7 @@ namespace RemoteServer.Configuration
         static void ReadConfig()
         {
             if (!IsInitialized)
-                throw new InvalidOperationException("CharacterServer config not initialized.");
-
-            CharacterServiceName   = config.Read("CharacterService.Name", "CharacterService");
-            CharacterServiceBindIP = config.Read("CharacterService.Bind.IP", "0.0.0.0");
+                throw new InvalidOperationException("RemoteServer config not initialized.");
 
             WorldServiceName   = config.Read("WorldService.Name", "WorldService");
             WorldServiceBindIP = config.Read("WorldService.Bind.IP", "0.0.0.0");

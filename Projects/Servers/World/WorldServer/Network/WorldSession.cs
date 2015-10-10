@@ -135,7 +135,8 @@ namespace WorldServer.Network
             if (packetQueue.Count > 0)
                 packetQueue.TryDequeue(out packet);
 
-            PacketLog.Write<ClientMessage>(packet.Header.Message, packet.Data, client.RemoteEndPoint);
+            if (PacketLog.Initialized)
+                PacketLog.Write<ClientMessage>(packet.Header.Message, packet.Data, client.RemoteEndPoint);
 
             await PacketManager.InvokeHandler<ClientMessage>(packet, this);
         }
@@ -152,7 +153,8 @@ namespace WorldServer.Network
                     if (packet.Packet.Header.Size > 0x100)
                         packet = await Compress(packet);
 
-                    PacketLog.Write<ServerMessage>(packet.Packet.Header.Message, packet.Packet.Data, client.RemoteEndPoint);
+                    if (PacketLog.Initialized)
+                        PacketLog.Write<ServerMessage>(packet.Packet.Header.Message, packet.Packet.Data, client.RemoteEndPoint);
                 }
 
                 if (Crypt != null && Crypt.IsInitialized)

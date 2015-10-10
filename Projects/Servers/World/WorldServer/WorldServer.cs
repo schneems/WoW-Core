@@ -6,6 +6,7 @@ using System.Threading;
 using Framework.Database;
 using Framework.Logging;
 using Framework.Misc;
+using Framework.Remoting.Objects;
 using WorldServer.Configuration;
 using WorldServer.Managers;
 using WorldServer.Network;
@@ -15,11 +16,22 @@ namespace WorldServer
 {
     class WorldServer
     {
+        public static ServerInfo Info { get; private set; }
         static string serverName = nameof(WorldServer);
 
         static void Main(string[] args)
         {
             ReadArguments(args);
+
+            Info = Helper.GetServerDefinition(WorldConfig.ServerId, "wId");
+
+            if (Info == null)
+            {
+                Log.Error($"Can't find any server definition for wId '{WorldConfig.ServerId}'.");
+                Log.Wait();
+
+                return;
+            }
 
             var authConnString = DB.CreateConnectionString(WorldConfig.AuthDBHost, WorldConfig.AuthDBUser, WorldConfig.AuthDBPassword,
                                                            WorldConfig.AuthDBDataBase, WorldConfig.AuthDBPort, WorldConfig.AuthDBMinPoolSize, 
@@ -37,8 +49,23 @@ namespace WorldServer
             {
                 Helper.PrintHeader(serverName);
 
-                using (var server = new Server(WorldConfig.BindIP, WorldConfig.BindPort))
+                Log.Normal($"Loading server with wId '{WorldConfig.ServerId}'.");
+                
+                using (var server = new Server(WorldConfig.BindIP, Info.Port))
                 {
+                    Server.NodeService.Register(null);
+                    Server.WorldService.Register(null);
+
+                    Server.ServerInfo = new WorldServerInfo
+                    {
+                        RealmId   = Info.Realm,
+                        Maps      = Info.Maps,
+                        IPAddress = Info.Address,
+                        Port      = Info.Port,
+                    };
+
+                    Server.WorldService.Register(Server.ServerInfo);
+
                     PacketManager.DefineMessageHandler();
 
                     Manager.Initialize();
@@ -57,6 +84,9 @@ namespace WorldServer
 
         static void ReadArguments(string[] args)
         {
+            if (!WorldConfig.IsInitialized)
+                WorldConfig.Initialize($"./Configs/{serverName}.conf");
+
             for (int i = 1; i < args.Length; i += 2)
             {
                 switch (args[i - 1])
@@ -64,14 +94,14 @@ namespace WorldServer
                     case "-config":
                         WorldConfig.Initialize(args[i]);
                         break;
+                    case "-id":
+                        WorldConfig.ServerId = uint.Parse(args[i]);
+                        break;
                     default:
                         Log.Error($"'{args[i - 1]}' isn't a valid argument.");
                         break;
                 }
             }
-
-            if (!WorldConfig.IsInitialized)
-                WorldConfig.Initialize($"./Configs/{serverName}.conf");
         }
     }
 }

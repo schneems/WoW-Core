@@ -2,8 +2,11 @@
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
 using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using Framework.Logging;
 
 namespace Framework.Misc
@@ -79,6 +82,46 @@ namespace Framework.Misc
                 return (T)Enum.Parse(typeof(T), nameValue, true);
             else
                 return nameValue.ChangeType<T>();
+        }
+
+        public Dictionary<uint, ServerInfo> ReadServerDefinitions(string prefix)
+        {
+            var ret = new Dictionary<uint, ServerInfo>();
+
+            foreach (var option in configContent)
+            {
+                if (option.StartsWith(prefix))
+                {
+                    var id = Regex.Match(option, $"{prefix}(.?).?=").Groups[1].Captures[0].Value;
+                    var data = Regex.Match(option, "{(.*}?)\\}").Groups[1].Captures[0].Value;
+                    var mapData = Regex.IsMatch(data, "{(.*}?)\\}") ? Regex.Match(data, "{(.*}?)\\}").Groups[1].Captures[0].Value : "";
+                    var values = (mapData != "" ? data.Replace(mapData, "") : data).Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries).Select(v => v.Trim()).ToArray();
+
+                    var serverInfo = new ServerInfo { Realm = uint.Parse(values[0]) };
+
+                    if (values.Length == 4)
+                    {
+                        var mapValues = mapData.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+
+                        serverInfo.Maps = new int[mapValues.Length];
+
+                        for (var i = 0; i < mapValues.Length; i++)
+                            serverInfo.Maps[i] = int.Parse(mapValues[i]);
+
+                        serverInfo.Address = values[2].Replace("\"", "");
+                        serverInfo.Port = ushort.Parse(values[3]);
+                    }
+                    else
+                    {
+                        serverInfo.Address = values[1].Replace("\"", "");
+                        serverInfo.Port = ushort.Parse(values[2]);
+                    }
+
+                    ret.Add(uint.Parse(id), serverInfo);
+                }
+            }
+
+            return ret;
         }
     }
 }

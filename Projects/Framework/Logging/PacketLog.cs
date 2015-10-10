@@ -11,11 +11,14 @@ namespace Framework.Logging
 {
     public class PacketLog
     {
+        public static bool Initialized;
         static LogWriter logger;
 
         public static void Initialize(string directory, string file)
         {
             logger = new LogWriter(directory, file);
+
+            Initialized = true;
         }
 
         public static async void Write<T>(ushort value, byte[] data, EndPoint remote)

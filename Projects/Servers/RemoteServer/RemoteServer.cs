@@ -20,9 +20,8 @@ namespace RemoteServer
 
             Helper.PrintHeader(serverName);
 
-            new Thread(() => new IPCServer<CharacterService, IService>(RemoteConfig.CharacterServiceBindIP, RemoteConfig.CharacterServiceName)).Start();
-            //new Thread(() => new IPCServer<WorldService, IService>(RemoteConfig.WorldServiceBindIP, RemoteConfig.WorldServiceName)).Start();
-            //new Thread(() => new IPCServer<NodeService, IService>(RemoteConfig.NodeServiceBindIP, RemoteConfig.NodeServiceName)).Start();
+            new Thread(() => new IPCServer<WorldService, IService>(RemoteConfig.WorldServiceBindIP, RemoteConfig.WorldServiceName)).Start();
+            new Thread(() => new IPCServer<NodeService, IService>(RemoteConfig.NodeServiceBindIP, RemoteConfig.NodeServiceName)).Start();
 
             Log.Normal("Remote services successfully started.");
 

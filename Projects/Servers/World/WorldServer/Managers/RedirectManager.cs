@@ -2,96 +2,89 @@
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
 using System;
-using System.Collections.Concurrent;
+using System.Linq;
 using Framework.Cryptography.WoW;
 using Framework.Database;
 using Framework.Database.Auth.Entities;
-using Framework.Logging;
 using Framework.Misc;
+using Framework.Remoting.Objects;
+using WorldServer.Network;
 
 namespace WorldServer.Managers
 {
     class RedirectManager : Singleton<RedirectManager>
     {
-        public ConcurrentDictionary<int, WorldNode> WorldNodes { get; set; }
         public RsaCrypt Crypt { get; set; }
 
         RedirectManager()
         {
-            WorldNodes = new ConcurrentDictionary<int, WorldNode>();
-
             // Initialize RSA crypt
             Crypt = new RsaCrypt();
 
             Crypt.InitializeEncryption(RsaStore.D, RsaStore.P, RsaStore.Q, RsaStore.DP, RsaStore.DQ, RsaStore.InverseQ);
             Crypt.InitializeDecryption(RsaStore.Exponent, RsaStore.Modulus);
-
-            LoadAvailableWorldNodes();
-
         }
 
-        void LoadAvailableWorldNodes()
+        public WorldNodeInfo GetWorldNode(int mapId)
         {
-            var worldNodes = DB.Auth.Select<WorldNode>();
+            var servers = from wn in Server.NodeService.Servers.Values where (((WorldNodeInfo)wn).Maps.Contains(mapId) ||
+                          ((WorldNodeInfo)wn).Maps.Contains(-1)) && wn.RealmId == WorldServer.Info.Realm select wn;
 
-            if (worldNodes.Count == 0)
-                Log.Error("No WorldNodes available.");
+            var worldnode = servers.OrderBy(wn => wn.ActiveConnections).FirstOrDefault() as WorldNodeInfo;
 
-            worldNodes.ForEach(ws =>
-            {
-                if (WorldNodes.TryAdd(ws.MapId, ws))
-                    Log.Normal("Added new WorldNode for Map '{0}' at '{1}:{2}'.", ws.MapId, ws.Address, ws.Port);
-            });
-
-            Log.Normal("Loaded {0} WorldNodes.", WorldNodes.Count);
-            Log.Message();
+            return worldnode;
         }
 
-        public WorldNode GetWorldNode(int mapId)
+        public WorldServerInfo GetWorldServer(int mapId)
         {
-            WorldNode worldNode;
+            var servers = from ws in Server.WorldService.Servers.Values where (((WorldServerInfo)ws).Maps.Contains(mapId) ||
+                          ((WorldServerInfo)ws).Maps.Contains(-1)) && ws.RealmId == WorldServer.Info.Realm select ws;
 
-            // Try to get available world servers for the specific map or for all maps (-1).
-            if (WorldNodes.TryGetValue(mapId, out worldNode) || WorldNodes.TryGetValue(-1, out worldNode))
-                if (Helper.CheckConnection(worldNode.Address, worldNode.Port))
-                    return worldNode;
+            var worldServer = servers.OrderBy(ws => ws.ActiveConnections).FirstOrDefault() as WorldServerInfo;
 
-            return null;
+            return worldServer;
         }
 
-        public ulong CreateRedirectKey(ulong characterGuid)
+        public WorldServerInfo GetWorldServer(uint realmId)
+        {
+            var servers = from ws in Server.WorldService.Servers.Values where ws is WorldServerInfo && ws.RealmId == WorldServer.Info.Realm select ws;
+            var worldServer = servers.OrderBy(ws => ws.ActiveConnections).FirstOrDefault() as WorldServerInfo;
+
+            return worldServer;
+        }
+
+        public ulong CreateRedirectKey(uint gameAccountId, ulong playerGuid)
         {
             var key = BitConverter.ToUInt64(new byte[0].GenerateRandomKey(8), 0);
 
-            if (DB.Auth.Add(new CharacterRedirect { Key = key, CharacterGuid = characterGuid }))
-                return key;
+            Server.WorldService.Update(key, Tuple.Create(gameAccountId, playerGuid));
 
-            return 0;
+            return key;
         }
 
-        public Tuple<Account, GameAccount> GetAccountInfo(ulong key)
+        public Tuple<Account, GameAccount, ulong> GetAccountInfo(ulong key)
         {
-            var redirect = DB.Auth.Single<GameAccountRedirect>(gar => gar.Key == key);
+            Tuple<uint, ulong> redirectData;
 
-            if (redirect != null)
+            if (Server.WorldService.Redirects.TryGetValue(key, out redirectData))
             {
-                var gameAccount = DB.Auth.Single<GameAccount>(ga => ga.Id == redirect.GameAccountId);
+                var gameAccount = DB.Auth.Single<GameAccount>(ga => ga.Id == redirectData.Item1);
 
                 if (gameAccount != null)
                 {
                     var account = DB.Auth.Single<Account>(a => a.Id == gameAccount.AccountId);
 
                     if (account != null)
-                        return Tuple.Create(account, gameAccount);
+                        return Tuple.Create(account, gameAccount, redirectData.Item2);
                 }
             }
 
             return null;
         }
 
-        public bool DeleteGameAccountRedirect(ulong key)
+        public void DeleteRedirectKey(ulong key)
         {
-            return DB.Auth.Delete<GameAccountRedirect>(gar => gar.Key == key);
+            Server.WorldService.Update(key, null);
         }
     }
 }

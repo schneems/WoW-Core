@@ -30,7 +30,7 @@ namespace Framework.Misc
             return s[0].ToString().ToUpper() + s.Remove(0, 1).ToLower();
         }
         #endregion
-        #region ByteArray
+        #region Array
         public static byte[] GenerateRandomKey(this byte[] s, int length)
         {
             var random = new Random((int)((uint)(Guid.NewGuid().GetHashCode() ^ 1 >> 89 << 2 ^ 42)).LeftRotate(13));
@@ -52,6 +52,15 @@ namespace Framework.Misc
         }
 
         public static bool Compare(this byte[] b, byte[] b2)
+        {
+            for (int i = 0; i < b2.Length; i++)
+                if (b[i] != b2[i])
+                    return false;
+
+            return true;
+        }
+
+        public static bool Compare(this int[] b, int[] b2)
         {
             for (int i = 0; i < b2.Length; i++)
                 if (b[i] != b2[i])

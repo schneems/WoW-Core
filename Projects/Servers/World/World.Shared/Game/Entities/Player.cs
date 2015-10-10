@@ -19,7 +19,7 @@ namespace World.Shared.Game.Entities
 
         Character data;
 
-        public Player(Character player) : base(PlayerData.End)
+        public Player(Character player, bool initialize = true) : base(PlayerData.End)
         {
             data = player;
 
@@ -41,7 +41,8 @@ namespace World.Shared.Game.Entities
             Facing = player.O;
             Map = (short)player.Map;
 
-            InitializeDescriptors();
+            if (initialize)
+                InitializeDescriptors();
         }
 
         public void InitializeDescriptors()

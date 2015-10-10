@@ -1,3 +1,7 @@
+/*
+Date: 2015-10-10 18:39:16
+*/
+
 SET FOREIGN_KEY_CHECKS=0;
 
 -- ----------------------------
@@ -25,20 +29,6 @@ CREATE TABLE `Accounts` (
 -- ----------------------------
 
 -- ----------------------------
--- Table structure for CharacterRedirects
--- ----------------------------
-DROP TABLE IF EXISTS `CharacterRedirects`;
-CREATE TABLE `CharacterRedirects` (
-  `Key` bigint(20) unsigned NOT NULL,
-  `CharacterGuid` bigint(20) unsigned NOT NULL,
-  PRIMARY KEY (`Key`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of CharacterRedirects
--- ----------------------------
-
--- ----------------------------
 -- Table structure for Components
 -- ----------------------------
 DROP TABLE IF EXISTS `Components`;
@@ -55,24 +45,24 @@ CREATE TABLE `Components` (
 INSERT INTO `Components` VALUES ('Bnet', 'Mc64', '37165');
 INSERT INTO `Components` VALUES ('Bnet', 'Win', '37165');
 INSERT INTO `Components` VALUES ('Bnet', 'Wn64', '37165');
-INSERT INTO `Components` VALUES ('WoW', 'base', '20490');
-INSERT INTO `Components` VALUES ('WoW', 'deDE', '20490');
-INSERT INTO `Components` VALUES ('WoW', 'enAU', '20490');
-INSERT INTO `Components` VALUES ('WoW', 'enGB', '20490');
-INSERT INTO `Components` VALUES ('WoW', 'enUS', '20490');
-INSERT INTO `Components` VALUES ('WoW', 'esES', '20490');
-INSERT INTO `Components` VALUES ('WoW', 'esMX', '20490');
-INSERT INTO `Components` VALUES ('WoW', 'frFR', '20490');
-INSERT INTO `Components` VALUES ('WoW', 'itIT', '20490');
-INSERT INTO `Components` VALUES ('WoW', 'koKR', '20490');
+INSERT INTO `Components` VALUES ('WoW', 'base', '20574');
+INSERT INTO `Components` VALUES ('WoW', 'deDE', '20574');
+INSERT INTO `Components` VALUES ('WoW', 'enAU', '20574');
+INSERT INTO `Components` VALUES ('WoW', 'enGB', '20574');
+INSERT INTO `Components` VALUES ('WoW', 'enUS', '20574');
+INSERT INTO `Components` VALUES ('WoW', 'esES', '20574');
+INSERT INTO `Components` VALUES ('WoW', 'esMX', '20574');
+INSERT INTO `Components` VALUES ('WoW', 'frFR', '20574');
+INSERT INTO `Components` VALUES ('WoW', 'itIT', '20574');
+INSERT INTO `Components` VALUES ('WoW', 'koKR', '20574');
 INSERT INTO `Components` VALUES ('WoW', 'Mc64', '20490');
-INSERT INTO `Components` VALUES ('WoW', 'plPL', '20490');
-INSERT INTO `Components` VALUES ('WoW', 'ptBR', '20490');
+INSERT INTO `Components` VALUES ('WoW', 'plPL', '20574');
+INSERT INTO `Components` VALUES ('WoW', 'ptBR', '20574');
 INSERT INTO `Components` VALUES ('WoW', 'ruRU', '20490');
-INSERT INTO `Components` VALUES ('WoW', 'Win', '20490');
-INSERT INTO `Components` VALUES ('WoW', 'Wn64', '20490');
-INSERT INTO `Components` VALUES ('WoW', 'zhCN', '20490');
-INSERT INTO `Components` VALUES ('WoW', 'zhTW', '20490');
+INSERT INTO `Components` VALUES ('WoW', 'Win', '20574');
+INSERT INTO `Components` VALUES ('WoW', 'Wn64', '20574');
+INSERT INTO `Components` VALUES ('WoW', 'zhCN', '20574');
+INSERT INTO `Components` VALUES ('WoW', 'zhTW', '20574');
 
 -- ----------------------------
 -- Table structure for GameAccountCharacterTemplates
@@ -119,20 +109,6 @@ CREATE TABLE `GameAccountRaces` (
 
 -- ----------------------------
 -- Records of GameAccountRaces
--- ----------------------------
-
--- ----------------------------
--- Table structure for GameAccountRedirects
--- ----------------------------
-DROP TABLE IF EXISTS `GameAccountRedirects`;
-CREATE TABLE `GameAccountRedirects` (
-  `Key` bigint(20) unsigned NOT NULL,
-  `GameAccountId` int(10) unsigned NOT NULL,
-  PRIMARY KEY (`Key`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of GameAccountRedirects
 -- ----------------------------
 
 -- ----------------------------
@@ -269,7 +245,6 @@ DROP TABLE IF EXISTS `Realms`;
 CREATE TABLE `Realms` (
   `Id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `Name` varchar(255) DEFAULT NULL,
-  `IP` varchar(15) DEFAULT NULL,
   `Category` int(11) unsigned NOT NULL DEFAULT '1',
   `Type` tinyint(4) unsigned NOT NULL,
   `State` tinyint(4) unsigned NOT NULL,
@@ -280,36 +255,4 @@ CREATE TABLE `Realms` (
 -- ----------------------------
 -- Records of Realms
 -- ----------------------------
-INSERT INTO `Realms` VALUES ('1', 'Project WoW', '127.0.0.1', '1', '1', '0', '0');
-
--- ----------------------------
--- Table structure for WorldNodes
--- ----------------------------
-DROP TABLE IF EXISTS `WorldNodes`;
-CREATE TABLE `WorldNodes` (
-  `MapId` int(10) NOT NULL DEFAULT '-1',
-  `Address` varchar(15) DEFAULT '',
-  `Port` smallint(5) unsigned NOT NULL DEFAULT '9100',
-  PRIMARY KEY (`MapId`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of WorldNodes
--- ----------------------------
-INSERT INTO `WorldNodes` VALUES ('-1', '127.0.0.1', '9100');
-
--- ----------------------------
--- Table structure for WorldServers
--- ----------------------------
-DROP TABLE IF EXISTS `WorldServers`;
-CREATE TABLE `WorldServers` (
-  `MapId` int(10) NOT NULL DEFAULT '-1',
-  `Address` varchar(15) DEFAULT '',
-  `Port` smallint(5) unsigned NOT NULL DEFAULT '8100',
-  PRIMARY KEY (`MapId`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of WorldServers
--- ----------------------------
-INSERT INTO `WorldServers` VALUES ('-1', '127.0.0.1', '8100');
+INSERT INTO `Realms` VALUES ('1', 'Project WoW', '1', '1', '0', '0');

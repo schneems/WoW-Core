@@ -82,8 +82,11 @@
     <Compile Include="Managers\SessionManager.cs" />
     <Compile Include="Network\Server.cs" />
     <Compile Include="Network\NodeSession.cs" />
+    <Compile Include="Packets\Client\LogoutRequest.cs" />
     <Compile Include="Packets\Handlers\AuthHandler.cs" />
+    <Compile Include="Packets\Handlers\LogoutHandler.cs" />
     <Compile Include="Packets\PacketManager.cs" />
+    <Compile Include="Packets\Server\LogoutComplete.cs" />
     <Compile Include="WorldNode.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -93,10 +96,7 @@
       <Name>Framework</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Packets\Client\" />
-    <Folder Include="Packets\Server\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="..\World.Shared\World.Shared.projitems" Label="Shared" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

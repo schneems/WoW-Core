@@ -11,6 +11,7 @@ using Framework.Logging.IO;
 using Framework.Misc;
 using Framework.Network;
 using Framework.Network.Packets;
+using World.Shared.Game.Entities;
 using WorldNode.Constants.Net;
 using WorldNode.Packets;
 using ClientPacket = Framework.Packets.Client.Authentication;
@@ -20,10 +21,10 @@ namespace WorldNode.Network
 {
     public class NodeSession : SessionBase, IDisposable
     {
-        public Realm Realm { get; set; }
         public Account Account { get; set; }
         public GameAccount GameAccount { get; set; }
-        public uint Challenge    { get; private set; }
+        public Player Player { get; set; }
+        public uint Challenge { get; private set; }
         public byte[] ClientSeed { get; private set; }
         public byte[] ServerSeed { get; private set; }
 
@@ -132,7 +133,8 @@ namespace WorldNode.Network
             if (packetQueue.Count > 0)
                 packetQueue.TryDequeue(out packet);
 
-            PacketLog.Write<ClientMessage>(packet.Header.Message, packet.Data, client.RemoteEndPoint);
+            if (PacketLog.Initialized)
+                PacketLog.Write<ClientMessage>(packet.Header.Message, packet.Data, client.RemoteEndPoint);
 
             await PacketManager.InvokeHandler<ClientMessage>(packet, this);
         }
@@ -149,7 +151,8 @@ namespace WorldNode.Network
                     if (packet.Packet.Header.Size > 0x100)
                         packet = await Compress(packet);
 
-                    PacketLog.Write<ServerMessage>(packet.Packet.Header.Message, packet.Packet.Data, client.RemoteEndPoint);
+                    if (PacketLog.Initialized)
+                        PacketLog.Write<ServerMessage>(packet.Packet.Header.Message, packet.Packet.Data, client.RemoteEndPoint);
                 }
 
                 if (Crypt != null && Crypt.IsInitialized)

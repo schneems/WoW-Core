@@ -13,19 +13,19 @@ namespace AuthServer.Network
 {
     class Server : ServerBase
     {
-        public static IPCClient CharacterService;
+        public static IPCClient WorldService;
 
         public Server(string ip, int port) : base(ip, port)
         {
-            CharacterService = new IPCClient(AuthConfig.CharacterServiceHost, AuthConfig.CharacterServiceName);
+            WorldService = new IPCClient(AuthConfig.WorldServiceHost, AuthConfig.WorldServiceName);
         }
 
         public override async Task DoWork(Socket client)
         {
             var clientId = ++Manager.SessionMgr.LastSessionId;
 
-            if (Manager.SessionMgr.Clients.TryAdd(clientId, new Client { Id = clientId, Session = new AuthSession(client) }))
-                await Task.Factory.StartNew(Manager.SessionMgr.Clients[clientId].Session.Accept);
+            if (Manager.SessionMgr.Clients.TryAdd(clientId, new AuthSession(client)))
+                await Task.Factory.StartNew(Manager.SessionMgr.Clients[clientId].Accept);
         }
     }
 }

@@ -11,8 +11,6 @@ namespace Framework.Database.Auth.Entities
         [AutoIncrement]
         public uint Id        { get; set; }
         public string Name    { get; set; }
-        public string IP      { get; set; }
-        public ushort Port    { get; set; }
         public uint Category  { get; set; }
         public byte Type      { get; set; }
         public byte State     { get; set; }

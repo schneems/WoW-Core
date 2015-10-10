@@ -68,16 +68,16 @@ namespace WorldNode.Packets
                 if (handlerObj.IsReadComplete)
                     data.Item1.Invoke(null, new object[] { handlerObj, session });
                 else
-                    Log.Error($"Packet read for '{data.Item2.Name}' failed.");
+                    Log.Packet($"Packet read for '{data.Item2.Name}' failed.");
             }
             else
             {
                 var msgName = Enum.GetName(typeof(ClientMessage), message) ?? Enum.GetName(typeof(GlobalClientMessage), message);
 
                 if (msgName == null)
-                    Log.Error($"Received unknown opcode '0x{message:X}, Length: {reader.Data.Length}'.");
+                    Log.Packet($"Received unknown opcode '0x{message:X}, Length: {reader.Data.Length}'.");
                 else
-                    Log.Error($"Packet handler for '{msgName} (0x{message:X}), Length: {reader.Data.Length}' not implemented.");
+                    Log.Packet($"Packet handler for '{msgName} (0x{message:X}), Length: {reader.Data.Length}' not implemented.");
             }
         }
     }

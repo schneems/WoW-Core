@@ -15,7 +15,14 @@ namespace Framework.Remoting
         {
             serviceHost = new ServiceHost(new T(), new Uri($"net.pipe://{bindIP}/{name}"));
 
-            var endpoint = serviceHost.AddServiceEndpoint(typeof(TBase), new NetNamedPipeBinding(NetNamedPipeSecurityMode.None), "");
+            var binding = new NetNamedPipeBinding(NetNamedPipeSecurityMode.None)
+            {
+                // Set 'infinite' timeouts.
+                SendTimeout = TimeSpan.MaxValue,
+                ReceiveTimeout = TimeSpan.MaxValue
+            };
+
+            var endpoint = serviceHost.AddServiceEndpoint(typeof(TBase), binding, "");
 
             endpoint.EndpointBehaviors.Add(new EndpointBehavior<T>(serviceHost.SingletonInstance as T));
 

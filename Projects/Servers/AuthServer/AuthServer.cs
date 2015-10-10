@@ -5,7 +5,7 @@ using AuthServer.Commands;
 using AuthServer.Configuration;
 using AuthServer.Managers;
 using AuthServer.Network;
-using AuthServer.Network.Packets;
+using AuthServer.Packets;
 using Framework.Database;
 using Framework.Logging;
 using Framework.Misc;
@@ -30,7 +30,7 @@ namespace AuthServer
 
                 using (var server = new Server(AuthConfig.BindIP, AuthConfig.BindPort))
                 {
-                    Server.CharacterService.Register(null);
+                    Server.WorldService.Register(null);
 
                     PacketManager.DefineMessageHandler();
 

@@ -5,15 +5,16 @@ using System;
 using System.IO;
 using System.Text;
 using AuthServer.Constants.Net;
-using AuthServer.Network.Packets;
+using Framework.Network.Packets;
 
-namespace Framework.Network.Packets
+namespace AuthServer.Network.Packets
 {
     public class AuthPacket
     {
         public AuthPacketHeader Header { get; set; }
         public byte[] Data { get; set; }
         public int ProcessedBytes { get; set; }
+        public bool IsReadComplete => readStream.BaseStream.Position >= Data.Length;
 
         BinaryReader readStream;
         BinaryWriter writeStream;

@@ -40,8 +40,8 @@ namespace AuthServer.Configuration
 
         public static string PatchFileDirectory;
 
-        public static string CharacterServiceHost;
-        public static string CharacterServiceName;
+        public static string WorldServiceHost;
+        public static string WorldServiceName;
         #endregion
 
         public static void Initialize(string file)
@@ -98,8 +98,8 @@ namespace AuthServer.Configuration
 
             PatchFileDirectory  = config.Read("Patch.File.Directory", "PatchFiles");
 
-            CharacterServiceHost = config.Read("CharacterService.Host", "127.0.0.1");
-            CharacterServiceName = config.Read("CharacterService.Name", "CharacterService");
+            WorldServiceHost = config.Read("WorldService.Host", "127.0.0.1");
+            WorldServiceName = config.Read("WorldService.Name", "WorldService");
         }
     }
 }

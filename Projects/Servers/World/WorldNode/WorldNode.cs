@@ -6,6 +6,7 @@ using System.Threading;
 using Framework.Database;
 using Framework.Logging;
 using Framework.Misc;
+using Framework.Remoting.Objects;
 using WorldNode.Configuration;
 using WorldNode.Managers;
 using WorldNode.Network;
@@ -15,11 +16,22 @@ namespace WorldNode
 {
     class WorldNode
     {
+        public static ServerInfo Info { get; private set; }
         static string serverName = nameof(WorldNode);
 
         static void Main(string[] args)
         {
             ReadArguments(args);
+
+            Info = Helper.GetServerDefinition(NodeConfig.ServerId, "nId");
+
+            if (Info == null)
+            {
+                Log.Error($"Can't find any server definition for nId '{NodeConfig.ServerId}'.");
+                Log.Wait();
+
+                return;
+            }
 
             var authConnString = DB.CreateConnectionString(NodeConfig.AuthDBHost, NodeConfig.AuthDBUser, NodeConfig.AuthDBPassword,
                                                            NodeConfig.AuthDBDataBase, NodeConfig.AuthDBPort, NodeConfig.AuthDBMinPoolSize, 
@@ -37,8 +49,23 @@ namespace WorldNode
             {
                 Helper.PrintHeader(serverName);
 
-                using (var server = new Server(NodeConfig.BindIP, NodeConfig.BindPort))
+                Log.Normal($"Loading server with nId '{NodeConfig.ServerId}'.");
+
+                using (var server = new Server(NodeConfig.BindIP, Info.Port))
                 {
+                    Server.NodeService.Register(null);
+                    Server.WorldService.Register(null);
+
+                    Server.ServerInfo = new WorldNodeInfo
+                    {
+                        RealmId   = Info.Realm,
+                        Maps      = Info.Maps,
+                        IPAddress = Info.Address,
+                        Port      = Info.Port,
+                    };
+
+                    Server.NodeService.Register(Server.ServerInfo);
+
                     PacketManager.DefineMessageHandler();
 
                     Manager.Initialize();

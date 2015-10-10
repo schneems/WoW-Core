@@ -28,8 +28,6 @@ namespace AuthServer.Commands
                     {
                         Id     = DB.Auth.GetAutoIncrementValue<Realm, uint>(),
                         Name   = realmName,
-                        IP     = realmIP,
-                        Port   = realmPort,
                         Type   = 1,
                         State  = 0,
                         Flags  = 0

@@ -18,6 +18,8 @@ namespace Framework.Logging
 
         public static void Initialize(LogType logLevel, LogWriter fileLogger = null)
         {
+            Console.OutputEncoding = Encoding.UTF8;
+
             Log.logLevel = logLevel;
 
             var logThread = new Thread(() =>
@@ -26,15 +28,13 @@ namespace Framework.Logging
                 {
                     var log = logQueue.Take();
 
-                    if (log != null)
+                    if (log != null && log.Item2 != null)
                     {
-                        var msg = log.Item2;
-
                         if (fileLogger != null)
-                            Task.Run(async () => await fileLogger.Write(msg));
+                            Task.Run(async () => await fileLogger.Write(log.Item2));
 
                         Console.ForegroundColor = log.Item1;
-                        Console.WriteLine(msg);
+                        Console.WriteLine(log.Item2);
                     }
                 }
             });
@@ -95,43 +95,41 @@ namespace Framework.Logging
 
         static void SetLogger(LogType type, string text, params object[] args)
         {
-            Console.OutputEncoding = Encoding.UTF8;
-
-            ConsoleColor foreGround;
-
-            switch (type)
-            {
-                case LogType.Init:
-                    foreGround = ConsoleColor.Cyan;
-                    break;
-                case LogType.Normal:
-                    foreGround = ConsoleColor.Green;
-                    text = text.Insert(0, "System: ");
-                    break;
-                case LogType.Error:
-                    foreGround = ConsoleColor.Red;
-                    text = text.Insert(0, "Error: ");
-                    break;
-                case LogType.Debug:
-                    foreGround = ConsoleColor.DarkRed;
-                    text = text.Insert(0, "Debug: ");
-                    break;
-                case LogType.Packet:
-                    foreGround = ConsoleColor.Yellow;
-                    break;
-                case LogType.Database:
-                    foreGround = ConsoleColor.DarkMagenta;
-                    break;
-                case LogType.Network:
-                    foreGround = ConsoleColor.Magenta;
-                    break;
-                default:
-                    foreGround = ConsoleColor.White;
-                    break;
-            }
-
             if ((logLevel & type) == type)
             {
+                ConsoleColor foreGround;
+
+                switch (type)
+                {
+                    case LogType.Init:
+                        foreGround = ConsoleColor.Cyan;
+                        break;
+                    case LogType.Normal:
+                        foreGround = ConsoleColor.Green;
+                        text = text.Insert(0, "System: ");
+                        break;
+                    case LogType.Error:
+                        foreGround = ConsoleColor.Red;
+                        text = text.Insert(0, "Error: ");
+                        break;
+                    case LogType.Debug:
+                        foreGround = ConsoleColor.DarkRed;
+                        text = text.Insert(0, "Debug: ");
+                        break;
+                    case LogType.Packet:
+                        foreGround = ConsoleColor.Yellow;
+                        break;
+                    case LogType.Database:
+                        foreGround = ConsoleColor.DarkMagenta;
+                        break;
+                    case LogType.Network:
+                        foreGround = ConsoleColor.Magenta;
+                        break;
+                    default:
+                        foreGround = ConsoleColor.White;
+                        break;
+                }
+
                 if (type.Equals(LogType.Init) || type.Equals(LogType.None))
                     logQueue.Add(Tuple.Create(foreGround, string.Format(text, args)));
                 else

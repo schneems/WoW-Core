@@ -6,16 +6,6 @@ namespace WorldNode.Constants.Net
     // Value '0x2000' means not updated/implemented
     public enum ClientMessage : ushort
     {
-        #region Player
-        #endregion
-
-        #region PlayerGameEvent
-        #endregion
-
-        #region PlayerInventory
-        #endregion
-
-        #region PlayerMovement
-        #endregion
+        LogoutRequest = 0x0C5E,
     }
 }

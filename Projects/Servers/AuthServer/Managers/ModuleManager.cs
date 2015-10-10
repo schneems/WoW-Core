@@ -5,13 +5,13 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using AuthServer.Network.Packets;
 using AuthServer.Network.Sessions;
 using Framework.Constants.Account;
 using Framework.Database;
 using Framework.Database.Auth.Entities;
 using Framework.Logging;
 using Framework.Misc;
-using Framework.Network.Packets;
 
 namespace AuthServer.Managers
 {
@@ -52,19 +52,19 @@ namespace AuthServer.Managers
             return false;
         }
 
-        public void WriteModuleHeader(Client client, AuthPacket packet, Module module, int size = 0)
+        public void WriteModuleHeader(AuthSession session, AuthPacket packet, Module module, int size = 0)
         {
             packet.WriteFourCC(module.Type);
-            packet.WriteFourCC("\0\0" + Enum.GetName(typeof(Region), client.Session.Account.Region));
+            packet.WriteFourCC("\0\0" + Enum.GetName(typeof(Region), session.Account.Region));
             packet.Write(module.Hash.ToByteArray());
             packet.Write(size == 0 ? module.Size : (uint)size, 10);
         }
 
-        public void WriteRiskFingerprint(Client client, AuthPacket packet)
+        public void WriteRiskFingerprint(AuthSession session, AuthPacket packet)
         {
-            var riskFingerprintModule = client.Modules.SingleOrDefault(m => m.Name == "RiskFingerprint");
+            var riskFingerprintModule = Modules.SingleOrDefault(m => m.Name == "RiskFingerprint" && m.System == session.Platform);
 
-            WriteModuleHeader(client, packet, riskFingerprintModule);
+            WriteModuleHeader(session, packet, riskFingerprintModule);
         }
     }
 }

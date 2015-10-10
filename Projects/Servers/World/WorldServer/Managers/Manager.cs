@@ -5,7 +5,9 @@ namespace WorldServer.Managers
 {
     class Manager
     {
+        public static CharacterManager Character;
         public static ClientDBManager ClientDB;
+        public static GameAccountManager GameAccount;
         public static RedirectManager Redirect;
         public static SessionManager Session;
         public static PlayerManager Player;
@@ -13,11 +15,13 @@ namespace WorldServer.Managers
 
         public static void Initialize()
         {
-            ClientDB = ClientDBManager.GetInstance();
-            Redirect = RedirectManager.GetInstance();
-            Session  = SessionManager.GetInstance();
-            Player   = PlayerManager.GetInstance();
-            Spawns   = SpawnManager.GetInstance();
+            Character   = CharacterManager.GetInstance();
+            ClientDB    = ClientDBManager.GetInstance();
+            GameAccount = GameAccountManager.GetInstance();
+            Redirect    = RedirectManager.GetInstance();
+            Session     = SessionManager.GetInstance();
+            Player      = PlayerManager.GetInstance();
+            Spawns      = SpawnManager.GetInstance();
         }
     }
 }

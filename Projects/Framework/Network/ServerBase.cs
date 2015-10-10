@@ -34,7 +34,7 @@ namespace Framework.Network
                 listener.Start();
 
                 if (isRunning = listener.Server.IsBound)
-                    new Thread(AcceptConnection).Start(200);
+                    new Thread(AcceptConnection).Start(5);
             }
             catch (Exception ex)
             {
@@ -48,11 +48,11 @@ namespace Framework.Network
         {
             while (isRunning)
             {
-                Thread.Sleep((int)delay);
+                await Task.Delay((int)delay);
 
                 if (listener.Pending())
                 {
-                    var clientSocket = await listener.AcceptSocketAsync();
+                    var clientSocket = listener.AcceptSocket();
 
                     if (clientSocket != null)
                         await DoWork(clientSocket);

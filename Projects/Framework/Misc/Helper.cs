@@ -58,6 +58,18 @@ namespace Framework.Misc
 
             Log.Message();
             Log.Normal($"Starting Project WoW {serverName}...");
+            Log.Message();
+        }
+
+        public static ServerInfo GetServerDefinition(uint id, string prefix)
+        {
+            var serverDefinitions = new Config("./Configs/Server.defs");
+
+            ServerInfo info;
+
+            serverDefinitions.ReadServerDefinitions(prefix).TryGetValue(id, out info);
+
+            return info;
         }
 
         public static uint GetUnixTime()

@@ -22,14 +22,19 @@ namespace WorldServer.Managers
             Log.Message();
             Log.Normal("Initialize ClientDB storages...");
 
+            ClientDB.CharBaseInfo            = DB.Data.Select<CharBaseInfo>();
+            ClientDB.CharStartOutfits        = DB.Data.Select<CharStartOutfit>();
             ClientDB.ChrClasses              = DB.Data.Select<ChrClass>();
             ClientDB.ChrRaces                = DB.Data.Select<ChrRace>();
             ClientDB.GameTables              = DB.Data.Select<GameTables>();
             ClientDB.ItemModifiedAppearances = DB.Data.Select<ItemModifiedAppearance>().ToLookup(ima => ima.ItemId) as Lookup<int, ItemModifiedAppearance>;
             ClientDB.ItemAppearances         = DB.Data.Select<uint, ItemAppearance>(ia => ia.Id);
             ClientDB.Items                   = DB.Data.Select<uint, Item>(i => i.Id);
+            ClientDB.NameGens                = DB.Data.Select<NameGen>();
             ClientDB.SkillLines              = DB.Data.Select<uint, SkillLine>(sl => sl.ID);
             ClientDB.SkillLineAbilities      = DB.Data.Select<SkillLineAbility>();
+            ClientDB.SkillRaceClassInfo      = DB.Data.Select<SkillRaceClassInfo>();
+            ClientDB.SpellLevels             = DB.Data.Select<SpellLevels>().ToLookup(sl => sl.SpellId) as Lookup<uint, SpellLevels>;
 
             ClientDB.GtOCTLevelExperience = new ClientGameTable<GtOCTLevelExperience>(gt => gt.Index);
             ClientDB.GtNpcTotalHp         = new ClientGameTable<GtNpcTotalHp>(gt => gt.Index);

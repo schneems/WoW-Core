@@ -93,20 +93,16 @@
     <Compile Include="Cryptography\WoW\Redirect\RsaStore.cs" />
     <Compile Include="Cryptography\WoW\WoWCrypt.cs" />
     <Compile Include="Database\Auth\Entities\Account.cs" />
-    <Compile Include="Database\Auth\Entities\CharacterRedirect.cs" />
     <Compile Include="Database\Auth\Entities\GameAccount.cs" />
     <Compile Include="Database\Auth\Entities\GameAccountCharacterTemplate.cs" />
     <Compile Include="Database\Auth\Entities\GameAccountClass.cs" />
     <Compile Include="Database\Auth\Entities\GameAccountRace.cs" />
     <Compile Include="Database\Auth\Entities\Component.cs" />
-    <Compile Include="Database\Auth\Entities\GameAccountRedirect.cs" />
     <Compile Include="Database\Auth\Entities\Module.cs" />
     <Compile Include="Database\Auth\Entities\Realm.cs" />
     <Compile Include="Database\Auth\Entities\RealmCharacterTemplate.cs" />
     <Compile Include="Database\Auth\Entities\RealmClass.cs" />
     <Compile Include="Database\Auth\Entities\RealmRace.cs" />
-    <Compile Include="Database\Auth\Entities\WorldNodes.cs" />
-    <Compile Include="Database\Auth\Entities\WorldServer.cs" />
     <Compile Include="Database\Character\Entities\Character.cs" />
     <Compile Include="Database\Character\Entities\CharacterAction.cs" />
     <Compile Include="Database\Character\Entities\CharacterCreationAction.cs" />
@@ -154,6 +150,7 @@
     <Compile Include="Misc\Config.cs" />
     <Compile Include="Misc\Extensions.cs" />
     <Compile Include="Misc\Helper.cs" />
+    <Compile Include="Misc\ServerInfo.cs" />
     <Compile Include="Misc\Singleton.cs" />
     <Compile Include="Network\Packets\ClientPacket.cs" />
     <Compile Include="Network\Packets\IServerStruct.cs" />
@@ -188,13 +185,11 @@
     <Compile Include="Remoting\Initializers\ChannelInitializer.cs" />
     <Compile Include="Remoting\IPCClient.cs" />
     <Compile Include="Remoting\IPCServer.cs" />
-    <Compile Include="Remoting\Objects\CharacterServerInfo.cs" />
     <Compile Include="Remoting\Services\IService.cs" />
     <Compile Include="Remoting\Services\IServiceCallback.cs" />
     <Compile Include="Remoting\Objects\ServerInfoBase.cs" />
     <Compile Include="Remoting\Objects\WorldNodeInfo.cs" />
     <Compile Include="Remoting\Objects\WorldServerInfo.cs" />
-    <Compile Include="Remoting\Services\CharacterService.cs" />
     <Compile Include="Remoting\Services\NodeService.cs" />
     <Compile Include="Remoting\Services\WorldService.cs" />
   </ItemGroup>
@@ -215,6 +210,11 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Configs\WorldServer.conf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Configs\Server.defs">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>

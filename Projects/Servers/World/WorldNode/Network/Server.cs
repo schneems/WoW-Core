@@ -4,13 +4,24 @@
 using System.Net.Sockets;
 using System.Threading.Tasks;
 using Framework.Network;
+using Framework.Remoting;
+using Framework.Remoting.Objects;
+using WorldNode.Configuration;
 using WorldNode.Managers;
 
 namespace WorldNode.Network
 {
     class Server : ServerBase
     {
-        public Server(string ip, int port) : base(ip, port) { }
+        public static IPCClient WorldService;
+        public static IPCClient NodeService;
+        public static WorldNodeInfo ServerInfo;
+
+        public Server(string ip, int port) : base(ip, port)
+        {
+            WorldService = new IPCClient(NodeConfig.WorldServiceHost, NodeConfig.WorldServiceName);
+            NodeService = new IPCClient(NodeConfig.NodeServiceHost, NodeConfig.NodeServiceName);
+        }
 
         public override async Task DoWork(Socket client)
         {

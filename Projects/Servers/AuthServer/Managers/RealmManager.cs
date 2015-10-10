@@ -62,7 +62,7 @@ namespace AuthServer.Managers
 
         public ServerInfoBase GetRealm(uint realmId)
         {
-            var realms = Server.CharacterService.Servers.Values.Where(r => r.RealmId == realmId).OrderBy(r => r.ActiveConnections);
+            var realms = Server.WorldService.Servers.Values.Where(r => r.RealmId == realmId).OrderBy(r => r.ActiveConnections);
 
             return realms.FirstOrDefault();
         }

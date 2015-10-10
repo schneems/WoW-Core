@@ -3,21 +3,20 @@
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using System.Security.Cryptography;
 using System.Text;
+using System.Threading.Tasks;
 using AuthServer.Constants.Net;
-using AuthServer.Managers;
 using AuthServer.Network.Packets;
+using AuthServer.Packets;
 using Framework.Cryptography.BNet;
 using Framework.Database;
 using Framework.Database.Auth.Entities;
 using Framework.Logging;
 using Framework.Logging.IO;
 using Framework.Misc;
-using Framework.Network.Packets;
 
 namespace AuthServer.Network.Sessions
 {
@@ -28,6 +27,9 @@ namespace AuthServer.Network.Sessions
         public GameAccount GameAccount { get; set; }
         public SRP6a SecureRemotePassword { get; set; }
         public BNetCrypt Crypt { get; set; }
+        public string Program { get; set; }
+        public string Platform { get; set; }
+        public string ConnectionInfo { get; set; }
 
         Socket client;
         byte[] dataBuffer = new byte[0x800];
@@ -39,6 +41,8 @@ namespace AuthServer.Network.Sessions
 
         public void Accept()
         {
+            ConnectionInfo = GetClientInfo();
+
             var socketEventargs = new SocketAsyncEventArgs();
 
             socketEventargs.SetBuffer(dataBuffer, 0, dataBuffer.Length);
@@ -50,7 +54,7 @@ namespace AuthServer.Network.Sessions
             client.ReceiveAsync(socketEventargs);
         }
 
-        void Process(object sender, SocketAsyncEventArgs e)
+        async void Process(object sender, SocketAsyncEventArgs e)
         {
             try
             {
@@ -59,23 +63,25 @@ namespace AuthServer.Network.Sessions
 
                 if (recievedBytes != 0)
                 {
-                    // Enable packet encryption.
-                    if (Crypt == null && dataBuffer[0] == 0x45 && dataBuffer[1] == 0x01)
+                    var buff = new byte[recievedBytes];
+
+                    Buffer.BlockCopy(dataBuffer, 0, buff, 0, recievedBytes);
+
+                    // Enable packet encryption
+                    if (Crypt == null && buff[0] == 0x45 && buff[1] == 0x01)
                     {
                         Crypt = new BNetCrypt(SecureRemotePassword.SessionKey);
 
-                        Buffer.BlockCopy(dataBuffer, 2, dataBuffer, 0, recievedBytes -= 2);
+                        Buffer.BlockCopy(buff, 2, buff, 0, recievedBytes -= 2);
 
                         Log.Debug($"Encryption for account '{Account.Id}' enabled");
                     }
+                    
+                    Crypt?.Decrypt(buff, recievedBytes);
 
-                    if (Crypt != null && Crypt.IsInitialized)
-                        Crypt.Decrypt(dataBuffer, recievedBytes);
+                    client.ReceiveAsync(e);
 
-                    ProcessPacket(recievedBytes);
-
-                    if (client != null)
-                        client.ReceiveAsync(e);
+                    await ProcessPacket(buff, recievedBytes);
                 }
                 else
                     socket.Close();
@@ -90,43 +96,59 @@ namespace AuthServer.Network.Sessions
             }
         }
 
-        void ProcessPacket(int size)
+        async Task ProcessPacket(byte[] data, int size)
         {
-            var packet = new AuthPacket(dataBuffer, size);
+            var packet = new AuthPacket(data, size);
             
-            PacketLog.Write<AuthClientMessage>(packet.Header.Message, packet.Data, client.RemoteEndPoint);
+            if (PacketLog.Initialized)
+                PacketLog.Write<AuthClientMessage>(packet.Header.Message, packet.Data, client.RemoteEndPoint);
 
             if (packet != null)
-            {
-                var currentClient = Manager.SessionMgr.Clients.AsParallel().SingleOrDefault(c => c.Value.Session.Equals(this));
-
-                if (currentClient.Value != null)
-                    PacketManager.InvokeHandler(packet, currentClient.Value);
-            }
+                await PacketManager.InvokeHandler(packet, this);
         }
 
-        public void Send(AuthPacket packet)
+        public async Task Send(AuthPacket packet)
         {
             try
             {
-                packet.Finish();
+                await Task.Run(() => packet.Finish());
 
-                if (packet.Header != null)
-                    PacketLog.Write<AuthServerMessage>(packet.Header.Message, packet.Data, client.RemoteEndPoint);
+                client.Send(packet.Data);
+            }
+            catch (Exception ex)
+            {
+                Dispose();
+
+                Log.Error(ex.Message);
+            }
+        }
+
+        public async Task Send(ServerPacket packet)
+        {
+            try
+            {
+                await Task.Run(() =>
+                {
+                    packet.Write();
+                    packet.Packet.Finish();
+                });
+
+                if (packet.Packet.Header != null && PacketLog.Initialized)
+                    PacketLog.Write<AuthServerMessage>(packet.Packet.Header.Message, packet.Packet.Data, client.RemoteEndPoint);
 
                 if (Crypt != null && Crypt.IsInitialized)
-                    Crypt.Encrypt(packet.Data, packet.Data.Length);
+                    Crypt.Encrypt(packet.Packet.Data, packet.Packet.Data.Length);
 
                 var socketEventargs = new SocketAsyncEventArgs();
 
-                socketEventargs.SetBuffer(packet.Data, 0, packet.Data.Length);
+                socketEventargs.SetBuffer(packet.Packet.Data, 0, packet.Packet.Data.Length);
 
                 socketEventargs.Completed += SendCompleted;
                 socketEventargs.UserToken = packet;
                 socketEventargs.RemoteEndPoint = client.RemoteEndPoint;
                 socketEventargs.SocketFlags = SocketFlags.None;
 
-                client.Send(packet.Data);
+                client.Send(packet.Packet.Data);
             }
             catch (Exception ex)
             {

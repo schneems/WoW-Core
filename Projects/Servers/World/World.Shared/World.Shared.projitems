@@ -29,6 +29,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Game\Entities\Object\Descriptors\PlayerData.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Game\Entities\Object\Descriptors\SceneObjectData.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Game\Entities\Object\Descriptors\UnitData.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Game\Entities\Object\Guid\GuildGuid.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Game\Entities\Object\Guid\ItemGuid.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Game\Entities\Object\Guid\PlayerGuid.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Game\Entities\Object\Guid\CreatureGuid.cs" />

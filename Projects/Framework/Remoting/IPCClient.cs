@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Arctium Emulation.
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
+using System;
 using System.Collections.Concurrent;
 using System.ServiceModel;
 using Framework.Logging;
@@ -13,18 +14,30 @@ namespace Framework.Remoting
     {
         public uint LastSessionId { get; set; }
         public ConcurrentDictionary<uint, ServerInfoBase> Servers { get; set; }
+        public ConcurrentDictionary<ulong, Tuple<uint, ulong>> Redirects { get; set; }
 
         IService proxy;
         IClientChannel proxyChannel;
 
         public IPCClient(string serverIP, string hostName)
         {
-            var factory = new DuplexChannelFactory<IService>(new InstanceContext(this), new NetNamedPipeBinding(NetNamedPipeSecurityMode.None), new EndpointAddress($"net.pipe://{serverIP}/{hostName}"));
+            var binding = new NetNamedPipeBinding(NetNamedPipeSecurityMode.None)
+            {
+                // Set 'infinite' timeouts.
+                SendTimeout = TimeSpan.MaxValue,
+                ReceiveTimeout = TimeSpan.MaxValue
+            };
+
+            var factory = new DuplexChannelFactory<IService>(new InstanceContext(this), binding, new EndpointAddress($"net.pipe://{serverIP}/{hostName}"));
 
             proxy = factory.CreateChannel();
             proxyChannel = proxy as IClientChannel;
 
-            proxyChannel.Opened += (o, e) => Servers = proxy.Servers;
+            proxyChannel.Opened += (o, e) =>
+            {
+                Servers = proxy.Servers;
+                Redirects = proxy.Redirects;
+            };
 
             proxyChannel.Open();
         }
@@ -39,6 +52,11 @@ namespace Framework.Remoting
             proxy.Update(info);
         }
 
+        public void Update(ulong key, Tuple<uint, ulong> data)
+        {
+            proxy.Update(key, data);
+        }
+
         public void Unregister(uint sessionId)
         {
             proxy.Unregister(sessionId);
@@ -48,9 +66,7 @@ namespace Framework.Remoting
         {
             var serverName = "";
 
-            if (info is CharacterServerInfo)
-                serverName = "CharacterServer";
-            else if (info is WorldServerInfo)
+            if (info is WorldServerInfo)
                 serverName = "WorldServer";
             else if (info is WorldNodeInfo)
                 serverName = "NodeServer";
@@ -69,8 +85,18 @@ namespace Framework.Remoting
 
                 Servers.AddOrUpdate(sessionId, info, (k, v) => info);
 
-                Log.Debug($"{serverName} (Realm: {info.RealmId}, Host: {info.IPAddress}, Port: {info.Port}) {status}.");
+                Log.Debug($"{serverName} (Host: {info.IPAddress}, Port: {info.Port}, Connections: {info.ActiveConnections}) {status}.");
             }
+        }
+
+        public void NotifyClients(ulong key, Tuple<uint, ulong> data)
+        {
+            Tuple<uint, ulong> dummy;
+
+            if (data == null)
+                Redirects.TryRemove(key, out dummy);
+            else
+                Redirects.TryAdd(key, data);
         }
     }
 }
