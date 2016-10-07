@@ -5,23 +5,15 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-
-[assembly: AssemblyTitle("BnetServer")]
-[assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("$safeprojectname$")]
-[assembly: AssemblyCopyright("Copyright ©  116")]
+[assembly: AssemblyProduct("BnetServer")]
 [assembly: AssemblyTrademark("")]
-[assembly: AssemblyCulture("")]
 
 // Setting ComVisible to false makes the types in this assembly not visible
 // to COM components.  If you need to access a type in this assembly from
 // COM, set the ComVisible attribute to true on that type.
-
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-
-[assembly: Guid("8910966B-A3EE-42DA-BE27-D97F8F36B76F")]
-
+[assembly: Guid("d3f29c59-2087-4bfe-957a-84a559497e5d")]

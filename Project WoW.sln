@@ -1,50 +1,49 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.0.0
-MinimumVisualStudioVersion = 10.0.0.1
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Source", "Source", "{26DDA754-E3D2-4974-9588-6A1E64ABDEDF}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{FFC1F939-F4A9-43C9-8EFF-92E94A2130F4}"
+	ProjectSection(SolutionItems) = preProject
+		global.json = global.json
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Servers", "Servers", "{6F4E8B83-577D-4254-956D-3F80E4DF0B77}"
+EndProject
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "BnetServer", "Source\Servers\BnetServer\BnetServer.xproj", "{D3F29C59-2087-4BFE-957A-84A559497E5D}"
+EndProject
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Framework", "Source\Libraries\Framework\Framework.xproj", "{4D379C46-1113-49BE-8EC9-959145EBD891}"
+EndProject
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "ServerManager", "Source\ServerManager\ServerManager.xproj", "{FC3A12B5-E8B5-4615-9182-EDF767464173}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{32FA0C9D-D01B-456E-A24A-AD979647F4C3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{32FA0C9D-D01B-456E-A24A-AD979647F4C3}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{32FA0C9D-D01B-456E-A24A-AD979647F4C3}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{32FA0C9D-D01B-456E-A24A-AD979647F4C3}.Release|Any CPU.Build.0 = Release|Any CPU
-		{8910966B-A3EE-42DA-BE27-D97F8F36B76F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{8910966B-A3EE-42DA-BE27-D97F8F36B76F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{8910966B-A3EE-42DA-BE27-D97F8F36B76F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{8910966B-A3EE-42DA-BE27-D97F8F36B76F}.Release|Any CPU.Build.0 = Release|Any CPU
-		{51CB850D-E94A-4DE9-BDA4-C57E643B379B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{51CB850D-E94A-4DE9-BDA4-C57E643B379B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{51CB850D-E94A-4DE9-BDA4-C57E643B379B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{51CB850D-E94A-4DE9-BDA4-C57E643B379B}.Release|Any CPU.Build.0 = Release|Any CPU
-		{5242037A-4139-4643-84BD-EB0B958D9BCD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{5242037A-4139-4643-84BD-EB0B958D9BCD}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{5242037A-4139-4643-84BD-EB0B958D9BCD}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{5242037A-4139-4643-84BD-EB0B958D9BCD}.Release|Any CPU.Build.0 = Release|Any CPU
-		{08A6A81D-4292-4D75-9530-A32B31180514}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{08A6A81D-4292-4D75-9530-A32B31180514}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{08A6A81D-4292-4D75-9530-A32B31180514}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{08A6A81D-4292-4D75-9530-A32B31180514}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D3F29C59-2087-4BFE-957A-84A559497E5D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D3F29C59-2087-4BFE-957A-84A559497E5D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D3F29C59-2087-4BFE-957A-84A559497E5D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D3F29C59-2087-4BFE-957A-84A559497E5D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4D379C46-1113-49BE-8EC9-959145EBD891}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4D379C46-1113-49BE-8EC9-959145EBD891}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4D379C46-1113-49BE-8EC9-959145EBD891}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4D379C46-1113-49BE-8EC9-959145EBD891}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FC3A12B5-E8B5-4615-9182-EDF767464173}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FC3A12B5-E8B5-4615-9182-EDF767464173}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FC3A12B5-E8B5-4615-9182-EDF767464173}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FC3A12B5-E8B5-4615-9182-EDF767464173}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{8910966B-A3EE-42DA-BE27-D97F8F36B76F} = {5242037A-4139-4643-84BD-EB0B958D9BCD}
-		{32FA0C9D-D01B-456E-A24A-AD979647F4C3} = {08A6A81D-4292-4D75-9530-A32B31180514}
+		{6F4E8B83-577D-4254-956D-3F80E4DF0B77} = {26DDA754-E3D2-4974-9588-6A1E64ABDEDF}
+		{D3F29C59-2087-4BFE-957A-84A559497E5D} = {6F4E8B83-577D-4254-956D-3F80E4DF0B77}
+		{4D379C46-1113-49BE-8EC9-959145EBD891} = {26DDA754-E3D2-4974-9588-6A1E64ABDEDF}
+		{FC3A12B5-E8B5-4615-9182-EDF767464173} = {26DDA754-E3D2-4974-9588-6A1E64ABDEDF}
 	EndGlobalSection
 EndGlobal
-	Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Framework", "Source\Libraries\Framework\Framework.xproj", "{32FA0C9D-D01B-456E-A24A-AD979647F4C3}"
-	EndProject
-	Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "BnetServer", "Source\Servers\BnetServer\BnetServer.xproj", "{8910966B-A3EE-42DA-BE27-D97F8F36B76F}"
-	EndProject
-	Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "ServerManager", "Source\ServerManager\ServerManager.xproj", "{51CB850D-E94A-4DE9-BDA4-C57E643B379B}"
-	EndProject
-	Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Servers", "Servers", "{5242037A-4139-4643-84BD-EB0B958D9BCD}"
-	EndProject
-	Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Libraries", "Libraries", "{08A6A81D-4292-4D75-9530-A32B31180514}"
-	EndProject
