@@ -14,7 +14,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Servers", "Servers", "{6F4E
 EndProject
 Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "BnetServer", "Source\Servers\BnetServer\BnetServer.xproj", "{D3F29C59-2087-4BFE-957A-84A559497E5D}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Framework", "Source\Libraries\Framework\Framework.xproj", "{4D379C46-1113-49BE-8EC9-959145EBD891}"
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Framework", "Source\Framework\Framework.xproj", "{4D379C46-1113-49BE-8EC9-959145EBD891}"
 EndProject
 Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "ServerManager", "Source\ServerManager\ServerManager.xproj", "{FC3A12B5-E8B5-4615-9182-EDF767464173}"
 EndProject
