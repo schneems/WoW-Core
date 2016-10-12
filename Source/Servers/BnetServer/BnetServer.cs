@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace BnetServer
 {
-    public class Program
+    public class BnetServer
     {
         public static void Main(string[] args)
         {
