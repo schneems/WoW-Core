@@ -6,13 +6,13 @@ using Framework.Constants.IPC;
 
 namespace Framework.Pipes
 {
-    public class IPCPacket
+    public abstract class IPCPacket
     {
         public IPCMessage Message { get; set; }
         public byte[] Data { get; set; }
 
-        BinaryReader readStream;
-        BinaryWriter writeStream;
+        protected BinaryReader readStream;
+        protected BinaryWriter writeStream;
 
         public IPCPacket(IPCMessage message)
         {
@@ -43,7 +43,11 @@ namespace Framework.Pipes
 
         public void Finish()
         {
+            Write();
+
             Data = (writeStream.BaseStream as MemoryStream).ToArray();
         }
+
+        public abstract void Write();
     }
 }

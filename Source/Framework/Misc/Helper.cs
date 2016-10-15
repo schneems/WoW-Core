@@ -14,16 +14,16 @@ namespace Framework.Misc
         {
             Console.ForegroundColor = ConsoleColor.Cyan;
 
-            Console.WriteLine("_____________World of Warcraft___________");
-            Console.WriteLine("                   _   _                 ");
-            Console.WriteLine(@"    /\            | | (_)                ");
-            Console.WriteLine(@"   /  \   _ __ ___| |_ _ _   _ _ __ ___  ");
-            Console.WriteLine(@"  / /\ \ | '__/ __| __| | | | | '_ ` _ \ ");
-            Console.WriteLine(@" / ____ \| | | (__| |_| | |_| | | | | | |");
-            Console.WriteLine(@"/_/    \_\_|  \___|\__|_|\__,_|_| |_| |_|");
-            Console.WriteLine("           _                             ");
-            Console.WriteLine("          |_._ _   | __|_ o _._          ");
-            Console.WriteLine("          |_| | |_||(_||_ |(_| |         ");
+            Log.Message(LogTypes.None, "_____________World of Warcraft___________");
+            Log.Message(LogTypes.None, "                   _   _                 ");
+            Log.Message(LogTypes.None, @"    /\            | | (_)                ");
+            Log.Message(LogTypes.None, @"   /  \   _ __ ___| |_ _ _   _ _ __ ___  ");
+            Log.Message(LogTypes.None, @"  / /\ \ | '__/ __| __| | | | | '_ ` _ \ ");
+            Log.Message(LogTypes.None, @" / ____ \| | | (__| |_| | |_| | | | | | |");
+            Log.Message(LogTypes.None, @"/_/    \_\_|  \___|\__|_|\__,_|_| |_| |_|");
+            Log.Message(LogTypes.None, "           _                             ");
+            Log.Message(LogTypes.None, "          |_._ _   | __|_ o _._          ");
+            Log.Message(LogTypes.None, "          |_| | |_||(_||_ |(_| |         ");
             Log.NewLine();
 
             var sb = new StringBuilder();
@@ -35,8 +35,8 @@ namespace Framework.Misc
             sb.Insert(nameStart, serverName);
             sb.Remove(nameStart + serverName.Length, serverName.Length);
 
-            Console.WriteLine(sb.ToString());
-            Console.WriteLine($"{"www.arctium-emulation.com",33}");
+            Log.Message(LogTypes.None, sb.ToString());
+            Log.Message(LogTypes.None, $"{"www.arctium-emulation.com",33}");
 
             Log.NewLine();
             Log.Message(LogTypes.Info, $"Starting Project WoW {serverName}...");

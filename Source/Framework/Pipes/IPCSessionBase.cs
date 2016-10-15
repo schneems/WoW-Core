@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Arctium Emulation.
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
+using System.IO;
 using System.IO.Pipes;
 using System.Threading.Tasks;
 
@@ -19,11 +20,11 @@ namespace Framework.Pipes
                 var ipcMessage = new byte[1];
 
                 if (await serverStream.ReadAsync(ipcMessage, 0, 1) > 0)
-                    await ProcessPacket(new IPCPacket(ipcMessage[0], serverStream));
+                    await ProcessPacket(ipcMessage[0], serverStream);
             }
         }
 
-        public abstract Task ProcessPacket(IPCPacket ipcPacket);
+        public abstract Task ProcessPacket(byte ipcMessage, Stream ipcDataStream);
 
         public async Task Send(IPCPacket ipcPacket)
         {

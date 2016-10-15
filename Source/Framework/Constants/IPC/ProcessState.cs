@@ -3,11 +3,13 @@
 
 namespace Framework.Constants.IPC
 {
-    public enum IPCMessage : byte
+    public enum ProcessState : byte
     {
-        ProcessStateInfo = 0x00,
-        RegisterConsole  = 0x01,
-        AttachConsole    = 0x02,
-        DetachConsole    = 0x03,
+        None    = 0,
+        Start   = 1,
+        Stop    = 2,
+        Started = 3,
+        Stopped = 4,
+        Hanging = 5
     }
 }

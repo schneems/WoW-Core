@@ -13,19 +13,25 @@ namespace Framework.Logging
     public class Logger
     {
         public bool Initialized { get; private set; }
+        public Dictionary<LogTypes, Tuple<ConsoleColor, string>> LogTypeInfo { get; }
 
+        readonly BlockingCollection<Tuple<LogTypes, string, string>> logQueue;
         LogTypes logLevel;
-        readonly BlockingCollection<Tuple<LogTypes, string, string>> logQueue = new BlockingCollection<Tuple<LogTypes, string, string>>();
 
-        public Dictionary<LogTypes, Tuple<ConsoleColor, string>> LogTypeInfo = new Dictionary<LogTypes, Tuple<ConsoleColor, string>>
+        public Logger()
         {
-            { LogTypes.None,    Tuple.Create(ConsoleColor.White, "") },
-            { LogTypes.Success, Tuple.Create(ConsoleColor.Green, " Success ") },
-            { LogTypes.Info,    Tuple.Create(ConsoleColor.DarkGreen, " Info    ") },
-            { LogTypes.Warning, Tuple.Create(ConsoleColor.Yellow, " Warning ") },
-            { LogTypes.Error,   Tuple.Create(ConsoleColor.Red, " Error   ") },
-            { LogTypes.Input,   Tuple.Create(ConsoleColor.Gray, " Input   ") },
-        };
+            LogTypeInfo = new Dictionary<LogTypes, Tuple<ConsoleColor, string>>
+            {
+                { LogTypes.None,    Tuple.Create(ConsoleColor.White, "") },
+                { LogTypes.Success, Tuple.Create(ConsoleColor.Green, " Success ") },
+                { LogTypes.Info,    Tuple.Create(ConsoleColor.DarkGreen, " Info    ") },
+                { LogTypes.Warning, Tuple.Create(ConsoleColor.Yellow, " Warning ") },
+                { LogTypes.Error,   Tuple.Create(ConsoleColor.Red, " Error   ") },
+                { LogTypes.Input,   Tuple.Create(ConsoleColor.Gray, " Input   ") },
+            };
+
+            logQueue = new BlockingCollection<Tuple<LogTypes, string, string>>();
+        }
 
         public void Initialize(LogTypes logTypes, LogFile logFile = null)
         {
@@ -73,7 +79,7 @@ namespace Framework.Logging
 
         public void NewLine()
         {
-            Console.WriteLine();
+            logQueue.Add(Tuple.Create(LogTypes.None, "", Environment.NewLine));
         }
 
         public void WaitForKey()
