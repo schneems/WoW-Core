@@ -18,7 +18,7 @@ namespace ServerManager.Servers
         public static Dictionary<string, Tuple<string, Process>> Childs { get; }
 
         static readonly Dictionary<string, string> servers;
-        static readonly Dictionary<string, ConsolePipeSession> consolePipeClients;
+        static readonly Dictionary<string, IPCSession> consolePipeClients;
 
         static ConsoleManager()
         {
@@ -30,10 +30,10 @@ namespace ServerManager.Servers
                 { "char", "Servers/char.server" }
             };
 
-            consolePipeClients = new Dictionary<string, ConsolePipeSession>();
+            consolePipeClients = new Dictionary<string, IPCSession>();
         }
 
-        public static void AddConsoleClient(string alias, ConsolePipeSession session)
+        public static void AddConsoleClient(string alias, IPCSession session)
         {
             consolePipeClients.Add(alias, session);
         }

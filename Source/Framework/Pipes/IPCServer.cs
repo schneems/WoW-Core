@@ -1,12 +1,13 @@
 ﻿// Copyright (c) Arctium Emulation.
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
+using System;
 using System.IO.Pipes;
 using System.Threading;
 
 namespace Framework.Pipes
 {
-    public class IPCServer<TSession> where TSession : IPCSessionBase, new()
+    public class IPCServer<TSession> : IDisposable where TSession : IPCSessionBase, new()
     {
         public string PipeName { get; }
 
@@ -35,6 +36,9 @@ namespace Framework.Pipes
                 // Called on first connection only.
                 if (!initialized)
                 {
+                    if (pipeServerStream == null)
+                        break;
+
                     await pipeServerStream.WaitForConnectionAsync();
 
                     if (pipeServerStream.IsConnected)
@@ -54,6 +58,13 @@ namespace Framework.Pipes
                         new TSession().Process(pipeServerStream);
                 }
             }
+        }
+
+        public void Dispose()
+        {
+            pipeServerStream.Dispose();
+
+            initialized = false;
         }
     }
 }
