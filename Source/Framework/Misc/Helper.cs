@@ -40,7 +40,6 @@ namespace Framework.Misc
 
             Log.NewLine();
             Log.Message(LogTypes.Info, $"Starting Project WoW {serverName}...");
-            Log.NewLine();
         }
 
         public static Dictionary<string, object> ParseArgs(string[] args)

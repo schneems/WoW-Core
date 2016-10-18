@@ -51,18 +51,28 @@ namespace Framework.Logging
                     if (!logQueue.TryTake(out log))
                         continue;
 
-                    Console.ForegroundColor = ConsoleColor.White;
+                    if (log.Item1 != LogTypes.None)
+                    {
+                        Console.ForegroundColor = ConsoleColor.White;
 
-                    Console.Write($"{log.Item2} |");
+                        Console.Write($"{log.Item2} |");
 
-                    Console.ForegroundColor = LogTypeInfo[log.Item1].Item1;
-                    Console.Write(LogTypeInfo[log.Item1].Item2);
-                    Console.ForegroundColor = ConsoleColor.White;
+                        Console.ForegroundColor = LogTypeInfo[log.Item1].Item1;
+                        Console.Write(LogTypeInfo[log.Item1].Item2);
+                        Console.ForegroundColor = ConsoleColor.White;
 
-                    Console.WriteLine($"| {log.Item3}");
+                        Console.WriteLine($"| {log.Item3}");
 
-                    if (logFile != null)
-                        await logFile.WriteAsync($"{log.Item2} |{LogTypeInfo[log.Item1].Item2}| {log.Item3}");
+                        if (logFile != null)
+                            await logFile.WriteAsync($"{log.Item2} |{LogTypeInfo[log.Item1].Item2}| {log.Item3}");
+                    }
+                    else
+                    {
+                        Console.WriteLine(log.Item3);
+
+                        if (logFile != null)
+                            await logFile.WriteAsync(log.Item3);
+                    }
                 }
             });
 
@@ -79,7 +89,7 @@ namespace Framework.Logging
 
         public void NewLine()
         {
-            logQueue.Add(Tuple.Create(LogTypes.None, "", Environment.NewLine));
+            logQueue.Add(Tuple.Create(LogTypes.None, "", ""));
         }
 
         public void WaitForKey()

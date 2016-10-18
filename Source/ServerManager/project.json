@@ -1,13 +1,39 @@
 {
-    "version": "1.0.0-*",
+    "title": "ServerManager",
+    "authors": [ "Arctium Emulation" ],
+    "copyright": "Copyright (c) 2012-2016 Arctium Emulation",
+    "version": "0.1.0-*",
+
     "buildOptions": {
-        "emitEntryPoint": true
+        "emitEntryPoint": true,
+        "warningsAsErrors": true
+    },
+
+    "scripts": {
+        "postcompile": [
+            "powershell -File \"%project:Directory%/../../Files/Buildscripts/copy.ps1\" -src \"%compile:RuntimeOutputDir%\" -dst \"%project:Directory%/../../Build/%compile:Configuration%/%compile:RuntimeIdentifier%/Bins\"",
+            "powershell -File \"%project:Directory%/../../Files/Buildscripts/copy.ps1\" -src \"%project:Directory%/../../Files/Configs\" -dst \"%project:Directory%/../../Build/%compile:Configuration%/%compile:RuntimeIdentifier%/Configs\""
+        ]
+    },
+
+    "configurations": {
+        "Debug": {
+            "buildOptions": {
+                "define": [ "DEBUG", "TRACE" ],
+                "debugType": "portable"
+            }
+        },
+        "Release": {
+            "buildOptions": {
+                "define": [ "RELEASE", "TRACE" ],
+                "optimize": true
+            }
+        }
     },
 
     "dependencies": {
         "Framework": "1.0.0-*",
         "Microsoft.NETCore.App": {
-            "type": "platform",
             "version": "1.0.1"
         },
         "System.IO.Pipes": "4.0.0"
@@ -15,6 +41,11 @@
 
     "frameworks": {
         "netcoreapp1.0": {
+        }
+    },
+
+    "runtimes": {
+        "win10-x64": {
         }
     }
 }

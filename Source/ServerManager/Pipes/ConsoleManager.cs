@@ -118,13 +118,18 @@ namespace ServerManager.Servers
                     {
                         var logMessage = obj.Data.Split(new[] { "|" }, StringSplitOptions.None);
 
-                        Console.Write($"{logMessage[0]}|");
+                        if (logTypes != LogTypes.None)
+                        {
+                            Console.Write($"{logMessage[0]}|");
 
-                        Console.ForegroundColor = Log.Logger.LogTypeInfo[logTypes].Item1;
-                        Console.Write(Log.Logger.LogTypeInfo[logTypes].Item2);
-                        Console.ForegroundColor = ConsoleColor.White;
+                            Console.ForegroundColor = Log.Logger.LogTypeInfo[logTypes].Item1;
+                            Console.Write(Log.Logger.LogTypeInfo[logTypes].Item2);
+                            Console.ForegroundColor = ConsoleColor.White;
 
-                        Console.WriteLine($"|{logMessage[2]}");
+                            Console.WriteLine($"|{logMessage[2]}");
+                        }
+                        else
+                            Console.WriteLine(logMessage[2]);
                     }
                 }
             };
