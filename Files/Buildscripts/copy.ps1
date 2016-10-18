@@ -22,11 +22,18 @@ if (IsValidCommand('Get-WmiObject') -and ($IsWindows -eq $NULL))
 	
     xcopy /Y /S /I /D `"$src`" `"$dst`"
 }
-elseif ($IsLinux -or $IsMacOSx)
+elseif ($IsLinux)
 {
-    echo "Detected powershell core on linux/macOS."
+    echo "Detected powershell core on linux."
     echo "mkdir & cp will be used."
     
     mkdir -p `"$dst`"
-    cp -r -u `"$src/*`" `"$dst`"
+    cp -r -u `"$src/`" `"$dst`"
+}
+elseif ($IsOsX)
+{
+    echo "Detected powershell core on macOS."
+    echo "rsync will be used."
+
+    rsync -r -u `"$src/`" `"$dst`"
 }
