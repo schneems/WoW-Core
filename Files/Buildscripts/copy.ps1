@@ -24,7 +24,7 @@ elseif ($IsLinux)
     echo "mkdir & cp will be used."
     
     mkdir -p `"$dst`"
-    cp -r -u `"$src/`" `"$dst`"
+    cp -aru `"$src/.`" `"$dst`"
 }
 elseif ($IsOsX)
 {
