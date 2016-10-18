@@ -1,7 +1,4 @@
-﻿# Copyright (c) Arctium Emulation.
-# Licensed under the MIT license. See LICENSE file in the project root for full license information.
-
-param
+﻿param
 (
     [parameter(Mandatory = $true)]
     [string]$src,
@@ -14,10 +11,9 @@ function IsValidCommand($cmdName)
     return [bool](Get-Command -Name $cmdName -ErrorAction SilentlyContinue)
 }
 
-# Check if we are on the windows integrated powershell.
-if (IsValidCommand('Get-WmiObject') -and ($IsWindows -eq $NULL))
+if (IsValidCommand('Get-WmiObject') -or $IsWindows)
 {
-    echo "Detected windows integrated powershell."
+    echo "Detected integrated powershell or powershell core on windows."
     echo "xcopy will be used."
 	
     xcopy /Y /S /I /D `"$src`" `"$dst`"
