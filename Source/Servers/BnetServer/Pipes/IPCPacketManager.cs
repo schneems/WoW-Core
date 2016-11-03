@@ -11,11 +11,11 @@ using Framework.Constants.IPC;
 using Framework.Logging;
 using Framework.Pipes;
 
-namespace ServerManager.Pipes.Packets
+namespace BnetServer.Pipes
 {
     public class IPCPacketManager
     { 
-        static ConcurrentDictionary<IPCMessage, Tuple<MethodInfo, Type>> MessageHandlers = new ConcurrentDictionary<IPCMessage, Tuple<MethodInfo, Type>>();
+        static readonly ConcurrentDictionary<IPCMessage, Tuple<MethodInfo, Type>> messageHandlers = new ConcurrentDictionary<IPCMessage, Tuple<MethodInfo, Type>>();
 
         public static void DefineMessageHandler()
         {
@@ -25,26 +25,23 @@ namespace ServerManager.Pipes.Packets
             {
                 foreach (var methodInfo in type.GetMethods())
                 {
-                    foreach (dynamic msgAttr in methodInfo.GetCustomAttributes())
-                    {
-                        if (msgAttr is IPCMessageAttribute)
-                            MessageHandlers.TryAdd(msgAttr.Message, Tuple.Create(methodInfo, methodInfo.GetParameters()[0].ParameterType));
-                    }
+                    foreach (var msgAttr in methodInfo.GetCustomAttributes<IPCMessageAttribute>())
+                        messageHandlers.TryAdd(msgAttr.Message, Tuple.Create(methodInfo, methodInfo.GetParameters()[0].ParameterType));
                 }
             }
-        }
+        }        
 
-        public static async Task InvokeHandler(byte ipcMessage, Stream ipcMessageData, IPCSession session)
+        public static async Task CallHandler(byte ipcMessage, Stream ipcMessageData, IPCClientBase client)
         {
             var message = (IPCMessage)ipcMessage;
 
             Tuple<MethodInfo, Type> data;
 
-            if (MessageHandlers.TryGetValue(message, out data))
+            if (messageHandlers.TryGetValue(message, out data))
             {
                 var handlerObj = Activator.CreateInstance(data.Item2, ipcMessage, ipcMessageData) as IPCPacket;
 
-                await Task.Run(() => data.Item1.Invoke(null, new object[] { handlerObj, session }));
+                await Task.Run(() => data.Item1.Invoke(null, new object[] { handlerObj, client }));
             }
             else
             {

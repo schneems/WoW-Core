@@ -9,8 +9,14 @@ using ServerManager.Servers;
 
 namespace ServerManager.Pipes.Packets.Handlers
 {
-    public class ConsoleHandler
+    public class ConsoleServiceHandler
     {
+        [IPCMessage(IPCMessage.RegisterConsole)]
+        public static void HandleRegisterConsole(RegisterConsole registerConsole, IPCSession session)
+        {
+            ConsoleManager.AddConsoleClient(registerConsole.Alias, session);
+        }
+
         [IPCMessage(IPCMessage.DetachConsole)]
         public static void HandleDetachConsole(DetachConsole detachConsole, IPCSession session)
         {
@@ -22,6 +28,10 @@ namespace ServerManager.Pipes.Packets.Handlers
         {
             switch (processStateInfo.State)
             {
+                // TODO: Implement on childs. Called in ConsoleManager.Stop for now.
+                case ProcessState.Stopped:
+                    ConsoleManager.RemoveConsoleClient(processStateInfo.Alias);
+                    break;
                 default:
                     Log.Message(LogTypes.Error, $"Received unhandled process state '{processStateInfo.State}' from '{processStateInfo.Alias}'.");
                     break;

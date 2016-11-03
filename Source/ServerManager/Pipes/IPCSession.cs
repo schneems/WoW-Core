@@ -4,7 +4,6 @@
 using System.IO;
 using System.Threading.Tasks;
 using Framework.Pipes;
-using ServerManager.Pipes.Packets;
 
 namespace ServerManager.Pipes
 {
@@ -12,7 +11,7 @@ namespace ServerManager.Pipes
     {
         public override Task ProcessPacket(byte ipcMessage, Stream ipcDataStream)
         {
-            return IPCPacketManager.InvokeHandler(ipcMessage, ipcDataStream, this);
+            return IPCPacketManager.CallHandler(ipcMessage, ipcDataStream, this);
         }
     }
 }

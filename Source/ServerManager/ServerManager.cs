@@ -7,7 +7,6 @@ using Framework.Pipes;
 using ServerManager.Commands;
 using ServerManager.Misc;
 using ServerManager.Pipes;
-using ServerManager.Pipes.Packets;
 
 namespace ServerManager
 {
@@ -25,8 +24,8 @@ namespace ServerManager
             {
                 consolePipeServer.Start();
 
-
                 IPCPacketManager.DefineMessageHandler();
+
                 CommandManager.InitializeCommands();
 
                 Log.Message(LogTypes.Success, $"{serverName} successfully started.");

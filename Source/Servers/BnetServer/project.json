@@ -6,7 +6,13 @@
 
     "buildOptions": {
         "emitEntryPoint": true,
-        "warningsAsErrors": true
+        "warningsAsErrors": true,
+        "outputName": "bnet.server",
+        "compile": {
+            "include": [
+                "../../../Deps/Google.Protobuf/**/*.cs"
+            ]
+        }
     },
 
     "scripts": {

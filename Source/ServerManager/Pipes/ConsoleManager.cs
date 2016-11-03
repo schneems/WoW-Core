@@ -4,6 +4,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using Framework.Constants.IPC;
 using Framework.Logging;
 using Framework.Pipes.Packets;
@@ -20,23 +21,25 @@ namespace ServerManager.Servers
         static readonly Dictionary<string, string> servers;
         static readonly Dictionary<string, IPCSession> consolePipeClients;
 
+        static string baseDir;
+
         static ConsoleManager()
         {
             Childs = new Dictionary<string, Tuple<string, Process>>();
 
+            baseDir = Directory.GetCurrentDirectory();
             servers = new Dictionary<string, string>
             {
-                { "bnet", "Servers/bnet.server" },
-                { "char", "Servers/char.server" }
+                { "bnet", $"{baseDir}/Bins/Servers/bnet.server" },
+                { "char", $"{baseDir}/Bins/Servers/char.server" }
             };
 
             consolePipeClients = new Dictionary<string, IPCSession>();
         }
 
-        public static void AddConsoleClient(string alias, IPCSession session)
-        {
-            consolePipeClients.Add(alias, session);
-        }
+        public static void AddConsoleClient(string alias, IPCSession session) => consolePipeClients.Add(alias, session);
+
+        public static void RemoveConsoleClient(string alias) => consolePipeClients.Remove(alias);
 
         public static void Attach(string alias)
         {
@@ -158,17 +161,17 @@ namespace ServerManager.Servers
                 Childs.Remove(alias);
 
                 // Send exit state to the server.
-                var processStateInfo = new ProcessStateInfo
+                consolePipeClients[alias].Send(new ProcessStateInfo
                 {
                     Id = process.Item2.Id,
                     Alias = alias,
                     State = ProcessState.Stop
-                };
-
-                consolePipeClients[alias].Send(processStateInfo).GetAwaiter().GetResult();
+                }).GetAwaiter().GetResult();
 
                 // Wait for the server to exit.
                 process.Item2.WaitForExit();
+
+                RemoveConsoleClient(alias);
 
                 Log.Message(LogTypes.Success, "Done.");
             }

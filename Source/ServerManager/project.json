@@ -12,7 +12,8 @@
     "scripts": {
         "postcompile": [
             "powershell -File \"%project:Directory%/../../Files/Buildscripts/copy.ps1\" -src \"%compile:RuntimeOutputDir%\" -dst \"%project:Directory%/../../Build/%compile:Configuration%/%compile:RuntimeIdentifier%/Bins\"",
-            "powershell -File \"%project:Directory%/../../Files/Buildscripts/copy.ps1\" -src \"%project:Directory%/../../Files/Configs\" -dst \"%project:Directory%/../../Build/%compile:Configuration%/%compile:RuntimeIdentifier%/Configs\""
+            "powershell -File \"%project:Directory%/../../Files/Buildscripts/copy.ps1\" -src \"%project:Directory%/../../Files/Configs\" -dst \"%project:Directory%/../../Build/%compile:Configuration%/%compile:RuntimeIdentifier%/Configs\"",
+            "powershell -File \"%project:Directory%/../../Files/Buildscripts/copy.ps1\" -src \"%project:Directory%/../../Files/Other\" -dst \"%project:Directory%/../../Build/%compile:Configuration%/%compile:RuntimeIdentifier%\""
         ]
     },
 
