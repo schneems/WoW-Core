@@ -46,7 +46,7 @@ namespace Framework.Pipes
                         initialized = true;
 
                         new TSession().Process(pipeServerStream);
-                    };
+                    }
                 }
                 else
                 {
@@ -55,7 +55,7 @@ namespace Framework.Pipes
                     await pipe.WaitForConnectionAsync();
 
                     if (pipe.IsConnected)
-                        new TSession().Process(pipeServerStream);
+                        new TSession().Process(pipe);
                 }
             }
         }
