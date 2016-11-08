@@ -14,7 +14,7 @@ namespace BnetServer.Console
 {
     public class CommandManager
     {
-        static ConcurrentDictionary<string, HandleCommand> Commands = new ConcurrentDictionary<string, HandleCommand>();
+        static readonly ConcurrentDictionary<string, HandleCommand> commands = new ConcurrentDictionary<string, HandleCommand>();
         delegate void HandleCommand(CommandArgs args);
 
         public static void InitializeCommands()
@@ -27,7 +27,7 @@ namespace BnetServer.Console
                 {
                     foreach (var commandAttr in methodInfo.GetCustomAttributes<ConsoleCommandAttribute>())
                         if (commandAttr != null)
-                            Commands[commandAttr.Command] = (HandleCommand)methodInfo.CreateDelegate(typeof(HandleCommand), null);
+                            commands[commandAttr.Command] = (HandleCommand)methodInfo.CreateDelegate(typeof(HandleCommand), null);
                 }
             }
         }
@@ -47,7 +47,7 @@ namespace BnetServer.Console
 
                     HandleCommand command;
 
-                    if (Commands.TryGetValue(cmd, out command))
+                    if (commands.TryGetValue(cmd, out command))
                     {
                         var argCount = command.GetMethodInfo().GetCustomAttribute<ConsoleCommandAttribute>().Arguments;
 

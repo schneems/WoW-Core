@@ -22,9 +22,10 @@ namespace Framework.Network
         public int MaxConnections { get; }
         public int BufferSize { get; }
 
+        readonly ConcurrentStack<SocketAsyncEventArgs> sockets;
+
         Socket serverSocket;
         SocketAsyncEventArgs acceptEventArgs;
-        ConcurrentStack<SocketAsyncEventArgs> sockets;
 
         int activeConnections;
         bool acceptConnections;

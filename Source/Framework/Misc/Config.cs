@@ -10,7 +10,7 @@ namespace Framework.Misc
 {
     public class Config
     {
-        string[] configContent;
+        readonly string[] configContent;
         int currentLine;
 
         public Config(string config, bool isChild = false)

@@ -19,10 +19,9 @@ namespace Framework.Logging.IO
 
         public async Task WriteAsync(string logMessage)
         {
-            var logBytes = Encoding.Unicode.GetBytes(logMessage + "\n");
+            var logBytes = Encoding.Unicode.GetBytes($"{logMessage}\n");
 
-            logStream.Write(logBytes, 0, logBytes.Length);
-
+            await logStream.WriteAsync(logBytes, 0, logBytes.Length);
             await logStream.FlushAsync();
         }
 

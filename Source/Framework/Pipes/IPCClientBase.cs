@@ -10,7 +10,7 @@ namespace Framework.Pipes
 {
     public abstract class IPCClientBase : IDisposable
     {
-        NamedPipeClientStream pipeClientStream;
+        readonly NamedPipeClientStream pipeClientStream;
 
         protected IPCClientBase(string pipeServer, string pipeName)
         {

@@ -21,13 +21,12 @@ namespace ServerManager.Servers
         static readonly Dictionary<string, string> servers;
         static readonly Dictionary<string, IPCSession> consolePipeClients;
 
-        static string baseDir;
-
         static ConsoleManager()
         {
             Childs = new Dictionary<string, Tuple<string, Process>>();
 
-            baseDir = Directory.GetCurrentDirectory();
+            var baseDir = Directory.GetCurrentDirectory();
+
             servers = new Dictionary<string, string>
             {
                 { "bnet", $"{baseDir}/Bins/Servers/bnet.server" },
@@ -111,11 +110,11 @@ namespace ServerManager.Servers
             {
                 var splitIndex = obj.Data.IndexOf("|");
 
-                LogTypes logTypes;
-
                 if (splitIndex != -1)
                 {
                     var splitIndex2 = obj.Data.IndexOf('|', splitIndex + 1) - splitIndex - 1;
+
+                    LogTypes logTypes;
 
                     if (splitIndex2 != -1 && Enum.TryParse(obj.Data.Substring(splitIndex + 1, splitIndex2), out logTypes))
                     {

@@ -103,7 +103,7 @@ namespace Framework.Logging
         {
             if ((logLevel & type) == type)
             {
-                if (type.Equals(LogTypes.None))
+                if (type == LogTypes.None)
                     logQueue.Add(Tuple.Create(type, "", text));
                 else
                     logQueue.Add(Tuple.Create(type, DateTime.Now.ToString("T"), text));

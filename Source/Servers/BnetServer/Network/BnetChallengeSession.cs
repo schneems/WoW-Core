@@ -29,7 +29,7 @@ namespace BnetServer.Network
                     await tlsStream.AuthenticateAsServerAsync(Manager.Session.Certificate, false, SslProtocols.Tls12, false);
 
                     var buffer = Sockets[0].Buffer;
-                    var numReadBytes = 0;
+                    int numReadBytes;
 
                     do
                     {

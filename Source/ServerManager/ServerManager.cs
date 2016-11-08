@@ -12,7 +12,7 @@ namespace ServerManager
 {
     public class ServerManager
     {
-        static string serverName = nameof(ServerManager);
+        const string serverName = nameof(ServerManager);
 
         public static void Main(string[] args)
         {

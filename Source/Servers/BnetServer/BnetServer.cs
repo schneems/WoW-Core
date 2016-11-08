@@ -17,7 +17,7 @@ namespace BnetServer
         public static string Alias { get; private set; }
         public static ConsolePipeClient ConsoleClient { get; private set; }
 
-        static readonly string serverName = nameof(BnetServer);
+        const string serverName = nameof(BnetServer);
 
         public static void Main(string[] args)
         {

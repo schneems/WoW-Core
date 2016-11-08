@@ -43,7 +43,7 @@ namespace BnetServer.Network
                     if (tlsStream.IsAuthenticated && Manager.Session.Add(this))
                     {
                         var buffer = Sockets[0].Buffer;
-                        var numReadBytes = 0;
+                        int numReadBytes;
 
                         do
                         {

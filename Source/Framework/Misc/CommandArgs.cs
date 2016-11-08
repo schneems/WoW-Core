@@ -5,7 +5,7 @@ namespace Framework.Misc
 {
     public class CommandArgs
     {
-        string[] args;
+        readonly string[] args;
         int index;
 
         public CommandArgs(string[] commandArgs)

@@ -15,7 +15,7 @@ namespace ServerManager.Pipes
 {
     public class IPCPacketManager
     { 
-        static ConcurrentDictionary<IPCMessage, Tuple<MethodInfo, Type>> MessageHandlers = new ConcurrentDictionary<IPCMessage, Tuple<MethodInfo, Type>>();
+        static readonly ConcurrentDictionary<IPCMessage, Tuple<MethodInfo, Type>> messageHandlers = new ConcurrentDictionary<IPCMessage, Tuple<MethodInfo, Type>>();
 
         public static void DefineMessageHandler()
         {
@@ -26,7 +26,7 @@ namespace ServerManager.Pipes
                 foreach (var methodInfo in type.GetMethods())
                 {
                     foreach (var msgAttr in methodInfo.GetCustomAttributes<IPCMessageAttribute>())
-                        MessageHandlers.TryAdd(msgAttr.Message, Tuple.Create(methodInfo, methodInfo.GetParameters()[0].ParameterType));
+                        messageHandlers.TryAdd(msgAttr.Message, Tuple.Create(methodInfo, methodInfo.GetParameters()[0].ParameterType));
                 }
             }
         }
@@ -38,7 +38,7 @@ namespace ServerManager.Pipes
 
             Tuple<MethodInfo, Type> data;
 
-            if (MessageHandlers.TryGetValue(message, out data))
+            if (messageHandlers.TryGetValue(message, out data))
             {
                 var handlerObj = Activator.CreateInstance(data.Item2, ipcMessage, ipcMessageData) as IPCPacket;
 

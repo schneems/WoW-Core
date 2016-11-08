@@ -11,7 +11,7 @@ namespace Framework.Pipes
     {
         public string PipeName { get; }
 
-        NamedPipeServerStream pipeServerStream;
+        readonly NamedPipeServerStream pipeServerStream;
         bool initialized;
 
         public IPCServer(string pipeName)

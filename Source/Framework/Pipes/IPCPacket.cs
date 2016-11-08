@@ -14,7 +14,7 @@ namespace Framework.Pipes
         protected BinaryReader readStream;
         protected BinaryWriter writeStream;
 
-        public IPCPacket(IPCMessage message)
+        protected IPCPacket(IPCMessage message)
         {
             writeStream = new BinaryWriter(new MemoryStream());
 
@@ -23,7 +23,7 @@ namespace Framework.Pipes
             writeStream.Write((byte)message);
         }
 
-        public IPCPacket(int msg, Stream data)
+        protected IPCPacket(int msg, Stream data)
         {
             readStream = new BinaryReader(data);
 
@@ -45,7 +45,7 @@ namespace Framework.Pipes
         {
             Write();
 
-            Data = (writeStream.BaseStream as MemoryStream).ToArray();
+            Data = (writeStream.BaseStream as MemoryStream)?.ToArray();
         }
 
         public abstract void Write();
