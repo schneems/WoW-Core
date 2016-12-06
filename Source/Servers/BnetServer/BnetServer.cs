@@ -25,7 +25,7 @@ namespace BnetServer
 
             // We need an alias here.
             if (!startParams.ContainsKey("alias") || startParams["alias"] == null)
-                return;
+                Shutdown();
 
             Alias = startParams["alias"].ToString();
 
@@ -52,7 +52,8 @@ namespace BnetServer
 
                     if (bnetServer.IsListening && bnetChallengeServer.IsListening)
                     {
-                        Manager.Packet.Initialize();
+                        Manager.BnetPacket.Initialize();
+                        Manager.RestPacket.Initialize();
 
                         CommandManager.InitializeCommands();
 

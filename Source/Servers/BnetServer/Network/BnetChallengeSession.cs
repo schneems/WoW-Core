@@ -9,6 +9,7 @@ using System.Security.Authentication;
 using System.Threading.Tasks;
 using Framework.Logging;
 using Framework.Network;
+using Framework.Web;
 
 namespace BnetServer.Network
 {
@@ -38,12 +39,12 @@ namespace BnetServer.Network
                         if (numReadBytes == 0)
                             break;
 
-                        /*var httpRequest = HttpRequest.Parse(buffer, numReadBytes);
+                        var httpRequest = HttpRequest.Parse(buffer, numReadBytes);
 
                         if (httpRequest == null)
                             break;
 
-                        Manager.Rest.CallService(httpRequest, this);*/
+                        Manager.RestPacket.CallService(httpRequest, this);
                     } while (numReadBytes != 0);
                 }
             }

@@ -17,11 +17,11 @@ using Google.Protobuf;
 
 namespace BnetServer.Packets
 {
-    public class PacketManager : Singleton<PacketManager>
+    public class BnetPacketManager : Singleton<BnetPacketManager>
     {
         readonly ConcurrentDictionary<BnetServiceHash, Dictionary<uint, Tuple<MethodInfo, Type>>> bnetHandlers;
 
-        PacketManager()
+        BnetPacketManager()
         {
             bnetHandlers = new ConcurrentDictionary<BnetServiceHash, Dictionary<uint, Tuple<MethodInfo, Type>>>();
 

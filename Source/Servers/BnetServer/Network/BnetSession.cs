@@ -59,7 +59,7 @@ namespace BnetServer.Network
                             if (header.Size > 0)
                                 Buffer.BlockCopy(buffer, 2 + headerLength, data, 0, data.Length);
 
-                            await Manager.Packet.CallHandler(header, data, this);
+                            await Manager.BnetPacket.CallHandler(header, data, this);
                         } while (numReadBytes != 0);
                     }
                 }

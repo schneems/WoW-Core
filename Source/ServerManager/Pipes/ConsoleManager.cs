@@ -8,9 +8,8 @@ using System.IO;
 using Framework.Constants.IPC;
 using Framework.Logging;
 using Framework.Pipes.Packets;
-using ServerManager.Pipes;
 
-namespace ServerManager.Servers
+namespace ServerManager.Pipes
 {
     class ConsoleManager
     {

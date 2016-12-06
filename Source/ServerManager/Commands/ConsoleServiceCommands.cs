@@ -4,9 +4,9 @@
 using Framework.Attributes;
 using Framework.Logging;
 using Framework.Misc;
-using ServerManager.Servers;
+using ServerManager.Pipes;
 
-namespace ServerManager.Commands.Console
+namespace ServerManager.Commands
 {
     class ConsoleServiceCommands
     {

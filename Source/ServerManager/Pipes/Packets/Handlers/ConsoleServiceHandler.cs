@@ -5,7 +5,6 @@ using Framework.Attributes;
 using Framework.Constants.IPC;
 using Framework.Logging;
 using Framework.Pipes.Packets;
-using ServerManager.Servers;
 
 namespace ServerManager.Pipes.Packets.Handlers
 {

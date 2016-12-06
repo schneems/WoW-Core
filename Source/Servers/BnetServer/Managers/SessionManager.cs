@@ -35,11 +35,11 @@ namespace BnetServer.Managers
 
         public bool SetLoginTicket(Guid guid, string loginTicket)
         {
-            BnetSession dummy;
+            BnetSession bnetSessiom;
 
-            if (bnetSessions.TryGetValue(guid, out dummy))
+            if (bnetSessions.TryGetValue(guid, out bnetSessiom))
             {
-                bnetSessions[guid].LoginTicket = loginTicket;
+                bnetSessiom.LoginTicket = loginTicket;
 
                 return true;
             }

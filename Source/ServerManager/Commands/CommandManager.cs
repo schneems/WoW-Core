@@ -9,7 +9,7 @@ using System.Threading;
 using Framework.Attributes;
 using Framework.Logging;
 using Framework.Misc;
-using ServerManager.Servers;
+using ServerManager.Pipes;
 
 namespace ServerManager.Commands
 {
@@ -39,7 +39,7 @@ namespace ServerManager.Commands
             {
                 Thread.Sleep(1);
 
-                var sLine = System.Console.ReadLine();
+                var sLine = Console.ReadLine();
 
                 if (ConsoleManager.Attached)
                     ConsoleManager.SelectedChild.StandardInput.WriteLine(sLine);
