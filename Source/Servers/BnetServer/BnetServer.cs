@@ -7,6 +7,7 @@ using BnetServer.Misc;
 using BnetServer.Network;
 using BnetServer.Pipes;
 using Framework.Logging;
+using Framework.Logging.IO;
 using Framework.Misc;
 using Framework.Pipes.Packets;
 
@@ -32,6 +33,23 @@ namespace BnetServer
             BnetConfig.Initialize("Configs/BnetServer.conf");
 
             Helper.PrintHeader(serverName);
+
+            var bnetDbConnectionString = Database.CreateConnectionString(BnetConfig.BnetDatabaseHost, BnetConfig.BnetDatabaseUser, BnetConfig.BnetDatabasePassword,
+                                         BnetConfig.BnetDatabaseDataBase, BnetConfig.BnetDatabasePort, BnetConfig.BnetDatabaseMinPoolSize, BnetConfig.BnetDatabaseMaxPoolSize,
+                                         BnetConfig.BnetDatabaseType);
+
+            if (!Database.Bnet.Initialize(bnetDbConnectionString, BnetConfig.BnetDatabaseType))
+            {
+                Log.Message(LogTypes.Error, $"Can't connect to bnet database.");
+
+                Shutdown();
+            }
+
+            var dbLogger = new DBLogger();
+
+            dbLogger.Initialize(BnetConfig.LogLevel, new LogFile(BnetConfig.LogDirectory, BnetConfig.LogDatabaseFile));
+
+            Database.Bnet.SetLogger(dbLogger);
 
             using (ConsoleClient = new ConsolePipeClient(BnetConfig.ConsoleServiceServer, BnetConfig.ConsoleServiceName))
             {

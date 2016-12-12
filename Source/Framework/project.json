@@ -11,6 +11,21 @@
         }
     },
 
+    "configurations": {
+        "Debug": {
+            "buildOptions": {
+                "define": [ "DEBUG", "TRACE" ],
+                "debugType": "portable"
+            }
+        },
+        "Release": {
+            "buildOptions": {
+                "define": [ "RELEASE", "TRACE" ],
+                "optimize": true
+            }
+        }
+    },
+
     "dependencies": {
         "NETStandard.Library": "1.6.1",
         "System.Data.Common": "4.3.0",

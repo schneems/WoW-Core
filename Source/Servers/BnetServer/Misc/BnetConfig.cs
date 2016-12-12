@@ -36,16 +36,16 @@ namespace BnetServer.Misc
         public static string BnetChallengeHost;
         public static int BnetChallengeMaxConnections;
 
-        public static DatabaseType AuthDBType;
+        public static DatabaseType BnetDatabaseType;
 
-        public static string AuthDBHost;  
-        public static int AuthDBPort; 
-        public static string AuthDBUser; 
-        public static string AuthDBPassword; 
-        public static string AuthDBDataBase; 
+        public static string BnetDatabaseHost;
+        public static int BnetDatabasePort;
+        public static string BnetDatabaseUser;
+        public static string BnetDatabasePassword;
+        public static string BnetDatabaseDataBase;
 
-        public static int AuthDBMinPoolSize; 
-        public static int AuthDBMaxPoolSize;
+        public static int BnetDatabaseMinPoolSize;
+        public static int BnetDatabaseMaxPoolSize;
         #endregion
 
         public static void Initialize(string file)
@@ -96,15 +96,15 @@ namespace BnetServer.Misc
             BnetChallengeHost = config.Read("BnetChallenge.Host", "127.0.0.1");
             BnetChallengeMaxConnections = config.Read("BnetChallenge.MaxConnections", 1000);
 
-            AuthDBType     = config.Read("AuthDB.Type", DatabaseType.MySql);
-            AuthDBHost     = config.Read("AuthDB.Host", "127.0.0.1");
-            AuthDBPort     = config.Read("AuthDB.Port", 3306);
-            AuthDBUser     = config.Read("AuthDB.User", "root");
-            AuthDBPassword = config.Read("AuthDB.Password", "");
-            AuthDBDataBase = config.Read("AuthDB.Database", "AuthDB");
+            BnetDatabaseType     = config.Read("BnetDatabase.Type", DatabaseType.MySql);
+            BnetDatabaseHost     = config.Read("BnetDatabase.Host", "127.0.0.1");
+            BnetDatabasePort     = config.Read("BnetDatabase.Port", 3306);
+            BnetDatabaseUser     = config.Read("BnetDatabase.User", "root");
+            BnetDatabasePassword = config.Read("BnetDatabase.Password", "");
+            BnetDatabaseDataBase = config.Read("BnetDatabase.Database", "BnetDatabase");
 
-            AuthDBMinPoolSize = config.Read("AuthDB.MinPoolSize", 5);
-            AuthDBMaxPoolSize = config.Read("AuthDB.MaxPoolSize", 30);
+            BnetDatabaseMinPoolSize = config.Read("BnetDatabase.MinPoolSize", 5);
+            BnetDatabaseMaxPoolSize = config.Read("BnetDatabase.MaxPoolSize", 30);
         }
     }
 }
