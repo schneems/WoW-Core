@@ -17,6 +17,7 @@ namespace BnetServer.Packets.Services
         [BnetMethod(MethodId = 1)]
         public static async void HandleConnectRequest(ConnectRequest connectRequest, BnetSession session)
         {
+            // TODO: Verify sent values.
             await session.Send(new ConnectResponse
             {
                 ClientId = connectRequest.ClientId,

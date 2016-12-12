@@ -3,6 +3,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Bgs.Protocol;
 using Bgs.Protocol.GameUtilities.V1;
@@ -23,8 +24,8 @@ namespace BnetServer.Packets.Services
     {
         static readonly Dictionary<string, Func<ClientRequest, BnetSession, Task>> clientRequestHandlers = new Dictionary<string, Func<ClientRequest, BnetSession, Task>>
         {
-            //{ "Command_RealmListTicketRequest_v1_b9", HandleRealmListTicketRequest},
-            //{ "Command_LastCharPlayedRequest_v1_b9", HandleLastCharPlayedRequest},
+            { "Command_RealmListTicketRequest_v1_b9", HandleRealmListTicketRequest},
+            { "Command_LastCharPlayedRequest_v1_b9", HandleLastCharPlayedRequest},
             //{ "Command_RealmListRequest_v1_b9", HandleRealmListRequest},
             //{ "Command_RealmJoinRequest_v1_b9", HandleRealmJoinRequest}
         };
@@ -44,7 +45,7 @@ namespace BnetServer.Packets.Services
                 Log.Message(LogTypes.Error, $"Tried to call non existing handler for client request '{clientRequest.Attribute[0].Name}'.");
         }
 
-        // TODO
+        // TODO: Verify ClientRequest values.
         static async Task HandleRealmListTicketRequest(ClientRequest clientRequest, BnetSession session)
         {
             var paramIdentityValue = clientRequest.GetVariant("Param_Identity")?.BlobValue.ToStringUtf8();
@@ -55,14 +56,32 @@ namespace BnetServer.Packets.Services
                 var realmListTicketIdentity = CreateObject<RealmListTicketIdentity>(paramIdentityValue, true);
                 var realmListTicketClientInformation = CreateObject<RealmListTicketClientInformation>(paramClientInfoValue, true);
 
-                // Dummy await.
-                await HandleRealmListTicketRequest(clientRequest, session);
+                session.GameAccount = session.Account.GameAccounts.SingleOrDefault(ga => ga.Id == realmListTicketIdentity.GameAccountId);
+
+                if (session.GameAccount != null)
+                {
+                    session.RealmListSecret = realmListTicketClientInformation.Info.Secret.Select(x => Convert.ToByte(x)).ToArray();
+                    session.RealmListTicket = new byte[0].GenerateRandomKey(32);
+
+                    var realmListTicketResponse = new ClientResponse();
+
+                    realmListTicketResponse.Attribute.Add(new Bgs.Protocol.Attribute
+                    {
+                        Name = "Param_RealmListTicket",
+                        Value = new Variant
+                        {
+                            BlobValue = ByteString.CopyFrom(session.RealmListTicket)
+                        }
+                    });
+
+                    await session.Send(realmListTicketResponse);
+                }
             }
             else
                 session.Dispose();
         }
 
-        // TODO
+        // TODO: Implement.
         static Task HandleLastCharPlayedRequest(ClientRequest clientRequest, BnetSession session)
         {
             var lastCharPlayedResponse = new ClientResponse();
@@ -70,7 +89,8 @@ namespace BnetServer.Packets.Services
             return session.Send(lastCharPlayedResponse);
         }
 
-        // TODO
+        // TODO: Implement loading existing realms.
+        // TODO: Implement existing character counts.
         static async Task HandleRealmListRequest(ClientRequest clientRequest, BnetSession session)
         {
             var realmJoinRequest = clientRequest.GetVariant("Command_RealmListRequest_v1_b9")?.StringValue;
@@ -78,7 +98,6 @@ namespace BnetServer.Packets.Services
 
             if (session.RealmListTicket.Compare(realmListTicket))
             {
-                // TODO: Implement loading realms from database or realm service over IPC.
                 var realmListResponse = new ClientResponse();
                 var realmlist = new RealmListUpdates();
 
@@ -91,7 +110,6 @@ namespace BnetServer.Packets.Services
                     }
                 });
 
-                // TODO: Implement existing character counts.
                 var realmCharacterCountList = new RealmCharacterCountList();
 
                 realmListResponse.Attribute.Add(new Bgs.Protocol.Attribute
@@ -107,7 +125,7 @@ namespace BnetServer.Packets.Services
             }
         }
 
-        // TODO
+        // TODO: Implement realm join function.
         static async Task HandleRealmJoinRequest(ClientRequest clientRequest, BnetSession session)
         {
             var realmJoinRequest = clientRequest.GetVariant("Command_RealmJoinRequest_v1_b9")?.StringValue;
@@ -124,6 +142,7 @@ namespace BnetServer.Packets.Services
             }
         }
 
+        // TODO: Implement it the right way! 
         [BnetMethod(MethodId = 10)]
         public static async void HandleGetAllValuesForAttributeRequest(GetAllValuesForAttributeRequest getAllValuesForAttributeRequest, BnetSession session)
         {
@@ -131,7 +150,6 @@ namespace BnetServer.Packets.Services
             {
                 var getAllValuesForAttributeResponse = new GetAllValuesForAttributeResponse();
 
-                // TODO: Implement it the right way! 
                 getAllValuesForAttributeResponse.AttributeValue.Add(new Variant { StringValue = "0-0-0" });
 
                 await session.Send(getAllValuesForAttributeResponse);

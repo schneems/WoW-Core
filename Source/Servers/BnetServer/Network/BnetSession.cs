@@ -10,6 +10,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Bgs.Protocol;
 using BnetServer.Constants.Bnet;
+using Framework.Database.Bnet;
 using Framework.Logging;
 using Framework.Network;
 using Google.Protobuf;
@@ -18,6 +19,9 @@ namespace BnetServer.Network
 {
     public class BnetSession : SessionBase, IDisposable
     {
+        public Account Account { get; set; }
+        public GameAccount GameAccount { get; set; }
+
         public string LoginTicket { get; set; }
         public byte[] RealmListSecret { get; set; }
         public byte[] RealmListTicket { get; set; }

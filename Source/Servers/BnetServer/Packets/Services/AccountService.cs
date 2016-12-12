@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Arctium Emulation.
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
+using System.Linq;
 using System.Threading.Tasks;
 using Bgs.Protocol.Account.V1;
 using BnetServer.Attributes;
@@ -17,6 +18,7 @@ namespace BnetServer.Packets.Services
         {
             return session.Send(new GetAccountStateResponse
             {
+                // TODO: Implement?!
                 State = new AccountState
                 {
                     PrivacyInfo = new PrivacyInfo
@@ -25,6 +27,7 @@ namespace BnetServer.Packets.Services
                         IsUsingRid = true,
                     }
                 },
+                // TODO: Implement?!
                 Tags = new AccountFieldTags
                 {
                     PrivacyInfoTag = 0xD7CA834D
@@ -32,10 +35,39 @@ namespace BnetServer.Packets.Services
             });
         }
 
-        //[BnetMethod(MethodId = 31)]
-        public static void HandleGetGameAccountStateRequest(GetGameAccountStateRequest getGameAccountStateRequest, BnetSession session)
+        [BnetMethod(MethodId = 31)]
+        public static async void HandleGetGameAccountStateRequest(GetGameAccountStateRequest getGameAccountStateRequest, BnetSession session)
         {
-            // TODO
+            var gameAccount = session.Account.GameAccounts.SingleOrDefault(ga => ga.Id == getGameAccountStateRequest.GameAccountId.Low);
+
+            if (gameAccount != null)
+            {
+                var getGameAccountStateResponse = new GetGameAccountStateResponse
+                {
+                    State = new GameAccountState
+                    {
+                        GameLevelInfo = new GameLevelInfo
+                        {
+                            // 'WoW'
+                            Program = 0x576F57,
+                            Name = gameAccount.Game + gameAccount.Index
+                        },
+                        GameStatus = new GameStatus
+                        {
+                            // 'WoW'
+                            Program = 0x576F57,
+                        }
+                    },
+                    // TODO: Implement?!
+                    Tags = new GameAccountFieldTags
+                    {
+                        GameLevelInfoTag = 4140539163,
+                        GameStatusTag = 2562154393
+                    }
+                };
+
+                await session.Send(getGameAccountStateResponse);
+            }
         }
     }
 }
