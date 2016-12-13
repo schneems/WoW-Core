@@ -47,7 +47,7 @@ namespace BnetServer
 
             var dbLogger = new DBLogger();
 
-            dbLogger.Initialize(BnetConfig.LogLevel, new LogFile(BnetConfig.LogDirectory, BnetConfig.LogDatabaseFile));
+            dbLogger.Initialize(BnetConfig.LogLevel, BnetConfig.LogDatabaseFile != "" ? new LogFile(BnetConfig.LogDirectory, BnetConfig.LogDatabaseFile) : null);
 
             Database.Bnet.SetLogger(dbLogger);
 
