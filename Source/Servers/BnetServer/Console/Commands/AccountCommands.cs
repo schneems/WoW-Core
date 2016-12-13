@@ -21,6 +21,7 @@ namespace BnetServer.Console.Commands
             {
                 var salt = new byte[0].GenerateRandomKey(32).ToHexString();
 
+                // Check if account exists.
                 if (!Database.Bnet.Any<Account>(a => a.Email == email))
                 {
                     var account = new Account
@@ -57,19 +58,12 @@ namespace BnetServer.Console.Commands
         {
             var email = args.Read<string>();
 
-            if (email != "")
+            if (email != null)
             {
-                var account = Database.Bnet.Single<Account>(a => a.Email == email);
-
-                if (account != null)
-                {
-                    if (Database.Bnet.Delete(account))
-                        Log.Message(LogTypes.Success, $"Account '{account.Email}' successfully deleted.");
-                    else
-                        Log.Message(LogTypes.Error, $"Can't delete account '{account.Email}'.");
-                }
+                if (Database.Bnet.Delete<Account>(a => a.Email == email))
+                    Log.Message(LogTypes.Success, $"Account '{email}' successfully deleted.");
                 else
-                    Log.Message(LogTypes.Warning, $"Account '{email}' doesn't exist.");
+                    Log.Message(LogTypes.Error, $"Can't delete account '{email}'.");
             }
         }
     }
