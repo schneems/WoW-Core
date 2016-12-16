@@ -15,14 +15,14 @@ if (IsValidCommand('Get-WmiObject') -or $IsWindows)
 {
     echo "Detected integrated powershell or powershell core on windows."
     echo "xcopy will be used."
-    
+
     xcopy /Y /S /I /D `"$src`" `"$dst`"
 }
 elseif ($IsLinux)
 {
     echo "Detected powershell core on linux."
     echo "mkdir & cp will be used."
-    
+
     mkdir -p `"$dst`"
     cp -aru `"$src/.`" `"$dst`"
 }
