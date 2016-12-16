@@ -15,7 +15,7 @@ if (IsValidCommand('Get-WmiObject') -or $IsWindows)
 {
     echo "Detected integrated powershell or powershell core on windows."
     echo "xcopy will be used."
-	
+    
     xcopy /Y /S /I /D `"$src`" `"$dst`"
 }
 elseif ($IsLinux)
@@ -31,5 +31,6 @@ elseif ($IsOsX)
     echo "Detected powershell core on macOS."
     echo "rsync will be used."
 
+    mkdir -p `"$dst`"
     rsync -r -u `"$src/`" `"$dst`"
 }
