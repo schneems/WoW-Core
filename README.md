@@ -6,7 +6,7 @@
 
 Project WoW is an open source server project for World of Warcraft written in C# (.NET Core).
 
-The current support game version is: **7.1.0.x**
+The current support game version is: **In development (7.1.5.x)**
 
 ### Used dependencies
 Info about used 3rd party libs/deps: [Dependencies](https://github.com/Arctium-Emulation/Project-WoW/blob/master/Deps/README.md)
