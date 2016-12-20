@@ -66,5 +66,13 @@ namespace BnetServer.Console.Commands
                     Log.Message(LogTypes.Error, $"Can't delete account '{email}'.");
             }
         }
+
+        [ConsoleCommand("OnlineAccounts", 0, "")]
+        public static void OnlineAccounts(CommandArgs args)
+        {
+            var onlineGameAccounts = Database.Bnet.Where<GameAccount>(ga => ga.Online);
+            
+            Log.Message(LogTypes.Info, $"There are {onlineGameAccounts.Count} online accounts");
+        }
     }
 }
