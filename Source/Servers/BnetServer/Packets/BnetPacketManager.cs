@@ -9,7 +9,7 @@ using System.Reflection;
 using System.Threading.Tasks;
 using Bgs.Protocol;
 using BnetServer.Attributes;
-using BnetServer.Constants.Bnet;
+using BnetServer.Constants.Service;
 using BnetServer.Network;
 using Framework.Logging;
 using Framework.Misc;
@@ -19,46 +19,46 @@ namespace BnetServer.Packets
 {
     public class BnetPacketManager : Singleton<BnetPacketManager>
     {
-        readonly ConcurrentDictionary<BnetServiceHash, Dictionary<uint, Tuple<MethodInfo, Type>>> bnetHandlers;
+        readonly ConcurrentDictionary<BnetServiceHash, Dictionary<uint, Tuple<MethodInfo, Type>>> serviceHandlers;
 
         BnetPacketManager()
         {
-            bnetHandlers = new ConcurrentDictionary<BnetServiceHash, Dictionary<uint, Tuple<MethodInfo, Type>>>();
+            serviceHandlers = new ConcurrentDictionary<BnetServiceHash, Dictionary<uint, Tuple<MethodInfo, Type>>>();
 
             var assembly = Assembly.GetEntryAssembly();
 
             foreach (var type in assembly.GetTypes().Where(t => t.GetTypeInfo().GetCustomAttribute<BnetServiceAttribute>() != null))
             {
-                var bnetMethods = new Dictionary<uint, Tuple<MethodInfo, Type>>();
+                var ServiceMethods = new Dictionary<uint, Tuple<MethodInfo, Type>>();
 
-                foreach (var method in type.GetMethods().Where(m => m.GetCustomAttribute<BnetMethodAttribute>() != null))
+                foreach (var method in type.GetMethods().Where(m => m.GetCustomAttribute<BnetServiceMethodAttribute>() != null))
                 {
-                    var methodAttributeInfo = method.GetCustomAttribute<BnetMethodAttribute>();
+                    var methodAttributeInfo = method.GetCustomAttribute<BnetServiceMethodAttribute>();
 
-                    bnetMethods.Add(methodAttributeInfo.MethodId, Tuple.Create(method, method.GetParameters()[0].ParameterType));
+                    ServiceMethods.Add(methodAttributeInfo.MethodId, Tuple.Create(method, method.GetParameters()[0].ParameterType));
                 }
 
                 var serviceAttributeInfo = type.GetTypeInfo().GetCustomAttribute<BnetServiceAttribute>();
 
-                if (bnetHandlers.TryAdd(serviceAttributeInfo.Hash, bnetMethods))
+                if (serviceHandlers.TryAdd(serviceAttributeInfo.Hash, ServiceMethods))
                 {
-                    Log.Message(LogTypes.Info, $"Registered Bnet handlers for {serviceAttributeInfo.Hash}:");
+                    Log.Message(LogTypes.Info, $"Registered service handlers for {serviceAttributeInfo.Hash}:");
 
-                    foreach (var m in bnetMethods)
+                    foreach (var m in ServiceMethods)
                         Log.Message(LogTypes.Info, $"- Id: {m.Key}, Name: {m.Value.Item1.Name}");
                 }
             }
         }
 
-        public async Task CallHandler(Header header, byte[] messageData, BnetSession session)
+        public async Task CallHandler(Header header, byte[] messageData, BnetServiceSession session)
         {
-            Dictionary<uint, Tuple<MethodInfo, Type>> bnetMethods;
+            Dictionary<uint, Tuple<MethodInfo, Type>> ServiceMethods;
 
-            if (bnetHandlers.TryGetValue((BnetServiceHash)header.ServiceHash, out bnetMethods))
+            if (serviceHandlers.TryGetValue((BnetServiceHash)header.ServiceHash, out ServiceMethods))
             {
                 Tuple<MethodInfo, Type> method;
 
-                if (bnetMethods.TryGetValue(header.MethodId, out method))
+                if (ServiceMethods.TryGetValue(header.MethodId, out method))
                 {
                     var message = Activator.CreateInstance(method.Item2) as IMessage;
 
@@ -75,9 +75,9 @@ namespace BnetServer.Packets
             else
             {
                 if (!Enum.IsDefined(typeof(BnetServiceHash), header.ServiceHash))
-                    Log.Message(LogTypes.Error, $"Got unknown Bnet service '{header}'.");
+                    Log.Message(LogTypes.Error, $"Got unknown service '{header}'.");
                 else
-                    Log.Message(LogTypes.Error, $"Got unhandled Bnet service '{(BnetServiceHash)header.ServiceHash}'.");
+                    Log.Message(LogTypes.Error, $"Got unhandled service '{(BnetServiceHash)header.ServiceHash}'.");
             }
         }
     }

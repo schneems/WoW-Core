@@ -9,7 +9,7 @@ using System.Security.Authentication;
 using System.Threading;
 using System.Threading.Tasks;
 using Bgs.Protocol;
-using BnetServer.Constants.Bnet;
+using BnetServer.Constants.Service;
 using Framework.Database.Bnet;
 using Framework.Logging;
 using Framework.Network;
@@ -17,7 +17,7 @@ using Google.Protobuf;
 
 namespace BnetServer.Network
 {
-    public class BnetSession : SessionBase, IDisposable
+    public class BnetServiceSession : SessionBase, IDisposable
     {
         public Account Account { get; set; }
         public GameAccount GameAccount { get; set; }
@@ -63,7 +63,7 @@ namespace BnetServer.Network
                             if (header.Size > 0)
                                 Buffer.BlockCopy(buffer, 2 + headerLength, data, 0, data.Length);
 
-                            await Manager.BnetPacket.CallHandler(header, data, this);
+                            await Manager.ServicePacket.CallHandler(header, data, this);
                         } while (numReadBytes != 0);
                     }
                 }

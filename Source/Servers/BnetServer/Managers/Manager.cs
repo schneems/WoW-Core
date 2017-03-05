@@ -6,7 +6,7 @@ using BnetServer.Packets;
 
 public class Manager
 {
-    public static BnetPacketManager BnetPacket => BnetPacketManager.Instance;
+    public static BnetPacketManager ServicePacket => BnetPacketManager.Instance;
     public static RestPacketManager RestPacket => RestPacketManager.Instance;
     public static SessionManager Session => SessionManager.Instance;
 }

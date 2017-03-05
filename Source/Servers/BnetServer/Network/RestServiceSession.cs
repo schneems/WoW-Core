@@ -13,7 +13,7 @@ using Framework.Web;
 
 namespace BnetServer.Network
 {
-    public class BnetChallengeSession : SessionBase, IDisposable
+    public class RestServiceSession : SessionBase, IDisposable
     {
         Stream networkStream;
         SslStream tlsStream;

@@ -5,7 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Bgs.Protocol.Account.V1;
 using BnetServer.Attributes;
-using BnetServer.Constants.Bnet;
+using BnetServer.Constants.Service;
 using BnetServer.Network;
 
 namespace BnetServer.Packets.Services
@@ -13,8 +13,8 @@ namespace BnetServer.Packets.Services
     [BnetService(Hash = BnetServiceHash.AccountService)]
     class AccountService
     {
-        [BnetMethod(MethodId = 30)]
-        public static Task HandleGetAccountStateRequest(GetAccountStateRequest getAccountStateRequest, BnetSession session)
+        [BnetServiceMethod(MethodId = 30)]
+        public static Task HandleGetAccountStateRequest(GetAccountStateRequest getAccountStateRequest, BnetServiceSession session)
         {
             return session.Send(new GetAccountStateResponse
             {
@@ -35,8 +35,8 @@ namespace BnetServer.Packets.Services
             });
         }
 
-        [BnetMethod(MethodId = 31)]
-        public static async void HandleGetGameAccountStateRequest(GetGameAccountStateRequest getGameAccountStateRequest, BnetSession session)
+        [BnetServiceMethod(MethodId = 31)]
+        public static async void HandleGetGameAccountStateRequest(GetGameAccountStateRequest getGameAccountStateRequest, BnetServiceSession session)
         {
             var gameAccount = session.Account.GameAccounts.SingleOrDefault(ga => ga.Id == getGameAccountStateRequest.GameAccountId.Low);
 

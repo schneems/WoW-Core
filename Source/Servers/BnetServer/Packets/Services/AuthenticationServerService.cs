@@ -5,7 +5,7 @@ using Bgs.Protocol;
 using Bgs.Protocol.Authentication.V1;
 using Bgs.Protocol.Challenge.V1;
 using BnetServer.Attributes;
-using BnetServer.Constants.Bnet;
+using BnetServer.Constants.Service;
 using BnetServer.Misc;
 using BnetServer.Network;
 using Framework.Misc;
@@ -16,8 +16,8 @@ namespace BnetServer.Packets.Services
     [BnetService(Hash = BnetServiceHash.AuthenticationServerService)]
     public class AuthenticationServerService
     {
-        [BnetMethod(MethodId = 1)]
-        public static async void HandleLogonRequest(LogonRequest logonRequest, BnetSession session)
+        [BnetServiceMethod(MethodId = 1)]
+        public static async void HandleLogonRequest(LogonRequest logonRequest, BnetServiceSession session)
         {
             // TODO: Implement version checks, etc.
             //if (DB.Auth.Any<Application>(a => a.Program == logonRequest.Program))
@@ -25,15 +25,15 @@ namespace BnetServer.Packets.Services
                 var challengeExternalRequest = new ChallengeExternalRequest
                 {
                     PayloadType = "web_auth_url",
-                    Payload = ByteString.CopyFromUtf8($"https://{BnetConfig.BnetChallengeHost}:{BnetConfig.BnetChallengeBindPort}/login/{session.Guid}")
+                    Payload = ByteString.CopyFromUtf8($"https://{BnetConfig.RestServiceHost}:{BnetConfig.RestServiceBindPort}/login/{session.Guid}")
                 };
 
                 await session.Send(challengeExternalRequest, BnetServiceHash.AuthenticationClientService, 3);
             }
         }
 
-        [BnetMethod(MethodId = 7)]
-        public static async void HandleVerifyWebCredentialsRequest(VerifyWebCredentialsRequest verifyWebCredentials, BnetSession session)
+        [BnetServiceMethod(MethodId = 7)]
+        public static async void HandleVerifyWebCredentialsRequest(VerifyWebCredentialsRequest verifyWebCredentials, BnetServiceSession session)
         {
             var logonResult = new LogonResult();
 
@@ -58,7 +58,7 @@ namespace BnetServer.Packets.Services
                 logonResult.SessionKey = ByteString.CopyFromUtf8(new byte[0].GenerateRandomKey(64).ToHexString());
             }
             else
-                logonResult.ErrorCode = (uint)BnetErrorCode.Denied;
+                logonResult.ErrorCode = (uint)BnetServiceErrorCode.Denied;
 
             await session.Send(logonResult, BnetServiceHash.AuthenticationListenerService, 5);
         }

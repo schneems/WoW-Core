@@ -6,9 +6,9 @@ using Framework.Network;
 
 namespace BnetServer.Network
 {
-    class BnetChallengeSocketServer : SocketServerBase<BnetChallengeSession>, IDisposable
+    class RestServiceSocketServer : SocketServerBase<RestServiceSession>, IDisposable
     {
-        public BnetChallengeSocketServer(string address, int port, int maxConnections, int bufferSize) : base(address, port, maxConnections, bufferSize)
+        public RestServiceSocketServer(string address, int port, int maxConnections, int bufferSize) : base(address, port, maxConnections, bufferSize)
         {
         }
     }

@@ -14,32 +14,32 @@ namespace BnetServer.Managers
     {
         public X509Certificate2 Certificate { get; }
 
-        readonly ConcurrentDictionary<Guid, BnetSession> bnetSessions;
+        readonly ConcurrentDictionary<Guid, BnetServiceSession> ServiceSessions;
 
         SessionManager()
         {
-            bnetSessions = new ConcurrentDictionary<Guid, BnetSession>();
+            ServiceSessions = new ConcurrentDictionary<Guid, BnetServiceSession>();
 
             Certificate = new X509Certificate2(BnetConfig.CertificatePath);
         }
 
-        public bool Add(BnetSession session) => bnetSessions.TryAdd(session.Guid, session);
-        public bool Remove(BnetSession session) => bnetSessions.TryRemove(session.Guid, out session);
+        public bool Add(BnetServiceSession session) => ServiceSessions.TryAdd(session.Guid, session);
+        public bool Remove(BnetServiceSession session) => ServiceSessions.TryRemove(session.Guid, out session);
 
         public bool Exists(Guid guid)
         {
-            BnetSession dummy;
+            BnetServiceSession dummy;
 
-            return bnetSessions.TryGetValue(guid, out dummy);
+            return ServiceSessions.TryGetValue(guid, out dummy);
         }
 
         public bool SetLoginTicket(Guid guid, string loginTicket)
         {
-            BnetSession bnetSessiom;
+            BnetServiceSession serviceSession;
 
-            if (bnetSessions.TryGetValue(guid, out bnetSessiom))
+            if (ServiceSessions.TryGetValue(guid, out serviceSession))
             {
-                bnetSessiom.LoginTicket = loginTicket;
+                serviceSession.LoginTicket = loginTicket;
 
                 return true;
             }

@@ -6,9 +6,9 @@ using Framework.Network;
 
 namespace BnetServer.Network
 {
-    class BnetSocketServer : SocketServerBase<BnetSession>, IDisposable
+    class BnetServiceSocketServer : SocketServerBase<BnetServiceSession>, IDisposable
     {
-        public BnetSocketServer(string address, int port, int maxConnections, int bufferSize) : base(address, port, maxConnections, bufferSize)
+        public BnetServiceSocketServer(string address, int port, int maxConnections, int bufferSize) : base(address, port, maxConnections, bufferSize)
         {
         }
     }

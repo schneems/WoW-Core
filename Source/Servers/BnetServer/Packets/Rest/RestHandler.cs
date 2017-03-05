@@ -11,14 +11,14 @@ namespace BnetServer.Packets.Rest
     class RestHandler
     {
         [RestRoute(Method = "GET", Path = "login")]
-        public static async void HandleConnectRequest(HttpHeader request, BnetChallengeSession session)
+        public static async void HandleConnectRequest(HttpHeader request, RestServiceSession session)
         {
             // Login form is the same for all clients...
             await session.Send(RestResponse.LoginForm);
         }
 
         //[RestRoute(Method = "POST", Path = "login")]
-        public static async void HandleLoginRequest(HttpHeader request, BnetChallengeSession session)
+        public static async void HandleLoginRequest(HttpHeader request, RestServiceSession session)
         {
             // TODO: Implement authentication.
             if (false)

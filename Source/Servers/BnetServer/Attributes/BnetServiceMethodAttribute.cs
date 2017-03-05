@@ -6,7 +6,7 @@ using System;
 namespace BnetServer.Attributes
 {
     [AttributeUsage(AttributeTargets.Method)]
-    public sealed class BnetMethodAttribute : Attribute
+    public sealed class BnetServiceMethodAttribute : Attribute
     {
         public uint MethodId { get; set; }
     }

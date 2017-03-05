@@ -2,7 +2,7 @@
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
 using System.Collections.Generic;
-using Framework.Constants.Bnet;
+using Framework.Constants.Authentication;
 using Framework.Constants.Web;
 using Framework.Packets.Json.Authentication;
 using Framework.Packets.Json.Forms;

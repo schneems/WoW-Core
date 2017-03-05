@@ -1,15 +1,3 @@
-/*
-MariaDB Data Transfer
-
-Source Database       : Bnet
-
-Target Server Type    : MariaDB
-Target Server Version : 100119
-File Encoding         : 65001
-
-Date: 2016-12-12 04:36:12
-*/
-
 SET FOREIGN_KEY_CHECKS=0;
 
 -- ----------------------------
@@ -51,18 +39,18 @@ CREATE TABLE `Applications` (
 INSERT INTO `Applications` VALUES ('WoW', 'xx', 'xx', '23194');
 
 -- ----------------------------
--- Table structure for BnetVersions
+-- Table structure for ServiceVersions
 -- ----------------------------
-DROP TABLE IF EXISTS `BnetVersions`;
-CREATE TABLE `BnetVersions` (
+DROP TABLE IF EXISTS `ServiceVersions`;
+CREATE TABLE `ServiceVersions` (
   `Version` varchar(255) NOT NULL,
   PRIMARY KEY (`Version`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
--- Records of BnetVersions
+-- Records of ServiceVersions
 -- ----------------------------
-INSERT INTO `BnetVersions` VALUES ('Battle.net Game Service SDK v1.6.4 \\\"5cf152fa90\\\"/92 (Dec  6 2016 22:33:44)');
+INSERT INTO `ServiceVersions` VALUES ('Battle.net Game Service SDK v1.6.4 \\\"5cf152fa90\\\"/92 (Dec  6 2016 22:33:44)');
 
 -- ----------------------------
 -- Table structure for GameAccounts

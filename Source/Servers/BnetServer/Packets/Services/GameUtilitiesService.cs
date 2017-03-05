@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using Bgs.Protocol;
 using Bgs.Protocol.GameUtilities.V1;
 using BnetServer.Attributes;
-using BnetServer.Constants.Bnet;
+using BnetServer.Constants.Service;
 using BnetServer.Misc;
 using BnetServer.Network;
 using Framework.Logging;
@@ -22,7 +22,7 @@ namespace BnetServer.Packets.Services
     [BnetService(Hash = BnetServiceHash.GameUtilitiesService)]
     class GameUtilitiesService
     {
-        static readonly Dictionary<string, Func<ClientRequest, BnetSession, Task>> clientRequestHandlers = new Dictionary<string, Func<ClientRequest, BnetSession, Task>>
+        static readonly Dictionary<string, Func<ClientRequest, BnetServiceSession, Task>> clientRequestHandlers = new Dictionary<string, Func<ClientRequest, BnetServiceSession, Task>>
         {
             { "Command_RealmListTicketRequest_v1_b9", HandleRealmListTicketRequest},
             { "Command_LastCharPlayedRequest_v1_b9", HandleLastCharPlayedRequest},
@@ -30,10 +30,10 @@ namespace BnetServer.Packets.Services
             //{ "Command_RealmJoinRequest_v1_b9", HandleRealmJoinRequest}
         };
 
-        [BnetMethod(MethodId = 1)]
-        public static async void HandleClientRequest(ClientRequest clientRequest, BnetSession session)
+        [BnetServiceMethod(MethodId = 1)]
+        public static async void HandleClientRequest(ClientRequest clientRequest, BnetServiceSession session)
         {
-            Func<ClientRequest, BnetSession, Task> clientRequestHandler;
+            Func<ClientRequest, BnetServiceSession, Task> clientRequestHandler;
 
             if (clientRequestHandlers.TryGetValue(clientRequest.Attribute[0].Name, out clientRequestHandler))
             {
@@ -46,7 +46,7 @@ namespace BnetServer.Packets.Services
         }
 
         // TODO: Verify ClientRequest values.
-        static async Task HandleRealmListTicketRequest(ClientRequest clientRequest, BnetSession session)
+        static async Task HandleRealmListTicketRequest(ClientRequest clientRequest, BnetServiceSession session)
         {
             var paramIdentityValue = clientRequest.GetVariant("Param_Identity")?.BlobValue.ToStringUtf8();
             var paramClientInfoValue = clientRequest.GetVariant("Param_ClientInfo")?.BlobValue.ToStringUtf8();
@@ -82,7 +82,7 @@ namespace BnetServer.Packets.Services
         }
 
         // TODO: Implement.
-        static Task HandleLastCharPlayedRequest(ClientRequest clientRequest, BnetSession session)
+        static Task HandleLastCharPlayedRequest(ClientRequest clientRequest, BnetServiceSession session)
         {
             var lastCharPlayedResponse = new ClientResponse();
 
@@ -91,7 +91,7 @@ namespace BnetServer.Packets.Services
 
         // TODO: Implement loading existing realms.
         // TODO: Implement existing character counts.
-        static async Task HandleRealmListRequest(ClientRequest clientRequest, BnetSession session)
+        static async Task HandleRealmListRequest(ClientRequest clientRequest, BnetServiceSession session)
         {
             var realmJoinRequest = clientRequest.GetVariant("Command_RealmListRequest_v1_b9")?.StringValue;
             var realmListTicket = clientRequest.GetVariant("Param_RealmListTicket")?.BlobValue.ToByteArray();
@@ -126,12 +126,12 @@ namespace BnetServer.Packets.Services
         }
 
         // TODO: Implement realm join function.
-        static async Task HandleRealmJoinRequest(ClientRequest clientRequest, BnetSession session)
+        static async Task HandleRealmJoinRequest(ClientRequest clientRequest, BnetServiceSession session)
         {
             var realmJoinRequest = clientRequest.GetVariant("Command_RealmJoinRequest_v1_b9")?.StringValue;
             var realmAddress = clientRequest.GetVariant("Param_RealmAddress")?.UintValue;
             var realmListTicket = clientRequest.GetVariant("Param_RealmListTicket")?.BlobValue.ToByteArray();
-            var bnetSessionKey = clientRequest.GetVariant("Param_BnetSessionKey")?.BlobValue.ToByteArray();
+            var ServiceSessionKey = clientRequest.GetVariant("Param_ServiceSessionKey")?.BlobValue.ToByteArray();
 
             // Check for valid realmlist ticket.
             if (realmListTicket.Compare(session.RealmListTicket))
@@ -143,8 +143,8 @@ namespace BnetServer.Packets.Services
         }
 
         // TODO: Implement it the right way! 
-        [BnetMethod(MethodId = 10)]
-        public static async void HandleGetAllValuesForAttributeRequest(GetAllValuesForAttributeRequest getAllValuesForAttributeRequest, BnetSession session)
+        [BnetServiceMethod(MethodId = 10)]
+        public static async void HandleGetAllValuesForAttributeRequest(GetAllValuesForAttributeRequest getAllValuesForAttributeRequest, BnetServiceSession session)
         {
             if (getAllValuesForAttributeRequest.AttributeKey == "Command_RealmListRequest_v1_b9")
             {

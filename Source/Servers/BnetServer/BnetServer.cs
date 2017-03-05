@@ -34,13 +34,13 @@ namespace BnetServer
 
             Helper.PrintHeader(serverName);
 
-            var bnetDbConnectionString = Database.CreateConnectionString(BnetConfig.BnetDatabaseHost, BnetConfig.BnetDatabaseUser, BnetConfig.BnetDatabasePassword,
-                                         BnetConfig.BnetDatabaseDataBase, BnetConfig.BnetDatabasePort, BnetConfig.BnetDatabaseMinPoolSize, BnetConfig.BnetDatabaseMaxPoolSize,
-                                         BnetConfig.BnetDatabaseType);
+            var ServiceDbConnectionString = Database.CreateConnectionString(BnetConfig.BnetServiceDatabaseHost, BnetConfig.BnetServiceDatabaseUser, BnetConfig.BnetServiceDatabasePassword,
+                                            BnetConfig.BnetServiceDatabaseDataBase, BnetConfig.BnetServiceDatabasePort, BnetConfig.BnetServiceDatabaseMinPoolSize, BnetConfig.BnetServiceDatabaseMaxPoolSize,
+                                            BnetConfig.BnetServiceDatabaseType);
 
-            if (!Database.Bnet.Initialize(bnetDbConnectionString, BnetConfig.BnetDatabaseType))
+            if (!Database.Bnet.Initialize(ServiceDbConnectionString, BnetConfig.BnetServiceDatabaseType))
             {
-                Log.Message(LogTypes.Error, $"Can't connect to bnet database.");
+                Log.Message(LogTypes.Error, $"Can't connect to Bnet database.");
 
                 Shutdown();
             }
@@ -51,7 +51,7 @@ namespace BnetServer
 
             Database.Bnet.SetLogger(dbLogger);
 
-            using (ConsoleClient = new ConsolePipeClient(BnetConfig.ConsoleServiceServer, BnetConfig.ConsoleServiceName))
+            using (ConsoleClient = new ConsolePipeClient(BnetConfig.ConsoleBnetServer, BnetConfig.ConsoleServiceName))
             {
                 IPCPacketManager.DefineMessageHandler();
 
@@ -59,18 +59,18 @@ namespace BnetServer
                 ConsoleClient.Send(new RegisterConsole { Alias = Alias }).GetAwaiter().GetResult();
                 ConsoleClient.Process();
 
-                using (var bnetServer = new BnetSocketServer(BnetConfig.BnetBindHost, BnetConfig.BnetBindPort, BnetConfig.BnetMaxConnections, 0x4000))
-                using (var bnetChallengeServer = new BnetChallengeSocketServer(BnetConfig.BnetChallengeBindHost, BnetConfig.BnetChallengeBindPort, BnetConfig.BnetChallengeMaxConnections, 0x4000))
+                using (var BnetServer = new BnetServiceSocketServer(BnetConfig.BnetServiceBindHost, BnetConfig.BnetServiceBindPort, BnetConfig.BnetServiceMaxConnections, 0x4000))
+                using (var restBnetServer = new RestServiceSocketServer(BnetConfig.RestServiceBindHost, BnetConfig.RestServiceBindPort, BnetConfig.RestServiceMaxConnections, 0x4000))
                 {
-                    if (bnetServer.Start())
-                        Log.Message(LogTypes.Info, $"Bnet connection listening on '{BnetConfig.BnetBindHost}:{BnetConfig.BnetBindPort}'.");
+                    if (BnetServer.Start())
+                        Log.Message(LogTypes.Info, $"Bnet connection listening on '{BnetConfig.BnetServiceBindHost}:{BnetConfig.BnetServiceBindPort}'.");
 
-                    if (bnetChallengeServer.Start())
-                        Log.Message(LogTypes.Info, $"Bnet challenge connection listening on '{BnetConfig.BnetChallengeBindHost}:{BnetConfig.BnetChallengeBindPort}'.");
+                    if (restBnetServer.Start())
+                        Log.Message(LogTypes.Info, $"Bnet challenge connection listening on '{BnetConfig.RestServiceBindHost}:{BnetConfig.RestServiceBindPort}'.");
 
-                    if (bnetServer.IsListening && bnetChallengeServer.IsListening)
+                    if (BnetServer.IsListening && restBnetServer.IsListening)
                     {
-                        Manager.BnetPacket.Initialize();
+                        Manager.ServicePacket.Initialize();
                         Manager.RestPacket.Initialize();
 
                         CommandManager.InitializeCommands();

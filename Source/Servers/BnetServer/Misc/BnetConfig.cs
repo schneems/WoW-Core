@@ -21,31 +21,31 @@ namespace BnetServer.Misc
         public static string LogDatabaseFile;
         public static string LogPacketFile;
 
-        public static string ConsoleServiceServer;
+        public static string ConsoleBnetServer;
         public static string ConsoleServiceName;
 
         public static string CertificatePath;
 
-        public static string BnetBindHost;
-        public static int BnetBindPort;
-        public static int BnetMaxConnections;
+        public static string BnetServiceBindHost;
+        public static int BnetServiceBindPort;
+        public static int BnetServiceMaxConnections;
 
-        public static string BnetChallengeBindHost;
-        public static int BnetChallengeBindPort;
+        public static string RestServiceBindHost;
+        public static int RestServiceBindPort;
 
-        public static string BnetChallengeHost;
-        public static int BnetChallengeMaxConnections;
+        public static string RestServiceHost;
+        public static int RestServiceMaxConnections;
 
-        public static DatabaseType BnetDatabaseType;
+        public static DatabaseType BnetServiceDatabaseType;
 
-        public static string BnetDatabaseHost;
-        public static int BnetDatabasePort;
-        public static string BnetDatabaseUser;
-        public static string BnetDatabasePassword;
-        public static string BnetDatabaseDataBase;
+        public static string BnetServiceDatabaseHost;
+        public static int BnetServiceDatabasePort;
+        public static string BnetServiceDatabaseUser;
+        public static string BnetServiceDatabasePassword;
+        public static string BnetServiceDatabaseDataBase;
 
-        public static int BnetDatabaseMinPoolSize;
-        public static int BnetDatabaseMaxPoolSize;
+        public static int BnetServiceDatabaseMinPoolSize;
+        public static int BnetServiceDatabaseMaxPoolSize;
         #endregion
 
         public static void Initialize(string file)
@@ -55,7 +55,7 @@ namespace BnetServer.Misc
             if (config != null)
             {
                 LogLevel        = config.Read("Log.Level", LogTypes.Success | LogTypes.Info);
-                LogDirectory    = config.Read("Log.Directory", "Logs/Bnet");
+                LogDirectory    = config.Read("Log.Directory", "Logs/BnetServer");
                 LogConsoleFile  = config.Read("Log.Console.File", "");
                 LogDatabaseFile = config.Read("Log.Database.File", "");
                 LogPacketFile   = config.Read("Log.Packet.File", "");
@@ -81,30 +81,30 @@ namespace BnetServer.Misc
 
         static void ReadConfig()
         {
-            ConsoleServiceServer = config.Read("ConsoleService.Server", ".");
+            ConsoleBnetServer = config.Read("ConsoleService.Server", ".");
             ConsoleServiceName   = config.Read("ConsoleService.Name", "ae/console");
 
             CertificatePath = config.Read("Certificate.Path", "Certificates/dev.pfx");
 
-            BnetBindHost = config.Read("Bnet.Bind.Host", "0.0.0.0");
-            BnetBindPort = config.Read("Bnet.Bind.Port", 1119);
-            BnetMaxConnections = config.Read("Bnet.MaxConnections", 1000);
+            BnetServiceBindHost = config.Read("BnetService.Bind.Host", "0.0.0.0");
+            BnetServiceBindPort = config.Read("BnetService.Bind.Port", 1119);
+            BnetServiceMaxConnections = config.Read("BnetService.MaxConnections", 1000);
 
-            BnetChallengeBindHost = config.Read("BnetChallenge.Bind.Host", "0.0.0.0");
-            BnetChallengeBindPort = config.Read("BnetChallenge.Bind.Port", 2229);
+            RestServiceBindHost = config.Read("RestService.Bind.Host", "0.0.0.0");
+            RestServiceBindPort = config.Read("RestService.Bind.Port", 2229);
 
-            BnetChallengeHost = config.Read("BnetChallenge.Host", "127.0.0.1");
-            BnetChallengeMaxConnections = config.Read("BnetChallenge.MaxConnections", 1000);
+            RestServiceHost = config.Read("RestService.Host", "127.0.0.1");
+            RestServiceMaxConnections = config.Read("RestService.MaxConnections", 1000);
 
-            BnetDatabaseType     = config.Read("BnetDatabase.Type", DatabaseType.MySql);
-            BnetDatabaseHost     = config.Read("BnetDatabase.Host", "127.0.0.1");
-            BnetDatabasePort     = config.Read("BnetDatabase.Port", 3306);
-            BnetDatabaseUser     = config.Read("BnetDatabase.User", "root");
-            BnetDatabasePassword = config.Read("BnetDatabase.Password", "");
-            BnetDatabaseDataBase = config.Read("BnetDatabase.Database", "BnetDatabase");
+            BnetServiceDatabaseType     = config.Read("BnetServiceDatabase.Type", DatabaseType.MySql);
+            BnetServiceDatabaseHost     = config.Read("BnetServiceDatabase.Host", "127.0.0.1");
+            BnetServiceDatabasePort     = config.Read("BnetServiceDatabase.Port", 3306);
+            BnetServiceDatabaseUser     = config.Read("BnetServiceDatabase.User", "root");
+            BnetServiceDatabasePassword = config.Read("BnetServiceDatabase.Password", "");
+            BnetServiceDatabaseDataBase = config.Read("BnetServiceDatabase.Database", "ServiceDatabase");
 
-            BnetDatabaseMinPoolSize = config.Read("BnetDatabase.MinPoolSize", 5);
-            BnetDatabaseMaxPoolSize = config.Read("BnetDatabase.MaxPoolSize", 30);
+            BnetServiceDatabaseMinPoolSize = config.Read("BnetServiceDatabase.MinPoolSize", 5);
+            BnetServiceDatabaseMaxPoolSize = config.Read("BnetServiceDatabase.MaxPoolSize", 30);
         }
     }
 }

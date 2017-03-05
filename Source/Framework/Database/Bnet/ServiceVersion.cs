@@ -5,7 +5,7 @@ using LappaORM;
 
 namespace Framework.Database.Bnet
 {
-    public class BnetVersion : Entity
+    public class ServiceVersion : Entity
     {
         public string Version { get; set; }
     }

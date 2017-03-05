@@ -1,10 +1,10 @@
 ﻿// Copyright (c) Arctium Emulation.
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
-namespace BnetServer.Constants.Bnet
+namespace BnetServer.Constants.Service
 {
-    // TODO: Implement connection state handling in BnetSession.
-    public enum ConnectionState
+    // TODO: Implement connection state handling in ServiceSession.
+    public enum BnetServiceConnectionState
     {
         None = 0,
         Connect = 1,

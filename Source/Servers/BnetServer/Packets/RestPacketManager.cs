@@ -51,7 +51,7 @@ namespace BnetServer.Packets
             Log.NewLine();
         }
 
-        public async void CallService(HttpHeader request, BnetChallengeSession session)
+        public async void CallService(HttpHeader request, RestServiceSession session)
         {
             var pathInfo = request.Path.Split(new[] { '/' }, StringSplitOptions.RemoveEmptyEntries);
             var pathValueMatch = Regex.Match(pathInfo[1], "^([0-9A-Fa-f]{8}[-][0-9A-Fa-f]{4}[-][0-9A-Fa-f]{4}[-][0-9A-Fa-f]{4}[-][0-9A-Fa-f]{12})$");

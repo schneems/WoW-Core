@@ -5,7 +5,7 @@ using System;
 using Bgs.Protocol;
 using Bgs.Protocol.Connection.V1;
 using BnetServer.Attributes;
-using BnetServer.Constants.Bnet;
+using BnetServer.Constants.Service;
 using BnetServer.Network;
 using Framework.Logging;
 
@@ -14,8 +14,8 @@ namespace BnetServer.Packets.Services
     [BnetService(Hash = BnetServiceHash.ConnectionService)]
     public class ConnectionService
     {
-        [BnetMethod(MethodId = 1)]
-        public static async void HandleConnectRequest(ConnectRequest connectRequest, BnetSession session)
+        [BnetServiceMethod(MethodId = 1)]
+        public static async void HandleConnectRequest(ConnectRequest connectRequest, BnetServiceSession session)
         {
             // TODO: Verify sent values.
             await session.Send(new ConnectResponse
@@ -32,14 +32,14 @@ namespace BnetServer.Packets.Services
             });
         }
 
-        [BnetMethod(MethodId = 5)]
-        public static async void HandlePing(NoData noData, BnetSession session)
+        [BnetServiceMethod(MethodId = 5)]
+        public static async void HandlePing(NoData noData, BnetServiceSession session)
         {
             await session.Send(new NoData(), BnetServiceHash.ConnectionService, 5);
         }
 
-        [BnetMethod(MethodId = 7)]
-        public static async void HandleDisconnectRequest(DisconnectRequest disconnectRequest, BnetSession session)
+        [BnetServiceMethod(MethodId = 7)]
+        public static async void HandleDisconnectRequest(DisconnectRequest disconnectRequest, BnetServiceSession session)
         {
             Log.Message(LogTypes.Info, $"Client '{session.GetClientInfo()} disconnected ({disconnectRequest.ErrorCode}).");
 

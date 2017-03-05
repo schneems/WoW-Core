@@ -1,9 +1,9 @@
 ﻿// Copyright (c) Arctium Emulation.
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
-namespace BnetServer.Constants.Bnet
+namespace BnetServer.Constants.Service
 {
-    public enum BnetErrorCode : uint
+    public enum BnetServiceErrorCode : uint
     {
         Ok                                                      = 0x0,
         Internal                                                = 0x1,
@@ -80,11 +80,11 @@ namespace BnetServer.Constants.Bnet
         LocaleRestrictedKo                                      = 0x53,
         LocaleRestrictedTw                                      = 0x54,
         LocaleRestricted                                        = 0x55,
-        AccountNeedsMaintenance                                 = 0x56,    // There's a problem with your Battle.net account. Please contact Customer Service.
+        AccountNeedsMaintenance                                 = 0x56,    // There's a problem with your Battle.net account. Please contact Customer Bnet.
         ModuleApiError                                          = 0x57,
         ModuleBadCacheHandle                                    = 0x58,
         ModuleAlreadyLoaded                                     = 0x59,
-        NetworkBlacklisted                                      = 0x5A,    // Connections to Battle.net aren't allowed from your network. If you think that's a mistake, please contact Customer Service.
+        NetworkBlacklisted                                      = 0x5A,    // Connections to Battle.net aren't allowed from your network. If you think that's a mistake, please contact Customer Bnet.
         EventProcessorSlow                                      = 0x5B,
         ServerShuttingDown                                      = 0x5C,
         NetworkNotPrivileged                                    = 0x5D,
