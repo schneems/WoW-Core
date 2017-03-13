@@ -4,12 +4,9 @@
     <OutputType>Library</OutputType>
     <TargetFramework>netstandard1.6</TargetFramework>
   </PropertyGroup>
-    
-  <ItemGroup>
-    <Compile Include="..\..\Deps\LappaORM\Lappa ORM\**\*.cs" Exclude="bin\**;obj\**" />
-  </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="LappaORM" Version="1.0.0-dev1" />
     <PackageReference Include="System.Data.Common" Version="4.3.0" />
     <PackageReference Include="System.IO.Pipes" Version="4.3.0" />
     <PackageReference Include="System.Private.DataContractSerialization" Version="4.3.0" />
