@@ -1,6 +1,6 @@
 # Arctium Emulation WoW Core
 
-[![Join the chat at https://gitter.im/Arctium-Emulation/Project-WoW](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/Arctium-Emulation/Project-WoW?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge) [![Build status](https://ci.appveyor.com/api/projects/status/aaoegmcmp5emmom4/branch/master?svg=true)](https://ci.appveyor.com/project/Fabi/project-wow/branch/master)
+[![Join Discord](https://img.shields.io/badge/discord-join-7289DA.svg)](https://discord.gg/3wcx5rK) [![Build status](https://ci.appveyor.com/api/projects/status/aaoegmcmp5emmom4/branch/master?svg=true)](https://ci.appveyor.com/project/Fabi/project-wow/branch/master)
 
 ### What is WoW-Core?
 
@@ -13,7 +13,7 @@ Info about used 3rd party libs/deps: [Dependencies](https://github.com/Arctium-E
 
 ### License & Copyright
 
-The Project WoW source is licensed under the [MIT](https://github.com/Arctium-Emulation/WoW-Core/blob/master/LICENSE) license.
+The WoW-Core source is licensed under the [MIT](https://github.com/Arctium-Emulation/WoW-Core/blob/master/LICENSE) license.
 
 ## Important Links
 
