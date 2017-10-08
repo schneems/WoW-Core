@@ -1,8 +1,11 @@
 <Project>
 
   <PropertyGroup>
-	<TreatWarningsAsErrors>True</TreatWarningsAsErrors>
-	<AppendRuntimeIdentifierToOutputPath>True</AppendRuntimeIdentifierToOutputPath>
+    <OutputPath>../../../build/Bins</OutputPath>
+    <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
+    <AppendTargetFrameworkToOutputPath>False</AppendTargetFrameworkToOutputPath>
+    <AppendRuntimeIdentifierToOutputPath>True</AppendRuntimeIdentifierToOutputPath>
+    <RuntimeIdentifiers>win10-x64;osx-x64;linux-x64</RuntimeIdentifiers>
   </PropertyGroup>
 
 </Project>
