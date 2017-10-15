@@ -16,6 +16,7 @@
     <RepositoryType>git</RepositoryType>
     <AssemblyName>Arctium.Core</AssemblyName>
     <RootNamespace>Arctium.Core</RootNamespace>
+    <Platforms>x64</Platforms>
   </PropertyGroup>
 
   <ItemGroup>

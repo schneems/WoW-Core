@@ -11,7 +11,7 @@ namespace Arctium.Manager.Misc
         [ConfigEntry("Log.Level", LogTypes.All)]
         public static LogTypes LogLevel { get; }
 
-        [ConfigEntry("Log.Directory", "Logs/Manager")]
+        [ConfigEntry("Log.Directory", "logs/manager")]
         public static string LogDirectory { get; }
 
         [ConfigEntry("Log.Console.File", "Console.log")]

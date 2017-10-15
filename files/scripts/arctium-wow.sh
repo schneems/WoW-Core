@@ -4,4 +4,4 @@ BASEDIR=$(dirname "$0");
 
 cd $BASEDIR
 
-./Bins/ServerManager
+./bin/arctium.manager
