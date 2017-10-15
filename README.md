@@ -4,7 +4,7 @@
 
 ### What is WoW-Core?
 
-Project WoW is an open source server project for World of Warcraft written in C# (.NET Core).
+Arctium Emulation WoW Core is an open source server project for World of Warcraft written in C# (.NET Core).
 
 The current support game version is: **In development**
 
