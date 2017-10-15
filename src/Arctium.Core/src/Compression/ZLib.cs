@@ -6,10 +6,10 @@ using System.IO.Compression;
 
 namespace Arctium.Core.Compression
 {
-    public class ZLib
+    public static class ZLib
     {
-        // Default ZLib compression header.
-        public static byte[] Header = new byte[] { 0x78, 0x9C };
+        // Default zlib compression header.
+        static readonly byte[] header = new byte[] { 0x78, 0x9C };
 
         public static byte[] Compress(byte[] data, bool includeHeader = true)
         {
@@ -21,7 +21,7 @@ namespace Arctium.Core.Compression
                     ds.Flush();
                 }
 
-                return includeHeader ? Header.Combine(ms.ToArray()) : ms.ToArray();
+                return includeHeader ? header.Combine(ms.ToArray()) : ms.ToArray();
             }
         }
 
