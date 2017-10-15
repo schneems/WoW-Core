@@ -1,7 +1,7 @@
 <Project>
 
   <PropertyGroup>
-    <OutputPath>../../../build/Bins</OutputPath>
+    <OutputPath>../../../build/bin</OutputPath>
     <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
     <AppendTargetFrameworkToOutputPath>False</AppendTargetFrameworkToOutputPath>
     <AppendRuntimeIdentifierToOutputPath>True</AppendRuntimeIdentifierToOutputPath>
