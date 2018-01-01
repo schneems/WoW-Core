@@ -7,32 +7,61 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text.RegularExpressions;
-using Arctium.Core.Logging;
 
 namespace Arctium.Core.Configuration
 {
     public abstract class ConfigBase<TDerived>
     {
-        static Dictionary<string, string> configEntries;
+        static Dictionary<string, object> configEntries;
 
         public static void Initialize(string configFile)
         {
             if (!File.Exists(configFile))
                 throw new FileNotFoundException(configFile);
 
-            configEntries = new Dictionary<string, string>();
+            var fileContent = File.ReadAllText(configFile);
 
-            foreach (Match m in Regex.Matches(File.ReadAllText(configFile), "^([^\\W].*)\\s+=\\s+(.*)$", RegexOptions.Multiline))
+            configEntries = new Dictionary<string, object>();
+
+            // Get key,key/value pair config options.
+            foreach (Match m in Regex.Matches(fileContent, @"^([^\W].*)[^\S\r\n]?=\s*\[\s?([^\]]*)\]", RegexOptions.Multiline))
             {
-                var key = m.Groups[0].Value;
-                var value = m.Groups[1].Value.Trim('"');
+                var key = m.Groups[1].Value.Trim();
+                var value = new Dictionary<string, string>();
+
+                foreach (Match m2 in Regex.Matches(m.Captures[0].Value.Trim(',', '\r', '\n'), @"([^\W].*)[^\S\r\n]?:[^\S\r\n]?(.*)$", RegexOptions.Multiline))
+                {
+                    var subKey = m2.Groups[1].Value.Trim();
+                    var subValue = m2.Groups[2].Value.Trim(',', '"', '\r', '\n');
+
+                    if (value.ContainsKey(subKey))
+                    {
+                        Console.WriteLine($"Replacing value for '{key}.{subKey}'.");
+
+                        value[subKey] = subValue;
+                    }
+                    else
+                        value.Add(subKey, subValue);
+                }
 
                 if (configEntries.ContainsKey(key))
                 {
-                    Log.Message(LogTypes.Warning, $"Duplicate entry found for '{key}'.");
+                    Console.WriteLine($"Duplicate entry found for '{key}'.");
 
                     configEntries[key] = value;
                 }
+                else
+                    configEntries.Add(key, value);
+            }
+
+            // Get single line config options.
+            foreach (Match m in Regex.Matches(fileContent, @"^([^\W].*)[^\S\r\n]?=[^\S\r\n](.*)$", RegexOptions.Multiline))
+            {
+                var key = m.Groups[1].Value.Trim();
+                var value = m.Groups[2].Value.Trim(',', '"', '\r', '\n');
+
+                if (configEntries.ContainsKey(key))
+                    configEntries[key] = value;
                 else
                     configEntries.Add(key, value);
             }
@@ -50,41 +79,16 @@ namespace Arctium.Core.Configuration
 
                 var configEntryAttribute = field.GetCustomAttribute<ConfigEntryAttribute>();
 
-                if (!configEntries.TryGetValue(configEntryAttribute.Name, out string value))
+                if (!configEntries.TryGetValue(configEntryAttribute.Name, out var value))
                 {
-                    Log.Message(LogTypes.Warning, $"Can't find config entry '{configEntryAttribute.Name}'.");
+                    Console.WriteLine($"Can't find config entry '{configEntryAttribute.Name}'.");
 
                     fieldValue = configEntryAttribute.DefaultValue;
                 }
 
-                // Primitive types & numeric/string enum options.
-                if (fieldValue == null && (field.FieldType.IsPrimitive || field.FieldType.IsEnum))
-                {
-                    // Check for hex numbers (starting with 0x).
-                    var numberBase = value.StartsWith("0x") ? 16 : 10;
-
-                    // Parse enum options by string.
-                    if (field.FieldType.IsEnum && numberBase == 10)
-                        fieldValue = Enum.Parse(field.FieldType, value);
-                    else
-                    {
-                        // Get the true type.
-                        var valueType = field.FieldType.IsEnum ? field.FieldType.GetEnumUnderlyingType() : field.FieldType;
-
-                        // Check if it's a signed or unsigned type and convert it to the correct type.
-                        if (valueType.IsSigned())
-                            fieldValue = Convert.ToInt64(value, numberBase).ChangeType(valueType);
-                        else
-                            fieldValue = Convert.ToUInt64(value, numberBase).ChangeType(valueType);
-                    }
-                }
-                else
-                {
-                    // String values.
-                    fieldValue = value;
-                }
-
-                field.SetValue(null, fieldValue);
+                // Assign config options if found.
+                if (fieldValue == null)
+                    field.AssignValue(null, value);
             }
         }
     }

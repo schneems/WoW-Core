@@ -6,15 +6,15 @@ using Arctium.Core.Logging;
 
 namespace Arctium.Manager.Misc
 {
-    class Config : ConfigBase<Config>
+    public class ManagerConfig : ConfigBase<ManagerConfig>
     {
         [ConfigEntry("Log.Level", LogTypes.All)]
-        public static LogTypes LogLevel { get; }
+        public static LogTypes LogLevel;
 
         [ConfigEntry("Log.Directory", "logs/manager")]
-        public static string LogDirectory { get; }
+        public static string LogDirectory;
 
         [ConfigEntry("Log.Console.File", "Console.log")]
-        public static string LogConsoleFile { get; }
+        public static string LogConsoleFile;
     }
 }

@@ -1,5 +1,4 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
@@ -18,7 +17,6 @@
     <RootNamespace>Arctium.Core</RootNamespace>
     <Platforms>x64</Platforms>
   </PropertyGroup>
-
   <ItemGroup>
     <ProjectReference Include="..\..\..\deps\src\Lappa.ORM\src\Lappa.ORM\Lappa.ORM.csproj" />
   </ItemGroup>

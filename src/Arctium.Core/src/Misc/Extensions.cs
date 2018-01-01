@@ -2,7 +2,9 @@
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
 using System;
+using System.Collections.Generic;
 using System.Numerics;
+using System.Reflection;
 
 namespace Arctium.Core
 {
@@ -22,6 +24,59 @@ namespace Arctium.Core
         public static T MaxValue<T>(this Type primitiveType) where T : struct, IComparable => (T)primitiveType.GetField("MaxValue").GetRawConstantValue();
 
         public static bool IsSigned(this Type t) => Convert.ToBoolean(t.GetField("MinValue").GetRawConstantValue());
+
+        public static void AssignValue(this FieldInfo field, object obj, object value)
+        {
+            object fieldValue;
+
+            // Primitive types & numeric/string enum options.
+            if (field.FieldType.IsPrimitive || field.FieldType.IsEnum)
+            {
+                // Convert the config value to a string.
+                var stringValue = value.ToString();
+
+                // Check for hex numbers (starting with 0x).
+                var numberBase = stringValue.StartsWith("0x") ? 16 : 10;
+
+                // Parse bool option by string.
+                if (field.FieldType == typeof(bool))
+                    fieldValue = stringValue != "0";
+                // Parse enum options by string.
+                 else if (field.FieldType.IsEnum && numberBase == 10)
+                    fieldValue = Enum.Parse(field.FieldType, stringValue);
+                else
+                {
+                    // Get the true type.
+                    var valueType = field.FieldType.IsEnum ? field.FieldType.GetEnumUnderlyingType() : field.FieldType;
+
+                    // Check if it's a signed or unsigned type and convert it to the correct type.
+                    if (valueType.IsSigned())
+                        fieldValue = Convert.ToInt64(stringValue, numberBase).ChangeType(valueType);
+                    else
+                        fieldValue = Convert.ToUInt64(stringValue, numberBase).ChangeType(valueType);
+                }
+            }
+            else if (field.FieldType != typeof(string) && field.FieldType.IsClass)
+            {
+                fieldValue = Activator.CreateInstance(field.FieldType);
+
+                var fieldValues = (Dictionary<string, string>)value;
+
+                // Get class fields.
+                foreach (var f in field.FieldType.GetFields())
+                {
+                    if (fieldValues.TryGetValue(f.Name, out var objFieldValue))
+                        AssignValue(f, fieldValue, objFieldValue);
+                }
+            }
+            else
+            {
+                // String values.
+                fieldValue = value;
+            }
+
+            field.SetValue(obj, fieldValue);
+        }
 
         // TODO: Add long, ulong, float, double support.
         public static T[] FillRandom<T>(this T[] array) where T : struct, IComparable
