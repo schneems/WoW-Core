@@ -15,14 +15,17 @@ namespace Arctium.API.Misc
         [ConfigEntry("API.Bind.Port", 5543)]
         public static int BindPort;
 
-        [ConfigEntry("API.Auth.Enabled", false)]
-        public static bool AuthEnabled;
+        [ConfigEntry("API.Auth", false)]
+        public static bool Auth;
 
         [ConfigEntry("API.Auth.Type", "")]
         public static string AuthType;
 
-        [ConfigEntry("API.Certificate", "")]
-        public static string Certificate;
+        [ConfigEntry("API.Tls", false)]
+        public static bool Tls;
+
+        [ConfigEntry("API.Tls.Certificate", "")]
+        public static string TlsCertificate;
 
         [ConfigEntry("Database.Type", DatabaseType.MySql)]
         public static DatabaseType DatabaseType;

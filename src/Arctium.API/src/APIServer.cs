@@ -30,9 +30,9 @@ namespace Arctium.API
                         // Disable nagle algorithm.
                         listenOptions.NoDelay = false;
 
-                        // Enable Https if the given certificate exists.
-                        if (File.Exists(ApiConfig.Certificate))
-                            listenOptions.UseHttps(ApiConfig.Certificate);
+                        // Enable Https if enabled in config & the given certificate exists.
+                        if (ApiConfig.Tls && File.Exists(ApiConfig.TlsCertificate))
+                            listenOptions.UseHttps(ApiConfig.TlsCertificate);
                     });
                 })
                 .Build();

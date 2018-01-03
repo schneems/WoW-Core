@@ -42,7 +42,7 @@ namespace Arctium.Core
                 if (field.FieldType == typeof(bool))
                     fieldValue = stringValue != "0";
                 // Parse enum options by string.
-                 else if (field.FieldType.IsEnum && numberBase == 10)
+                else if (field.FieldType.IsEnum && numberBase == 10)
                     fieldValue = Enum.Parse(field.FieldType, stringValue);
                 else
                 {
