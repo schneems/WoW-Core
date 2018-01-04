@@ -1,6 +1,7 @@
 # Arctium Emulation WoW Core
 
 [![Join Discord](https://img.shields.io/badge/discord-join-7289DA.svg)](https://discord.gg/3wcx5rK) [![Build status](https://ci.appveyor.com/api/projects/status/aaoegmcmp5emmom4/branch/master?svg=true)](https://ci.appveyor.com/project/Fabi/project-wow/branch/master)
+[![Help Contribute to Open Source](https://www.codetriage.com/arctium-emulation/wow-core/badges/users.svg)](https://www.codetriage.com/arctium-emulation/wow-core)
 
 ### What is WoW-Core?
 
